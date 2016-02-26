@@ -1,0 +1,172 @@
+﻿<!--
+ * Software License Agreement (Apache License)
+ *
+ * Copyright (c) 2016, PPM AS
+ * Contact: laszlo.nagy@ppmas.no
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License. 
+ -->
+ 
+
+<!DOCTYPE html>
+<html ng-app="flexGuiApp">
+<head>
+    <meta charset="utf-8">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="viewport" content="user-scalable=no, initial-scale=0.5, maximum-scale=0.5, minimum-scale=0.5, width=device-width">
+    <title>FlexGui Test</title>
+    <link rel="stylesheet" href="css/flexGui.css">
+    <link rel="stylesheet" href="css/jquery-ui.css">
+    <link rel="stylesheet" href="css/3rdParty/perfect-scrollbar.min.css" />
+    <link rel="stylesheet" href="css/3rdParty/font-awesome.css" />
+    <link rel="stylesheet" href="css/3rdParty/awesome-bootstrap-checkbox.css" />
+    <link rel="stylesheet" href="css/3rdParty/codemirror.css" />
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    
+    <!--3rd party libs-->
+    <!--<script src="scripts/winstore-jscompat.js"></script>-->
+    <script src="scripts/3rdParty/jquery.min.js"></script>
+    <script src="scripts/3rdParty/jquery-ui.min.js"></script>
+    <script src="scripts/3rdParty/jquery.knob.js"></script>
+    <script src="scripts/3rdParty/canvas_resize.js"></script>
+    <script src="scripts/3rdParty/html2canvas.js"></script>
+    <script src="scripts/angular.min.js"></script>
+    <script src="scripts/angular-sanitize.js"></script>
+    <script src="scripts/bootstrap.min.js"></script>
+    <script src="scripts/angular-route.min.js"></script>
+    <script src="scripts/hammer.min.js"></script>
+    <script src="scripts/angular.hammer.js"></script>
+    <script src="scripts/3rdParty/jquery.nicescroll.min.js"></script>
+    <script src="scripts/3rdParty/jquery.timeago.min.js"></script>
+    <script src="scripts/angular-knob.js"></script>
+    <script src="scripts/3rdParty/slider.js"></script>
+
+    <script>
+    less = {
+        env: "release"
+    };
+    </script>
+
+    <script src="scripts/3rdParty/less.min.js"></script>
+    <script src="scripts/3rdParty/bootbox.min.js"></script>
+    <script src="scripts/3rdParty/perfect-scrollbar.min.js"></script>
+    <script src="scripts/3rdParty/perfect-scrollbar.with-mousewheel.min.js"></script>
+    <script src="scripts/3rdParty/angular-perfect-scrollbar.js"></script>
+    
+    <!--Codemirrol-->
+    <script src="scripts/3rdParty/codemirror.js"></script>
+    <script src="scripts/3rdParty/ui-codemirror.js"></script>
+    <script src="scripts/3rdParty/javascript.js"></script>
+
+    <!--roslibjs-->
+    <script type="text/javascript" src="scripts/3rdParty/eventemitter2.js"></script>
+    <script type="text/javascript" src="scripts/3rdParty/roslib.js"></script>
+
+    <!--Own code-->
+    <script src="scripts/localization/localization.js"></script>
+    <script src="scripts/localization/localization.hu.js"></script>
+    <script src="scripts/localization/localization.de.js"></script>
+    <script src="scripts/colorPickerHandler.js"></script>
+    <script src="scripts/popupHandler.js"></script>
+    <script src="scripts/settingsWindowHandler.js"></script>
+    <script src="scripts/projectsWindowHandler.js"></script>
+    <script src="scripts/imageWindowHandler.js"></script>
+    <script src="scripts/historyHandler.js"></script>
+    <script src="scripts/clipboardHandler.js"></script>
+    <script src="scripts/helpMessages.js"></script>
+    <script src="scripts/deviceModel.js"></script>
+    <script src="scripts/demoDeviceModel.js"></script>
+    <script src="scripts/demoMessengerModel.js"></script>
+    <script src="scripts/scriptManager.js"></script>
+    <script src="scripts/userModel.js"></script>
+    <script src="scripts/projectModel.js"></script>
+    <script src="scripts/fidgetTemplates.js"></script>
+    <script src="scripts/mirrorMode.js"></script>
+
+    <!--Messenger JS / CSS include START-->
+    <link href="messenger/css/messenger.css" rel="stylesheet" />
+    <script src="messenger/js/quickblox.js"></script>
+    <script src="messenger/js/config.js"></script>
+    <script src="messenger/js/connection.js"></script>
+    <script src="messenger/js/users.js"></script>
+    <script src="messenger/js/messages.js"></script>
+    <script src="messenger/js/dialogs.js"></script>
+    <script src="messenger/js/call.js"></script>
+    <script src="messenger/js/messenger.js"></script>
+    <!--Messenger JS include END-->
+
+    <script src="scripts/propertiesWindowController.js"></script>
+    <script src="scripts/flexGui.js"></script>
+    <script src="scripts/editHandler.js"></script>
+    <script src="scripts/fidgetController.js"></script>
+    <!--<script src="scripts/remoteViewController.js"></script>-->
+
+</head>
+<body id="body"
+      ng-controller="flexGuiCtrl"
+      class="screen"
+      hm-tap="mirrorMode.onScreenTap($event)">
+
+    <div ng-keydown="::editHandler.onKeyDown($event)"
+         ng-keyup="::editHandler.onKeyUp($event)"
+         hm-panstart="::editHandler.onMouseDown($event)"
+         hm-panend="::editHandler.onMouseUp($event)"
+         hm-panmove="::editHandler.onMouseMove($event)"
+         tabindex="0"
+         class="main"
+         id="main">
+
+        <!--Screen area-->
+        <div style="margin-left: {{::beltWidth}}px; margin-right: {{editHandler.isEditMode ? beltWidth : 0}}px; height: 100%;"
+             hm-tap="::editHandler.onScreenTap($event)">
+
+            <!-- Fidgets -->
+            <ng-include src="'screen.html'"></ng-include>
+
+            <!--Connection problem-->
+            <div class="alert alert-danger text-center connectionAlert" ng-show="!device.connected" style="width:calc(100% - {{editHandler.isEditMode ? 2 * beltWidth : beltWidth}}px);">
+                {{localization.currentLocal.ros.connectionError}} <a ng-bind="device.server" href="{{::model.server}}"></a>. <br />
+                <button class="btn btn-danger text-right" ng-click="device.init()">{{localization.currentLocal.buttons.reconnect}}</button>
+            </div>
+        </div>
+
+        <div class="callHelpContainer messengerStyle" id="callHelp" style="{{editHandler.isEditMode ? 'right: ' + (20 + beltWidth) + 'px' : ''}}">
+            <ng-include src="'messenger/callHelp.html'"></ng-include>
+            <ng-include src="'messenger/inCall.html'"></ng-include>
+            <ng-include src="'messenger/incomingCall.html'"></ng-include>
+        </div>
+
+        <!-- FidgetBelt -->
+        <ng-include ng-show="editHandler.isEditMode && project.screens.length > 0 && user.hasRole('fidgetBelt')" src="'fidgetBelt.html'"></ng-include>
+
+        <!-- ScreenBelt -->
+        <ng-include ng-if="!editHandler.isEditMode" src="'screenBelt.html'"></ng-include>
+
+        <!-- EditBelt -->
+        <ng-include ng-show="editHandler.isEditMode" src="'editBelt.html'"></ng-include>
+
+        <!-- EditSwitch -->
+        <ng-include ng-show="user.hasRole('edit')" src="'editSwitch.html'"></ng-include>
+        
+        <!--Login button-->
+        <ng-include src="'loginButton.html'" ng-if="!user.hasRole('addScreen')"></ng-include>
+
+
+        <!--Shows clicks of the users-->
+    </div>
+
+    <ng-include src="'modalWindows.html'"></ng-include>
+
+    <img class="touchPointer" src="images/hand.png" style="top: {{mirrorMode.lastMouseAction.y}}px; left: {{mirrorMode.lastMouseAction.x - 40}}px;" ng-if="mirrorMode.lastMouseAction" />
+</body>
+</html>

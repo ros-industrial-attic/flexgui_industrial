@@ -1,0 +1,83 @@
+﻿<!--
+ * Software License Agreement (Apache License)
+ *
+ * Copyright (c) 2016, PPM AS
+ * Contact: laszlo.nagy@ppmas.no
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License. 
+ -->
+ 
+<div class="modal" id="imageDialog" data-backdrop="static"
+     data-keyboard="false">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" ng-click="images.setVisible(false)">&times;</button>
+                <h4 class="modal-title">{{localization.currentLocal.images.title}}</h4>
+                <ng-include src="'views/helpIcon.html'" class="floatRight" style="margin-top: -32px; margin-right: 30px;" ng-init="help = helpMessages.imageExplorer" ng-if="helpMessages.show"></ng-include>
+            </div>
+
+            <ul class="nav nav-tabs" role="tablist">
+                <li ng-class="{ 'active' : images.tabIndex == 0 }"><a role="tab" data-toggle="tab" ng-click="images.setTabIndex(0)">{{localization.currentLocal.images.imagesTabTitle}}</a></li>
+                <li ng-class="{ 'active' : images.tabIndex == 1 }"><a role="tab" data-toggle="tab" ng-click="images.setTabIndex(1)">{{localization.currentLocal.images.uploadTabTitle}}</a></li>
+            </ul>
+
+            <div class="tab-content">
+                <div class="tab-pane" ng-class="{ 'active' : images.tabIndex == 1 }">
+                    <form name="imageUploadForm" class="modal-body form-horizontal">
+                        <!--image uploader form-->
+                        <h4>{{localization.currentLocal.images.uploadTabTitle}}</h4>
+
+                        <div class="alert alert-info">{{localization.currentLocal.images.resizeAlert}}</div>
+
+                        <h5>{{localization.currentLocal.images.selectSlot}}</h5>
+                        <select ng-model="images.currentImage" class="form-control" ng-required="true">
+                            <option value="{{option.name}}" ng-repeat="option in images.slots | orderBy:name">{{option.name}}</option>
+                        </select>
+
+                        <h5>{{localization.currentLocal.images.selectFile}}</h5>
+                        <input type="file" accept="image/*" ng-required="true" class="form-control" id="imageInput" ng-file-select="images.uploadImage" ng-disabled="images.currentImage == null" />
+                    </form>
+                </div>
+                <div class="tab-pane" ng-class="{ 'active' : images.tabIndex == 0 }">
+                    <!--image list-->
+                    <h4>{{localization.currentLocal.images.imagesTabTitle}}</h4>
+                    <div ng-if="images.isEmpty()">
+                        {{localization.currentLocal.general.emptyList}}
+                    </div>
+                    <perfect-scrollbar class="scroller imageRepeaterScrollBar">
+                        <div ng-repeat="option in images.slots track by $index | orderBy: '$index'"
+                             ng-if="option.base64 != null"
+                             class="uploadedImageContainer">
+                            <span>{{option.name}}</span>
+                            <table style="height: 80px; margin: auto;">
+                                <tr style="vertical-align: middle; text-align: center;">
+                                    <td><img style="margin: auto;" class="{{option.name == images.selectedImage ? 'image selectedImage' : 'image'}}" ng-click="images.setSelectedImage(option)" src="{{option.base64}}" /></td>
+                                </tr>
+                            </table>
+                            <button class="btn btn-danger" ng-click="images.removeImage(option.name)"><span class="glyphicon glyphicon glyphicon-remove"></span>{{localization.currentLocal.buttons.remove}}</button>
+                        </div>
+                    </perfect-scrollbar>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-success" ng-click="images.selectImage()" ng-disabled="images.selectedImage == null">{{localization.currentLocal.buttons.select}}</button>
+                    <button type="button" class="btn btn-default" ng-click="images.setVisible(false)">{{localization.currentLocal.buttons.close}}</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        $("#imageDialog").modal("show");
+    </script>
+</div>

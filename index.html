@@ -1,0 +1,162 @@
+﻿<!--
+ * Software License Agreement (Apache License)
+ *
+ * Copyright (c) 2016, PPM AS
+ * Contact: laszlo.nagy@ppmas.no
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License. 
+ -->
+ 
+<!DOCTYPE html>
+<html ng-app="flexGuiApp">
+<head>
+    <meta charset="utf-8">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="viewport" content="user-scalable=no, initial-scale=0.5, maximum-scale=0.5, minimum-scale=0.5, width=device-width">
+    <title>FlexGui Test</title>
+    <link rel="stylesheet" href="styles/flexGui.css">
+    <link rel="stylesheet" href="styles/3rdParty/jquery-ui.css">
+    <link rel="stylesheet" href="styles/3rdParty/perfect-scrollbar.min.css" />
+    <link rel="stylesheet" href="styles/3rdParty/font-awesome.css" />
+    <link rel="stylesheet" href="styles/3rdParty/awesome-bootstrap-checkbox.css" />
+    <link rel="stylesheet" href="styles/3rdParty/codemirror.css" />
+    <link rel="stylesheet" href="styles/3rdParty/bootstrap-slider.css" />
+    <link rel="stylesheet" href="styles/3rdParty/bootstrap.min.css">
+    
+    <script>
+    less = {
+        env: "release"
+    };
+    </script>
+
+    <!--3rd party libs-->
+    <script src="scripts/3rdParty/jquery.min.js"></script>
+    <script src="scripts/3rdParty/jquery-ui.min.js"></script>
+    <script src="scripts/3rdParty/jquery.knob.js"></script>
+    <script src="scripts/3rdParty/canvas_resize.js"></script>
+    <script src="scripts/3rdParty/html2canvas.js"></script>
+    <script src="scripts/3rdParty/angular.min.js"></script>
+    <script src="scripts/3rdParty/angular-sanitize.js"></script>
+    <script src="scripts/3rdParty/bootstrap.min.js"></script>
+    <script src="scripts/3rdParty/angular-route.min.js"></script>
+    <script src="scripts/3rdParty/hammer.min.js"></script>
+    <script src="scripts/3rdParty/angular.hammer.js"></script>
+    <script src="scripts/3rdParty/jquery.nicescroll.min.js"></script>
+    <script src="scripts/3rdParty/jquery.timeago.min.js"></script>
+    <script src="scripts/3rdParty/bootstrap-slider.js"></script>
+    <script src="scripts/3rdParty/slider.js"></script>
+    <script src="scripts/3rdParty/less.min.js"></script>
+    <script src="scripts/3rdParty/bootbox.min.js"></script>
+    <script src="scripts/3rdParty/perfect-scrollbar.min.js"></script>
+    <script src="scripts/3rdParty/perfect-scrollbar.with-mousewheel.min.js"></script>
+    <script src="scripts/3rdParty/angular-perfect-scrollbar.js"></script>
+    <script src="scripts/3rdParty/ng-stats.js"></script>
+
+    <!--roslibjs-->
+    <script type="text/javascript" src="scripts/3rdParty/eventemitter2.js"></script>
+    <script type="text/javascript" src="scripts/3rdParty/roslib.js"></script>
+
+    <!--Own code-->
+    <script src="scripts/angular-knob.js"></script>
+    <script src="scripts/localization/localization.js"></script>
+    <script src="scripts/localization/localization.en.js"></script>
+    <script src="scripts/localization/localization.de.js"></script>
+    <script src="scripts/localization/localization.hu.js"></script>
+    <script src="scripts/colorPickerHandler.js"></script>
+    <script src="scripts/popupHandler.js"></script>
+    <script src="scripts/settingsWindowHandler.js"></script>
+    <script src="scripts/projectsWindowHandler.js"></script>
+    <script src="scripts/imageWindowHandler.js"></script>
+    <script src="scripts/historyHandler.js"></script>
+    <script src="scripts/clipboardHandler.js"></script>
+    <script src="scripts/helpMessages.js"></script>
+    <script src="scripts/deviceModel.js"></script>
+    <script src="scripts/demoMessengerModel.js"></script>
+    <script src="scripts/scriptManager.js"></script>
+    <script src="scripts/projectModel.js"></script>
+    <script src="scripts/fidgetTemplates.js"></script>
+    <script src="scripts/editHandler.js"></script>
+    <script src="scripts/enumService.js"></script>
+    <script src="scripts/variableService.js"></script>
+
+    <!--Controllers-->
+    <script src="scripts/controllers/propertiesWindowController.js"></script>
+    <script src="scripts/controllers/flexGuiController.js"></script>
+    <script src="scripts/controllers/fidgetController.js"></script>
+    <script src="app.js"></script>
+</head>
+<body id="body"
+      ng-controller="flexGuiCtrl"
+      class="screen">
+
+    <style>
+        .editModeOn{
+            padding: {{editHandler.safetyDistance}}px;
+	        margin-left: {{-editHandler.safetyDistance}}px;
+	        margin-top: {{-editHandler.safetyDistance}}px;
+        }
+    </style>
+
+
+    <div ng-keydown="::editHandler.onKeyDown($event)"
+         ng-keyup="::editHandler.onKeyUp($event)"
+         hm-panstart="::editHandler.onMouseDown($event)"
+         hm-panend="::editHandler.onMouseUp($event)"
+         hm-panmove="::editHandler.onMouseMove($event)"
+         tabindex="0"
+         class="main"
+         id="main">
+
+        <!--Connection problem-->
+        <div class="alert alert-danger text-center connectionAlert" ng-if="!device.connected" style="width:100%;">
+            {{localization.currentLocal.ros.connectionError}} <a ng-bind="device.server" href="{{::model.server}}"></a>. <br />
+            <button class="btn btn-danger text-right" ng-click="device.init()">{{localization.currentLocal.buttons.reconnect}}</button>
+        </div>
+
+        <!--Connection problem-->
+        <div class="alert alert-success text-center connectionAlert" ng-if="settings.demoMode" style="width:100%;">
+            {{localization.currentLocal.settings.tabs.conn.demoMode}}
+        </div>
+
+        <!--Screen area-->
+        <div id="currentScreen" style="margin-left: {{::beltWidth}}px; margin-right: {{editHandler.isEditMode ? beltWidth : 0}}px; height: 100%;"
+             hm-tap="::editHandler.onScreenTap($event)">
+
+            <!-- Fidgets -->
+            <ng-include src="'views/screen.html'"></ng-include>
+        </div>
+
+
+        <!--Quick Call fidget (if installed)-->
+        <ng-include src="quickCall"></ng-include>
+
+        <!-- FidgetBelt -->
+        <ng-include ng-if="editHandler.isEditMode && project.screens.length > 0" src="'views/fidgetBelt.html'"></ng-include>
+
+        <!-- ScreenBelt -->
+        <ng-include ng-if="!editHandler.isEditMode" src="'views/screenBelt.html'"></ng-include>
+
+        <!-- EditBelt -->
+        <ng-include ng-if="editHandler.isEditMode" src="'views/editBelt.html'"></ng-include>
+
+        <!-- EditSwitch -->
+        <ng-include src="'views/editSwitch.html'"></ng-include>
+
+        <!--Shows clicks of the users-->
+    </div>
+
+    <ng-include src="'views/modalWindows.html'"></ng-include>
+    <script type="text/javascript" src="cordova.js"></script>
+    <script type="text/javascript" src="scripts/3rdParty/ng-cordova.js"></script>
+</body>
+</html>

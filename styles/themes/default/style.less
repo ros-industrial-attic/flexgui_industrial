@@ -1,0 +1,207 @@
+﻿@main-color: darkorange;
+@font-color: #000000;
+@screen-color-dark: #1e1e1e;
+@screen-color-dark-trasparent: rgba(30,30,30, 0.5);
+@screen-color-light: #e6e6e6;
+@screen-background-image: url(images/bg.jpg);
+@modal-color: rgba(200,200,200,0.95);
+@modal-font-color: #000000;
+
+@alert-danger-color: rgba(169, 68, 66, 1);
+@alert-danger-background-color: rgba(242, 222, 222, 0.7);
+@alert-danger-border-color: rgba(235, 204, 209, 0,7);
+
+@alert-success-color: rgba(60, 118, 61, 1);
+@alert-success-background-color: rgba(223, 240, 216, 0.7);
+@alert-success-border-color: rgba(214, 233, 198, 0,7);
+
+@striped-table-odd: transparent;
+@striped-table-even: transparent;
+@font: 'Century Gothic', CenturyGothic, AppleGothic, sans-serif;
+
+.showInitToolbar:hover, .hideInitToolbar:hover {
+    color: @main-color;
+}
+
+.selectedFidget{
+    border: 2px solid @main-color;
+    -webkit-box-shadow: 0px 0px 12px 2px @main-color;
+    -moz-box-shadow: 0px 0px 12px 2px @main-color;
+    box-shadow: 0px 0px 12px 2px @main-color;
+    margin: -2px;
+}
+
+.ps-container .ps-scrollbar-y {
+    background-color:   @main-color;   
+}
+
+.resizeLayer .resizeDot{
+    background-color: @main-color;    
+}
+
+::-webkit-scrollbar-thumb {
+  background: @main-color;
+  opacity: 0.7;
+  border: 0px none transparent;
+  border-radius: 50px;
+}
+
+::-webkit-scrollbar-thumb:active {
+  background: @main-color;
+}
+
+/*Main CSS*/
+body{
+    color: @font-color;
+    font-family: @font;
+}
+
+h1, h2, h3, h4, h5{
+    color: @main-color;
+}
+
+.screen {
+    background-color: @screen-color-dark;
+    background: @screen-background-image repeat;
+}
+
+.belt, .editSwitch {
+    background-color: @screen-color-light;
+    color: @screen-color-dark;
+}
+
+.fade{
+    background-color:@screen-color-dark-trasparent;
+}
+
+.modal-content{
+    background-color: @modal-color;
+    color: @modal-font-color;
+}
+
+.nav-tabs>li.active>a, .nav-tabs>li.active>a:focus, .nav-tabs>li.active>a:hover{
+    background-color: darken(@modal-color, 10%);
+    color: @modal-font-color;
+    border: 1px solid transparent;
+}
+
+.fidgetTemplate, .editActions, .fidgetHelp {
+    border-bottom: 2px solid @main-color;    
+}
+
+.nav-tabs{
+    border-bottom: none;
+    width: 100%;
+    background-color: darken(@modal-color, 5%);
+}
+.selectedScreenBeltItem{
+    border-color: @main-color;
+}
+
+.imageRepeaterScrollBar .image{
+    border: 2px solid transparent;
+}
+
+.imageRepeaterScrollBar .selectedImage{
+    border-color: @main-color;
+}
+
+.projectCompareTable td:hover{
+    color: @main-color;
+}
+
+.alert-danger {
+    color: @alert-danger-color;
+    background-color: @alert-danger-background-color;
+    border-color: @alert-danger-border-color;
+}
+
+.alert-success {
+    color: @alert-success-color;
+    background-color: @alert-success-background-color;
+    border-color: @alert-success-border-color;
+}
+
+.table-striped>tbody>tr:nth-of-type(odd){
+    background-color: @striped-table-odd;
+}
+
+.table-striped>tbody>tr:nth-of-type(even){
+    background-color: @striped-table-even;
+}
+
+/*Fidget examples*/
+
+/*button*/
+.btn-default{
+    color:  @screen-color-light !important;
+    background-color: @screen-color-dark !important;
+    border-color: @main-color !important;
+}
+
+.btn-default:hover{
+    color:  @screen-color-light !important;
+    background-color: lighten(@screen-color-dark, 10%) !important;
+    border-color: @main-color !important;
+}
+
+.btn-default:active{
+    color:  @screen-color-light !important;
+    background-color: lighten(@screen-color-dark, 20%) !important;
+    border-color: @main-color !important;
+}
+
+
+/*inputs*/
+.form-control {
+    color:  @screen-color-dark;
+    background-color: @screen-color-light;
+    border-color: @main-color;
+}
+
+.form-control[disabled]{
+    background-color: lighten(@screen-color-dark, 20%);
+}
+
+/*indicator lamp*/
+.lamp{
+    background-color: @screen-color-dark;
+    border: 2px solid @main-color;
+}
+
+/*progress bar*/
+.progress{
+    border: 1px solid darken(@screen-color-dark, 30%);
+    background-color: @screen-color-light;
+    color: @main-color
+}
+
+.progress-bar{
+    color: @main-color
+}
+
+/*slider*/
+.ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default{
+    border-color: @main-color;
+    background-color: @screen-color-dark;
+}
+
+.ui-widget-content{
+    border: 1px solid darken(@screen-color-dark, 30%);
+    background-color: @screen-color-light;
+
+}
+
+.slider-handle{
+        background-color: @screen-color-dark !important;
+        border: 1px solid @main-color;
+}
+
+/*scrollable text*/
+.scrollableText{
+    background-color: @screen-color-light;
+    color: @screen-color-dark;
+    border-radius: 4px;
+    text-align: left;
+}
+

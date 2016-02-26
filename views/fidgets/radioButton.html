@@ -1,0 +1,36 @@
+﻿<!--
+ * Software License Agreement (Apache License)
+ *
+ * Copyright (c) 2016, PPM AS
+ * Contact: laszlo.nagy@ppmas.no
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License. 
+ -->
+ 
+<perfect-scrollbar style="width:{{fidget.properties.width}}px; height:{{fidget.properties.height}}px; min-height: min-content; min-width: min-content;"
+                   class="scroller"
+                   wheel-propagation="true"
+                   wheel-speed="10"
+                   min-scrollbar-length="20">
+    <div ng-repeat="option in fidget.properties.options.split(',')">
+        <div class="radio" id="{{slugify(option)}}_{{fidget.id}}" ng-click="setValue(fidget, option)">
+            <input type="radio" id="rb_{{slugify(option)}}_{{fidget.id}}" value="option" ng-checked="fidget.properties.value == option" />
+            <label for="rb_{{slugify(option)}}_{{fidget.id}}" style="color: {{fidget.properties.fontColor}}">
+                {{option}}
+            </label>
+        </div>
+    </div>
+</perfect-scrollbar>
+
+
+

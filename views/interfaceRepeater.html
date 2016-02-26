@@ -1,0 +1,75 @@
+﻿<!--
+ * Software License Agreement (Apache License)
+ *
+ * Copyright (c) 2016, PPM AS
+ * Contact: laszlo.nagy@ppmas.no
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License. 
+ -->
+ 
+<perfect-scrollbar class="scroller interfaceRepeaterScrollBar scrollTop">
+    <input type="hidden" ng-model="search.isTopic" value="true" />
+    <table class="table-striped interfacesTable" style="width: calc(100% - 15px);">
+        <thead>
+            <tr><th>{{localization.currentLocal.ros.interfaces.originalName}}</th><th>{{localization.currentLocal.ros.interfaces.friendlyName}}</th><th>{{localization.currentLocal.ros.interfaces.subscribe}}</th></tr>
+        </thead>
+
+
+        <tr class="panel-heading" data-toggle="collapse" data-target="#topics">
+            <td colspan="4">
+                <label>Topics</label>
+            </td>
+        </tr>
+        <tbody id="topics" class="panel-collapse collapse in">
+            <tr ng-repeat="interface in settings.shownInterfaces() | isTopicFilter:true | orderBy: 'path'" scroll-top-on-refresh>
+                <td><label>{{interface.shortPath.indexOf("Variables/") == 0 ? interface.shortPath.substring(10) : interface.shortPath}}</label></td>
+                <td>
+                    <div title="{{settings.isDupe(interface) ? localization.currentLocal.ros.interfaces.dupeError : ''}}" class="input-group has-feedback friendlyNameInput" ng-class="{ 'has-error' : settings.isDupe(interface) }">
+                        <input type="text" class="form-control" ng-model="interface.friendlyName">
+                        <span style="color: {{settings.isDupe(interface) ? 'white' : 'black'}}"
+                              class="glyphicon glyphicon-remove removeFriendlyName"
+                              ng-click="interface.friendlyName = null"
+                              ng-if="interface.friendlyName != interface.defaultFriendlyName"
+                              ng-class="{ 'btn-danger' : settings.isDupe(interface) }"></span>
+                        <span class="glyphicon glyphicon-remove form-control-feedback text-danger" ng-show="settings.isDupe(interface) && interface.friendlyName == interface.defaultFriendlyName"></span>
+                    </div>
+                </td>
+                <td ng-if="interface.isTopic"><input type="checkbox" ng-model="interface.subscribed" /></td>
+            </tr>
+        </tbody>
+
+        <tr class="panel-heading" data-toggle="collapse" data-target="#services">
+            <td colspan="4">
+                <label>Services</label>
+            </td>
+        </tr>
+        <tbody id="services" class="panel-collapse collapse in">
+            <tr ng-repeat="interface in settings.shownInterfaces() | isTopicFilter:false | orderBy: 'path' " scroll-top-on-refresh>
+                <td><label>{{interface.shortPath}}</label></td>
+                <td>
+                    <div title="{{settings.isDupe(interface) ? localization.currentLocal.ros.interfaces.dupeError : ''}}" class="input-group has-feedback friendlyNameInput" ng-class="{ 'has-error' : settings.isDupe(interface) }">
+                        <input type="text" class="form-control" ng-model="interface.friendlyName">
+
+                        <span style="color: {{settings.isDupe(interface) ? 'white' : 'black'}}"
+                              class="glyphicon glyphicon-remove removeFriendlyName"
+                              ng-click="interface.friendlyName = null"
+                              ng-if="interface.friendlyName != interface.defaultFriendlyName"
+                              ng-class="{ 'btn-danger' : settings.isDupe(interface) }"></span>
+
+                        <span class="glyphicon glyphicon-remove form-control-feedback text-danger" ng-show="settings.isDupe(interface) && interface.friendlyName == interface.defaultFriendlyName"></span>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</perfect-scrollbar>

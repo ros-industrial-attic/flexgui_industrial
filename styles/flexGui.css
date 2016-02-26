@@ -1,0 +1,845 @@
+﻿html, body {
+    height: 100%;
+    width: 100%;
+    -webkit-touch-callout: none !important;
+}
+
+body {
+    color: white;
+    -moz-user-select: -moz-none;
+    -khtml-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    background-color: black;
+    height: 100%;
+    overflow-x: hidden;
+    overflow-y: hidden;
+    font-size: 12px;
+}
+
+.canEdit {
+    -moz-user-select: -moz-all;
+    -khtml-user-select: all;
+    -webkit-user-select: text;
+    -ms-user-select: text;
+    user-select: text;
+}
+
+.editBelt .stick {
+    background-color: rgba(30,30,30, 0.2);
+}
+
+h4 {
+    margin-bottom: 0px;
+}
+
+.addScreen {
+    color: white;
+    font-size: 45px;
+}
+
+.fidget {
+    position: absolute;
+    color: white;
+    z-index: 0;
+}
+
+.fidgetTemplate, .fidgetHelp {
+    padding-top: 10px;
+}
+
+    .fidgetTemplate p, .fidgetHelp p {
+        margin: 10px 0 0 0;
+    }
+
+    .fidgetTemplate > span, .fidgetHelp > span {
+        margin-top: 5px;
+    }
+
+.fidgetTemplate, .editBelt .editActions, .fidgetHelp {
+    font-size: 15px;
+    text-align: center;
+    margin: 0 5px 0 5px;
+    padding-bottom: 15px;
+}
+
+.editBelt .disabled {
+    pointer-events: none;
+}
+
+    .editBelt .disabled img {
+        opacity: 0.5;
+    }
+
+.fidgetTemplate .remoteView {
+    width: 100px !important;
+    height: 80px !important;
+    top: 0px !important;
+    left: 0px !important;
+    margin-top: -40px;
+}
+
+    .fidgetTemplate .remoteView .toolbar {
+        display: none;
+    }
+
+.gaugeTemplate > div {
+    margin-left: 15px !important;
+}
+
+.fidgetTemplate > div {
+    pointer-events: none;
+}
+
+.editBelt .editActions img {
+    max-width: 60%;
+    max-height: 60%;
+    height: 60px;
+}
+
+.screenBeltItem {
+    height: 90px;
+    margin: 2px;
+    margin-bottom: 15px;
+    text-align: center;
+    position: relative;
+    border-width: 3px;
+    border-style: solid;
+    border-color: transparent;
+}
+
+    .screenBeltItem > div {
+        margin-bottom: 20px;
+        left: 2px;
+        right: 2px;
+        top: 2px;
+        bottom: 0;
+        position: absolute;
+        overflow: hidden;
+    }
+
+        .screenBeltItem > div > div {
+            transform-origin: 0% 0%;
+            position: relative;
+            left: 0;
+            top: 0;
+            pointer-events: none;
+        }
+
+    .screenBeltItem > span {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+    }
+
+.progress-bar {
+}
+
+.progress-bar-percent {
+    display: table;
+    text-align: center;
+    height: 100%;
+    width: 100%;
+}
+
+    .progress-bar-percent > span {
+        display: table-cell;
+        vertical-align: middle;
+        text-align: center;
+    }
+
+
+.checkbox-inline {
+    float: right;
+    top: 20px;
+}
+
+.belt {
+    position: absolute;
+    top: 0px;
+    padding-top: 10px;
+    overflow: scroll;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    -ms-overflow-style: none;
+    -webkit-overflow-scrolling: touch;
+    overflow: -moz-scrollbars-none;
+}
+
+    .belt .ps-scrollbar-y-rail {
+        display: none !important;
+    }
+
+    .belt::-webkit-scrollbar, .modal-backdrop::-webkit-scrollbar, .modal::-webkit-scrollbar {
+        display: none;
+    }
+
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-button {
+    width: 0px;
+    height: 0px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: rgba(50,50,50,1);
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+    border: 0px none transparent;
+    border-radius: 50px;
+}
+
+    ::-webkit-scrollbar-track:hover {
+        background: transparent;
+    }
+
+    ::-webkit-scrollbar-track:active {
+        background: transparent;
+    }
+
+::-webkit-scrollbar-corner {
+    background: transparent;
+}
+
+.ace_editor {
+    height: 200px;
+    text-align: left;
+}
+
+.ace_scrollbar {
+    opacity: 0.7;
+    margin-right: 5px;
+}
+
+.fidgetBelt {
+    right: 0px;
+    bottom: 0px;
+}
+
+.editBelt {
+    bottom: 120px;
+}
+
+.beltOverlay {
+    display: table;
+    width: 300px;
+    margin-left: -90px;
+    height: 100%;
+}
+
+    .beltOverlay > div {
+        vertical-align: middle;
+        display: table-cell;
+        text-align: center;
+        transform: rotate(90deg);
+        font-size: 30px;
+        letter-spacing: 5px;
+    }
+
+.screenBelt {
+    left: 0px;
+}
+
+input[type=checkbox] {
+    /* Double-sized Checkboxes */
+    -ms-transform: scale(2); /* IE */
+    -moz-transform: scale(2); /* FF */
+    -webkit-transform: scale(2); /* Safari and Chrome */
+    -o-transform: scale(2); /* Opera */
+    padding: 10px;
+}
+
+/*.modal {
+    display: inline;
+    opacity: 1;
+    color: black;
+}
+
+.modal-dialog {
+    margin-top: 150px;
+}
+
+.modal-body {
+    min-height: 200px;
+}*/
+
+.alert {
+    /*z-index: 1;*/
+    position: relative; /* This makes z-index work */
+}
+
+.settingsIcon {
+    padding-bottom: 20px;
+}
+
+/*.glyphicon-wrench {
+    display: block;
+    font-size: 40px;
+}*/
+
+.initScriptTextArea {
+    margin: 10px;
+    height: 100%;
+    width: 97%;
+}
+
+.settingsScriptTab {
+    height: 150px;
+    margin-bottom: 50px;
+}
+
+.settingsNodesTab {
+    height: 400px;
+    margin-bottom: 50px;
+}
+
+.tab-pane {
+    padding: 10px;
+}
+
+.helpIcon {
+    text-align: center;
+}
+
+    .helpIcon > div {
+        border-radius: 20px;
+        color: rgba(0,0,0,0.6);
+        font-size: 40px;
+    }
+
+.helpIconScreenBelt {
+    width: 100%;
+}
+
+.helpIconFidgetBelt {
+    width: 100%;
+    margin-bottom: 15px;
+    display: block;
+}
+
+.floatRight {
+    float: right;
+}
+
+.floatLeft {
+    float: left;
+}
+
+.propertiesHelpContainer .helpIcon {
+    text-align: left;
+    margin-left: 20px;
+    margin-top: -50px;
+}
+
+textarea.propertiesScriptTextArea {
+    height: 100px;
+}
+
+.popupType {
+    margin-right: 30px;
+    margin-top: 40px;
+}
+
+    .popupType > span {
+        font-size: 60px;
+        text-align: center;
+        width: 100%;
+    }
+
+    .popupType > h3 {
+        margin-top: 0px;
+    }
+
+.popupMessageBody {
+    font-size: 16px;
+    min-height: 150px;
+}
+
+.interfacesTable {
+    margin-top: 20px;
+    white-space: nowrap;
+}
+
+    .interfacesTable th, .interfacesTable td {
+        text-align: center;
+        min-width: 100px;
+        vertical-align: middle;
+        padding-bottom: 5px;
+    }
+
+.interfacesSearchBox {
+    width: 200px;
+}
+
+    .interfacesSearchBox > button {
+        width: 60px;
+        pointer-events: all;
+    }
+
+.variablesSearchBox > button {
+    pointer-events: all;
+    width: 60px;
+}
+
+.interfaceRepeaterScrollBar {
+    max-height: 350px;
+    width: 100%;
+}
+
+.friendlyNameInput {
+    width: 100%;
+}
+
+    .friendlyNameInput > button {
+        width: 60px;
+        pointer-events: all;
+    }
+
+.indicatorLamp .text {
+    vertical-align: middle;
+    padding-left: 5px;
+}
+
+.boolean {
+    display: table;
+}
+
+    .boolean .alert {
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        display: table-cell;
+        vertical-align: middle;
+        text-align: center;
+        padding: 0;
+    }
+
+.imageRepeaterScrollBar {
+    height: 150px;
+}
+
+.propertiesTable {
+    white-space: nowrap;
+    width: 100%;
+}
+
+    .propertiesTable th, .propertiesTable td {
+        text-align: right;
+        padding-right: 10px;
+        min-width: 60px;
+        vertical-align: middle;
+        padding-bottom: 5px;
+    }
+
+.propertyRepeaterScrollBar {
+    max-height: 350px;
+    width: 100%;
+}
+
+.jointPositions table {
+    width: 100%;
+    border-collapse: collapse;
+    border-radius: 5px;
+}
+
+    .jointPositions table td {
+        padding: 5px;
+        vertical-align: middle;
+    }
+
+.joint table tr td:first-child {
+    text-align: left;
+    width: 30%;
+    color: black;
+}
+
+.jointPositions tr td:last-child {
+    text-align: right;
+    width: 70%;
+    border-radius: 5px;
+}
+
+    .jointPositions tr td:last-child div {
+        border: 1px solid black;
+        color: black;
+    }
+
+.projectCompareTable {
+    text-align: left;
+    width: 100%;
+    border-collapse: collapse;
+}
+
+    .projectCompareTable td {
+        text-align: left;
+        cursor: pointer;
+    }
+
+.uploadedImageContainer {
+    text-align: center;
+    width: 110px;
+    height: 150px;
+    padding: 3px;
+    float: left;
+}
+
+    .uploadedImageContainer button {
+        margin-top: 7px;
+    }
+
+.uploadedImageContainer {
+    height: 150px;
+}
+
+    .uploadedImageContainer img {
+        max-width: 80px;
+        max-height: 80px;
+    }
+
+.connectOverlay {
+    width: 100%;
+    height: 100%;
+    background-color: rgba(30,30,30,0.5);
+}
+
+    .connectOverlay img {
+        max-width: 10%;
+        max-height: 10%;
+        opacity: 0.5;
+        margin: auto;
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+    }
+
+    .connectOverlay:hover {
+        background-color: rgba(30,30,30,0.4);
+    }
+
+        .connectOverlay:hover img {
+            opacity: 0.7;
+        }
+
+.fd11nra {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.form-control-66 {
+    width: 66% !important;
+    float: left;
+}
+
+.colorMark {
+    height: 20px;
+    width: 20px;
+    margin-left: -27px;
+    margin-top: 7px;
+    float: left;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 10px;
+}
+
+.toolbar img {
+    width: 30px;
+    height: 30px;
+    margin: 10px;
+    opacity: 0.8;
+    cursor: pointer;
+}
+
+    .toolbar img:hover {
+        opacity: 1.0;
+    }
+
+.toolbar ul {
+    padding: 0;
+    list-style-type: none;
+}
+
+    .toolbar ul li {
+        margin: 0;
+        padding: 0;
+    }
+
+.connectOverlay img {
+    cursor: pointer;
+}
+
+    .connectOverlay img:hover {
+        opacity: 0.7;
+    }
+
+.remoteView .keyboardContainer {
+    text-align: center;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+}
+
+    .remoteView .keyboardContainer .keyboard {
+        width: 100%;
+        height: 100%;
+        opacity: 0.85;
+    }
+
+.remoteView .close {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 30px;
+    height: 30px;
+    margin: 10px;
+    cursor: pointer;
+}
+
+.remoteView .tapMark {
+    width: 70px;
+    height: 70px;
+    position: absolute;
+    -webkit-border-radius: 35px;
+    -moz-border-radius: 35px;
+    border-radius: 35px;
+}
+
+.modal-backdrop {
+    pointer-events: initial;
+}
+
+#settingsDialog .tab-content {
+    min-height: 450px;
+}
+
+.editSwitch {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 120px;
+    height: 120px;
+    text-align: center;
+    font-size: 15px;
+}
+
+.editBelt {
+    padding-top: 0px;
+}
+
+.modal {
+    background-color: rgba(30,30,30,0.5);
+    pointer-events: none;
+}
+
+    .modal .modal-content {
+        pointer-events: all;
+    }
+
+
+.fidgetBelt ng-include > div {
+    margin: auto;
+}
+
+.modalBackground {
+    background-color: rgba(50,50,50,0.3);
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+
+.main {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 0;
+}
+
+    .main .connectionAlert {
+        position: fixed;
+        top: 0;
+    }
+
+    .main:focus {
+        outline: none;
+    }
+
+body .touchPointer {
+    position: absolute;
+    z-index: 9999;
+    width: 80px;
+    height: 80px;
+}
+
+.main .callHelpContainer {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+}
+
+.overLayer, resizeLayer {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.resizeLayer .resizeDot {
+    width: 50px;
+    height: 50px;
+    opacity: 0.6;
+    position: absolute;
+    z-index: 9999;
+}
+
+.current_user, .other_user {
+    margin: 15px;
+    border: none !important;
+}
+
+.checkbox label {
+    padding-left: 0px !important;
+    white-space: nowrap;
+}
+
+.bulb {
+    border-radius: 50%;
+    height: 100%;
+    width: 100%;
+}
+
+.lamp {
+    border-radius: 50%;
+    height: 98.5%;
+    width: 98.5%;
+}
+
+.dragged {
+    opacity: 0.7;
+}
+
+.panel-heading {
+    cursor: pointer;
+    background-color: rgba(100,100,100,0.4) !important;
+}
+
+    .panel-heading td {
+        padding: 10px;
+    }
+
+    .panel-heading:after {
+        content: "\25B2";
+        float: right;
+        padding: 10px;
+    }
+
+    .panel-heading.collapsed:after {
+        content: "\25BC";
+    }
+
+    .panel-heading:hover {
+        background-color: rgba(100,100,100,0.6) !important;
+    }
+
+.panel-collapse td:nth-child(1) {
+    text-align: left;
+}
+
+.removeFriendlyName {
+    top: 8px !important;
+    left: -20px;
+    cursor: pointer;
+    z-index: 2;
+}
+
+    .removeFriendlyName:hover {
+        color: red;
+    }
+
+
+.stretch {
+    background-size: 100% 100%;
+}
+
+.aspectCrop {
+    background-size: cover;
+}
+
+.aspectFit {
+    background-size: contain;
+}
+
+.imageNotFound {
+    background-image: url(../images/image-not-found.png) !important;
+}
+
+.boolean .alert {
+    line-height: 100%;
+}
+
+.editModeOn.selected {
+    z-index: 1;
+}
+
+
+.editModeOn {
+    pointer-events: none;
+}
+
+.cameraImage {
+    position: relative;
+    overflow: hidden;
+}
+
+    .cameraImage .image {
+        background-position: center;
+        background-repeat: no-repeat;
+        width: 100%;
+        height: 100%;
+    }
+
+        .cameraImage .image img {
+            display: none;
+        }
+
+    .cameraImage .loader {
+        width: 100%;
+        height: 100%;
+        position: relative;
+        top: 0;
+        left: 0;
+        background: rgba(30,30,30,0.4) url('../images/loading.gif') no-repeat center center;
+        background-size: 30%;
+    }
+
+    .cameraImage .authenticate {
+        width: 100%;
+        height: 100%;
+        position: relative;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        background: rgba(30,30,30,0.4) url('../images/lock.png') no-repeat center center;
+        background-size: 30%;
+    }
+
+        .cameraImage .authenticate:hover {
+            background: rgba(30,30,30,0.6) url('../images/lock.png') no-repeat center center;
+             background-size: 35%;
+        }

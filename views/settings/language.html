@@ -1,0 +1,54 @@
+﻿<!--
+ * Software License Agreement (Apache License)
+ *
+ * Copyright (c) 2016, PPM AS
+ * Contact: laszlo.nagy@ppmas.no
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License. 
+ -->
+ 
+<ng-include src="'views/helpIcon.html'" class="floatRight" ng-init="help = helpMessages.settings.language" ng-if="helpMessages.show"></ng-include>
+<!--Language Settings-->
+<div>
+    <h6><i>{{localization.currentLocal.settings.tabs.language.languageSelectNote}}</i></h6>
+    <perfect-scrollbar class="scroller imageRepeaterScrollBar">
+        <div style="width: 1000px;">
+            <style>
+                .selectedLanguage {
+                    background-color: rgba(100,100,100,0.4);
+                }
+
+                .language {
+                    float: left;
+                    text-align: center;
+                    padding: 10px;
+                }
+
+                    .language:hover {
+                        background-color: rgba(100,100,100,0.2);
+                    }
+            </style>
+            <div ng-repeat="language in localization.languages"
+                 class="language"
+                 ng-class="{'selectedLanguage': localization.currentLanguage == language}"
+                 ng-click="settings.selectLanguage(language)">
+                <div>
+                    <img ng-src="{{localization.items[language].flag}}" style="width: 100px; height: 70px;" />
+                </div>
+                <div>
+                    {{localization.items[language].language}}
+                </div>
+            </div>
+        </div>
+    </perfect-scrollbar>
+</div>

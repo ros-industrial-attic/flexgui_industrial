@@ -1,0 +1,4291 @@
+{
+  "screens": [
+    {
+      "containerLevel": 0,
+      "fidgets": [
+        {
+          "containerLevel": 1,
+          "name": "Fidget Group",
+          "root": "views/fidgets/",
+          "top": 71,
+          "fidgets": [
+            {
+              "containerLevel": 2,
+              "name": "Fidget Group",
+              "root": "views/fidgets/",
+              "top": -40,
+              "fidgets": [
+                {
+                  "containerLevel": 3,
+                  "name": "Text",
+                  "root": "views/fidgets/",
+                  "top": 0.5,
+                  "properties": {
+                    "_color": "#000000",
+                    "_height": 34,
+                    "_fontSize": "30",
+                    "_width": 897,
+                    "_text": "<b><center>Welcome to FlexGui 4.0</center></b>"
+                  },
+                  "absoluteOffset": {
+                    "top": 31.5,
+                    "left": 180.5
+                  },
+                  "source": "text",
+                  "template": {
+                    "forScreenType": "all",
+                    "name": "Text",
+                    "properties": {
+                      "_color": "#ff0000",
+                      "_height": 25,
+                      "_fontSize": 16,
+                      "_width": 100,
+                      "_text": "variableService.demo.string"
+                    },
+                    "source": "text",
+                    "hidden": null,
+                    "root": "views/fidgets/",
+                    "id": "fidget_c241e06c-f4a7-b2ad-a609-249deb1f4b64",
+                    "icon": "images/fidgets/text.png"
+                  },
+                  "icon": "images/fidgets/text.png",
+                  "id": "fidget_de27db6c-78b3-e27a-7337-a1220b858648",
+                  "originalSize": {
+                    "width": 724,
+                    "height": 31
+                  },
+                  "left": 1.5,
+                  "posBeforeDrag": {
+                    "left": 1.5,
+                    "top": 2.5
+                  },
+                  "backgroundImage": null
+                }
+              ],
+              "properties": {
+                "opacity": "0.7",
+                "_height": "40",
+                "_width": "900",
+                "_color": "#FFFFFF"
+              },
+              "absoluteOffset": {
+                "top": 31,
+                "left": 179
+              },
+              "source": "fidgetGroup",
+              "template": {
+                "forScreenType": "all",
+                "name": "Fidget Group",
+                "properties": {
+                  "opacity": 0.7,
+                  "_height": 200,
+                  "_width": 200,
+                  "_color": "#D1D1D1"
+                },
+                "source": "fidgetGroup",
+                "hidden": null,
+                "root": "views/fidgets/",
+                "id": "fidget_2a140c92-6feb-2e0a-064d-e15cd0df749b",
+                "icon": "images/fidgets/box.png"
+              },
+              "icon": "images/fidgets/box.png",
+              "posBeforeDrag": {
+                "top": -40,
+                "left": 0
+              },
+              "id": "fidget_0dc36346-8fdd-5a45-80d5-d5928e9794d1",
+              "left": 0
+            },
+            {
+              "containerLevel": 2,
+              "name": "Fidget Group",
+              "root": "views/fidgets/",
+              "top": 37.5,
+              "fidgets": [
+                {
+                  "containerLevel": 3,
+                  "name": "Fidget Group",
+                  "root": "views/fidgets/",
+                  "top": 2.5,
+                  "fidgets": [
+                    {
+                      "containerLevel": 4,
+                      "name": "Image",
+                      "root": "views/fidgets/",
+                      "top": 224,
+                      "properties": {
+                        "_value": "variableService.demo.flexGuiBig",
+                        "_height": "200",
+                        "_width": "200",
+                        "scale": "aspectFit"
+                      },
+                      "absoluteOffset": {
+                        "top": 335,
+                        "left": 810
+                      },
+                      "source": "image",
+                      "backgroundImage": null,
+                      "template": {
+                        "forScreenType": "normal",
+                        "name": "Image",
+                        "root": "views/fidgets/",
+                        "properties": {
+                          "_value": "variableService.demo.image",
+                          "_height": 100,
+                          "_width": 100,
+                          "scale": "aspectFit"
+                        },
+                        "source": "image",
+                        "hidden": null,
+                        "propertyLabels": null,
+                        "id": "fidget_be516290-8b05-1ada-6beb-685d1ad8f8bd",
+                        "icon": null
+                      },
+                      "icon": null,
+                      "posBeforeDrag": {
+                        "left": 591,
+                        "top": 224
+                      },
+                      "id": "fidget_066c5537-7e38-a6b8-7033-09c3a2a81fad",
+                      "left": 591
+                    },
+                    {
+                      "containerLevel": 4,
+                      "name": "Text",
+                      "root": "views/fidgets/",
+                      "top": 31,
+                      "properties": {
+                        "_color": "#000000",
+                        "_height": 12,
+                        "_fontSize": "22",
+                        "_width": 732,
+                        "_text": "FlexGui 4.0 is the latest graphical interface from PPM running on PC, Android and iOS. With FlexGui you can create beautiful and intuitive user interfaces easily, that are adapted to any operator's skill."
+                      },
+                      "absoluteOffset": {
+                        "top": 142,
+                        "left": 267
+                      },
+                      "source": "text",
+                      "template": {
+                        "forScreenType": "all",
+                        "name": "Text",
+                        "properties": {
+                          "_color": "#ff0000",
+                          "_height": 25,
+                          "_fontSize": 16,
+                          "_width": 100,
+                          "_text": "variableService.demo.string"
+                        },
+                        "source": "text",
+                        "hidden": null,
+                        "root": "views/fidgets/",
+                        "id": "fidget_c241e06c-f4a7-b2ad-a609-249deb1f4b64",
+                        "icon": "images/fidgets/text.png"
+                      },
+                      "icon": "images/fidgets/text.png",
+                      "posBeforeDrag": {
+                        "left": 48,
+                        "top": 31
+                      },
+                      "id": "fidget_d9ba1c30-754f-041c-951b-d25b1fbbf234",
+                      "originalSize": {
+                        "width": 780,
+                        "height": 25
+                      },
+                      "left": 48
+                    },
+                    {
+                      "containerLevel": 4,
+                      "name": "Text",
+                      "root": "views/fidgets/",
+                      "top": 148,
+                      "properties": {
+                        "_color": "#000000",
+                        "_height": 30,
+                        "_fontSize": "22",
+                        "_width": 707,
+                        "_text": "Your FlexGui is the Industrial version that is open-source, but has only basic functionality. For more information about the available features and packages please visit our website."
+                      },
+                      "absoluteOffset": {
+                        "top": 259,
+                        "left": 270
+                      },
+                      "source": "text",
+                      "template": {
+                        "forScreenType": "all",
+                        "name": "Text",
+                        "properties": {
+                          "_color": "#ff0000",
+                          "_height": 25,
+                          "_fontSize": 16,
+                          "_width": 100,
+                          "_text": "variableService.demo.string"
+                        },
+                        "source": "text",
+                        "hidden": null,
+                        "root": "views/fidgets/",
+                        "id": "fidget_c241e06c-f4a7-b2ad-a609-249deb1f4b64",
+                        "icon": "images/fidgets/text.png"
+                      },
+                      "icon": "images/fidgets/text.png",
+                      "posBeforeDrag": {
+                        "left": 51,
+                        "top": 148
+                      },
+                      "id": "fidget_5f17ee1b-82f5-6a5e-4c6b-b53d14d7103e",
+                      "originalSize": {
+                        "width": 780,
+                        "height": 25
+                      },
+                      "left": 51
+                    },
+                    {
+                      "containerLevel": 4,
+                      "name": "Text",
+                      "root": "views/fidgets/",
+                      "top": 268,
+                      "properties": {
+                        "_color": "#000000",
+                        "_height": 18,
+                        "_fontSize": "22",
+                        "_width": "350",
+                        "_text": "To see examples tap one of the screens on the left side.<br><br>To edit yourself, click on the Pen icon in the left bottom corner."
+                      },
+                      "absoluteOffset": {
+                        "top": 379,
+                        "left": 270
+                      },
+                      "source": "text",
+                      "backgroundImage": null,
+                      "template": {
+                        "forScreenType": "all",
+                        "name": "Text",
+                        "properties": {
+                          "_color": "#ff0000",
+                          "_height": 25,
+                          "_fontSize": 16,
+                          "_width": 100,
+                          "_text": "variableService.demo.string"
+                        },
+                        "source": "text",
+                        "hidden": null,
+                        "root": "views/fidgets/",
+                        "id": "fidget_c241e06c-f4a7-b2ad-a609-249deb1f4b64",
+                        "icon": "images/fidgets/text.png"
+                      },
+                      "icon": "images/fidgets/text.png",
+                      "posBeforeDrag": {
+                        "left": 51,
+                        "top": 268
+                      },
+                      "id": "fidget_4064b374-7193-2224-eb85-51bc67939b42",
+                      "originalSize": {
+                        "width": 780,
+                        "height": 25
+                      },
+                      "left": 51
+                    },
+                    {
+                      "containerLevel": 4,
+                      "name": "Button",
+                      "posBeforeDrag": {
+                        "left": 135,
+                        "top": 453
+                      },
+                      "top": 453,
+                      "id": "fidget_a6ea0458-0152-21a5-d343-c20b0b3daeca",
+                      "absoluteOffset": {
+                        "top": 564,
+                        "left": 354
+                      },
+                      "source": "button",
+                      "backgroundImage": null,
+                      "template": {
+                        "forScreenType": "normal",
+                        "name": "Button",
+                        "id": "fidget_67a5ab51-281f-2673-7746-6043a1364946",
+                        "source": "button",
+                        "hidden": null,
+                        "root": "views/fidgets/",
+                        "properties": {
+                          "_height": 30,
+                          "_width": 100,
+                          "onClick": "#message('Default button action.')",
+                          "_text": "Click me"
+                        }
+                      },
+                      "root": "views/fidgets/",
+                      "properties": {
+                        "_height": "67",
+                        "_width": 196,
+                        "onClick": "window.open(\"https://www.ppm.no/flexgui4-Home\")",
+                        "_text": "Open FlexGui Website"
+                      },
+                      "originalSize": {
+                        "width": 100,
+                        "height": 30
+                      },
+                      "left": 135
+                    },
+                    {
+                      "containerLevel": 4,
+                      "name": "Button",
+                      "posBeforeDrag": {
+                        "left": 491.5,
+                        "top": 453.5
+                      },
+                      "top": 453.5,
+                      "id": "fidget_ab6dc07c-3ad6-2c16-45a3-362fb891866d",
+                      "absoluteOffset": {
+                        "top": 564.5,
+                        "left": 710.5
+                      },
+                      "source": "button",
+                      "template": {
+                        "forScreenType": "normal",
+                        "name": "Button",
+                        "id": "fidget_67a5ab51-281f-2673-7746-6043a1364946",
+                        "source": "button",
+                        "hidden": null,
+                        "root": "views/fidgets/",
+                        "properties": {
+                          "_height": 30,
+                          "_width": 100,
+                          "onClick": "#message('Default button action.')",
+                          "_text": "Click me"
+                        }
+                      },
+                      "root": "views/fidgets/",
+                      "properties": {
+                        "_height": 67,
+                        "_width": 211,
+                        "onClick": "#setScreen(projectService.screens[1]); ",
+                        "_text": "Go To The First Example"
+                      },
+                      "originalSize": {
+                        "width": 176,
+                        "height": 53
+                      },
+                      "left": 491.5
+                    }
+                  ],
+                  "properties": {
+                    "opacity": "1",
+                    "_height": "530",
+                    "_width": "820",
+                    "_color": "#FFFFFF"
+                  },
+                  "absoluteOffset": {
+                    "top": 111,
+                    "left": 219
+                  },
+                  "source": "fidgetGroup",
+                  "template": {
+                    "forScreenType": "all",
+                    "name": "Fidget Group",
+                    "properties": {
+                      "opacity": 0.7,
+                      "_height": 200,
+                      "_width": 200,
+                      "_color": "#D1D1D1"
+                    },
+                    "source": "fidgetGroup",
+                    "hidden": null,
+                    "root": "views/fidgets/",
+                    "id": "fidget_2a140c92-6feb-2e0a-064d-e15cd0df749b",
+                    "icon": "images/fidgets/box.png"
+                  },
+                  "icon": "images/fidgets/box.png",
+                  "id": "fidget_c509af0a-4e17-99a5-69fd-a2fbfe35a265",
+                  "left": 2,
+                  "backgroundImage": null,
+                  "posBeforeDrag": {
+                    "left": 2,
+                    "top": 2.5
+                  }
+                }
+              ],
+              "properties": {
+                "opacity": "1",
+                "_height": "535",
+                "_width": 824,
+                "_color": "#000000"
+              },
+              "absoluteOffset": {
+                "top": 108.5,
+                "left": 217
+              },
+              "source": "fidgetGroup",
+              "template": {
+                "forScreenType": "all",
+                "name": "Fidget Group",
+                "properties": {
+                  "opacity": 0.7,
+                  "_height": 200,
+                  "_width": 200,
+                  "_color": "#D1D1D1"
+                },
+                "source": "fidgetGroup",
+                "hidden": null,
+                "root": "views/fidgets/",
+                "id": "fidget_2a140c92-6feb-2e0a-064d-e15cd0df749b",
+                "icon": "images/fidgets/box.png"
+              },
+              "icon": "images/fidgets/box.png",
+              "posBeforeDrag": {
+                "left": 38,
+                "top": 37.5
+              },
+              "id": "fidget_1f901f01-ed21-deba-56bf-5d58fe165727",
+              "originalSize": {
+                "width": 824,
+                "height": 625
+              },
+              "left": 38,
+              "backgroundImage": null
+            }
+          ],
+          "properties": {
+            "opacity": 0.7,
+            "_height": "600",
+            "_width": "900",
+            "_color": "#FF8800"
+          },
+          "absoluteOffset": {
+            "top": 71,
+            "left": 179
+          },
+          "source": "fidgetGroup",
+          "template": {
+            "forScreenType": "all",
+            "name": "Fidget Group",
+            "properties": {
+              "opacity": 0.7,
+              "_height": 200,
+              "_width": 200,
+              "_color": "#D1D1D1"
+            },
+            "source": "fidgetGroup",
+            "hidden": null,
+            "root": "views/fidgets/",
+            "id": "fidget_2a140c92-6feb-2e0a-064d-e15cd0df749b",
+            "icon": "images/fidgets/box.png"
+          },
+          "icon": "images/fidgets/box.png",
+          "posBeforeDrag": {
+            "left": 179,
+            "top": 71
+          },
+          "id": "fidget_fde1a2b7-7a7a-11fd-4d9f-6212111b0830",
+          "left": 179,
+          "backgroundImage": null
+        }
+      ],
+      "id": "screen-8b95b80b-9d20-9662-9aed-8ecc33de6a43",
+      "indexImage": "data:image/jpeg;base64,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1X+1wf8APQUfa4P+eop+1n2D2ce5Y+yaN/z2vP8Av2f/AImj7Jo3/Pa8/wC/Z/8Aiar/AGuD/noKPtcH/PQUvaz7B7OPcsfZNG/57Xn/AH7P/wATWlZ6jp9nbLBG05Vc4LRNn+VYv2uD/noKPtcH/PQUe1n2D2ce50P9tWXrL/36b/Cj+2rL1l/79N/hXPfa4P8AnoKPtcH/AD0FP2s+wezj3Oh/tqy9Zf8Av03+FH9tWXrL/wB+m/wrnvtcH/PQUfa4P+ego9rPsHs49zof7asvWX/v03+FQ3eo6fd2zwSNMFbqVibP8qxPtcH/AD0FL9rg/wCego9rPsHs49yb7Ho//Pa8/wC/Z/8AiaPsej/89rz/AL9n/wCJqH7VB/z0FH2uD/noKXtZ9g9nHuTfY9H/AOe15/37P/xNH2PR/wDntef9+z/8TUP2qD/noKPtUH/PQU/az7B7OPcm+x6P/wA9rz/v2f8A4mj7Ho//AD2vP+/Z/wDiah+1wf8APQUfaoP+ego9rPsHs49yb7Ho/wDz2vP+/Z/+Jo+x6P8A89rz/v2f/iah+1wf89BR9qg/56Cj2s+wezj3Nu21OwtrdIUaYqgwMxNn+VS/21Zesv8A36b/AArn/tcH/PQUfa4P+ego9rPsHs49zoP7asvWX/v03+FH9tWXrL/36b/Cue+1wf8APQUfa4P+ego9rPsHs49zdn1i0eCRFMuWUgfum9PpWOv3R9Ki+1wf89BR9rg/56Cs5uU+hcFGPUg1P7kf1NZ1XdQmjlVAjBsHnFUq6KStHUxqO8gpKKK0MwooooAKKKKACiiigAooooASiiigApaSigBaKKKACiiigAooooAKKKKAFopKKAFopKWgAooooAKKKKAFopKKAFopKKAFooooAKUdqSigAooooAKPWiigAooooAKKSigAooooAKKKSgAooooAKKKKACiiigAooooAKKKKAEooooAKKKKAClpKKAFopKKAFopKWgAooooAKKKKACiiigAooooAWikooAWiiigAooooAKKKKAClpKKACiiigAooooAKKKKACikooAWikooAKKKKACiiigAooooAKKKKACkoooAWikooAKKKKACiiigAooooAKKKKACiiigApaSigBaKSigBaKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKSgBaKSigAooooAKKKKACiiigAooooA//Z",
+      "backgroundType": {
+        "name": "Image",
+        "key": 1
+      },
+      "type": "normal",
+      "properties": {
+        "name": "Info"
+      }
+    },
+    {
+      "containerLevel": 0,
+      "fidgets": [
+        {
+          "containerLevel": 1,
+          "name": "Fidget Group",
+          "root": "views/fidgets/",
+          "top": 100,
+          "fidgets": [
+            {
+              "containerLevel": 2,
+              "name": "Text",
+              "root": "views/fidgets/",
+              "top": 20,
+              "properties": {
+                "_color": "#000000",
+                "_height": 25,
+                "_fontSize": "20",
+                "_width": 100,
+                "_text": "Toggle"
+              },
+              "absoluteOffset": {
+                "top": 120,
+                "left": 180
+              },
+              "source": "text",
+              "template": {
+                "forScreenType": "all",
+                "name": "Text",
+                "properties": {
+                  "_color": "#ff0000",
+                  "_height": 25,
+                  "_fontSize": 16,
+                  "_width": 100,
+                  "_text": "variableService.demo.string"
+                },
+                "source": "text",
+                "hidden": null,
+                "root": "views/fidgets/",
+                "id": "fidget_c241e06c-f4a7-b2ad-a609-249deb1f4b64",
+                "icon": "images/fidgets/text.png"
+              },
+              "icon": "images/fidgets/text.png",
+              "posBeforeDrag": {
+                "top": 20,
+                "left": 20
+              },
+              "id": "fidget_f3575791-f46d-f8f2-099a-77db5f275f56",
+              "left": 20
+            },
+            {
+              "containerLevel": 2,
+              "name": "Text",
+              "root": "views/fidgets/",
+              "top": 60,
+              "properties": {
+                "_color": "#000000",
+                "_height": 25,
+                "_fontSize": 16,
+                "_width": "140",
+                "_text": "Tap the buttons to toggle outputs"
+              },
+              "absoluteOffset": {
+                "top": 160,
+                "left": 180
+              },
+              "source": "text",
+              "template": {
+                "forScreenType": "all",
+                "name": "Text",
+                "properties": {
+                  "_color": "#ff0000",
+                  "_height": 25,
+                  "_fontSize": 16,
+                  "_width": 100,
+                  "_text": "variableService.demo.string"
+                },
+                "source": "text",
+                "hidden": null,
+                "root": "views/fidgets/",
+                "id": "fidget_c241e06c-f4a7-b2ad-a609-249deb1f4b64",
+                "icon": "images/fidgets/text.png"
+              },
+              "icon": "images/fidgets/text.png",
+              "posBeforeDrag": {
+                "top": 60,
+                "left": 20
+              },
+              "id": "fidget_6126055c-9910-4659-3a5a-19388af062de",
+              "left": 20
+            },
+            {
+              "containerLevel": 2,
+              "name": "Button",
+              "root": "views/fidgets/",
+              "top": 140,
+              "properties": {
+                "_height": "40",
+                "_width": "140",
+                "onClick": "if (counter1_en)\n{\n  counter1++;\n  counter1_en = false;\n  $timeout(function()\n  {\n      counter1_en = true;\n  }, 1000, true)\n}",
+                "_text": "Switch Output 1"
+              },
+              "absoluteOffset": {
+                "top": 240,
+                "left": 180
+              },
+              "source": "button",
+              "template": {
+                "forScreenType": "normal",
+                "name": "Button",
+                "properties": {
+                  "_height": 30,
+                  "_width": 100,
+                  "onClick": "#message('Default button action.')",
+                  "_text": "Click me"
+                },
+                "source": "button",
+                "hidden": null,
+                "root": "views/fidgets/",
+                "id": "fidget_9bbdd986-ef3a-885b-7d4a-174fe06a38c3"
+              },
+              "posBeforeDrag": {
+                "top": 140,
+                "left": 20
+              },
+              "id": "fidget_fb3411ef-6232-ce70-d4ba-1cb797f171dd",
+              "left": 20
+            },
+            {
+              "containerLevel": 2,
+              "name": "Button",
+              "root": "views/fidgets/",
+              "top": 200,
+              "properties": {
+                "_height": "40",
+                "_width": "140",
+                "onClick": "if (counter2_en)\n{\n  counter2++;\n  counter2_en = false;\n  $timeout(function()\n  {\n      counter2_en = true;\n  }, 1000, true)\n}",
+                "_text": "Switch Output 2"
+              },
+              "absoluteOffset": {
+                "top": 300,
+                "left": 180
+              },
+              "source": "button",
+              "template": {
+                "forScreenType": "normal",
+                "name": "Button",
+                "properties": {
+                  "_height": 30,
+                  "_width": 100,
+                  "onClick": "#message('Default button action.')",
+                  "_text": "Click me"
+                },
+                "source": "button",
+                "hidden": null,
+                "root": "views/fidgets/",
+                "id": "fidget_9bbdd986-ef3a-885b-7d4a-174fe06a38c3"
+              },
+              "posBeforeDrag": {
+                "top": 200,
+                "left": 20
+              },
+              "id": "fidget_6d917f38-ef66-c80b-7af6-30bcfdd3b8e0",
+              "left": 20
+            },
+            {
+              "containerLevel": 2,
+              "name": "Button",
+              "root": "views/fidgets/",
+              "top": 260,
+              "properties": {
+                "_height": "40",
+                "_width": "140",
+                "onClick": "if (counter3_en)\n{\n  counter3++;\n  counter3_en = false;\n  $timeout(function()\n  {\n      counter3_en = true;\n  }, 1000, true)\n}",
+                "_text": "Switch Output 3"
+              },
+              "absoluteOffset": {
+                "top": 360,
+                "left": 180
+              },
+              "source": "button",
+              "template": {
+                "forScreenType": "normal",
+                "name": "Button",
+                "properties": {
+                  "_height": 30,
+                  "_width": 100,
+                  "onClick": "#message('Default button action.')",
+                  "_text": "Click me"
+                },
+                "source": "button",
+                "hidden": null,
+                "root": "views/fidgets/",
+                "id": "fidget_9bbdd986-ef3a-885b-7d4a-174fe06a38c3"
+              },
+              "posBeforeDrag": {
+                "top": 260,
+                "left": 20
+              },
+              "id": "fidget_2a10b9b8-7fd4-f830-ad61-812872de12ec",
+              "left": 20
+            },
+            {
+              "containerLevel": 2,
+              "name": "Text",
+              "posBeforeDrag": {
+                "left": 1,
+                "top": -57.5
+              },
+              "top": -57.5,
+              "id": "fidget_93789287-3162-7202-a276-8c7bff87bca7",
+              "absoluteOffset": {
+                "top": 42.5,
+                "left": 161
+              },
+              "source": "text",
+              "backgroundImage": null,
+              "template": {
+                "forScreenType": "all",
+                "name": "Text",
+                "id": "fidget_cb3edd06-5147-1019-1183-a8bc599e69e6",
+                "source": "text",
+                "hidden": null,
+                "root": "views/fidgets/",
+                "properties": {
+                  "_height": 25,
+                  "_fontSize": 16,
+                  "_width": 100,
+                  "_color": "#ff0000",
+                  "_text": "variableService.demo.string"
+                },
+                "icon": "images/fidgets/text.png"
+              },
+              "left": 1,
+              "root": "views/fidgets/",
+              "properties": {
+                "_height": 25,
+                "_fontSize": "30",
+                "_width": "650",
+                "_color": "#000000",
+                "_text": "Input and output monitoring and control"
+              },
+              "icon": "images/fidgets/text.png"
+            }
+          ],
+          "properties": {
+            "opacity": "1",
+            "_height": "320",
+            "_width": "180",
+            "_color": "#D1D1D1"
+          },
+          "absoluteOffset": {
+            "top": 100,
+            "left": 160
+          },
+          "source": "fidgetGroup",
+          "template": {
+            "forScreenType": "all",
+            "name": "Fidget Group",
+            "properties": {
+              "opacity": 0.7,
+              "_height": 200,
+              "_width": 200,
+              "_color": "#D1D1D1"
+            },
+            "source": "fidgetGroup",
+            "hidden": null,
+            "root": "views/fidgets/",
+            "id": "fidget_2a140c92-6feb-2e0a-064d-e15cd0df749b",
+            "icon": "images/fidgets/box.png"
+          },
+          "icon": "images/fidgets/box.png",
+          "posBeforeDrag": {
+            "top": 100,
+            "left": 160
+          },
+          "id": "fidget_651804b3-1b88-25bb-9fed-a769111d8db7",
+          "originalSize": {
+            "width": 251,
+            "height": 325
+          },
+          "left": 160
+        },
+        {
+          "containerLevel": 1,
+          "name": "Fidget Group",
+          "root": "views/fidgets/",
+          "top": 100,
+          "fidgets": [
+            {
+              "containerLevel": 2,
+              "name": "Text",
+              "root": "views/fidgets/",
+              "top": 20,
+              "properties": {
+                "_color": "#000000",
+                "_height": 25,
+                "_fontSize": "20",
+                "_width": 100,
+                "_text": "Monitor"
+              },
+              "absoluteOffset": {
+                "top": 120,
+                "left": 400
+              },
+              "source": "text",
+              "template": {
+                "forScreenType": "all",
+                "name": "Text",
+                "properties": {
+                  "_color": "#ff0000",
+                  "_height": 25,
+                  "_fontSize": 16,
+                  "_width": 100,
+                  "_text": "variableService.demo.string"
+                },
+                "source": "text",
+                "hidden": null,
+                "root": "views/fidgets/",
+                "id": "fidget_c241e06c-f4a7-b2ad-a609-249deb1f4b64",
+                "icon": "images/fidgets/text.png"
+              },
+              "icon": "images/fidgets/text.png",
+              "posBeforeDrag": {
+                "top": 20,
+                "left": 20
+              },
+              "id": "fidget_33416cc3-ed7f-ad4b-7990-bd28ca3d2dd7",
+              "left": 20
+            },
+            {
+              "containerLevel": 2,
+              "name": "Text",
+              "root": "views/fidgets/",
+              "top": 60,
+              "properties": {
+                "_color": "#000000",
+                "_height": 25,
+                "_fontSize": 16,
+                "_width": "140",
+                "_text": "Watch the outputs change"
+              },
+              "absoluteOffset": {
+                "top": 160,
+                "left": 400
+              },
+              "source": "text",
+              "template": {
+                "forScreenType": "all",
+                "name": "Text",
+                "properties": {
+                  "_color": "#ff0000",
+                  "_height": 25,
+                  "_fontSize": 16,
+                  "_width": 100,
+                  "_text": "variableService.demo.string"
+                },
+                "source": "text",
+                "hidden": null,
+                "root": "views/fidgets/",
+                "id": "fidget_c241e06c-f4a7-b2ad-a609-249deb1f4b64",
+                "icon": "images/fidgets/text.png"
+              },
+              "icon": "images/fidgets/text.png",
+              "posBeforeDrag": {
+                "top": 60,
+                "left": 20
+              },
+              "id": "fidget_c800b16f-f9e5-0f36-778a-3b1b5a182297",
+              "left": 20
+            },
+            {
+              "containerLevel": 2,
+              "name": "Indicator lamp",
+              "root": "views/fidgets/",
+              "top": 140,
+              "properties": {
+                "_blinkPeriod": 1,
+                "_height": 30,
+                "_width": "140",
+                "_blinking": "false",
+                "_onColor": "#00ff00",
+                "_value": "counter1_en",
+                "_text": "Status Output 1",
+                "_offColor": "#ff0000",
+                "_fontColor": "#000000"
+              },
+              "absoluteOffset": {
+                "top": 240,
+                "left": 400
+              },
+              "source": "indicatorLamp",
+              "template": {
+                "forScreenType": "normal",
+                "name": "Indicator lamp",
+                "properties": {
+                  "_blinkPeriod": 1,
+                  "_height": 30,
+                  "_width": 100,
+                  "_blinking": null,
+                  "_onColor": "#00ff00",
+                  "_value": "variableService.demo.bool",
+                  "_text": "Indicate",
+                  "_offColor": "#ff0000",
+                  "_fontColor": "#FF0000"
+                },
+                "source": "indicatorLamp",
+                "hidden": null,
+                "root": "views/fidgets/",
+                "id": "fidget_33a61387-8dd3-b0d7-32fd-95c155c2c8f8"
+              },
+              "posBeforeDrag": {
+                "top": 140,
+                "left": 20
+              },
+              "id": "fidget_9a140221-f75a-02e2-1856-45c3074ea51e",
+              "left": 20
+            },
+            {
+              "containerLevel": 2,
+              "name": "Indicator lamp",
+              "root": "views/fidgets/",
+              "top": 200,
+              "properties": {
+                "_blinkPeriod": 1,
+                "_height": 30,
+                "_width": "140",
+                "_blinking": null,
+                "_onColor": "#00ff00",
+                "_value": "counter2_en",
+                "_text": "Status Output 2",
+                "_offColor": "#ff0000",
+                "_fontColor": "#000000"
+              },
+              "absoluteOffset": {
+                "top": 300,
+                "left": 400
+              },
+              "source": "indicatorLamp",
+              "template": {
+                "forScreenType": "normal",
+                "name": "Indicator lamp",
+                "properties": {
+                  "_blinkPeriod": 1,
+                  "_height": 30,
+                  "_width": 100,
+                  "_blinking": null,
+                  "_onColor": "#00ff00",
+                  "_value": "variableService.demo.bool",
+                  "_text": "Indicate",
+                  "_offColor": "#ff0000",
+                  "_fontColor": "#FF0000"
+                },
+                "source": "indicatorLamp",
+                "hidden": null,
+                "root": "views/fidgets/",
+                "id": "fidget_33a61387-8dd3-b0d7-32fd-95c155c2c8f8"
+              },
+              "posBeforeDrag": {
+                "top": 200,
+                "left": 20
+              },
+              "id": "fidget_9db985b4-c520-32f2-7165-456a545524d1",
+              "left": 20
+            },
+            {
+              "containerLevel": 2,
+              "name": "Indicator lamp",
+              "root": "views/fidgets/",
+              "top": 260,
+              "properties": {
+                "_blinkPeriod": 1,
+                "_height": 30,
+                "_width": "140",
+                "_blinking": null,
+                "_onColor": "#00ff00",
+                "_value": "counter3_en",
+                "_text": "Status Output 3",
+                "_offColor": "#ff0000",
+                "_fontColor": "#000000"
+              },
+              "absoluteOffset": {
+                "top": 360,
+                "left": 400
+              },
+              "source": "indicatorLamp",
+              "template": {
+                "forScreenType": "normal",
+                "name": "Indicator lamp",
+                "properties": {
+                  "_blinkPeriod": 1,
+                  "_height": 30,
+                  "_width": 100,
+                  "_blinking": null,
+                  "_onColor": "#00ff00",
+                  "_value": "variableService.demo.bool",
+                  "_text": "Indicate",
+                  "_offColor": "#ff0000",
+                  "_fontColor": "#FF0000"
+                },
+                "source": "indicatorLamp",
+                "hidden": null,
+                "root": "views/fidgets/",
+                "id": "fidget_33a61387-8dd3-b0d7-32fd-95c155c2c8f8"
+              },
+              "posBeforeDrag": {
+                "top": 260,
+                "left": 20
+              },
+              "id": "fidget_3d66a727-cda6-54e7-5a9e-fe76ae0b3652",
+              "left": 20
+            }
+          ],
+          "properties": {
+            "opacity": "1",
+            "_height": "320",
+            "_width": "180",
+            "_color": "#D1D1D1"
+          },
+          "absoluteOffset": {
+            "top": 100,
+            "left": 380
+          },
+          "source": "fidgetGroup",
+          "template": {
+            "forScreenType": "all",
+            "name": "Fidget Group",
+            "properties": {
+              "opacity": 0.7,
+              "_height": 200,
+              "_width": 200,
+              "_color": "#D1D1D1"
+            },
+            "source": "fidgetGroup",
+            "hidden": null,
+            "root": "views/fidgets/",
+            "id": "fidget_2a140c92-6feb-2e0a-064d-e15cd0df749b",
+            "icon": "images/fidgets/box.png"
+          },
+          "icon": "images/fidgets/box.png",
+          "posBeforeDrag": {
+            "top": 100,
+            "left": 380
+          },
+          "id": "fidget_e90278de-a915-c646-0d66-b9294c84aba8",
+          "left": 380
+        },
+        {
+          "containerLevel": 1,
+          "name": "Fidget Group",
+          "root": "views/fidgets/",
+          "top": 100,
+          "fidgets": [
+            {
+              "containerLevel": 2,
+              "name": "Text",
+              "root": "views/fidgets/",
+              "top": 20,
+              "properties": {
+                "_color": "#000000",
+                "_height": 25,
+                "_fontSize": "20",
+                "_width": "140",
+                "_text": "Programmable"
+              },
+              "absoluteOffset": {
+                "top": 120,
+                "left": 620
+              },
+              "source": "text",
+              "template": {
+                "forScreenType": "all",
+                "name": "Text",
+                "properties": {
+                  "_color": "#ff0000",
+                  "_height": 25,
+                  "_fontSize": 16,
+                  "_width": 100,
+                  "_text": "variableService.demo.string"
+                },
+                "source": "text",
+                "hidden": null,
+                "root": "views/fidgets/",
+                "id": "fidget_825ed559-d7b7-721d-e5ca-bdc78becb867",
+                "icon": "images/fidgets/text.png"
+              },
+              "icon": "images/fidgets/text.png",
+              "posBeforeDrag": {
+                "top": 20,
+                "left": 20
+              },
+              "id": "fidget_6888048f-2366-7e4c-f665-6e89de3e283f",
+              "left": 20
+            },
+            {
+              "containerLevel": 2,
+              "name": "Text",
+              "root": "views/fidgets/",
+              "top": 60,
+              "properties": {
+                "_color": "#000000",
+                "_height": 25,
+                "_fontSize": 16,
+                "_width": "160",
+                "_text": "UI elements are fully programmable"
+              },
+              "absoluteOffset": {
+                "top": 160,
+                "left": 620
+              },
+              "source": "text",
+              "template": {
+                "forScreenType": "all",
+                "name": "Text",
+                "root": "views/fidgets/",
+                "properties": {
+                  "_color": "#ff0000",
+                  "_height": 25,
+                  "_fontSize": 16,
+                  "_width": 100,
+                  "_text": "variableService.demo.string"
+                },
+                "source": "text",
+                "hidden": null,
+                "propertyLabels": null,
+                "id": "fidget_825ed559-d7b7-721d-e5ca-bdc78becb867",
+                "icon": "images/fidgets/text.png"
+              },
+              "icon": "images/fidgets/text.png",
+              "posBeforeDrag": {
+                "top": 60,
+                "left": 20
+              },
+              "id": "fidget_deff510d-3eef-f567-b997-8061b6b84d93",
+              "left": 20
+            },
+            {
+              "containerLevel": 2,
+              "name": "Text",
+              "root": "views/fidgets/",
+              "top": 110,
+              "properties": {
+                "_color": "#494949",
+                "_height": 25,
+                "_fontSize": "16",
+                "_width": "160",
+                "_text": "Switch count of <b>Output 1</b>:"
+              },
+              "absoluteOffset": {
+                "top": 210,
+                "left": 617
+              },
+              "source": "text",
+              "template": {
+                "forScreenType": "all",
+                "name": "Text",
+                "id": "fidget_f28e01f0-94a4-dfce-35cd-9da3a8dbf5e1",
+                "source": "text",
+                "hidden": null,
+                "root": "views/fidgets/",
+                "properties": {
+                  "_color": "#ff0000",
+                  "_height": 25,
+                  "_fontSize": 16,
+                  "_width": 100,
+                  "_text": "variableService.demo.string"
+                },
+                "icon": "images/fidgets/text.png"
+              },
+              "icon": "images/fidgets/text.png",
+              "posBeforeDrag": {
+                "top": 110,
+                "left": 17
+              },
+              "id": "fidget_4b0a9871-acce-fe74-1494-b5994c35d452",
+              "left": 17
+            },
+            {
+              "containerLevel": 2,
+              "name": "Text",
+              "root": "views/fidgets/",
+              "top": 116,
+              "properties": {
+                "_color": "#00009C",
+                "_height": 25,
+                "_fontSize": "24",
+                "_width": "60",
+                "_text": "counter1"
+              },
+              "absoluteOffset": {
+                "top": 216,
+                "left": 757
+              },
+              "source": "text",
+              "template": {
+                "forScreenType": "all",
+                "name": "Text",
+                "id": "fidget_f28e01f0-94a4-dfce-35cd-9da3a8dbf5e1",
+                "source": "text",
+                "hidden": null,
+                "root": "views/fidgets/",
+                "properties": {
+                  "_color": "#ff0000",
+                  "_height": 25,
+                  "_fontSize": 16,
+                  "_width": 100,
+                  "_text": "variableService.demo.string"
+                },
+                "icon": "images/fidgets/text.png"
+              },
+              "icon": "images/fidgets/text.png",
+              "posBeforeDrag": {
+                "top": 116,
+                "left": 157
+              },
+              "id": "fidget_1158e2c2-51bd-7f93-1cdd-327801eae53c",
+              "left": 157
+            },
+            {
+              "containerLevel": 2,
+              "name": "Text",
+              "root": "views/fidgets/",
+              "top": 170,
+              "properties": {
+                "_color": "#00009C",
+                "_height": 25,
+                "_fontSize": "24",
+                "_width": "60",
+                "_text": "counter2"
+              },
+              "absoluteOffset": {
+                "top": 270,
+                "left": 757
+              },
+              "source": "text",
+              "template": {
+                "forScreenType": "all",
+                "name": "Text",
+                "properties": {
+                  "_color": "#ff0000",
+                  "_height": 25,
+                  "_fontSize": 16,
+                  "_width": 100,
+                  "_text": "variableService.demo.string"
+                },
+                "source": "text",
+                "hidden": null,
+                "root": "views/fidgets/",
+                "id": "fidget_f8745dce-86de-ca00-79e8-d7a7154b0c5c",
+                "icon": "images/fidgets/text.png"
+              },
+              "icon": "images/fidgets/text.png",
+              "posBeforeDrag": {
+                "top": 170,
+                "left": 157
+              },
+              "id": "fidget_5219dffc-dcde-4cfe-2b7e-8220c752c6a4",
+              "left": 157
+            },
+            {
+              "containerLevel": 2,
+              "name": "Text",
+              "root": "views/fidgets/",
+              "top": 168,
+              "properties": {
+                "_color": "#494949",
+                "_height": 25,
+                "_fontSize": "16",
+                "_width": "160",
+                "_text": "Switch count of <b>Output 2</b>:"
+              },
+              "absoluteOffset": {
+                "top": 268,
+                "left": 617
+              },
+              "source": "text",
+              "template": {
+                "forScreenType": "all",
+                "name": "Text",
+                "root": "views/fidgets/",
+                "properties": {
+                  "_color": "#ff0000",
+                  "_height": 25,
+                  "_fontSize": 16,
+                  "_width": 100,
+                  "_text": "variableService.demo.string"
+                },
+                "source": "text",
+                "hidden": null,
+                "propertyLabels": null,
+                "id": "fidget_f8745dce-86de-ca00-79e8-d7a7154b0c5c",
+                "icon": "images/fidgets/text.png"
+              },
+              "icon": "images/fidgets/text.png",
+              "posBeforeDrag": {
+                "top": 168,
+                "left": 17
+              },
+              "id": "fidget_c617fb51-1616-c361-088f-e2c93c545f45",
+              "left": 17
+            },
+            {
+              "containerLevel": 2,
+              "name": "Text",
+              "root": "views/fidgets/",
+              "top": 229,
+              "properties": {
+                "_color": "#494949",
+                "_height": 25,
+                "_fontSize": "16",
+                "_width": "160",
+                "_text": "Switch count of <b>Output 3</b>:"
+              },
+              "absoluteOffset": {
+                "top": 329,
+                "left": 616
+              },
+              "source": "text",
+              "template": {
+                "forScreenType": "all",
+                "name": "Text",
+                "id": "fidget_935d0255-6fde-b20d-7cc1-604ea0a43029",
+                "source": "text",
+                "hidden": null,
+                "root": "views/fidgets/",
+                "properties": {
+                  "_height": 25,
+                  "_fontSize": 16,
+                  "_width": 100,
+                  "_color": "#ff0000",
+                  "_text": "variableService.demo.string"
+                },
+                "icon": "images/fidgets/text.png"
+              },
+              "icon": "images/fidgets/text.png",
+              "posBeforeDrag": {
+                "top": 229,
+                "left": 16
+              },
+              "id": "fidget_09f16a73-03c1-a36e-9fe8-4f6f161444db",
+              "left": 16
+            },
+            {
+              "containerLevel": 2,
+              "name": "Text",
+              "root": "views/fidgets/",
+              "top": 231,
+              "properties": {
+                "_color": "#00009C",
+                "_height": 25,
+                "_fontSize": "24",
+                "_width": "60",
+                "_text": "counter3"
+              },
+              "absoluteOffset": {
+                "top": 331,
+                "left": 756
+              },
+              "source": "text",
+              "template": {
+                "forScreenType": "all",
+                "name": "Text",
+                "id": "fidget_935d0255-6fde-b20d-7cc1-604ea0a43029",
+                "source": "text",
+                "hidden": null,
+                "root": "views/fidgets/",
+                "properties": {
+                  "_height": 25,
+                  "_fontSize": 16,
+                  "_width": 100,
+                  "_color": "#ff0000",
+                  "_text": "variableService.demo.string"
+                },
+                "icon": "images/fidgets/text.png"
+              },
+              "icon": "images/fidgets/text.png",
+              "posBeforeDrag": {
+                "top": 231,
+                "left": 156
+              },
+              "id": "fidget_1ec140bb-7ad0-8e61-c3dc-dd4a1612c49d",
+              "left": 156
+            }
+          ],
+          "properties": {
+            "opacity": "1",
+            "_height": "320",
+            "_width": "200",
+            "_color": "#D1D1D1"
+          },
+          "absoluteOffset": {
+            "top": 100,
+            "left": 600
+          },
+          "source": "fidgetGroup",
+          "template": {
+            "forScreenType": "all",
+            "name": "Fidget Group",
+            "properties": {
+              "opacity": 0.7,
+              "_height": 200,
+              "_width": 200,
+              "_color": "#D1D1D1"
+            },
+            "source": "fidgetGroup",
+            "hidden": null,
+            "root": "views/fidgets/",
+            "id": "fidget_2a140c92-6feb-2e0a-064d-e15cd0df749b",
+            "icon": "images/fidgets/box.png"
+          },
+          "icon": "images/fidgets/box.png",
+          "posBeforeDrag": {
+            "top": 100,
+            "left": 600
+          },
+          "id": "fidget_4a505d51-1f44-527f-12cc-1b28c929591b",
+          "left": 600
+        },
+        {
+          "containerLevel": 1,
+          "name": "Fidget Group",
+          "root": "views/fidgets/",
+          "top": 457.5,
+          "fidgets": [
+            {
+              "containerLevel": 2,
+              "name": "Fidget Group",
+              "root": "views/fidgets/",
+              "top": 2.5,
+              "fidgets": [
+                {
+                  "containerLevel": 3,
+                  "name": "Text",
+                  "root": "views/fidgets/",
+                  "top": 20,
+                  "properties": {
+                    "_color": "#000000",
+                    "_height": 25,
+                    "_fontSize": "20",
+                    "_width": "400",
+                    "_text": "Fixed Output Signal Monitor"
+                  },
+                  "absoluteOffset": {
+                    "top": 480,
+                    "left": 240
+                  },
+                  "source": "text",
+                  "template": {
+                    "forScreenType": "all",
+                    "name": "Text",
+                    "properties": {
+                      "_color": "#ff0000",
+                      "_height": 25,
+                      "_fontSize": 16,
+                      "_width": 100,
+                      "_text": "variableService.demo.string"
+                    },
+                    "source": "text",
+                    "hidden": null,
+                    "root": "views/fidgets/",
+                    "id": "fidget_f8745dce-86de-ca00-79e8-d7a7154b0c5c",
+                    "icon": "images/fidgets/text.png"
+                  },
+                  "icon": "images/fidgets/text.png",
+                  "posBeforeDrag": {
+                    "top": 20,
+                    "left": 80
+                  },
+                  "id": "fidget_4764b497-44ea-4a3a-7fe6-dedb67495d7b",
+                  "left": 80
+                },
+                {
+                  "containerLevel": 3,
+                  "name": "Indicator lamp",
+                  "root": "views/fidgets/",
+                  "top": 80,
+                  "properties": {
+                    "_blinkPeriod": 1,
+                    "_height": 30,
+                    "_width": "200",
+                    "_blinking": null,
+                    "_onColor": "#00ff00",
+                    "_value": "false",
+                    "_text": "Motors-ON lamp",
+                    "_offColor": "#ff0000",
+                    "_fontColor": "#000000"
+                  },
+                  "absoluteOffset": {
+                    "top": 540,
+                    "left": 180
+                  },
+                  "source": "indicatorLamp",
+                  "template": {
+                    "forScreenType": "normal",
+                    "name": "Indicator lamp",
+                    "properties": {
+                      "_blinkPeriod": 1,
+                      "_height": 30,
+                      "_width": 100,
+                      "_blinking": null,
+                      "_onColor": "#00ff00",
+                      "_value": "variableService.demo.bool",
+                      "_text": "Indicate",
+                      "_offColor": "#ff0000",
+                      "_fontColor": "#FF0000"
+                    },
+                    "source": "indicatorLamp",
+                    "hidden": null,
+                    "root": "views/fidgets/",
+                    "id": "fidget_33a61387-8dd3-b0d7-32fd-95c155c2c8f8"
+                  },
+                  "posBeforeDrag": {
+                    "top": 80,
+                    "left": 20
+                  },
+                  "id": "fidget_9212e973-c403-8de3-3f77-32f40e4d6d1f",
+                  "left": 20
+                },
+                {
+                  "containerLevel": 3,
+                  "name": "Image",
+                  "root": "views/fidgets/",
+                  "top": 20,
+                  "properties": {
+                    "_value": "variableService.demo.flexGuiSmall",
+                    "_height": "40",
+                    "_width": "40",
+                    "scale": "aspectFit"
+                  },
+                  "absoluteOffset": {
+                    "top": 480,
+                    "left": 180
+                  },
+                  "source": "image",
+                  "backgroundImage": null,
+                  "template": {
+                    "forScreenType": "normal",
+                    "name": "Image",
+                    "properties": {
+                      "_value": "variableService.demo.image",
+                      "_height": 100,
+                      "_width": 100,
+                      "scale": "aspectFit"
+                    },
+                    "source": "image",
+                    "hidden": null,
+                    "root": "views/fidgets/",
+                    "id": "fidget_c3cdd719-189c-72fe-de52-bbac4044ce70"
+                  },
+                  "posBeforeDrag": {
+                    "top": 20,
+                    "left": 20
+                  },
+                  "id": "fidget_3baaaeac-9b24-da54-6f8f-fcb5f80d491c",
+                  "left": 20
+                },
+                {
+                  "containerLevel": 3,
+                  "name": "Indicator lamp",
+                  "root": "views/fidgets/",
+                  "top": 120,
+                  "properties": {
+                    "_blinkPeriod": 1,
+                    "_height": 30,
+                    "_width": "200",
+                    "_blinking": null,
+                    "_onColor": "#00ff00",
+                    "_value": "false",
+                    "_text": "Start lamp 2",
+                    "_offColor": "#ff0000",
+                    "_fontColor": "#000000"
+                  },
+                  "absoluteOffset": {
+                    "top": 580,
+                    "left": 180
+                  },
+                  "source": "indicatorLamp",
+                  "template": {
+                    "forScreenType": "normal",
+                    "name": "Indicator lamp",
+                    "properties": {
+                      "_blinkPeriod": 1,
+                      "_height": 30,
+                      "_width": 100,
+                      "_blinking": null,
+                      "_onColor": "#00ff00",
+                      "_value": "variableService.demo.bool",
+                      "_text": "Indicate",
+                      "_offColor": "#ff0000",
+                      "_fontColor": "#FF0000"
+                    },
+                    "source": "indicatorLamp",
+                    "hidden": null,
+                    "root": "views/fidgets/",
+                    "id": "fidget_33a61387-8dd3-b0d7-32fd-95c155c2c8f8"
+                  },
+                  "posBeforeDrag": {
+                    "top": 120,
+                    "left": 20
+                  },
+                  "id": "fidget_98a626a3-846d-d9e0-a2ae-f6b5608207bb",
+                  "left": 20
+                },
+                {
+                  "containerLevel": 3,
+                  "name": "Indicator lamp",
+                  "root": "views/fidgets/",
+                  "top": 160,
+                  "properties": {
+                    "_blinkPeriod": 1,
+                    "_height": 30,
+                    "_width": "200",
+                    "_blinking": null,
+                    "_onColor": "#00ff00",
+                    "_value": "true",
+                    "_text": "Stop lamp",
+                    "_offColor": "#ff0000",
+                    "_fontColor": "#000000"
+                  },
+                  "absoluteOffset": {
+                    "top": 620,
+                    "left": 180
+                  },
+                  "source": "indicatorLamp",
+                  "template": {
+                    "forScreenType": "normal",
+                    "name": "Indicator lamp",
+                    "properties": {
+                      "_blinkPeriod": 1,
+                      "_height": 30,
+                      "_width": 100,
+                      "_blinking": null,
+                      "_onColor": "#00ff00",
+                      "_value": "variableService.demo.bool",
+                      "_text": "Indicate",
+                      "_offColor": "#ff0000",
+                      "_fontColor": "#FF0000"
+                    },
+                    "source": "indicatorLamp",
+                    "hidden": null,
+                    "root": "views/fidgets/",
+                    "id": "fidget_33a61387-8dd3-b0d7-32fd-95c155c2c8f8"
+                  },
+                  "posBeforeDrag": {
+                    "top": 160,
+                    "left": 20
+                  },
+                  "id": "fidget_97b5cfe6-e290-aa44-2df1-00cab10b868d",
+                  "left": 20
+                },
+                {
+                  "containerLevel": 3,
+                  "name": "Indicator lamp",
+                  "root": "views/fidgets/",
+                  "top": 200,
+                  "properties": {
+                    "_blinkPeriod": 1,
+                    "_height": 30,
+                    "_width": "200",
+                    "_blinking": null,
+                    "_onColor": "#00ff00",
+                    "_value": "false",
+                    "onClick": null,
+                    "_text": "Magnet-ON enable",
+                    "_offColor": "#ff0000",
+                    "_fontColor": "#000000"
+                  },
+                  "absoluteOffset": {
+                    "top": 660,
+                    "left": 180
+                  },
+                  "source": "indicatorLamp",
+                  "template": {
+                    "forScreenType": "normal",
+                    "name": "Indicator lamp",
+                    "properties": {
+                      "_blinkPeriod": 1,
+                      "_height": 30,
+                      "_width": 100,
+                      "_blinking": null,
+                      "_onColor": "#00ff00",
+                      "_value": "variableService.demo.bool",
+                      "_text": "Indicate",
+                      "_offColor": "#ff0000",
+                      "_fontColor": "#FF0000"
+                    },
+                    "source": "indicatorLamp",
+                    "hidden": null,
+                    "root": "views/fidgets/",
+                    "id": "fidget_33a61387-8dd3-b0d7-32fd-95c155c2c8f8"
+                  },
+                  "posBeforeDrag": {
+                    "top": 200,
+                    "left": 20
+                  },
+                  "id": "fidget_6c14b333-5e0a-e3fd-0763-3fa34c122d3d",
+                  "left": 20
+                },
+                {
+                  "containerLevel": 3,
+                  "name": "Indicator lamp",
+                  "root": "views/fidgets/",
+                  "top": 240,
+                  "properties": {
+                    "_blinkPeriod": 1,
+                    "_height": 30,
+                    "_width": "200",
+                    "_blinking": null,
+                    "_onColor": "#00ff00",
+                    "_value": "false",
+                    "_text": "CPU failure",
+                    "_offColor": "#ff0000",
+                    "_fontColor": "#000000"
+                  },
+                  "absoluteOffset": {
+                    "top": 700,
+                    "left": 180
+                  },
+                  "source": "indicatorLamp",
+                  "template": {
+                    "forScreenType": "normal",
+                    "name": "Indicator lamp",
+                    "properties": {
+                      "_blinkPeriod": 1,
+                      "_height": 30,
+                      "_width": 100,
+                      "_blinking": null,
+                      "_onColor": "#00ff00",
+                      "_value": "variableService.demo.bool",
+                      "_text": "Indicate",
+                      "_offColor": "#ff0000",
+                      "_fontColor": "#FF0000"
+                    },
+                    "source": "indicatorLamp",
+                    "hidden": null,
+                    "root": "views/fidgets/",
+                    "id": "fidget_50874288-6e33-156a-5c41-44a40a42b343"
+                  },
+                  "posBeforeDrag": {
+                    "top": 240,
+                    "left": 20
+                  },
+                  "id": "fidget_9f28913d-739a-ea8a-6be7-7efa0c52ebc6",
+                  "left": 20
+                },
+                {
+                  "containerLevel": 3,
+                  "name": "Indicator lamp",
+                  "root": "views/fidgets/",
+                  "top": 80,
+                  "properties": {
+                    "_blinkPeriod": 1,
+                    "_height": 30,
+                    "_width": "200",
+                    "_blinking": null,
+                    "_onColor": "#00ff00",
+                    "_value": "true",
+                    "_text": "Motors-ON request",
+                    "_offColor": "#ff0000",
+                    "_fontColor": "#000000"
+                  },
+                  "absoluteOffset": {
+                    "top": 540,
+                    "left": 400
+                  },
+                  "source": "indicatorLamp",
+                  "template": {
+                    "forScreenType": "normal",
+                    "name": "Indicator lamp",
+                    "root": "views/fidgets/",
+                    "properties": {
+                      "_blinkPeriod": 1,
+                      "_height": 30,
+                      "_width": 100,
+                      "_blinking": null,
+                      "_onColor": "#00ff00",
+                      "_value": "variableService.demo.bool",
+                      "_text": "Indicate",
+                      "_offColor": "#ff0000",
+                      "_fontColor": "#FF0000"
+                    },
+                    "source": "indicatorLamp",
+                    "hidden": null,
+                    "propertyLabels": null,
+                    "id": "fidget_50874288-6e33-156a-5c41-44a40a42b343",
+                    "icon": null
+                  },
+                  "posBeforeDrag": {
+                    "top": 80,
+                    "left": 240
+                  },
+                  "id": "fidget_627c288a-70c8-45e9-70c0-11c071206ca7",
+                  "left": 240
+                },
+                {
+                  "containerLevel": 3,
+                  "name": "Indicator lamp",
+                  "root": "views/fidgets/",
+                  "top": 120,
+                  "properties": {
+                    "_blinkPeriod": 1,
+                    "_height": 30,
+                    "_width": "200",
+                    "_blinking": null,
+                    "_onColor": "#00ff00",
+                    "_value": "false",
+                    "_text": "Start lamp 3",
+                    "_offColor": "#ff0000",
+                    "_fontColor": "#000000"
+                  },
+                  "absoluteOffset": {
+                    "top": 580,
+                    "left": 400
+                  },
+                  "source": "indicatorLamp",
+                  "template": {
+                    "forScreenType": "normal",
+                    "name": "Indicator lamp",
+                    "id": "fidget_2245de8b-4259-9577-0fcc-a92bd13be980",
+                    "source": "indicatorLamp",
+                    "hidden": null,
+                    "root": "views/fidgets/",
+                    "properties": {
+                      "_blinkPeriod": 1,
+                      "_height": 30,
+                      "_width": 100,
+                      "_blinking": null,
+                      "_onColor": "#00ff00",
+                      "_value": "variableService.demo.bool",
+                      "_text": "Indicate",
+                      "_offColor": "#ff0000",
+                      "_fontColor": "#FF0000"
+                    }
+                  },
+                  "posBeforeDrag": {
+                    "top": 120,
+                    "left": 240
+                  },
+                  "id": "fidget_1e781ca6-feec-36ea-fd0e-7651199e90da",
+                  "left": 240
+                },
+                {
+                  "containerLevel": 3,
+                  "name": "Indicator lamp",
+                  "root": "views/fidgets/",
+                  "top": 160,
+                  "properties": {
+                    "_blinkPeriod": 1,
+                    "_height": 30,
+                    "_width": "200",
+                    "_blinking": null,
+                    "_onColor": "#00ff00",
+                    "_value": "false",
+                    "_text": "TP enable release",
+                    "_offColor": "#ff0000",
+                    "_fontColor": "#000000"
+                  },
+                  "absoluteOffset": {
+                    "top": 620,
+                    "left": 400
+                  },
+                  "source": "indicatorLamp",
+                  "template": {
+                    "forScreenType": "normal",
+                    "name": "Indicator lamp",
+                    "id": "fidget_2245de8b-4259-9577-0fcc-a92bd13be980",
+                    "source": "indicatorLamp",
+                    "hidden": null,
+                    "root": "views/fidgets/",
+                    "properties": {
+                      "_blinkPeriod": 1,
+                      "_height": 30,
+                      "_width": 100,
+                      "_blinking": null,
+                      "_onColor": "#00ff00",
+                      "_value": "variableService.demo.bool",
+                      "_text": "Indicate",
+                      "_offColor": "#ff0000",
+                      "_fontColor": "#FF0000"
+                    }
+                  },
+                  "posBeforeDrag": {
+                    "top": 160,
+                    "left": 240
+                  },
+                  "id": "fidget_1b21fed5-d101-e020-fe72-843b395acdda",
+                  "left": 240
+                },
+                {
+                  "containerLevel": 3,
+                  "name": "Indicator lamp",
+                  "root": "views/fidgets/",
+                  "top": 200,
+                  "properties": {
+                    "_blinkPeriod": 1,
+                    "_height": 30,
+                    "_width": "200",
+                    "_blinking": null,
+                    "_onColor": "#00ff00",
+                    "_value": "false",
+                    "_text": "Internal/External",
+                    "_offColor": "#ff0000",
+                    "_fontColor": "#000000"
+                  },
+                  "absoluteOffset": {
+                    "top": 660,
+                    "left": 400
+                  },
+                  "source": "indicatorLamp",
+                  "template": {
+                    "forScreenType": "normal",
+                    "name": "Indicator lamp",
+                    "id": "fidget_2245de8b-4259-9577-0fcc-a92bd13be980",
+                    "source": "indicatorLamp",
+                    "hidden": null,
+                    "root": "views/fidgets/",
+                    "properties": {
+                      "_blinkPeriod": 1,
+                      "_height": 30,
+                      "_width": 100,
+                      "_blinking": null,
+                      "_onColor": "#00ff00",
+                      "_value": "variableService.demo.bool",
+                      "_text": "Indicate",
+                      "_offColor": "#ff0000",
+                      "_fontColor": "#FF0000"
+                    }
+                  },
+                  "posBeforeDrag": {
+                    "top": 200,
+                    "left": 240
+                  },
+                  "id": "fidget_d445f516-3907-05a1-9b47-81ae89176ff8",
+                  "left": 240
+                },
+                {
+                  "containerLevel": 3,
+                  "name": "Indicator lamp",
+                  "root": "views/fidgets/",
+                  "top": 240,
+                  "properties": {
+                    "_blinkPeriod": 1,
+                    "_height": 30,
+                    "_width": "200",
+                    "_blinking": null,
+                    "_onColor": "#00ff00",
+                    "_value": "false",
+                    "_text": "TP mode",
+                    "_offColor": "#ff0000",
+                    "_fontColor": "#000000"
+                  },
+                  "absoluteOffset": {
+                    "top": 700,
+                    "left": 400
+                  },
+                  "source": "indicatorLamp",
+                  "template": {
+                    "forScreenType": "normal",
+                    "name": "Indicator lamp",
+                    "id": "fidget_2245de8b-4259-9577-0fcc-a92bd13be980",
+                    "source": "indicatorLamp",
+                    "hidden": null,
+                    "root": "views/fidgets/",
+                    "properties": {
+                      "_blinkPeriod": 1,
+                      "_height": 30,
+                      "_width": 100,
+                      "_blinking": null,
+                      "_onColor": "#00ff00",
+                      "_value": "variableService.demo.bool",
+                      "_text": "Indicate",
+                      "_offColor": "#ff0000",
+                      "_fontColor": "#FF0000"
+                    }
+                  },
+                  "posBeforeDrag": {
+                    "top": 240,
+                    "left": 240
+                  },
+                  "id": "fidget_e3e2b921-fc0d-dce9-49d5-ab7ea478fc59",
+                  "left": 240
+                },
+                {
+                  "containerLevel": 3,
+                  "name": "Indicator lamp",
+                  "root": "views/fidgets/",
+                  "top": 80,
+                  "properties": {
+                    "_blinkPeriod": 1,
+                    "_height": 30,
+                    "_width": "200",
+                    "_blinking": null,
+                    "_onColor": "#00ff00",
+                    "_value": "false",
+                    "_text": "Start lamp 1",
+                    "_offColor": "#ff0000",
+                    "_fontColor": "#000000"
+                  },
+                  "absoluteOffset": {
+                    "top": 540,
+                    "left": 620
+                  },
+                  "source": "indicatorLamp",
+                  "template": {
+                    "forScreenType": "normal",
+                    "name": "Indicator lamp",
+                    "propertyLabels": null,
+                    "id": "fidget_2245de8b-4259-9577-0fcc-a92bd13be980",
+                    "source": "indicatorLamp",
+                    "hidden": null,
+                    "root": "views/fidgets/",
+                    "properties": {
+                      "_blinkPeriod": 1,
+                      "_height": 30,
+                      "_width": 100,
+                      "_blinking": null,
+                      "_onColor": "#00ff00",
+                      "_value": "variableService.demo.bool",
+                      "_text": "Indicate",
+                      "_offColor": "#ff0000",
+                      "_fontColor": "#FF0000"
+                    },
+                    "icon": null
+                  },
+                  "posBeforeDrag": {
+                    "top": 80,
+                    "left": 460
+                  },
+                  "id": "fidget_e3193b58-13e1-4101-e5ea-c47365d8b740",
+                  "left": 460
+                },
+                {
+                  "containerLevel": 3,
+                  "name": "Indicator lamp",
+                  "root": "views/fidgets/",
+                  "top": 120,
+                  "properties": {
+                    "_blinkPeriod": 1,
+                    "_height": 30,
+                    "_width": "200",
+                    "_blinking": null,
+                    "_onColor": "#00ff00",
+                    "_value": "false",
+                    "_text": "Start lamp 4",
+                    "_offColor": "#ff0000",
+                    "_fontColor": "#000000"
+                  },
+                  "absoluteOffset": {
+                    "top": 580,
+                    "left": 620
+                  },
+                  "source": "indicatorLamp",
+                  "template": {
+                    "forScreenType": "normal",
+                    "name": "Indicator lamp",
+                    "properties": {
+                      "_blinkPeriod": 1,
+                      "_height": 30,
+                      "_width": 100,
+                      "_blinking": null,
+                      "_onColor": "#00ff00",
+                      "_value": "variableService.demo.bool",
+                      "_text": "Indicate",
+                      "_offColor": "#ff0000",
+                      "_fontColor": "#FF0000"
+                    },
+                    "source": "indicatorLamp",
+                    "hidden": null,
+                    "root": "views/fidgets/",
+                    "id": "fidget_f9937c09-d4ec-ad1e-08aa-4a43e06350f8"
+                  },
+                  "posBeforeDrag": {
+                    "top": 120,
+                    "left": 460
+                  },
+                  "id": "fidget_b98472bd-170d-cf90-30a0-46a8eb2cf126",
+                  "left": 460
+                },
+                {
+                  "containerLevel": 3,
+                  "name": "Indicator lamp",
+                  "root": "views/fidgets/",
+                  "top": 160,
+                  "properties": {
+                    "_blinkPeriod": 1,
+                    "_height": 30,
+                    "_width": "200",
+                    "_blinking": null,
+                    "_onColor": "#00ff00",
+                    "_value": "false",
+                    "_text": "Motors-ON enable",
+                    "_offColor": "#ff0000",
+                    "_fontColor": "#000000"
+                  },
+                  "absoluteOffset": {
+                    "top": 620,
+                    "left": 620
+                  },
+                  "source": "indicatorLamp",
+                  "template": {
+                    "forScreenType": "normal",
+                    "name": "Indicator lamp",
+                    "properties": {
+                      "_blinkPeriod": 1,
+                      "_height": 30,
+                      "_width": 100,
+                      "_blinking": null,
+                      "_onColor": "#00ff00",
+                      "_value": "variableService.demo.bool",
+                      "_text": "Indicate",
+                      "_offColor": "#ff0000",
+                      "_fontColor": "#FF0000"
+                    },
+                    "source": "indicatorLamp",
+                    "hidden": null,
+                    "root": "views/fidgets/",
+                    "id": "fidget_f9937c09-d4ec-ad1e-08aa-4a43e06350f8"
+                  },
+                  "posBeforeDrag": {
+                    "top": 160,
+                    "left": 460
+                  },
+                  "id": "fidget_ee348314-f1b7-eab1-408e-13f5c308a624",
+                  "left": 460
+                },
+                {
+                  "containerLevel": 3,
+                  "name": "Indicator lamp",
+                  "root": "views/fidgets/",
+                  "top": 200,
+                  "properties": {
+                    "_blinkPeriod": 1,
+                    "_height": 30,
+                    "_width": "200",
+                    "_blinking": null,
+                    "_onColor": "#00ff00",
+                    "_value": "false",
+                    "_text": "WPS E-STOP ctrl",
+                    "_offColor": "#ff0000",
+                    "_fontColor": "#000000"
+                  },
+                  "absoluteOffset": {
+                    "top": 660,
+                    "left": 620
+                  },
+                  "source": "indicatorLamp",
+                  "template": {
+                    "forScreenType": "normal",
+                    "name": "Indicator lamp",
+                    "properties": {
+                      "_blinkPeriod": 1,
+                      "_height": 30,
+                      "_width": 100,
+                      "_blinking": null,
+                      "_onColor": "#00ff00",
+                      "_value": "variableService.demo.bool",
+                      "_text": "Indicate",
+                      "_offColor": "#ff0000",
+                      "_fontColor": "#FF0000"
+                    },
+                    "source": "indicatorLamp",
+                    "hidden": null,
+                    "root": "views/fidgets/",
+                    "id": "fidget_f9937c09-d4ec-ad1e-08aa-4a43e06350f8"
+                  },
+                  "posBeforeDrag": {
+                    "top": 200,
+                    "left": 460
+                  },
+                  "id": "fidget_a8521b55-5c70-1140-3d57-b625fecbe351",
+                  "left": 460
+                },
+                {
+                  "containerLevel": 3,
+                  "name": "Indicator lamp",
+                  "root": "views/fidgets/",
+                  "top": 240,
+                  "properties": {
+                    "_blinkPeriod": 1,
+                    "_height": 30,
+                    "_width": "200",
+                    "_blinking": null,
+                    "_onColor": "#00ff00",
+                    "_value": "false",
+                    "_text": "Ext. motors-ON",
+                    "_offColor": "#ff0000",
+                    "_fontColor": "#000000"
+                  },
+                  "absoluteOffset": {
+                    "top": 700,
+                    "left": 620
+                  },
+                  "source": "indicatorLamp",
+                  "template": {
+                    "forScreenType": "normal",
+                    "name": "Indicator lamp",
+                    "properties": {
+                      "_blinkPeriod": 1,
+                      "_height": 30,
+                      "_width": 100,
+                      "_blinking": null,
+                      "_onColor": "#00ff00",
+                      "_value": "variableService.demo.bool",
+                      "_text": "Indicate",
+                      "_offColor": "#ff0000",
+                      "_fontColor": "#FF0000"
+                    },
+                    "source": "indicatorLamp",
+                    "hidden": null,
+                    "root": "views/fidgets/",
+                    "id": "fidget_f9937c09-d4ec-ad1e-08aa-4a43e06350f8"
+                  },
+                  "posBeforeDrag": {
+                    "top": 240,
+                    "left": 460
+                  },
+                  "id": "fidget_d019f343-ced3-2792-399d-4f2b67efe147",
+                  "left": 460
+                }
+              ],
+              "properties": {
+                "opacity": "1",
+                "_height": "320",
+                "_width": "640",
+                "_color": "#BB6600"
+              },
+              "absoluteOffset": {
+                "top": 460,
+                "left": 160
+              },
+              "source": "fidgetGroup",
+              "template": {
+                "forScreenType": "all",
+                "name": "Fidget Group",
+                "properties": {
+                  "opacity": 0.7,
+                  "_height": 200,
+                  "_width": 200,
+                  "_color": "#D1D1D1"
+                },
+                "source": "fidgetGroup",
+                "hidden": null,
+                "root": "views/fidgets/",
+                "id": "fidget_2a140c92-6feb-2e0a-064d-e15cd0df749b",
+                "icon": "images/fidgets/box.png"
+              },
+              "icon": "images/fidgets/box.png",
+              "posBeforeDrag": {
+                "top": 2.5,
+                "left": 2
+              },
+              "id": "fidget_06114f74-8988-4cb0-b976-69cd53e54d18",
+              "left": 2
+            }
+          ],
+          "properties": {
+            "opacity": "1",
+            "_height": "324",
+            "_width": 644,
+            "_color": "#000000"
+          },
+          "absoluteOffset": {
+            "top": 457.5,
+            "left": 158
+          },
+          "source": "fidgetGroup",
+          "template": {
+            "forScreenType": "all",
+            "name": "Fidget Group",
+            "properties": {
+              "opacity": 0.7,
+              "_height": 200,
+              "_width": 200,
+              "_color": "#D1D1D1"
+            },
+            "source": "fidgetGroup",
+            "hidden": null,
+            "root": "views/fidgets/",
+            "id": "fidget_2a140c92-6feb-2e0a-064d-e15cd0df749b",
+            "icon": "images/fidgets/box.png"
+          },
+          "icon": "images/fidgets/box.png",
+          "posBeforeDrag": {
+            "top": 457.5,
+            "left": 158
+          },
+          "id": "fidget_a5a728c4-6f61-501c-c111-1fbc5717936f",
+          "originalSize": {
+            "width": 640,
+            "height": 320
+          },
+          "left": 158
+        },
+        {
+          "name": "Text",
+          "top": -57.5,
+          "id": "fidget_6219c671-b3ef-2fae-8244-ca5b55b94329",
+          "source": "text",
+          "template": {
+            "forScreenType": "all",
+            "name": "Text",
+            "propertyLabels": null,
+            "id": "fidget_cb3edd06-5147-1019-1183-a8bc599e69e6",
+            "source": "text",
+            "hidden": null,
+            "root": "views/fidgets/",
+            "properties": {
+              "_height": 25,
+              "_fontSize": 16,
+              "_width": 100,
+              "_color": "#ff0000",
+              "_text": "variableService.demo.string"
+            },
+            "icon": "images/fidgets/text.png"
+          },
+          "left": 120,
+          "root": "views/fidgets/",
+          "properties": {
+            "_height": 25,
+            "_fontSize": "30",
+            "_width": "650",
+            "_color": "#FFFFFF",
+            "_text": "Input and output monitoring and control"
+          },
+          "icon": "images/fidgets/text.png",
+          "containerLevel": 1,
+          "absoluteOffset": {
+            "top": -57.5,
+            "left": 120
+          }
+        }
+      ],
+      "id": "screen-f60d2f15-73e9-8b7b-b0bd-2e635f8e9894",
+      "backgroundImage": null,
+      "backgroundColor": null,
+      "indexImage": "data:image/jpeg;base64,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",
+      "backgroundType": {
+        "name": "Color",
+        "key": 0
+      },
+      "type": "normal",
+      "properties": {
+        "name": "Monitoring"
+      }
+    },
+    {
+      "containerLevel": 0,
+      "fidgets": [
+        {
+          "containerLevel": 1,
+          "name": "Fidget Group",
+          "root": "views/fidgets/",
+          "top": 124,
+          "fidgets": [
+            {
+              "containerLevel": 2,
+              "name": "Text",
+              "root": "views/fidgets/",
+              "top": 20,
+              "properties": {
+                "_color": "#000000",
+                "_height": 25,
+                "_fontSize": 16,
+                "_width": "200",
+                "_text": "Select amount of Nuts"
+              },
+              "absoluteOffset": {
+                "top": 144,
+                "left": 167
+              },
+              "source": "text",
+              "template": {
+                "forScreenType": "all",
+                "name": "Text",
+                "propertyLabels": null,
+                "id": "fidget_935d0255-6fde-b20d-7cc1-604ea0a43029",
+                "source": "text",
+                "hidden": null,
+                "root": "views/fidgets/",
+                "properties": {
+                  "_height": 25,
+                  "_fontSize": 16,
+                  "_width": 100,
+                  "_color": "#ff0000",
+                  "_text": "variableService.demo.string"
+                },
+                "icon": "images/fidgets/text.png"
+              },
+              "icon": "images/fidgets/text.png",
+              "posBeforeDrag": {
+                "top": 20,
+                "left": 20
+              },
+              "id": "fidget_5301ad27-7933-0cbf-d56a-5bdb2335ef3d",
+              "left": 20
+            },
+            {
+              "containerLevel": 2,
+              "name": "Image",
+              "root": "views/fidgets/",
+              "top": 60,
+              "properties": {
+                "_value": "variableService.demo.nut",
+                "_height": "120",
+                "_width": "120",
+                "scale": "aspectFit"
+              },
+              "absoluteOffset": {
+                "top": 184,
+                "left": 187
+              },
+              "source": "image",
+              "backgroundImage": null,
+              "template": {
+                "forScreenType": "normal",
+                "name": "Image",
+                "properties": {
+                  "_value": "variableService.demo.image",
+                  "_height": 100,
+                  "_width": 100,
+                  "scale": "aspectFit"
+                },
+                "source": "image",
+                "hidden": null,
+                "root": "views/fidgets/",
+                "id": "fidget_c3cdd719-189c-72fe-de52-bbac4044ce70"
+              },
+              "posBeforeDrag": {
+                "top": 60,
+                "left": 40
+              },
+              "id": "fidget_6feaf126-12b9-f23a-0217-581c623b4133",
+              "left": 40
+            },
+            {
+              "containerLevel": 2,
+              "name": "Radio button",
+              "root": "views/fidgets/",
+              "top": 20,
+              "properties": {
+                "_options": "one,two,three,four,five",
+                "_height": "200",
+                "_width": 100,
+                "_value": "nutCount",
+                "_fontColor": "#00009C"
+              },
+              "absoluteOffset": {
+                "top": 144,
+                "left": 427
+              },
+              "source": "radioButton",
+              "backgroundImage": null,
+              "template": {
+                "forScreenType": "normal",
+                "name": "Radio button",
+                "properties": {
+                  "_value": "'lorem'",
+                  "_height": 100,
+                  "_options": "lorem,ipsum",
+                  "_width": 100,
+                  "_fontColor": "#FF0000"
+                },
+                "source": "radioButton",
+                "hidden": null,
+                "root": "views/fidgets/",
+                "id": "fidget_a759bbcf-aef7-2bcd-35cf-483548669c7f"
+              },
+              "posBeforeDrag": {
+                "top": 20,
+                "left": 280
+              },
+              "id": "fidget_8822ffc3-1a06-38f1-cd84-22673ec701cb",
+              "left": 280
+            }
+          ],
+          "properties": {
+            "opacity": "1",
+            "_height": "230",
+            "_width": "400",
+            "_color": "#D1D1D1"
+          },
+          "absoluteOffset": {
+            "top": 124,
+            "left": 147
+          },
+          "source": "fidgetGroup",
+          "backgroundImage": null,
+          "template": {
+            "forScreenType": "all",
+            "name": "Fidget Group",
+            "properties": {
+              "opacity": 0.7,
+              "_height": 200,
+              "_width": 200,
+              "_color": "#D1D1D1"
+            },
+            "source": "fidgetGroup",
+            "hidden": null,
+            "root": "views/fidgets/",
+            "id": "fidget_3f1f25a6-1784-65e1-365d-3d2fb65d66d0",
+            "icon": "images/fidgets/box.png"
+          },
+          "icon": "images/fidgets/box.png",
+          "posBeforeDrag": {
+            "top": 124,
+            "left": 147
+          },
+          "id": "fidget_388f0233-0de2-0157-72cf-f2871f984868",
+          "left": 147
+        },
+        {
+          "containerLevel": 1,
+          "name": "Fidget Group",
+          "root": "views/fidgets/",
+          "top": 371,
+          "fidgets": [
+            {
+              "containerLevel": 2,
+              "name": "Text",
+              "root": "views/fidgets/",
+              "top": 20,
+              "properties": {
+                "_color": "#000000",
+                "_height": 25,
+                "_fontSize": 16,
+                "_width": "200",
+                "_text": "Select amount of Bolts"
+              },
+              "absoluteOffset": {
+                "top": 391,
+                "left": 169
+              },
+              "source": "text",
+              "template": {
+                "forScreenType": "all",
+                "name": "Text",
+                "root": "views/fidgets/",
+                "properties": {
+                  "_height": 25,
+                  "_fontSize": 16,
+                  "_width": 100,
+                  "_color": "#ff0000",
+                  "_text": "variableService.demo.string"
+                },
+                "source": "text",
+                "hidden": null,
+                "propertyLabels": null,
+                "id": "fidget_ee5adacb-4396-95d3-3c74-2974f2e35223",
+                "icon": "images/fidgets/text.png"
+              },
+              "icon": "images/fidgets/text.png",
+              "posBeforeDrag": {
+                "top": 20,
+                "left": 20
+              },
+              "id": "fidget_1fe2c48d-8b5b-f05f-378d-eb8009160039",
+              "left": 20
+            },
+            {
+              "containerLevel": 2,
+              "name": "Image",
+              "root": "views/fidgets/",
+              "top": 60,
+              "properties": {
+                "_value": "variableService.demo.bolt",
+                "_height": "120",
+                "_width": "120",
+                "scale": "aspectFit"
+              },
+              "absoluteOffset": {
+                "top": 431,
+                "left": 189
+              },
+              "source": "image",
+              "backgroundImage": null,
+              "template": {
+                "forScreenType": "normal",
+                "name": "Image",
+                "properties": {
+                  "_value": "variableService.demo.image",
+                  "_height": 100,
+                  "_width": 100,
+                  "scale": "aspectFit"
+                },
+                "source": "image",
+                "hidden": null,
+                "root": "views/fidgets/",
+                "id": "fidget_c3cdd719-189c-72fe-de52-bbac4044ce70"
+              },
+              "posBeforeDrag": {
+                "top": 60,
+                "left": 40
+              },
+              "id": "fidget_d4354cd5-fbe7-76ce-7436-997a8596af16",
+              "left": 40
+            },
+            {
+              "containerLevel": 2,
+              "name": "Radio button",
+              "root": "views/fidgets/",
+              "top": 20,
+              "properties": {
+                "_options": "one,two,three,four,five",
+                "_height": "200",
+                "_width": 100,
+                "_value": "boltCount",
+                "_fontColor": "#00009C"
+              },
+              "absoluteOffset": {
+                "top": 391,
+                "left": 429
+              },
+              "source": "radioButton",
+              "backgroundImage": null,
+              "template": {
+                "forScreenType": "normal",
+                "name": "Radio button",
+                "properties": {
+                  "_value": "'lorem'",
+                  "_height": 100,
+                  "_options": "lorem,ipsum",
+                  "_width": 100,
+                  "_fontColor": "#FF0000"
+                },
+                "source": "radioButton",
+                "hidden": null,
+                "root": "views/fidgets/",
+                "id": "fidget_a759bbcf-aef7-2bcd-35cf-483548669c7f"
+              },
+              "posBeforeDrag": {
+                "top": 20,
+                "left": 280
+              },
+              "id": "fidget_ad02416b-1f2e-3d5f-c166-85e82617fb1d",
+              "left": 280
+            }
+          ],
+          "properties": {
+            "opacity": "1",
+            "_height": "230",
+            "_width": "400",
+            "_color": "#D1D1D1"
+          },
+          "absoluteOffset": {
+            "top": 371,
+            "left": 149
+          },
+          "source": "fidgetGroup",
+          "backgroundImage": null,
+          "template": {
+            "forScreenType": "all",
+            "name": "Fidget Group",
+            "root": "views/fidgets/",
+            "properties": {
+              "opacity": 0.7,
+              "_height": 200,
+              "_width": 200,
+              "_color": "#D1D1D1"
+            },
+            "source": "fidgetGroup",
+            "hidden": null,
+            "propertyLabels": null,
+            "id": "fidget_3f1f25a6-1784-65e1-365d-3d2fb65d66d0",
+            "icon": "images/fidgets/box.png"
+          },
+          "icon": "images/fidgets/box.png",
+          "posBeforeDrag": {
+            "top": 371,
+            "left": 149
+          },
+          "id": "fidget_6a1bc2e6-2e69-0b21-daf2-17de2e690818",
+          "left": 149
+        },
+        {
+          "containerLevel": 1,
+          "name": "Fidget Group",
+          "root": "views/fidgets/",
+          "top": 125,
+          "fidgets": [
+            {
+              "containerLevel": 2,
+              "name": "Text",
+              "root": "views/fidgets/",
+              "top": 20,
+              "properties": {
+                "_color": "#000000",
+                "_height": 25,
+                "_fontSize": 16,
+                "_width": "280",
+                "_text": "Progress for current order"
+              },
+              "absoluteOffset": {
+                "top": 145,
+                "left": 603
+              },
+              "source": "text",
+              "template": {
+                "forScreenType": "all",
+                "name": "Text",
+                "id": "fidget_306b7866-8458-0621-e700-154be4906d57",
+                "source": "text",
+                "hidden": null,
+                "root": "views/fidgets/",
+                "properties": {
+                  "_height": 25,
+                  "_fontSize": 16,
+                  "_width": 100,
+                  "_color": "#ff0000",
+                  "_text": "variableService.demo.string"
+                },
+                "icon": "images/fidgets/text.png"
+              },
+              "icon": "images/fidgets/text.png",
+              "posBeforeDrag": {
+                "top": 20,
+                "left": 20
+              },
+              "id": "fidget_a5334651-de3c-9920-c5ac-bc717dbddaa9",
+              "left": 20
+            },
+            {
+              "containerLevel": 2,
+              "name": "Text",
+              "root": "views/fidgets/",
+              "top": 60,
+              "properties": {
+                "_color": "#00009C",
+                "_height": 25,
+                "_fontSize": 16,
+                "_width": 100,
+                "_text": "nutCount"
+              },
+              "absoluteOffset": {
+                "top": 185,
+                "left": 773
+              },
+              "source": "text",
+              "backgroundImage": null,
+              "template": {
+                "forScreenType": "all",
+                "name": "Text",
+                "id": "fidget_306b7866-8458-0621-e700-154be4906d57",
+                "source": "text",
+                "hidden": null,
+                "root": "views/fidgets/",
+                "properties": {
+                  "_height": 25,
+                  "_fontSize": 16,
+                  "_width": 100,
+                  "_color": "#ff0000",
+                  "_text": "variableService.demo.string"
+                },
+                "icon": "images/fidgets/text.png"
+              },
+              "icon": "images/fidgets/text.png",
+              "posBeforeDrag": {
+                "top": 60,
+                "left": 160
+              },
+              "id": "fidget_f6039aa4-93bd-6af3-57dd-d1f9072a9dcb",
+              "left": 190
+            },
+            {
+              "containerLevel": 2,
+              "name": "Text",
+              "root": "views/fidgets/",
+              "top": 60,
+              "properties": {
+                "_color": "#000000",
+                "_height": 25,
+                "_fontSize": 16,
+                "_width": 100,
+                "_text": "Nuts:"
+              },
+              "absoluteOffset": {
+                "top": 185,
+                "left": 623
+              },
+              "source": "text",
+              "template": {
+                "forScreenType": "all",
+                "name": "Text",
+                "id": "fidget_306b7866-8458-0621-e700-154be4906d57",
+                "source": "text",
+                "hidden": null,
+                "root": "views/fidgets/",
+                "properties": {
+                  "_height": 25,
+                  "_fontSize": 16,
+                  "_width": 100,
+                  "_color": "#ff0000",
+                  "_text": "variableService.demo.string"
+                },
+                "icon": "images/fidgets/text.png"
+              },
+              "icon": "images/fidgets/text.png",
+              "posBeforeDrag": {
+                "top": 60,
+                "left": 40
+              },
+              "id": "fidget_9d37d16f-3d5b-e186-6543-a6d00c72c47c",
+              "left": 40
+            },
+            {
+              "containerLevel": 2,
+              "name": "Text",
+              "root": "views/fidgets/",
+              "top": 87,
+              "properties": {
+                "_color": "#000000",
+                "_height": 25,
+                "_fontSize": 16,
+                "_width": 100,
+                "_text": "Bolts:"
+              },
+              "absoluteOffset": {
+                "top": 212,
+                "left": 623
+              },
+              "source": "text",
+              "template": {
+                "forScreenType": "all",
+                "name": "Text",
+                "id": "fidget_306b7866-8458-0621-e700-154be4906d57",
+                "source": "text",
+                "hidden": null,
+                "root": "views/fidgets/",
+                "properties": {
+                  "_height": 25,
+                  "_fontSize": 16,
+                  "_width": 100,
+                  "_color": "#ff0000",
+                  "_text": "variableService.demo.string"
+                },
+                "icon": "images/fidgets/text.png"
+              },
+              "icon": "images/fidgets/text.png",
+              "posBeforeDrag": {
+                "top": 90,
+                "left": 40
+              },
+              "id": "fidget_ea506137-ace1-3b08-0b64-5ed18fbec01e",
+              "left": 40
+            },
+            {
+              "containerLevel": 2,
+              "name": "Text",
+              "root": "views/fidgets/",
+              "top": 87,
+              "properties": {
+                "_color": "#00009C",
+                "_height": 25,
+                "_fontSize": 16,
+                "_width": 100,
+                "_text": "boltCount"
+              },
+              "absoluteOffset": {
+                "top": 212,
+                "left": 773
+              },
+              "source": "text",
+              "backgroundImage": null,
+              "template": {
+                "forScreenType": "all",
+                "name": "Text",
+                "propertyLabels": null,
+                "id": "fidget_306b7866-8458-0621-e700-154be4906d57",
+                "source": "text",
+                "hidden": null,
+                "root": "views/fidgets/",
+                "properties": {
+                  "_height": 25,
+                  "_fontSize": 16,
+                  "_width": 100,
+                  "_color": "#ff0000",
+                  "_text": "variableService.demo.string"
+                },
+                "icon": "images/fidgets/text.png"
+              },
+              "icon": "images/fidgets/text.png",
+              "posBeforeDrag": {
+                "top": 90,
+                "left": 190
+              },
+              "id": "fidget_5fa203a4-82c7-b6eb-7090-acfc80d606bd",
+              "left": 190
+            },
+            {
+              "containerLevel": 2,
+              "name": "Progress bar",
+              "root": "views/fidgets/",
+              "top": 140,
+              "properties": {
+                "_value": "progressPacking/totalPacking*100",
+                "_height": "40",
+                "_width": "280",
+                "_color": "#00A500"
+              },
+              "absoluteOffset": {
+                "top": 265,
+                "left": 603
+              },
+              "source": "progressBar",
+              "backgroundImage": null,
+              "template": {
+                "forScreenType": "normal",
+                "name": "Progress bar",
+                "properties": {
+                  "_value": "variableService.demo.int",
+                  "_height": 30,
+                  "_width": 100,
+                  "_color": "#ff0000"
+                },
+                "source": "progressBar",
+                "hidden": null,
+                "root": "views/fidgets/",
+                "id": "fidget_613e93ea-dfb6-89ae-f182-3d539c7f5575"
+              },
+              "posBeforeDrag": {
+                "top": 140,
+                "left": 20
+              },
+              "id": "fidget_b6a8ce0a-f68c-366e-e645-caa47dcd109e",
+              "left": 20
+            },
+            {
+              "containerLevel": 2,
+              "name": "Text",
+              "root": "views/fidgets/",
+              "top": 114,
+              "properties": {
+                "_color": "#000000",
+                "_height": 25,
+                "_fontSize": 16,
+                "_width": "150",
+                "_text": "Target container:"
+              },
+              "absoluteOffset": {
+                "top": 239,
+                "left": 624
+              },
+              "source": "text",
+              "backgroundImage": null,
+              "template": {
+                "forScreenType": "all",
+                "name": "Text",
+                "root": "views/fidgets/",
+                "properties": {
+                  "_height": 25,
+                  "_fontSize": 16,
+                  "_width": 100,
+                  "_color": "#ff0000",
+                  "_text": "variableService.demo.string"
+                },
+                "source": "text",
+                "hidden": null,
+                "propertyLabels": null,
+                "id": "fidget_aa97fe5e-0f52-359b-fad5-29187fb26cfc",
+                "icon": "images/fidgets/text.png"
+              },
+              "icon": "images/fidgets/text.png",
+              "posBeforeDrag": {
+                "top": 114,
+                "left": 41
+              },
+              "id": "fidget_abeca9b6-1f80-c615-754c-192247453094",
+              "left": 41
+            },
+            {
+              "containerLevel": 2,
+              "name": "Text",
+              "root": "views/fidgets/",
+              "top": 114,
+              "properties": {
+                "_color": "#00009C",
+                "_height": 25,
+                "_fontSize": 16,
+                "_width": 100,
+                "_text": "targetPacking"
+              },
+              "absoluteOffset": {
+                "top": 239,
+                "left": 772
+              },
+              "source": "text",
+              "backgroundImage": null,
+              "template": {
+                "forScreenType": "all",
+                "name": "Text",
+                "propertyLabels": null,
+                "id": "fidget_67888447-7767-596f-888b-cf22fafa3acc",
+                "source": "text",
+                "hidden": null,
+                "root": "views/fidgets/",
+                "properties": {
+                  "_height": 25,
+                  "_fontSize": 16,
+                  "_width": 100,
+                  "_color": "#ff0000",
+                  "_text": "variableService.demo.string"
+                },
+                "icon": "images/fidgets/text.png"
+              },
+              "icon": "images/fidgets/text.png",
+              "posBeforeDrag": {
+                "top": 114,
+                "left": 189
+              },
+              "id": "fidget_fe5163f8-9e82-fdc6-1778-42936e08528e",
+              "left": 189
+            },
+            {
+              "containerLevel": 2,
+              "name": "Fidget Group",
+              "root": "views/fidgets/",
+              "top": 247,
+              "fidgets": [
+                {
+                  "containerLevel": 3,
+                  "name": "Text",
+                  "root": "views/fidgets/",
+                  "top": 20,
+                  "properties": {
+                    "_color": "#000000",
+                    "_height": 25,
+                    "_fontSize": 16,
+                    "_width": "300",
+                    "_text": "Choose placement"
+                  },
+                  "absoluteOffset": {
+                    "top": 392,
+                    "left": 604
+                  },
+                  "source": "text",
+                  "template": {
+                    "forScreenType": "all",
+                    "name": "Text",
+                    "root": "views/fidgets/",
+                    "properties": {
+                      "_height": 25,
+                      "_fontSize": 16,
+                      "_width": 100,
+                      "_color": "#ff0000",
+                      "_text": "variableService.demo.string"
+                    },
+                    "source": "text",
+                    "hidden": null,
+                    "propertyLabels": null,
+                    "id": "fidget_306b7866-8458-0621-e700-154be4906d57",
+                    "icon": "images/fidgets/text.png"
+                  },
+                  "icon": "images/fidgets/text.png",
+                  "posBeforeDrag": {
+                    "top": 20,
+                    "left": 20
+                  },
+                  "id": "fidget_3229503d-0ad5-0467-1a0a-425422792f6f",
+                  "left": 20
+                },
+                {
+                  "containerLevel": 3,
+                  "name": "Button",
+                  "root": "views/fidgets/",
+                  "top": 60,
+                  "properties": {
+                    "_height": "40",
+                    "_width": "120",
+                    "onClick": "startPacking(1)",
+                    "_text": "Pack to Box 1"
+                  },
+                  "absoluteOffset": {
+                    "top": 432,
+                    "left": 684
+                  },
+                  "source": "button",
+                  "backgroundImage": null,
+                  "template": {
+                    "forScreenType": "normal",
+                    "name": "Button",
+                    "properties": {
+                      "_height": 30,
+                      "_width": 100,
+                      "onClick": "#message('Default button action.')",
+                      "_text": "Click me"
+                    },
+                    "source": "button",
+                    "hidden": null,
+                    "root": "views/fidgets/",
+                    "id": "fidget_9bbdd986-ef3a-885b-7d4a-174fe06a38c3"
+                  },
+                  "posBeforeDrag": {
+                    "top": 60,
+                    "left": 100
+                  },
+                  "id": "fidget_3a006aa8-a5c0-1ea5-967f-c1d2780cfb48",
+                  "left": 100
+                },
+                {
+                  "containerLevel": 3,
+                  "name": "Button",
+                  "root": "views/fidgets/",
+                  "top": 112,
+                  "properties": {
+                    "_height": "40",
+                    "_width": "120",
+                    "onClick": "startPacking(2)",
+                    "_text": "Pack to Box 2"
+                  },
+                  "absoluteOffset": {
+                    "top": 484,
+                    "left": 686
+                  },
+                  "source": "button",
+                  "backgroundImage": null,
+                  "template": {
+                    "forScreenType": "normal",
+                    "name": "Button",
+                    "properties": {
+                      "_height": 30,
+                      "_width": 100,
+                      "onClick": "#message('Default button action.')",
+                      "_text": "Click me"
+                    },
+                    "source": "button",
+                    "hidden": null,
+                    "root": "views/fidgets/",
+                    "id": "fidget_488e95fe-3e51-52db-2471-dc8b9bc5061b"
+                  },
+                  "posBeforeDrag": {
+                    "top": 112,
+                    "left": 102
+                  },
+                  "id": "fidget_bb920f74-86a4-f458-2476-4eb6290990bc",
+                  "left": 102
+                },
+                {
+                  "containerLevel": 3,
+                  "name": "Button",
+                  "root": "views/fidgets/",
+                  "top": 165,
+                  "properties": {
+                    "_height": "40",
+                    "_width": "120",
+                    "onClick": "startPacking(3)",
+                    "_text": "Pack to Box 3"
+                  },
+                  "absoluteOffset": {
+                    "top": 537,
+                    "left": 686
+                  },
+                  "source": "button",
+                  "backgroundImage": null,
+                  "template": {
+                    "forScreenType": "normal",
+                    "name": "Button",
+                    "root": "views/fidgets/",
+                    "properties": {
+                      "_height": 30,
+                      "_width": 100,
+                      "onClick": "#message('Default button action.')",
+                      "_text": "Click me"
+                    },
+                    "source": "button",
+                    "hidden": null,
+                    "propertyLabels": null,
+                    "id": "fidget_488e95fe-3e51-52db-2471-dc8b9bc5061b",
+                    "icon": null
+                  },
+                  "posBeforeDrag": {
+                    "top": 165,
+                    "left": 102
+                  },
+                  "id": "fidget_e7492d94-6134-ec19-11e0-3d98a10d2cf1",
+                  "left": 102
+                }
+              ],
+              "properties": {
+                "opacity": "1",
+                "_height": "230",
+                "_width": "320",
+                "_color": "#D1D1D1"
+              },
+              "absoluteOffset": {
+                "top": 372,
+                "left": 584
+              },
+              "source": "fidgetGroup",
+              "backgroundImage": null,
+              "template": {
+                "forScreenType": "all",
+                "name": "Fidget Group",
+                "id": "fidget_2ad0a877-41b7-d1c4-5ab0-f15503e29f17",
+                "source": "fidgetGroup",
+                "hidden": null,
+                "root": "views/fidgets/",
+                "properties": {
+                  "opacity": 0.7,
+                  "_height": 200,
+                  "_width": 200,
+                  "_color": "#D1D1D1"
+                },
+                "icon": "images/fidgets/box.png"
+              },
+              "icon": "images/fidgets/box.png",
+              "posBeforeDrag": {
+                "top": 247,
+                "left": 2
+              },
+              "id": "fidget_bdb7fc02-cea4-3bc8-ccc4-597c3c6bc234",
+              "left": 1
+            }
+          ],
+          "properties": {
+            "opacity": "1",
+            "_height": "230",
+            "_width": "320",
+            "_color": "#D1D1D1"
+          },
+          "absoluteOffset": {
+            "top": 125,
+            "left": 583
+          },
+          "source": "fidgetGroup",
+          "backgroundImage": null,
+          "template": {
+            "forScreenType": "all",
+            "name": "Fidget Group",
+            "id": "fidget_2ad0a877-41b7-d1c4-5ab0-f15503e29f17",
+            "source": "fidgetGroup",
+            "hidden": null,
+            "root": "views/fidgets/",
+            "properties": {
+              "opacity": 0.7,
+              "_height": 200,
+              "_width": 200,
+              "_color": "#D1D1D1"
+            },
+            "icon": "images/fidgets/box.png"
+          },
+          "icon": "images/fidgets/box.png",
+          "posBeforeDrag": {
+            "top": 126,
+            "left": 583
+          },
+          "id": "fidget_e227ca3c-f196-ea17-bf22-cf629cb1f8b2",
+          "left": 583
+        },
+        {
+          "containerLevel": 1,
+          "name": "Text",
+          "top": -57.5,
+          "id": "fidget_646db63c-3168-4e6e-5da9-449b64c367dc",
+          "source": "text",
+          "template": {
+            "forScreenType": "all",
+            "name": "Text",
+            "id": "fidget_cb3edd06-5147-1019-1183-a8bc599e69e6",
+            "source": "text",
+            "hidden": null,
+            "root": "views/fidgets/",
+            "properties": {
+              "_height": 25,
+              "_fontSize": 16,
+              "_width": 100,
+              "_color": "#ff0000",
+              "_text": "variableService.demo.string"
+            },
+            "icon": "images/fidgets/text.png"
+          },
+          "left": 120,
+          "root": "views/fidgets/",
+          "properties": {
+            "_height": 25,
+            "_fontSize": "30",
+            "_width": "650",
+            "_color": "#FFFFFF",
+            "_text": "Input and output monitoring and control"
+          },
+          "icon": "images/fidgets/text.png",
+          "absoluteOffset": {
+            "top": -57.5,
+            "left": 120
+          }
+        },
+        {
+          "root": "views/fidgets/",
+          "source": "text",
+          "left": 153,
+          "top": 49.5,
+          "properties": {
+            "_height": 25,
+            "_fontSize": "30",
+            "_width": "650",
+            "_color": "#000000",
+            "_text": "Nuts and Bolts packaging"
+          },
+          "icon": "images/fidgets/text.png",
+          "name": "Text",
+          "id": "fidget_6151bd85-3f1e-c3d0-c0c2-6936dca049b2",
+          "template": {
+            "root": "views/fidgets/",
+            "icon": "images/fidgets/text.png",
+            "forScreenType": "all",
+            "source": "text",
+            "hidden": false,
+            "properties": {
+              "_width": 100,
+              "_height": 25,
+              "_fontSize": 16,
+              "_color": "#ff0000",
+              "_text": "variableService.demo.string"
+            },
+            "name": "Text",
+            "id": "fidget_3ee80998-eca3-1d17-f629-18719e424d7e"
+          },
+          "posBeforeDrag": {
+            "left": 153,
+            "top": 49.5
+          },
+          "absoluteOffset": {
+            "top": 49.5,
+            "left": 153
+          },
+          "backgroundImage": null,
+          "containerLevel": 1
+        }
+      ],
+      "id": "screen-24b5b024-2663-129b-93f7-667771090cdc",
+      "backgroundImage": null,
+      "backgroundColor": null,
+      "indexImage": "data:image/jpeg;base64,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+fqb/v4ar0UAWPt13j/j6m/7+Gj7bd/8/M3/AH2ar0tAE/227/5+pv8Avs0v227/AOfqb/v4ar0UAT/bbvH/AB9Tf9/DS/bbv/n5m/77NV896KALH227/wCfmb/vs0fbbv8A5+pv+/hqv7UUAWPtt3j/AI+pv++zR9tu/wDn5m/77NQe9FAEslzPKu2SaRx6MxI/Ko/zpPaj86AJY7meJMRzSIp5wrEc1J9uu8/8fM3/AH2arZ78/WloAsfbrv8A5+Zs/wC+aPtt3/z8zf8AfZqt7UuaALH267x/x8zY/wB80fbbv/n5m/77NV/fn60fnQBY+23f/PzNn/fNH227/wCfmb/vs1X9v0o/OgCx9uu8f8fU2P8AfNH267/5+Zv++zVfJ65P1ooAsfbrvP8Ax8zZ/wB80fbrv/n6m/77NV/b9KKAJ/t13j/j6m/77NL9tu8/8fM3/fZqvnvz9aKAJ/t13/z9TZ/3zSNeXLqVa4lZTwQXJFQe36UUAHvk/WijPf8AWigA9qKSigA96KM96SgAooooAPeiikoAWikooAKKKKACiiigApaSigBaKSigBaKSloAKKKKAClpKKADNLSZooAWikooAX3pabS0AHal/OkozQAufrRSZ70UALR3pKXNAB780vtzSZ70UAHtR+dFGaADPfmijPeigAo/Okpc0AGe/NH50me9LQAUfnSZozQAZ780UZ70UAFFJRQAe9FGaKACikooAWkoooAKKKKACikpaACiiigAooooAKKKKACiiigApaSigBaKSloAKKSloAKKKKACiiigApaSigAzS0maKAFopKKAFzRRmigAozRRmgAopM0UALRSUUALmikzRQAtFJRQAUUZooAKKKKACikooAKKKKACiiigAooooASiiigApaSigBaKKKACiiigAooooAKKKKACiiigAooooAKWkooAWikpaACikpaACiiigAooooAKKKKACiiigAooooAKKKKACiiigAopKKAFopKKACiiigAooooAKKKKACiiigAooooASiiigAooooAKWkooAKWkooAWikpaACikpaACiiigAooooAKKKKACiiigAooooAKKKKACiiigApaSigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACikooAWikooAKWkooA//2Q==",
+      "backgroundType": {
+        "name": "Color",
+        "key": 0
+      },
+      "type": "normal",
+      "properties": {
+        "name": "Packaging"
+      }
+    },
+    {
+      "containerLevel": 0,
+      "fidgets": [
+        {
+          "containerLevel": 1,
+          "name": "Fidget Group",
+          "root": "views/fidgets/",
+          "top": 108,
+          "fidgets": [
+            {
+              "containerLevel": 2,
+              "name": "Text",
+              "root": "views/fidgets/",
+              "top": 20,
+              "properties": {
+                "_color": "#000000",
+                "_height": 25,
+                "_fontSize": 16,
+                "_width": "200",
+                "_text": "Select Part and Table"
+              },
+              "absoluteOffset": {
+                "top": 128,
+                "left": 170
+              },
+              "source": "text",
+              "template": {
+                "forScreenType": "all",
+                "name": "Text",
+                "propertyLabels": null,
+                "id": "fidget_c2ebc02a-97a7-1704-4570-3a152eee9fda",
+                "source": "text",
+                "hidden": null,
+                "root": "views/fidgets/",
+                "properties": {
+                  "_height": 25,
+                  "_fontSize": 16,
+                  "_width": 100,
+                  "_color": "#ff0000",
+                  "_text": "variableService.demo.string"
+                },
+                "icon": "images/fidgets/text.png"
+              },
+              "icon": "images/fidgets/text.png",
+              "posBeforeDrag": {
+                "top": 20,
+                "left": 20
+              },
+              "id": "fidget_1c5f8326-e959-7585-c886-5c4d73d79b62",
+              "left": 20
+            },
+            {
+              "containerLevel": 2,
+              "name": "Image",
+              "root": "views/fidgets/",
+              "top": 60,
+              "properties": {
+                "_value": "variableService.demo.part1",
+                "_height": 100,
+                "_width": 100,
+                "scale": "aspectFit"
+              },
+              "absoluteOffset": {
+                "top": 168,
+                "left": 170
+              },
+              "source": "image",
+              "backgroundImage": null,
+              "template": {
+                "forScreenType": "normal",
+                "name": "Image",
+                "properties": {
+                  "_value": "variableService.demo.image",
+                  "_height": 100,
+                  "_width": 100,
+                  "scale": "aspectFit"
+                },
+                "source": "image",
+                "hidden": null,
+                "root": "views/fidgets/",
+                "id": "fidget_606a4b85-747a-5d32-9abe-b415b26602f6"
+              },
+              "posBeforeDrag": {
+                "top": 60,
+                "left": 20
+              },
+              "id": "fidget_c72c6210-8279-5294-a5e1-469dc7149605",
+              "left": 20
+            },
+            {
+              "containerLevel": 2,
+              "name": "Image",
+              "root": "views/fidgets/",
+              "top": 200,
+              "properties": {
+                "_value": "variableService.demo.part2",
+                "_height": 100,
+                "_width": 100,
+                "scale": "aspectFit"
+              },
+              "absoluteOffset": {
+                "top": 308,
+                "left": 170
+              },
+              "source": "image",
+              "backgroundImage": null,
+              "template": {
+                "forScreenType": "normal",
+                "name": "Image",
+                "root": "views/fidgets/",
+                "properties": {
+                  "_value": "variableService.demo.image",
+                  "_height": 100,
+                  "_width": 100,
+                  "scale": "aspectFit"
+                },
+                "source": "image",
+                "hidden": null,
+                "propertyLabels": null,
+                "id": "fidget_606a4b85-747a-5d32-9abe-b415b26602f6",
+                "icon": null
+              },
+              "posBeforeDrag": {
+                "top": 200,
+                "left": 20
+              },
+              "id": "fidget_07b48d66-e592-893e-0895-a563881d97f6",
+              "left": 20
+            },
+            {
+              "containerLevel": 2,
+              "name": "Image",
+              "root": "views/fidgets/",
+              "top": 340,
+              "properties": {
+                "_value": "variableService.demo.part3",
+                "_height": 100,
+                "_width": 100,
+                "scale": "aspectFit"
+              },
+              "absoluteOffset": {
+                "top": 448,
+                "left": 170
+              },
+              "source": "image",
+              "backgroundImage": null,
+              "template": {
+                "forScreenType": "normal",
+                "name": "Image",
+                "id": "fidget_6b4201d5-2dd6-7675-d0e2-3c179af06c75",
+                "source": "image",
+                "hidden": null,
+                "root": "views/fidgets/",
+                "properties": {
+                  "_value": "variableService.demo.image",
+                  "_height": 100,
+                  "_width": 100,
+                  "scale": "aspectFit"
+                }
+              },
+              "posBeforeDrag": {
+                "top": 340,
+                "left": 20
+              },
+              "id": "fidget_c38b8e51-79cc-1333-96a3-7a2028c87d20",
+              "left": 20
+            },
+            {
+              "containerLevel": 2,
+              "name": "Button",
+              "root": "views/fidgets/",
+              "top": 60,
+              "properties": {
+                "_height": "40",
+                "_width": 100,
+                "onClick": "if (part1 == 1)\n    #message(\"The part is already taken!\")\n\npart1 = 1;\npickProgress = 0;",
+                "_text": "Table 1"
+              },
+              "absoluteOffset": {
+                "top": 168,
+                "left": 290
+              },
+              "source": "button",
+              "backgroundImage": null,
+              "template": {
+                "forScreenType": "normal",
+                "name": "Button",
+                "id": "fidget_67a5ab51-281f-2673-7746-6043a1364946",
+                "source": "button",
+                "hidden": null,
+                "root": "views/fidgets/",
+                "properties": {
+                  "_height": 30,
+                  "_width": 100,
+                  "onClick": "#message('Default button action.')",
+                  "_text": "Click me"
+                }
+              },
+              "posBeforeDrag": {
+                "top": 60,
+                "left": 140
+              },
+              "id": "fidget_662a4478-e079-5cd4-95a2-e2c1154bc8fc",
+              "left": 140
+            },
+            {
+              "containerLevel": 2,
+              "name": "Button",
+              "root": "views/fidgets/",
+              "top": 120,
+              "properties": {
+                "_height": "40",
+                "_width": 100,
+                "onClick": "if (part1 == 2)\n    #message(\"The part is already taken!\")\n\npart1 = 2;\npickProgress = 0;",
+                "_text": "Table 2"
+              },
+              "absoluteOffset": {
+                "top": 228,
+                "left": 290
+              },
+              "source": "button",
+              "backgroundImage": null,
+              "template": {
+                "forScreenType": "normal",
+                "name": "Button",
+                "id": "fidget_67a5ab51-281f-2673-7746-6043a1364946",
+                "source": "button",
+                "hidden": null,
+                "root": "views/fidgets/",
+                "properties": {
+                  "_height": 30,
+                  "_width": 100,
+                  "onClick": "#message('Default button action.')",
+                  "_text": "Click me"
+                }
+              },
+              "posBeforeDrag": {
+                "top": 120,
+                "left": 140
+              },
+              "id": "fidget_ca231b87-0403-92dc-a142-d05f232a115f",
+              "left": 140
+            },
+            {
+              "containerLevel": 2,
+              "name": "Indicator lamp",
+              "root": "views/fidgets/",
+              "top": 60,
+              "properties": {
+                "_blinkPeriod": 1,
+                "_height": 30,
+                "_width": 100,
+                "_blinking": null,
+                "_onColor": "#00ff00",
+                "_value": "part1 == 1",
+                "_text": ".",
+                "_offColor": "#ff0000",
+                "_fontColor": "#A0A0A0"
+              },
+              "absoluteOffset": {
+                "top": 168,
+                "left": 410
+              },
+              "source": "indicatorLamp",
+              "template": {
+                "forScreenType": "normal",
+                "name": "Indicator lamp",
+                "properties": {
+                  "_blinkPeriod": 1,
+                  "_height": 30,
+                  "_width": 100,
+                  "_blinking": null,
+                  "_onColor": "#00ff00",
+                  "_value": "variableService.demo.bool",
+                  "_text": "Indicate",
+                  "_offColor": "#ff0000",
+                  "_fontColor": "#FF0000"
+                },
+                "source": "indicatorLamp",
+                "hidden": null,
+                "root": "views/fidgets/",
+                "id": "fidget_f9937c09-d4ec-ad1e-08aa-4a43e06350f8"
+              },
+              "posBeforeDrag": {
+                "top": 60,
+                "left": 260
+              },
+              "id": "fidget_77543080-7b0b-d6df-2a15-221e547c01e2",
+              "left": 260
+            },
+            {
+              "containerLevel": 2,
+              "name": "Indicator lamp",
+              "root": "views/fidgets/",
+              "top": 120,
+              "properties": {
+                "_blinkPeriod": 1,
+                "_height": 30,
+                "_width": 100,
+                "_blinking": null,
+                "_onColor": "#00ff00",
+                "_value": "part1 == 2",
+                "_text": ".",
+                "_offColor": "#ff0000",
+                "_fontColor": "#A0A0A0"
+              },
+              "absoluteOffset": {
+                "top": 228,
+                "left": 410
+              },
+              "source": "indicatorLamp",
+              "template": {
+                "forScreenType": "normal",
+                "name": "Indicator lamp",
+                "properties": {
+                  "_blinkPeriod": 1,
+                  "_height": 30,
+                  "_width": 100,
+                  "_blinking": null,
+                  "_onColor": "#00ff00",
+                  "_value": "variableService.demo.bool",
+                  "_text": "Indicate",
+                  "_offColor": "#ff0000",
+                  "_fontColor": "#FF0000"
+                },
+                "source": "indicatorLamp",
+                "hidden": null,
+                "root": "views/fidgets/",
+                "id": "fidget_f9937c09-d4ec-ad1e-08aa-4a43e06350f8"
+              },
+              "posBeforeDrag": {
+                "top": 120,
+                "left": 260
+              },
+              "id": "fidget_a0be83c8-8dc4-b815-3acf-7196eea6e8fd",
+              "left": 260
+            },
+            {
+              "containerLevel": 2,
+              "name": "Button",
+              "root": "views/fidgets/",
+              "top": 200,
+              "properties": {
+                "_height": "40",
+                "_width": 100,
+                "onClick": "if (part2 == 1)\n    #message(\"The part is already taken!\")\n\npart2 = 1;\npickProgress = 0;",
+                "_text": "Table 1"
+              },
+              "absoluteOffset": {
+                "top": 308,
+                "left": 290
+              },
+              "source": "button",
+              "backgroundImage": null,
+              "template": {
+                "forScreenType": "normal",
+                "name": "Button",
+                "propertyLabels": null,
+                "id": "fidget_67a5ab51-281f-2673-7746-6043a1364946",
+                "source": "button",
+                "hidden": null,
+                "root": "views/fidgets/",
+                "properties": {
+                  "_height": 30,
+                  "_width": 100,
+                  "onClick": "#message('Default button action.')",
+                  "_text": "Click me"
+                },
+                "icon": null
+              },
+              "posBeforeDrag": {
+                "top": 200,
+                "left": 140
+              },
+              "id": "fidget_20599920-c641-b1aa-3d92-e001602c2c83",
+              "left": 140
+            },
+            {
+              "containerLevel": 2,
+              "name": "Button",
+              "root": "views/fidgets/",
+              "top": 260,
+              "properties": {
+                "_height": "40",
+                "_width": 100,
+                "onClick": "if (part2 == 2)\n    #message(\"The part is already taken!\")\n\npart2 = 2;\npickProgress = 0;",
+                "_text": "Table 2"
+              },
+              "absoluteOffset": {
+                "top": 368,
+                "left": 290
+              },
+              "source": "button",
+              "backgroundImage": null,
+              "template": {
+                "forScreenType": "normal",
+                "name": "Button",
+                "properties": {
+                  "_height": 30,
+                  "_width": 100,
+                  "onClick": "#message('Default button action.')",
+                  "_text": "Click me"
+                },
+                "source": "button",
+                "hidden": null,
+                "root": "views/fidgets/",
+                "id": "fidget_ce6e7de5-abf9-80d7-5e80-3b3b0f5918f2"
+              },
+              "posBeforeDrag": {
+                "top": 260,
+                "left": 140
+              },
+              "id": "fidget_6ff63d8e-d76c-fe29-8fb0-e5ec3222410a",
+              "left": 140
+            },
+            {
+              "containerLevel": 2,
+              "name": "Button",
+              "root": "views/fidgets/",
+              "top": 340,
+              "properties": {
+                "_height": "40",
+                "_width": 100,
+                "onClick": "if (part3 == 1)\n    #message(\"The part is already taken!\")\n\npart3 = 1;\npickProgress = 0;",
+                "_text": "Table 1"
+              },
+              "absoluteOffset": {
+                "top": 448,
+                "left": 290
+              },
+              "source": "button",
+              "backgroundImage": null,
+              "template": {
+                "forScreenType": "normal",
+                "name": "Button",
+                "properties": {
+                  "_height": 30,
+                  "_width": 100,
+                  "onClick": "#message('Default button action.')",
+                  "_text": "Click me"
+                },
+                "source": "button",
+                "hidden": null,
+                "root": "views/fidgets/",
+                "id": "fidget_ce6e7de5-abf9-80d7-5e80-3b3b0f5918f2"
+              },
+              "posBeforeDrag": {
+                "top": 340,
+                "left": 140
+              },
+              "id": "fidget_70e934d0-220b-1d46-fbdb-0227d33e73a5",
+              "left": 140
+            },
+            {
+              "containerLevel": 2,
+              "name": "Button",
+              "root": "views/fidgets/",
+              "top": 400,
+              "properties": {
+                "_height": "40",
+                "_width": 100,
+                "onClick": "if (part3 == 2)\n    #message(\"The part is already taken!\")\n\npart3 = 2;\npickProgress = 0;",
+                "_text": "Table 2"
+              },
+              "absoluteOffset": {
+                "top": 508,
+                "left": 290
+              },
+              "source": "button",
+              "backgroundImage": null,
+              "template": {
+                "forScreenType": "normal",
+                "name": "Button",
+                "properties": {
+                  "_height": 30,
+                  "_width": 100,
+                  "onClick": "#message('Default button action.')",
+                  "_text": "Click me"
+                },
+                "source": "button",
+                "hidden": null,
+                "root": "views/fidgets/",
+                "id": "fidget_ce6e7de5-abf9-80d7-5e80-3b3b0f5918f2"
+              },
+              "posBeforeDrag": {
+                "top": 400,
+                "left": 140
+              },
+              "id": "fidget_b4314a11-fedc-961a-efae-5fa644db126a",
+              "left": 140
+            },
+            {
+              "containerLevel": 2,
+              "name": "Indicator lamp",
+              "root": "views/fidgets/",
+              "top": 200,
+              "properties": {
+                "_blinkPeriod": 1,
+                "_height": 30,
+                "_width": 100,
+                "_blinking": null,
+                "_onColor": "#00ff00",
+                "_value": "part2 == 1",
+                "_text": ".",
+                "_offColor": "#ff0000",
+                "_fontColor": "#A0A0A0"
+              },
+              "absoluteOffset": {
+                "top": 308,
+                "left": 410
+              },
+              "source": "indicatorLamp",
+              "template": {
+                "forScreenType": "normal",
+                "name": "Indicator lamp",
+                "root": "views/fidgets/",
+                "properties": {
+                  "_blinkPeriod": 1,
+                  "_height": 30,
+                  "_width": 100,
+                  "_blinking": null,
+                  "_onColor": "#00ff00",
+                  "_value": "variableService.demo.bool",
+                  "_text": "Indicate",
+                  "_offColor": "#ff0000",
+                  "_fontColor": "#FF0000"
+                },
+                "source": "indicatorLamp",
+                "hidden": null,
+                "propertyLabels": null,
+                "id": "fidget_f9937c09-d4ec-ad1e-08aa-4a43e06350f8",
+                "icon": null
+              },
+              "posBeforeDrag": {
+                "top": 200,
+                "left": 260
+              },
+              "id": "fidget_32e65cb7-a90c-3bdc-54a0-f06e86917cd3",
+              "left": 260
+            },
+            {
+              "containerLevel": 2,
+              "name": "Indicator lamp",
+              "root": "views/fidgets/",
+              "top": 260,
+              "properties": {
+                "_blinkPeriod": 1,
+                "_height": 30,
+                "_width": 100,
+                "_blinking": null,
+                "_onColor": "#00ff00",
+                "_value": "part2 == 2",
+                "_text": ".",
+                "_offColor": "#ff0000",
+                "_fontColor": "#A0A0A0"
+              },
+              "absoluteOffset": {
+                "top": 368,
+                "left": 410
+              },
+              "source": "indicatorLamp",
+              "template": {
+                "forScreenType": "normal",
+                "name": "Indicator lamp",
+                "id": "fidget_86525820-3f7d-edf4-e2b8-b3b94aa63a61",
+                "source": "indicatorLamp",
+                "hidden": null,
+                "root": "views/fidgets/",
+                "properties": {
+                  "_blinkPeriod": 1,
+                  "_height": 30,
+                  "_width": 100,
+                  "_blinking": null,
+                  "_onColor": "#00ff00",
+                  "_value": "variableService.demo.bool",
+                  "_text": "Indicate",
+                  "_offColor": "#ff0000",
+                  "_fontColor": "#FF0000"
+                }
+              },
+              "posBeforeDrag": {
+                "top": 260,
+                "left": 260
+              },
+              "id": "fidget_50e11aa0-9305-ba47-e28b-32908c2e00e4",
+              "left": 260
+            },
+            {
+              "containerLevel": 2,
+              "name": "Indicator lamp",
+              "root": "views/fidgets/",
+              "top": 340,
+              "properties": {
+                "_blinkPeriod": 1,
+                "_height": 30,
+                "_width": 100,
+                "_blinking": null,
+                "_onColor": "#00ff00",
+                "_value": "part3 == 1",
+                "_text": ".",
+                "_offColor": "#ff0000",
+                "_fontColor": "#A0A0A0"
+              },
+              "absoluteOffset": {
+                "top": 448,
+                "left": 410
+              },
+              "source": "indicatorLamp",
+              "template": {
+                "forScreenType": "normal",
+                "name": "Indicator lamp",
+                "id": "fidget_86525820-3f7d-edf4-e2b8-b3b94aa63a61",
+                "source": "indicatorLamp",
+                "hidden": null,
+                "root": "views/fidgets/",
+                "properties": {
+                  "_blinkPeriod": 1,
+                  "_height": 30,
+                  "_width": 100,
+                  "_blinking": null,
+                  "_onColor": "#00ff00",
+                  "_value": "variableService.demo.bool",
+                  "_text": "Indicate",
+                  "_offColor": "#ff0000",
+                  "_fontColor": "#FF0000"
+                }
+              },
+              "posBeforeDrag": {
+                "top": 340,
+                "left": 260
+              },
+              "id": "fidget_c61f5063-4fd4-fe6c-eac7-3fe59894392c",
+              "left": 260
+            },
+            {
+              "containerLevel": 2,
+              "name": "Indicator lamp",
+              "root": "views/fidgets/",
+              "top": 400,
+              "properties": {
+                "_blinkPeriod": 1,
+                "_height": 30,
+                "_width": 100,
+                "_blinking": null,
+                "_onColor": "#00ff00",
+                "_value": "part3 == 2",
+                "_text": ".",
+                "_offColor": "#ff0000",
+                "_fontColor": "#A0A0A0"
+              },
+              "absoluteOffset": {
+                "top": 508,
+                "left": 410
+              },
+              "source": "indicatorLamp",
+              "template": {
+                "forScreenType": "normal",
+                "name": "Indicator lamp",
+                "propertyLabels": null,
+                "id": "fidget_86525820-3f7d-edf4-e2b8-b3b94aa63a61",
+                "source": "indicatorLamp",
+                "hidden": null,
+                "root": "views/fidgets/",
+                "properties": {
+                  "_blinkPeriod": 1,
+                  "_height": 30,
+                  "_width": 100,
+                  "_blinking": null,
+                  "_onColor": "#00ff00",
+                  "_value": "variableService.demo.bool",
+                  "_text": "Indicate",
+                  "_offColor": "#ff0000",
+                  "_fontColor": "#FF0000"
+                },
+                "icon": null
+              },
+              "posBeforeDrag": {
+                "top": 400,
+                "left": 260
+              },
+              "id": "fidget_0878af4f-4aaf-b308-a397-062347a2b883",
+              "left": 260
+            }
+          ],
+          "properties": {
+            "opacity": "1",
+            "_height": "480",
+            "_width": "320",
+            "_color": "#D1D1D1"
+          },
+          "absoluteOffset": {
+            "top": 108,
+            "left": 150
+          },
+          "source": "fidgetGroup",
+          "template": {
+            "forScreenType": "all",
+            "name": "Fidget Group",
+            "id": "fidget_2ad0a877-41b7-d1c4-5ab0-f15503e29f17",
+            "source": "fidgetGroup",
+            "hidden": null,
+            "root": "views/fidgets/",
+            "properties": {
+              "opacity": 0.7,
+              "_height": 200,
+              "_width": 200,
+              "_color": "#D1D1D1"
+            },
+            "icon": "images/fidgets/box.png"
+          },
+          "icon": "images/fidgets/box.png",
+          "posBeforeDrag": {
+            "left": 150,
+            "top": 108
+          },
+          "id": "fidget_30db7bc8-e7ca-ae0c-64e8-985b8341443c",
+          "left": 150
+        },
+        {
+          "containerLevel": 1,
+          "name": "Fidget Group",
+          "root": "views/fidgets/",
+          "top": 110,
+          "fidgets": [
+            {
+              "containerLevel": 2,
+              "name": "Text",
+              "root": "views/fidgets/",
+              "top": 20,
+              "properties": {
+                "_color": "#000000",
+                "_height": 25,
+                "_fontSize": 16,
+                "_width": 100,
+                "_text": "Status"
+              },
+              "absoluteOffset": {
+                "top": 132,
+                "left": 585
+              },
+              "source": "text",
+              "template": {
+                "forScreenType": "all",
+                "name": "Text",
+                "properties": {
+                  "_height": 25,
+                  "_fontSize": 16,
+                  "_width": 100,
+                  "_color": "#ff0000",
+                  "_text": "variableService.demo.string"
+                },
+                "source": "text",
+                "hidden": null,
+                "root": "views/fidgets/",
+                "id": "fidget_aa97fe5e-0f52-359b-fad5-29187fb26cfc",
+                "icon": "images/fidgets/text.png"
+              },
+              "icon": "images/fidgets/text.png",
+              "posBeforeDrag": {
+                "top": 20,
+                "left": 80
+              },
+              "id": "fidget_8dffcd1e-e38b-ae8c-c6c1-ee8f5d4d06b7",
+              "left": 80
+            },
+            {
+              "containerLevel": 2,
+              "name": "Text",
+              "root": "views/fidgets/",
+              "top": 60,
+              "properties": {
+                "_color": "#ff0000",
+                "_height": 25,
+                "_fontSize": 16,
+                "_width": 100,
+                "_text": "Operating..."
+              },
+              "absoluteOffset": {
+                "top": 172,
+                "left": 525
+              },
+              "source": "text",
+              "template": {
+                "forScreenType": "all",
+                "name": "Text",
+                "properties": {
+                  "_height": 25,
+                  "_fontSize": 16,
+                  "_width": 100,
+                  "_color": "#ff0000",
+                  "_text": "variableService.demo.string"
+                },
+                "source": "text",
+                "hidden": null,
+                "root": "views/fidgets/",
+                "id": "fidget_1a0c9f49-cc28-5dd0-ed21-d5982fbf159e",
+                "icon": "images/fidgets/text.png"
+              },
+              "icon": "images/fidgets/text.png",
+              "posBeforeDrag": {
+                "top": 60,
+                "left": 20
+              },
+              "id": "fidget_17e81529-85cd-ac51-9e6b-91c62444afbc",
+              "left": 20
+            },
+            {
+              "containerLevel": 2,
+              "name": "Progress bar",
+              "root": "views/fidgets/",
+              "top": 123,
+              "properties": {
+                "_value": "pickProgress",
+                "_height": 30,
+                "_width": "160",
+                "_color": "#00A500"
+              },
+              "absoluteOffset": {
+                "top": 235,
+                "left": 524
+              },
+              "source": "progressBar",
+              "backgroundImage": null,
+              "template": {
+                "forScreenType": "normal",
+                "name": "Progress bar",
+                "properties": {
+                  "_value": "variableService.demo.int",
+                  "_height": 30,
+                  "_width": 100,
+                  "_color": "#ff0000"
+                },
+                "source": "progressBar",
+                "hidden": null,
+                "root": "views/fidgets/",
+                "id": "fidget_613e93ea-dfb6-89ae-f182-3d539c7f5575"
+              },
+              "posBeforeDrag": {
+                "top": 123,
+                "left": 18
+              },
+              "id": "fidget_3d904101-fa30-9b50-cc62-2e6d1ea71423",
+              "left": 19
+            }
+          ],
+          "properties": {
+            "opacity": "1",
+            "_height": 200,
+            "_width": 200,
+            "_color": "#D1D1D1"
+          },
+          "absoluteOffset": {
+            "top": 112,
+            "left": 505
+          },
+          "source": "fidgetGroup",
+          "template": {
+            "forScreenType": "all",
+            "name": "Fidget Group",
+            "id": "fidget_2ad0a877-41b7-d1c4-5ab0-f15503e29f17",
+            "source": "fidgetGroup",
+            "hidden": null,
+            "root": "views/fidgets/",
+            "properties": {
+              "opacity": 0.7,
+              "_height": 200,
+              "_width": 200,
+              "_color": "#D1D1D1"
+            },
+            "icon": "images/fidgets/box.png"
+          },
+          "icon": "images/fidgets/box.png",
+          "posBeforeDrag": {
+            "left": 505,
+            "top": 112
+          },
+          "id": "fidget_784dc377-283a-a380-9dac-267e7b20acc0",
+          "left": 505
+        },
+        {
+          "root": "views/fidgets/",
+          "source": "text",
+          "left": 153,
+          "top": 49.5,
+          "properties": {
+            "_height": 25,
+            "_fontSize": "30",
+            "_width": "650",
+            "_color": "#000000",
+            "_text": "Pick and place"
+          },
+          "icon": "images/fidgets/text.png",
+          "name": "Text",
+          "id": "fidget_a2faaf6d-8a10-f4be-353b-81788902a8e3",
+          "posBeforeDrag": {
+            "left": 153,
+            "top": 49.5
+          },
+          "absoluteOffset": {
+            "top": 49.5,
+            "left": 153
+          },
+          "backgroundImage": null,
+          "containerLevel": 1,
+          "template": {
+            "root": "views/fidgets/",
+            "icon": "images/fidgets/text.png",
+            "forScreenType": "all",
+            "source": "text",
+            "hidden": false,
+            "properties": {
+              "_width": 100,
+              "_height": 25,
+              "_fontSize": 16,
+              "_color": "#ff0000",
+              "_text": "variableService.demo.string"
+            },
+            "name": "Text",
+            "id": "fidget_3ee80998-eca3-1d17-f629-18719e424d7e"
+          }
+        }
+      ],
+      "id": "screen-990f0acf-5772-7c5e-2e0e-f76d25eaca9e",
+      "backgroundImage": null,
+      "backgroundColor": null,
+      "indexImage": "data:image/jpeg;base64,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",
+      "backgroundType": {
+        "name": "Color",
+        "key": 0
+      },
+      "type": "normal",
+      "properties": {
+        "name": "Pick & Place"
+      }
+    },
+    {
+      "containerLevel": 0,
+      "fidgets": [],
+      "id": "screen-d720e447-587a-1334-d3e6-b085da3fda70",
+      "backgroundImage": null,
+      "backgroundColor": null,
+      "indexImage": "data:image/jpeg;base64,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kpe9ABR3oo70AFL36UlL3oAP60ueaSjvQAZ/Sl70lL36UAH9aM80lHegA/pR3oo79KACjPNJS96AEoPWig9aAEoNFHegBKKKKACiiigBKKKKACiiigAooooAKKKKAEooooAKKKKAClpKKAFooooAKKKKAClpKKAFopKWgAo70UUAFLSUd6AFo70lLQAUd6SlzzQAUveko70ALR3pKXPNABS9+lJRQAUd6KM80AFHekpaACikozzQAUd6KKACkoo70AFFFFACUUUUAFFFFABRRRQAUUUUAJRRRQAUUUUAFFFFABS0lFABS0lFAC0UUUAFFFFABRRRQAtFJRQAtHekpaACiiigApe9JRQAtFJR36UALRSUtABRSUtABR3pKWgAo70lFAC0d6SigApaSigAoopKACiiigAooooAKKKKACikooAWikooAKKKKACiiigAooooAKKKKACiiigApaSigBaKSloAKKKKACiiigAooooAKWkooAWikpaACikpaACiiigAooooAKO9FFABRRRQAUUlLQAUUlFABRRRQAUUUUAFFFFABRSUtACUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRS0AJS0lLQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAJS0lLQAlFFFABRRRQAUUUUAFFFFAH/9k=",
+      "backgroundType": {
+        "name": "Color",
+        "key": 0
+      },
+      "type": "normal",
+      "properties": {
+        "name": "Try it"
+      }
+    }
+  ],
+  "initScript": "counter1 = 0;\ncounter2 = 0;\ncounter3 = 0;\ncounter1_en = true;\ncounter2_en = true;\ncounter3_en = true;\npart1 = 1;\npart2 = 1;\npart3 = 1;\nnutCount = \"three\";\nboltCount = \"two\";\ntotalPacking = 1;\nprogressPacking = 0;\ntargetPacking = \"Not set\";\nstartPacking = function(target) {\n    targetPacking = \"Box \" + target;\n    progressPacking = 0;\n    var numbers={one:1,two:2,three:3,four:4,five:5}\n    totalPacking = numbers[nutCount]+numbers[boltCount];\n    var packing = function() {\n          progressPacking++;\n          if (progressPacking < totalPacking)\n               $timeout(packing, 5000, true);\n    }\n    packing();\n}\n\npickProgress = 0;\npickAnimation = function() {\n    pickProgress = (pickProgress + 10) % 100;\n    $timeout(pickAnimation, 1000, true);\n}\npickAnimation();",
+  "name": "Project",
+  "id": -1,
+  "interfaceMetaDataList": []
+}

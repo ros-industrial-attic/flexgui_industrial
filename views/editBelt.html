@@ -1,0 +1,46 @@
+﻿<!--
+ * Software License Agreement (Apache License)
+ *
+ * Copyright (c) 2016, PPM AS
+ * Contact: laszlo.nagy@ppmas.no
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License. 
+ -->
+ 
+<perfect-scrollbar class="belt editBelt" style="width: {{::beltWidth}}px;">
+    
+    <!--Actions-->
+    <div ng-hide="action.hidden"
+         ng-repeat="action in ::editHandler.actions track by $index"
+         class="editActions"
+         ng-click="action.onTap()"
+         ng-class="{'disabled': !action.enabled, 'stick': action.sticked }">
+
+        <div style="width: 100px; height: 80px; overflow: hidden; margin: auto">
+            <div style="width: 100%; height: 100%; display: table">
+                <div style="display: table-cell; vertical-align: middle;">
+                    <img ng-src="{{::action.icon}}" />
+                </div>
+            </div>
+        </div>
+
+        <span class="fidgetName">{{::action.label}}</span>
+    </div>
+</perfect-scrollbar> 
+
+<!--Overlay-->
+<div class="belt editBelt" ng-show="editHandler.selectedFidgets.length > 0 && editHandler.isMouseDown == true && !editHandler.inResize" style="width: {{::beltWidth}}px;">
+    <div class="beltOverlay">
+        <div>{{localization.currentLocal.editMode.properties}}</div>
+    </div>
+</div>

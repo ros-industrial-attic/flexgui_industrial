@@ -1,0 +1,64 @@
+﻿<!--
+ * Software License Agreement (Apache License)
+ *
+ * Copyright (c) 2016, PPM AS
+ * Contact: laszlo.nagy@ppmas.no
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License. 
+ -->
+ 
+<div id="addScreenModal" class="modal nontransparent" data-backdrop="static"
+     data-keyboard="false">
+    <div class="modal-dialog">
+        <div class="modal-content" style="min-height: 170px;">
+            <div class="modal-body" style="text-align: center;min-height: 110px;">
+
+                <h3>{{localization.currentLocal.general.selectScreenType}}</h3>
+
+                <button class="btn btn-default" ng-repeat="screenType in project.screenTypes track by $index" ng-click="screenType.action()">
+                    <div>
+                        <img ng-src="{{screenType.icon}}" />
+                        <h4>
+                            {{screenType.title}}
+                        </h4>
+                    </div>
+                </button>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" ng-click="project.showAddScreen(false)">{{localization.currentLocal.buttons.cancel}}</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    #addScreenModal .modal-body button {
+        text-align: center;
+        width: 260px;
+        height: 260px;
+        padding: 20px;
+        background-color: #e6e6e6 !important;
+    }
+
+    #addScreenModal .modal-body button:hover {
+        background-color: #f3f3f3 !important;
+    }
+
+    #addScreenModal .modal-body img {
+        height: 160px;
+    }
+</style>
+
+<script type="text/javascript">
+    $("#addScreenModal").modal("show");
+</script>

@@ -1,0 +1,35 @@
+﻿<!--
+ * Software License Agreement (Apache License)
+ *
+ * Copyright (c) 2016, PPM AS
+ * Contact: laszlo.nagy@ppmas.no
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License. 
+ -->
+ 
+<perfect-scrollbar class="belt screenBelt" style="width: {{::beltWidth}}px; bottom: 120px">
+    <!--Screens-->
+    <div ng-repeat="screen in project.screens track by screen.id" class="screenBeltItem" hm-press="editScreen(screen)" hm-tap="onScreenClick(screen, $event)" ng-class="{ 'selectedScreenBeltItem' : project.currentScreen == screen }">
+        <div class="screen">
+            <img ng-src="{{screen.indexImage}}" style="width:100%; height:100%;"/>
+        </div>
+        <span style="text-align: center; white-space: nowrap" title="{{screen.properties.name}}">{{screen.properties.name}}</span>
+    </div>
+    <!--New screen-->
+    <div class="screenBeltItem" ng-click="project.showAddScreen(true)">
+        <div class="screen addScreen">+</div>
+        <span>{{localization.currentLocal.buttons.addScreen}}</span>
+    </div>
+
+    <ng-include src="'views/helpIcon.html'" class="helpIconScreenBelt" ng-init="help = helpMessages.screenBelt" ng-if="helpMessages.show"></ng-include>
+</perfect-scrollbar> 

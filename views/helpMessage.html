@@ -1,0 +1,46 @@
+﻿<!--
+ * Software License Agreement (Apache License)
+ *
+ * Copyright (c) 2016, PPM AS
+ * Contact: laszlo.nagy@ppmas.no
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License. 
+ -->
+ 
+<div class="modal" id="helpDialog" data-backdrop="static"
+     data-keyboard="false">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" ng-click="helpMessages.setOpen(null)">&times;</button>
+                <h4 class="modal-title">Help for {{(helpMessages.open[0] || helpMessages.open).for}}</h4>
+            </div>
+            <div class="modal-body">
+                <ng-include ng-if="!Array.isArray(helpMessages.open)" class="canEdit" src="helpMessages.open.source"></ng-include>
+                
+                <div ng-repeat="item in helpMessages.open">
+                    <h4>{{item.for}}</h4>
+                    <ng-include class="canEdit" src="item.source"></ng-include>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" ng-click="helpMessages.setShow(false); helpMessages.setOpen(null);">{{localization.currentLocal.help.off}}</button>
+                <button type="button" class="btn btn-default" ng-click="helpMessages.setOpen(null)">{{localization.currentLocal.buttons.close}}</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $("#helpDialog").modal("show");
+</script>
