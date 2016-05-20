@@ -16,16 +16,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License. 
 */
- 
-angular.module("flexGuiApp", ["ngRoute", 'ngSanitize', "ui.bootstrap-slider", "perfect_scrollbar", "jg.knob", "hmTouchEvents", "ngCordova", "angularStats"])
+
+angular.module("flexGuiApp", ["ngCookies", "ngRoute", 'ngSanitize', "ui.bootstrap-slider", "perfect_scrollbar", "jg.knob", "hmTouchEvents", "angularStats", "ui.router"])
     .directive("ngFileSelect", ngFileSelect)
     .directive("fgFidgetRepeater", function () {
         var directive = {
-            restrict: 'E',
+            restrict: 'AEC',
             template: function (elm, attr) {
-                return "<div class='fidget' id='{{fidget.id}}' ng-repeat='fidget in " + attr.fidgets + " track by $index' ng-class=\"{'editModeOn': editHandler.isEditMode, 'selected': editHandler.selectedFidgets.indexOf(fidget) >= 0  }\" style=\"left:{{fidget.left}}px; top: {{fidget.top}}px;\">" +
-                           "<div ng-class=\"{'selectedFidget': editHandler.selectedFidgets.indexOf(fidget) > -1 && editHandler.isEditMode, 'dragged': editHandler.selectedFidgets.length > 0 && editHandler.isMouseDown && !editHandler.inResize && editHandler.selectedFidgets.indexOf(fidget) > -1 }\">" +
-                                "<ng-include ng-controller='fidgetCtrl' src=\"fidget.root + fidget.source + '.html'\"></ng-include>" +
+                return "<div class='fidget' ng-if='fidget.template' id='{{fidget.id}}' ng-repeat='fidget in " + attr.fidgets + " track by $index' ng-class=\"{'editModeOn': editHandler.isEditMode, 'selected': editHandler.selectedFidgets.indexOf(fidget) >= 0  }\" style=\"left:{{fidget.left}}px; top: {{fidget.top}}px;\">" +
+                           "<div ng-class=\"{'clickable': !editHandler.isEditMode && [undefined, 'undefined', '', null, 'null'].indexOf(fidget.properties.onClick) == -1, 'selectedFidget': editHandler.selectedFidgets.indexOf(fidget) > -1 && editHandler.isEditMode, 'dragged': editHandler.selectedFidgets.length > 0 && editHandler.isMouseDown && !editHandler.inResize && editHandler.selectedFidgets.indexOf(fidget) > -1 }\">" +
+                                "<ng-include ng-controller='fidgetCtrl' src=\"toTrustedUrl(fidget.template.root + fidget.template.source + '.html')\"></ng-include>" +
                            "</div>" +
                        "</div>";
             },
@@ -56,13 +56,11 @@ angular.module("flexGuiApp", ["ngRoute", 'ngSanitize', "ui.bootstrap-slider", "p
         };
     }).directive('showPerfectScrollBar', function () {
         return function (scope, element, attrs) {
-            if (scope.$last) {
-                setTimeout(function () {
-                    $(".perfectScrollBar").each(function () {
-                        $(this).perfectScrollbar('update');
-                    });
-                }, 500);
-            }
+            setTimeout(function () {
+                $(".perfectScrollBar").each(function () {
+                    $(this).perfectScrollbar('update');
+                });
+            }, 500);
         };
     }).directive('imageload', function () {
         return {
@@ -84,7 +82,19 @@ angular.module("flexGuiApp", ["ngRoute", 'ngSanitize', "ui.bootstrap-slider", "p
                 });
             }
         };
-    }).filter('isTopicFilter', function () {
+    }).directive('compile', ['$compile', function ($compile) {
+        return function (scope, element, attrs) {
+            scope.$watch(
+              function (scope) {
+                  return scope.$eval(attrs.compile);
+              },
+              function (value) {
+                  element.html(value);
+                  $compile(element.contents())(scope);
+              }
+           )
+        };
+    }]).filter('isTopicFilter', function () {
         return function (items, value) {
             var filtered = [];
             for (var i = 0; i < items.length; i++) {
@@ -96,10 +106,23 @@ angular.module("flexGuiApp", ["ngRoute", 'ngSanitize', "ui.bootstrap-slider", "p
             }
             return filtered;
         };
+    }).filter('orderObjectBy', function () {
+        return function (items, field, reverse) {
+            var filtered = [];
+            angular.forEach(items, function (item) {
+                filtered.push(item);
+            });
+            filtered.sort(function (a, b) {
+                return (a[field] > b[field] ? 1 : -1);
+            });
+            if (reverse) filtered.reverse();
+            return filtered;
+        };
     })
 .controller('flexGuiCtrl', flexGuiCtrl)
 .controller('propertiesWindowCtrl', propertiesWindowCtrl)
 .controller('fidgetCtrl', fidgetCtrl)
+.factory('backgroundService', backgroundService)
 .factory('editorService', editorService)
 .factory('deviceService', deviceService)
 .factory('imageService', imageService)
@@ -116,6 +139,7 @@ angular.module("flexGuiApp", ["ngRoute", 'ngSanitize', "ui.bootstrap-slider", "p
 .factory('scriptManagerService', scriptManagerService)
 .factory('colorPickerService', colorPickerService)
 .factory('demoMessengerService', demoMessengerService)
+.factory('projectConversionService', projectConversionService)
 .run(run);
 
 ngFileSelect.$inject = ['$parse', 'projectWindowService'];
@@ -135,9 +159,17 @@ function ngFileSelect($parse, projectWindowService) {
     return directiveDefinitionObject;
 }
 
-run.$inject = ['$rootScope', '$templateCache', '$injector'];
-function run($rootScope, $templateCache, $injector) {
+run.$inject = ['$rootScope', '$templateCache', '$location', '$timeout', 'projectService', 'variableService'];
+function run($rootScope, $templateCache, $location, $timeout, projectService, variableService) {
+
     if (!$rootScope.settingsTabs) $rootScope.settingsTabs = [];
+
+    $rootScope.currentUserId = "user_" + variableService.guid();
+    projectService.appVersion = "1.1";
+
+    //location setup
+    $rootScope.startPage = $location.path().substring(1);
+
     $rootScope.$on('$routeChangeStart', function (event, next, current) {
         if (typeof (current) !== 'undefined') {
             $templateCache.remove(current.templateUrl);

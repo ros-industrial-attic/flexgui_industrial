@@ -16,7 +16,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License. 
  -->
- 
+
 <div class="modal nontransparent" id="popupMessageDialog" data-backdrop="static"
      data-keyboard="false">
     <div class="modal-dialog">
@@ -29,7 +29,7 @@
                     <span class="glyphicon {{popup.last().type.class}}"></span>
                     <h3 class="text-center">{{popup.last().type.name}}</h3>
                 </div>
-                <span class="text-large">{{popup.last().text}}</span>
+                <span class="text-large" ng-bind-html="popup.last().text"></span>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-danger" ng-click="popup.closeAll()">{{localization.currentLocal.buttons.closeAll}}</button>

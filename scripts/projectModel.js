@@ -14,26 +14,26 @@
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
- * limitations under the License.
- */
- 
-projectService.$inject = ['$rootScope', 'enumService', 'fidgetService', 'popupService', '$location', 'scriptManagerService', 'variableService', '$timeout'];
+ * limitations under the License. 
+*/
 
-function projectService($rootScope, enumService, fidgetService, popupService, $location, scriptManagerService, variableService, $timeout) {
+projectService.$inject = ['$rootScope', 'enumService', 'fidgetService', 'popupService', '$location', 'scriptManagerService', 'variableService', '$timeout', 'backgroundService', 'projectConversionService'];
+
+function projectService($rootScope, enumService, fidgetService, popupService, $location, scriptManagerService, variableService, $timeout, backgroundService, projectConversionService) {
     var project = {
         currentScreen: null,
-
+        appVersion: null,
+        forceScreenBelt: false,
         //returns with a new, empty screen
         getScreen: function (name, type) {
             return {
                 id: project.getId(),
                 type: type || enumService.screenTypesEnum.Normal,
-                properties: { name: name },
+                properties: { name: name, hasScreenBelt: 'true' },
                 fidgets: []
             }
         },
 
-        //generates index image for the screen belt
         generateIndexImage: function (screen, callback) {
             html2canvas(document.getElementById('currentScreen'), {
                 onrendered: function (canvas) {
@@ -45,14 +45,13 @@ function projectService($rootScope, enumService, fidgetService, popupService, $l
 
                     canvas = project.halfScale(canvas, 400, 240);
                     var indexImage = canvas.toDataURL("image/jpeg", 0.3);
-                    screen.indexImage = indexImage;
-
+                    if (screen) screen.indexImage = indexImage;
                     if (callback) callback();
                 }
             });
         },
 
-        halfScale: function(canvas, w, h){
+        halfScale: function (canvas, w, h) {
             var destCtx = document.createElement("canvas").getContext("2d");
             destCtx.canvas.width = w || canvas.width / 2;
             destCtx.canvas.height = h || canvas.height / 2;
@@ -60,38 +59,119 @@ function projectService($rootScope, enumService, fidgetService, popupService, $l
             return destCtx.canvas;
         },
 
+        //extra setters/getters for the addons
+        extraParamGetters: [],
+        extraParamSetters: [],
+        extraCleanParamGetters: [],
+
+        getCleanObject: function () {
+            var obj = {
+                screens: [],
+                name: '',
+                id: 0,
+                backgroundImage: null,
+                interfaceMetaDataList: [],
+                initScript: null,
+                appVersion: project.appVersion
+            };
+
+            //add capability to add new parameters to the get from addons
+            angular.forEach(project.extraCleanParamGetters, function (f) { obj = f(obj); });
+
+            return obj;
+        },
+
+        getObject: function (images) {
+            var obj = {
+                screens: project.screens,
+                initScript: project.initScript,
+                background: project.backgroundImage,
+                name: project.name,
+                id: project.id,
+                currentEditorId: project.currentEditorId,
+                images: images,
+                appVersion: project.appVersion,
+                interfaceMetaDataList: project.interfaceMetaData.list,
+            }
+
+            //add capability to add new parameters to the get from addons
+            angular.forEach(project.extraParamGetters, function (f) { obj = f(obj); });
+
+            return obj;
+        },
+
+        setObject: function (proj) {
+            project.screens = proj.screens;
+            project.name = proj.name;
+            project.id = proj.id;
+            project.backgroundImage = proj.backgroundImage;
+            project.interfaceMetaData.list = proj.interfaceMetaDataList || [];
+            project.currentEditorId = proj.currentEditorId;
+
+            //add capability to add new parameters to the get from addons
+            angular.forEach(project.extraParamSetters, function (f) { f(proj); });
+
+            if (project.initScript != proj.initScript) {
+                project.initScript = proj.initScript;
+                project.runInit();
+            }
+        },
+
+        //save the project object to a JSON string
+        toJSON: function (images) {
+            var seen = [];
+            var projectJson = JSON.stringify(project.getObject(images), function (key, val) {
+                if (!val && val !== 0) {
+                    return "@null";
+                }
+
+                if (val != null && typeof val == "object") {
+                    if (seen.indexOf(val) >= 0) {
+                        return;
+                    }
+                    seen.push(val);
+                }
+                return val;
+            });
+
+            return projectJson;
+        },
+
+        parseJSON: function (json) {
+            var proj = JSON.parse(json, function (k, v) {
+                if (v == "@null") { return null; }
+                return v;
+            });
+
+            return proj;
+        },
+
         //generate unique id
         getId: function () {
 
             var exists = true;
-            var id = guid();
+            var id = variableService.guid();
 
             while (exists) {
                 exists = false;
                 angular.forEach(project.screens, function (screen) {
                     if (screen.id == "screen-" + id) {
                         exists = true;
-                        id = guid();
+                        id = variableService.guid();
                     }
                 });
             }
 
             return "screen-" + id;
-
-            function guid() {
-                function s4() {
-                    return Math.floor((1 + Math.random()) * 0x10000)
-                      .toString(16)
-                      .substring(1);
-                }
-                return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
-                  s4() + '-' + s4() + s4() + s4();
-            }
         },
 
         addScreenVisible: false,
         showAddScreen: function (val) {
-            project.addScreenVisible = val;
+            if (project.screenTypes.length == 1 && val) {
+                project.screenTypes[0].action();
+            } else {
+                project.addScreenVisible = val;
+            }
         },
 
         //array for the screens in the project
@@ -192,29 +272,54 @@ function projectService($rootScope, enumService, fidgetService, popupService, $l
         //runs when the project is loaded or changed
         initScript: "/*Nothing set yet*/",
 
+        setupContainer: function (container, lvl, callback) {
+            angular.forEach(container.fidgets, function (fidget, index) {
+                fidget.parent = container;
+                fidget.containerLevel = lvl;
+                fidgetService.defineProperties(fidget);
+
+                if (callback) {
+                    callback(fidget);
+                }
+
+                if (fidget.source == "fidgetGroup") {
+                    project.setupContainer(fidget, lvl + 1);
+                }
+            })
+        },
+
         //setup getters and setters for all private members of fidgets in the project
         setupFidgets: function (callback) {
-            function setupContainer(container, lvl) {
-                angular.forEach(container.fidgets, function (fidget, index) {
-                    fidget.parent = container;
-                    fidget.containerLevel = lvl;
-                    fidgetService.defineProperties(fidget);
-
-                    if (callback) {
-                        callback(fidget);
-                    }
-
-                    if (fidget.source == "fidgetGroup") {
-                        setupContainer(fidget, lvl + 1);
-                    }
-                });
-            }
-
             angular.forEach(project.screens, function (screen, index) {
                 screen.id = screen.id || project.getId();
                 screen.type = screen.type || enumService.screenTypesEnum.Normal;
                 screen.containerLevel = 0;
-                setupContainer(screen, 1);
+                project.setupContainer(screen, 1, callback);
+            });
+
+            $rootScope.$watchGroup(
+                [
+                    function () { return Object.keys(enumService.screenTypesEnum).length; },
+                    function () { return project.screens.length }
+                ],
+                function (nv, ov) {
+                    var types = [];
+                    angular.forEach(enumService.screenTypesEnum, function (v) { types.push(v); });
+                    angular.forEach(project.screens, function (screen) {
+                        screen.visible = types.indexOf(screen.type) > -1;
+                    });
+                });
+        },
+
+        updateFidgets: function (container) {
+            angular.forEach(container.fidgets, function (fidget) {
+                if (!fidget.template) {
+                    fidget.template = fidgetService.templates[fidget.source];
+                }
+
+                if (fidget.fidgets) {
+                    project.updateFidgets(fidget);
+                }
             });
         },
 
@@ -226,6 +331,8 @@ function projectService($rootScope, enumService, fidgetService, popupService, $l
 
         //runs the initscript 
         runInit: function () {
+            fidgetService.scriptDict = {};
+
             try {
                 eval(scriptManagerService.compile(project.initScript));
             }
@@ -237,6 +344,8 @@ function projectService($rootScope, enumService, fidgetService, popupService, $l
         //Sets the current screen to the given one
         setCurrentScreen: function (screen) {
             this.currentScreenIndex = this.screens.indexOf(screen);
+            this.forceScreenBelt = false;
+
             $rootScope.$apply;
             this.currentScreen = screen;
             if (screen) {
@@ -275,7 +384,7 @@ function projectService($rootScope, enumService, fidgetService, popupService, $l
         //Adds a new screen to the project. If the New Screen name is taken, it tries to find a proper one.
         addScreen: function (type) {
             var name = "New ";
-            name += type == enumService.screenTypesEnum.Factory ? "Factory " : "Screen ";
+            name += type == enumService.screenTypesEnum.Factory ? "Factory" : "Screen";
 
             var exists = true;
             var id = "";
@@ -283,7 +392,7 @@ function projectService($rootScope, enumService, fidgetService, popupService, $l
             while (exists) {
                 exists = false;
                 angular.forEach(project.screens, function (screen) {
-                    if (screen.properties.name == name + id) {
+                    if (screen.properties.name == name + (id == "" ? id : (" " + id))) {
                         exists = true;
                         if (id == "")
                             id = 2;
@@ -293,9 +402,15 @@ function projectService($rootScope, enumService, fidgetService, popupService, $l
                 });
             }
 
-            var s = this.getScreen(name + id, type);
+            var s = this.getScreen(name + (id == "" ? id : (" " + id)), type);
+            s.backgroundType = backgroundService.backgroundTypes["Image"];
+            //set default background for factory screens
+            if (s.type == enumService.screenTypesEnum.Factory) {
+                s.backgroundImage = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAAAAAA6fptVAAAACklEQVQYV2P4DwABAQEAWk1v8QAAAABJRU5ErkJggg==";
+                s.indexImage = s.backgroundImage;
+                s.backgroundType = backgroundService.backgroundTypes["Color"];
+            }
             this.screens.push(s);
-            //this.setCurrentScreen(s);
             $rootScope.editScreen(s);
             //device.saveProject(true);
             return s;
@@ -323,6 +438,8 @@ function projectService($rootScope, enumService, fidgetService, popupService, $l
         addDefaultScreens: function () {
             if (project.screens.length == 0) {
                 $.getJSON("project.json", function (data) {
+                    //automatic conersion for the demo project
+                    data = projectConversionService.convert(data, project.appVersion);
                     project.load(data);
                 });
             }
@@ -330,35 +447,99 @@ function projectService($rootScope, enumService, fidgetService, popupService, $l
 
         screenTypes: [],
         screenAdded: null,
+        projectVersionError: false,
+        //loads a given project
         load: function (proj) {
-            project.screens = proj.screens;
-            project.name = proj.name;
-            project.id = proj.id;
-            project.backgroundImage = proj.backgroundImage;
-            project.interfaceMetaData.list = proj.interfaceMetaDataList || [];
+            //remove block ui
+            if ($rootScope.blockMessage == localization.currentLocal.project.loading) $rootScope.blockMessage = null;
+            //check that the current version of the app (setted in the app.js) is the same as the loaded one
+            if (project.appVersion != proj.appVersion) {
+                if (!project.projectVersionError) {
+                    project.projectVersionError = true;
+                    bootbox.confirm(localization.format(localization.currentLocal.project.notForThisVersion, [proj.appVersion, project.appVersion]), function (result) {
+                        if (result) {
+                            var p = projectConversionService.convert(proj, project.appVersion);
+                            if (p) {
+                                project.projectVersionError = false;
 
-            if (project.initScript != proj.initScript) {
-                project.initScript = proj.initScript;
-                project.runInit();
-            }
+                                //load the converted project
+                                project.load(p);
 
-            project.setupFidgets();
-            project.setCurrentScreenIndex(0);
-            //we need to change the screen after the project is downloaded,
-            //before that the requested screen is not yet available.
-            var location = $location.path().substring(1);
-            if (location) {
-                project.setCurrentScreenByName(location);
-            }
-            else {
-                project.setCurrentScreenIndex(project.currentScreenIndex);
-                $location.path(project.currentScreen.name);
+                                //save 
+                                project.forceSave = new Date();
+                            } else {
+                                //the conversion failed
+                                bootbox.confirm(localization.currentLocal.project.canNotConvert, function (result) {
+                                    if (result) {
+                                        //load a clean project
+                                        project.load(project.getCleanObject());
+                                        //clean node's friendly names
+                                        $rootScope.device.cleanNodes();
+
+                                        //remove path
+                                        $location.path('');
+
+                                        //save 
+                                        project.forceSave = new Date();
+                                        project.projectVersionError = false;
+                                        project.currentScreen = null;
+                                    } else {
+                                        //if the user don't want to create a new one we can still try to load the project
+                                        proj.appVersion = project.appVersion;
+                                        project.load(proj);
+
+                                        project.projectVersionError = false;
+                                    }
+                                });
+                            }
+                        } else {
+                            //if the user don't want to convert we can still try to load the project
+                            proj.appVersion = project.appVersion;
+                            project.load(proj);
+                        }
+                    });
+                }
+            } else {
+                //if we have the same version, we can load it
+                project.setObject(proj);
+                project.setupFidgets();
+
+                if (project.currentScreenIndex == -1 && project.screens.length > 0) {
+                    project.setCurrentScreenIndex(0);
+                }
+
+                if ($rootScope.sessionCookie) {
+                    var location = $rootScope.startPage || $location.path().substring(1);
+                    if (project.findScreen($rootScope.startPage)) {
+                        delete $rootScope.startPage;
+                    }
+
+                    if (location) {
+                        project.setCurrentScreenByName(location);
+                    }
+                    else if (project.currentScreen) {
+                        $location.path(project.currentScreen.name);
+                    }
+                }
             }
         }
     };
 
-    //project.setCurrentScreenIndex(0);
-    project.screenTypes.push({ title: localization.currentLocal.buttons.addNormalScreen, icon: 'images/folder.png', action: function () { project.addScreen(enumService.screenTypesEnum.Normal); project.showAddScreen(false), project.screenAdded = Date.now(); } })
+    Object.defineProperty(project, "screenBeltVisible", {
+        get: function () {
+            return !project.currentScreen || [null, undefined, true, "true"].indexOf(project.currentScreen.properties.hasScreenBelt) > -1 || project.forceScreenBelt;
+        }
+    });
+
+    project.screenTypes.push({
+        title: localization.currentLocal.buttons.addNormalScreen,
+        icon: 'images/folder.png',
+        action: function () {
+            project.addScreen(enumService.screenTypesEnum.Normal);
+            project.showAddScreen(false);
+            project.screenAdded = Date.now();
+        }
+    })
 
     return project;
 }

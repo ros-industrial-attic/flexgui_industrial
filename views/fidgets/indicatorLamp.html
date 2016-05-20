@@ -16,10 +16,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License. 
  -->
- 
+
 <div style="width: {{fidget.properties.width}}px; height: {{fidget.properties.height}}px;" 
      ng-init="initIndicatorLamp(fidget)"
-     class="indicatorLamp">
+     class="indicatorLamp" 
+     hm-tapend="onClick(fidget, fidget.properties.onClick)" 
+     ng-mouseup="onClick(fidget, fidget.properties.onClick)">
     <style>
         #{{fidget.id}} .lamp{
                            border-width: {{size * 0.075}}px;

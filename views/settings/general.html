@@ -16,13 +16,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License. 
  -->
- 
+
 <ng-include src="'views/helpIcon.html'" class="floatRight" ng-init="help = helpMessages.settings.general" ng-if="helpMessages.show"></ng-include>
 
-<h4>{{localization.currentLocal.settings.tabs.general.screenScale}}</h4>
-<button class="btn btn-default" ng-click="settings.setViewScale(0.5)" ng-disabled="settings.viewScale == 0.5">{{localization.currentLocal.settings.tabs.general.small}}</button>
-<button class="btn btn-default" ng-click="settings.setViewScale(0.7)" ng-disabled="settings.viewScale == 0.7">{{localization.currentLocal.settings.tabs.general.medium}}</button>
-<button class="btn btn-default" ng-click="settings.setViewScale(1)" ng-disabled="settings.viewScale == 1">{{localization.currentLocal.settings.tabs.general.large}}</button>
+<div ng-if="isMobile">
+    <h4>{{localization.currentLocal.settings.tabs.general.screenScale}}</h4>
+
+    <div style="width: 100%">
+        <slider ng-model="settings.viewScale" ng-change="settings.setViewScale(settings.viewScale, 500)" min="0.1" step="0.1" max="2" value="settings.viewScale"></slider>
+    </div>
+</div>
 
 <h4>{{localization.currentLocal.settings.tabs.general.onScreenHelp}}</h4>
 <div class="checkbox">
@@ -34,4 +37,8 @@
 <div class="checkbox">
     <input type="checkbox" ng-model="settings.isStatVisible" ng-change="settings.showStatistics()" id="showHideStats">
     <label for="showHideStats">{{localization.currentLocal.settings.tabs.general.statSwitchLabel}}</label>
+</div>
+
+<div class="addonGenerals" ng-repeat="a in settings.addonGeneralSettings">
+    <ng-include src="a.html"> </ng-include>
 </div>

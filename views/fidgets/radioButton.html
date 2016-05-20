@@ -16,12 +16,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License. 
  -->
- 
-<perfect-scrollbar style="width:{{fidget.properties.width}}px; height:{{fidget.properties.height}}px; min-height: min-content; min-width: min-content;"
-                   class="scroller"
+
+<perfect-scrollbar style="width:{{fidget.properties.width}}px; height:{{fidget.properties.height}}px;"
+                   class="scroller perfectScrollBar" 
+                   show-perfect-scroll-bar
                    wheel-propagation="true"
                    wheel-speed="10"
-                   min-scrollbar-length="20">
+                   min-scrollbar-length="20"
+                   hm-tapend="onClick(fidget, fidget.properties.onClick)"
+                   ng-mouseup="onClick(fidget, fidget.properties.onClick)">
     <div ng-repeat="option in fidget.properties.options.split(',')">
         <div class="radio" id="{{slugify(option)}}_{{fidget.id}}" ng-click="setValue(fidget, option)">
             <input type="radio" id="rb_{{slugify(option)}}_{{fidget.id}}" value="option" ng-checked="fidget.properties.value == option" />

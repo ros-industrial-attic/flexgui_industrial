@@ -16,9 +16,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License. 
  -->
- 
+
 <!-- More info about perfect scrollbar: https://github.com/itsdrewmiller/angular-perfect-scrollbar -->
 
-<perfect-scrollbar class="scroller scrollableText" style="width:{{fidget.properties.width}}px; max-height:{{fidget.properties.height}}px">
+<perfect-scrollbar show-perfect-scroll-bar 
+                   hm-tapend="onClick(fidget, fidget.properties.onClick)" 
+                   ng-mouseup="onClick(fidget, fidget.properties.onClick)" 
+                   class="scroller scrollableText perfectScrollBar" 
+                   style="width:{{fidget.properties.width}}px; height:{{fidget.properties.height}}px">
     <div ng-bind-html="fidget.properties.text" style="margin: 10px;"></div>
 </perfect-scrollbar>

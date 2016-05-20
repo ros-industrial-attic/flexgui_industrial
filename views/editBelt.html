@@ -16,12 +16,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License. 
  -->
- 
+
 <perfect-scrollbar class="belt editBelt" style="width: {{::beltWidth}}px;">
     
     <!--Actions-->
     <div ng-hide="action.hidden"
-         ng-repeat="action in ::editHandler.actions track by $index"
+         ng-repeat="action in editHandler.actions | orderObjectBy:['position']"
          class="editActions"
          ng-click="action.onTap()"
          ng-class="{'disabled': !action.enabled, 'stick': action.sticked }">
@@ -39,7 +39,7 @@
 </perfect-scrollbar> 
 
 <!--Overlay-->
-<div class="belt editBelt" ng-show="editHandler.selectedFidgets.length > 0 && editHandler.isMouseDown == true && !editHandler.inResize" style="width: {{::beltWidth}}px;">
+<div class="belt editBelt" ng-show="(!editHandler.currentMode || editHandler.currentMode.showBeltOverlayes) && editHandler.selectedFidgets.length == 1 && editHandler.isMouseDown == true" style="width: {{::beltWidth}}px;">
     <div class="beltOverlay">
         <div>{{localization.currentLocal.editMode.properties}}</div>
     </div>

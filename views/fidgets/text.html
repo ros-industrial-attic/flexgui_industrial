@@ -16,7 +16,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License. 
  -->
- 
-<div style="width: {{fidget.properties.width}}px; height: {{fidget.properties.height}}px; min-height: -webkit-min-content; min-width: -webkit-min-content; font-size: {{fidget.properties.fontSize}}px; color: {{fidget.properties.color}}" >
+
+<div style="width: {{fidget.properties.width}}px; height: {{fidget.properties.height}}px; min-height: -webkit-min-content; min-width: -webkit-min-content; font-size: {{fidget.properties.fontSize}}px; color: {{fidget.properties.color}}" 
+     hm-tapend="onClick(fidget, fidget.properties.onClick)" 
+     ng-mouseup="onClick(fidget, fidget.properties.onClick)">
     <div ng-bind-html="fidget.properties.text"></div>
 </div>

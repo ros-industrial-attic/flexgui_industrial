@@ -14,9 +14,9 @@
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
- * limitations under the License.
- */
- 
+ * limitations under the License. 
+*/
+
 var localization = {
     //current language
     currentLanguage: localStorage.getItem('language') || 'en',
@@ -40,6 +40,57 @@ var localization = {
 
     //translations
     items: {
+
+    },
+
+    compare: function(){
+        var keyStrings = { en: [], hu: [], de: [] }, diff = [];
+
+        function getProperties(obj, current, lang) {
+
+            if (typeof obj === "string" || !obj) return;
+
+            //get properties of obj
+            angular.forEach(Object.keys(obj), function (key) {
+
+                //create property string
+                var propString = current + ( current == "" ? "" : "." ) + key;
+
+                //add to keys
+                keyStrings[lang].push(propString);
+
+                //go deeper
+                getProperties(obj[key], propString, lang);
+            });
+        }
+
+        getProperties(localization.items.en, "", "en");
+        getProperties(localization.items.de, "", "de");
+        getProperties(localization.items.hu, "", "hu");
+
+        function arr_diff(a1, a2) {
+            var a = [], diff = [];
+            for (var i = 0; i < a1.length; i++) {
+                a[a1[i]] = true;
+            }
+
+            for (var i = 0; i < a2.length; i++) {
+                if (a[a2[i]]) {
+                    delete a[a2[i]];
+                } else {
+                    a[a2[i]] = true;
+                }
+            }
+
+            for (var k in a) {
+                diff.push(k);
+            }
+
+            return diff;
+        };
+
+        console.log("Missing from de: ", arr_diff(keyStrings.en, keyStrings.de));
+        console.log("Missing from hu: ", arr_diff(keyStrings.en, keyStrings.hu));
     }
 }
 
@@ -49,3 +100,4 @@ Object.defineProperty(localization, 'currentLocal', {
         return localization.items[localization.currentLanguage];
     }
 });
+

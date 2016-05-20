@@ -13,6 +13,6 @@ To install this open-source version:
 
 2. Set up a website on the folder
 
-3. Open the folder in your browser
+3. Open the folder in your browser (Chrome is officially supported)
 
 If you need more help, you can contact us at laszlo.nagy@ppmas.no

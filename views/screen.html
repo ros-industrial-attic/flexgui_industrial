@@ -16,9 +16,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License. 
  -->
- 
+
 <div class="{{(screen || project.currentScreen).type}} screen"
-     ng-style="(screen || project.currentScreen).backgroundImage ? { 'background': 'url(' + images.getImageFromFriendlyCache((screen || project.currentScreen).backgroundImage)  + ')  no-repeat center center', 'background-size':'cover'} : {}"
+     ng-style="project.currentScreen.backgroundImage ? { 'background': 'url(' + images.getImageFromFriendlyCache(project.currentScreen.backgroundImage)  + ')  no-repeat center center', 'background-size':'cover'} : {}"
      style="width: 100%; height: 100%;">
-    <fg-fidget-repeater fidgets="(screen || project.currentScreen).fidgets" />
+    <div fg-fidget-repeater fidgets="project.currentScreen.fidgets" />
 </div>

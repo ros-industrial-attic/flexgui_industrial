@@ -4,7 +4,7 @@
 @screen-color-dark-trasparent: rgba(30,30,30, 0.5);
 @screen-color-light: #e6e6e6;
 @screen-background-image: url(images/bg.jpg);
-@modal-color: rgba(200,200,200,0.95);
+@modal-color: rgba(230,230,230,0.95);
 @modal-font-color: #000000;
 
 @alert-danger-color: rgba(169, 68, 66, 1);
@@ -56,6 +56,10 @@ body{
     font-family: @font;
 }
 
+.grid, .grid div{
+    border-color: fade(@main-color, 50%);
+}
+
 h1, h2, h3, h4, h5{
     color: @main-color;
 }
@@ -92,7 +96,6 @@ h1, h2, h3, h4, h5{
 .nav-tabs{
     border-bottom: none;
     width: 100%;
-    background-color: darken(@modal-color, 5%);
 }
 .selectedScreenBeltItem{
     border-color: @main-color;

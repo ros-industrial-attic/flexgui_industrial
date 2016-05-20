@@ -14,30 +14,34 @@
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
- * limitations under the License.
- */
- 
+ * limitations under the License. 
+*/
+
 settingsWindowService.$inject = ['projectService', 'deviceService', 'popupService', '$rootScope'];
 
 function settingsWindowService(projectService, deviceService, popupService, $rootScope) {
-    
+
     //Controller for the settings window
     var settingsWindowHandler = {
 
         tabs: [],
-        getTab: function(source, title, classes){
+        getTab: function (source, title, classes) {
             return {
                 title: title,
                 source: source
             }
         },
-        //The visibility of the window
+
         demoMode: localStorage.getItem("demoMode") == "true" || !localStorage.getItem("demoMode") ? true : false,
+
+        //The visibility of the window
         visible: false,
         setVisible: function (value) {
             settingsWindowHandler.visible = value;
 
             if (!value) {
+                deviceService.updateFriendlyCache();
+
                 //run changed initscript and save
                 if (settingsWindowHandler.lastInitScript != projectService.initScript) {
                     deviceService.saveProject(true);
@@ -50,7 +54,7 @@ function settingsWindowService(projectService, deviceService, popupService, $roo
         },
 
         isStatVisible: localStorage.getItem("statVisible") == "true" ? true : false,
-        showStatistics: function(){
+        showStatistics: function () {
             if (settingsWindowHandler.isStatVisible) {
                 showAngularStats({
                     "position": "topright",
@@ -70,6 +74,7 @@ function settingsWindowService(projectService, deviceService, popupService, $roo
 
         saveDiSettings: function () {
             localStorage.setItem("diIp", deviceService.ip);
+            localStorage.setItem("diSecure", deviceService.secure);
             localStorage.setItem("diPort", deviceService.port);
             localStorage.setItem("demoMode", settingsWindowHandler.demoMode);
 
@@ -112,14 +117,11 @@ function settingsWindowService(projectService, deviceService, popupService, $roo
 
         },
 
+        
         //Current tabIndex on the window
-        tabIndex: 2,
+        tabIndex: 0,
         setTabIndex: function (value) {
             settingsWindowHandler.tabIndex = value;
-            settingsWindowHandler.refreshEditor();
-        },
-        refreshEditor: function () {
-            settingsWindowHandler.refreshCodemirror = !settingsWindowHandler.refreshCodemirror;
         },
 
         //Current selected node on the nodes tab
@@ -128,7 +130,6 @@ function settingsWindowService(projectService, deviceService, popupService, $roo
             this.nodesTabSelectedItem = value;
         },
 
-        //Init script editor options
         refreshCodemirror: true,
         options: {
             lineNumbers: true,
@@ -142,14 +143,26 @@ function settingsWindowService(projectService, deviceService, popupService, $roo
             settingsWindowHandler.searchString = value;
         },
 
+        addonGeneralSettings: [],
+        addGeneralSetting: function (html, desc) {
+            settingsWindowHandler.addonGeneralSettings.push({ html: html, description: desc });
+        },
+
         //ViewScale multiplier for mobile devices
         viewScale: 0.5,
-        setViewScale: function (value) {
-            settingsWindowHandler.viewScale = Math.min(1.5, Math.max(0.5, value));
+        changeScaleTimeout: null,
+        setViewScale: function (value, timeout) {
+            settingsWindowHandler.viewScale = Math.min(2, Math.max(0.1, value));
             localStorage.setItem("viewScale", settingsWindowHandler.viewScale);
 
-            var viewport = document.querySelector("meta[name=viewport]");
-            viewport.setAttribute('content', 'width=device-width, initial-scale=' + settingsWindowHandler.viewScale + ', maximum-scale=' + settingsWindowHandler.viewScale + ', user-scalable=no');
+            if (settingsWindowHandler.changeScaleTimeout) {
+                window.clearTimeout(settingsWindowHandler.changeScaleTimeout);
+            }
+
+            settingsWindowHandler.changeScaleTimeout = window.setTimeout(function () {
+                var viewport = document.querySelector("meta[name=viewport]");
+                viewport.setAttribute('content', 'width=device-width, initial-scale=' + settingsWindowHandler.viewScale + ', maximum-scale=' + settingsWindowHandler.viewScale + ', user-scalable=no');
+            }, timeout || 0);
         },
 
         //Filters the topics and services arrays according to the searchString
@@ -168,6 +181,11 @@ function settingsWindowService(projectService, deviceService, popupService, $roo
             return result;
         },
 
+        interfaces: {
+            header: 'views/settings/nodes/header.html',
+            item: 'views/settings/nodes/interface.html'
+        },
+
         // Filters what interfaces to show
         shownInterfaces: function () {
             searching = this.searchString.length > 1;
@@ -184,26 +202,7 @@ function settingsWindowService(projectService, deviceService, popupService, $roo
             return result;
         },
 
-        //Counts the interfaces that are using the 'name' friendly name.
-        countFriendly: function (name) {
-            result = 0;
-
-            var countFn = function (_interf) {
-                if (_interf.friendlyName == name)
-                    result++;
-            };
-
-            angular.forEach(deviceService.topics, countFn);
-            angular.forEach(deviceService.services, countFn);
-
-            return result;
-        },
-
-        //An interface is using duplicated friendly name if more than 1 occurs in the interface list.
-        isDupe: function (_interf) {
-            return _interf.friendlyName && settingsWindowHandler.countFriendly(_interf.friendlyName) > 1;
-        },
-
+        
         themes: [],
         getTheme: function (name, colors, title) {
             return {
@@ -223,8 +222,15 @@ function settingsWindowService(projectService, deviceService, popupService, $roo
         less.refresh(true);
     }
 
+    $(window).resize(function () {
+        settingsWindowHandler.isVertical = $(window).height() > $(window).width();
+    });
+
+    $(window).resize();
+
     if (!$rootScope.settingsTabs) $rootScope.settingsTabs = [];
-    
+    if (!$rootScope.nodeExtras) $rootScope.nodeExtras = [];
+
     $rootScope.settingsTabs.push({ source: "views/settings/general.html", title: localization.currentLocal.settings.tabs.general.title});
     $rootScope.settingsTabs.push({ source: "views/settings/init.html", title: localization.currentLocal.settings.tabs.initScript.title, classes: "settingsScriptTab"});
     $rootScope.settingsTabs.push({ source: "views/settings/nodes.html", title: localization.currentLocal.settings.tabs.nodes.title, classes: "settingsNodesTab"});

@@ -14,12 +14,13 @@
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
- * limitations under the License.
- */
- 
-imageService.$inject = ['deviceService', 'settingsWindowService', 'variableService', 'popupService'];
+ * limitations under the License. 
+*/
 
-function imageService(deviceService, settingsWindowService, variableService, popupService) {
+imageService.$inject = ['deviceService', 'settingsWindowService', 'variableService', 'popupService', 'editorService'];
+
+function imageService(deviceService, settingsWindowService, variableService, popupService, editorService) {
+    var editHandler = editorService;
 
     //Subcontroller for the image operations
     var imageHandler = {
@@ -38,6 +39,18 @@ function imageService(deviceService, settingsWindowService, variableService, pop
         //e.g.: if the user wants to set the background, the updated input has to be the screen's property
         //but if the user wants to set an image's source, it has to be the property of that image, so the hidden input in the prop. window
         openImageExplorer: function (el) {
+            //try to get the current background
+            try {
+                var image = eval(eval(el));
+                for (var i = 0; i < this.slots.length; i++) {
+                    if (this.slots[i].base64 == image) {
+                        this.selectedImage = this.slots[i].name;
+                    }
+                }
+            } catch (e) {
+                this.selectedImage = null;
+            }
+
             imageHandler.updateElement = el;
             imageHandler.setVisible(true);
         },
@@ -125,7 +138,11 @@ function imageService(deviceService, settingsWindowService, variableService, pop
         //removes the image 
         removeImage: function (path) {
             variableService.friendlyCache[path].base64 = null;
-            deviceService.nodes.rosapi.set_param.call({ name: path, value: JSON.stringify(null) });
+            if (!settingsWindowService.demoMode) {
+                deviceService.nodes.rosapi.delete_param.call({ name: path });
+            } else {
+                localStorage.removeItem("flexgui4_images_" + path);
+            }
             imageHandler.selectedImage = null;
         },
 
@@ -151,12 +168,14 @@ function imageService(deviceService, settingsWindowService, variableService, pop
                 resized.width = img.width > img.height ? 1024 : 768;
                 resized.height = resized.width / img.width * img.height;
                 canvasResize(canvas, resized, function () {
-                    var base64 = resized.toDataURL("image/jpeg");
+                    var base64 = resized.toDataURL("image/png");
                     var slot = imageHandler.getSlot(imageHandler.currentImage);
 
                     if (slot) {
                         if (!settingsWindowService.demoMode) {
                             deviceService.nodes.rosapi.set_param.call({ name: imageHandler.currentImage, value: JSON.stringify({ base64: base64 }) });
+                        } else {
+                            localStorage.setItem("flexgui4_images_" + imageHandler.currentImage, base64);
                         }
                         slot.base64 = base64;
                         variableService.friendlyCache[imageHandler.currentImage] = slot;

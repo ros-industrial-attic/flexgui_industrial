@@ -16,21 +16,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License. 
  -->
- 
+
 <div class="modal" id="helpDialog" data-backdrop="static"
      data-keyboard="false">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" ng-click="helpMessages.setOpen(null)">&times;</button>
-                <h4 class="modal-title">Help for {{(helpMessages.open[0] || helpMessages.open).for}}</h4>
+                <h4 class="modal-title">{{(helpMessages.open[0] || helpMessages.open).for}}</h4>
             </div>
             <div class="modal-body">
-                <ng-include ng-if="!Array.isArray(helpMessages.open)" class="canEdit" src="helpMessages.open.source"></ng-include>
+                <ng-include ng-if="!Array.isArray(helpMessages.open)" class="canEdit" src="toTrustedUrl(helpMessages.open.source)"></ng-include>
                 
                 <div ng-repeat="item in helpMessages.open">
                     <h4>{{item.for}}</h4>
-                    <ng-include class="canEdit" src="item.source"></ng-include>
+                    <ng-include class="canEdit" src="toTrustedUrl(item.source)"></ng-include>
                 </div>
             </div>
             <div class="modal-footer">

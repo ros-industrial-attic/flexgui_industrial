@@ -16,7 +16,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License. 
  -->
- 
+
 <div class="modal" id="imageDialog" data-backdrop="static"
      data-keyboard="false">
     <div class="modal-dialog">
@@ -55,7 +55,7 @@
                     <div ng-if="images.isEmpty()">
                         {{localization.currentLocal.general.emptyList}}
                     </div>
-                    <perfect-scrollbar class="scroller imageRepeaterScrollBar">
+                    <perfect-scrollbar class="scroller imageRepeaterScrollBar perfectScrollBar" show-perfect-scroll-bar>
                         <div ng-repeat="option in images.slots track by $index | orderBy: '$index'"
                              ng-if="option.base64 != null"
                              class="uploadedImageContainer">

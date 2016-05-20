@@ -16,7 +16,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License. 
  -->
- 
+
 <!DOCTYPE html>
 <html ng-app="flexGuiApp">
 <head>
@@ -32,6 +32,8 @@
     <link rel="stylesheet" href="styles/3rdParty/codemirror.css" />
     <link rel="stylesheet" href="styles/3rdParty/bootstrap-slider.css" />
     <link rel="stylesheet" href="styles/3rdParty/bootstrap.min.css">
+
+    <link rel="shortcut icon" href="favicon.ico" />
     
     <script>
     less = {
@@ -47,6 +49,7 @@
     <script src="scripts/3rdParty/html2canvas.js"></script>
     <script src="scripts/3rdParty/angular.min.js"></script>
     <script src="scripts/3rdParty/angular-sanitize.js"></script>
+    <script src="scripts/3rdParty/angular-cookies.js"></script>
     <script src="scripts/3rdParty/bootstrap.min.js"></script>
     <script src="scripts/3rdParty/angular-route.min.js"></script>
     <script src="scripts/3rdParty/hammer.min.js"></script>
@@ -61,6 +64,8 @@
     <script src="scripts/3rdParty/perfect-scrollbar.with-mousewheel.min.js"></script>
     <script src="scripts/3rdParty/angular-perfect-scrollbar.js"></script>
     <script src="scripts/3rdParty/ng-stats.js"></script>
+    <script type="text/javascript" src="scripts/3rdParty/angular-ui-router.js"></script>
+    <script type="text/javascript" src="scripts/3rdParty/script.min.js"></script>
 
     <!--roslibjs-->
     <script type="text/javascript" src="scripts/3rdParty/eventemitter2.js"></script>
@@ -72,6 +77,7 @@
     <script src="scripts/localization/localization.en.js"></script>
     <script src="scripts/localization/localization.de.js"></script>
     <script src="scripts/localization/localization.hu.js"></script>
+    <script src="scripts/backgroundService.js"></script>
     <script src="scripts/colorPickerHandler.js"></script>
     <script src="scripts/popupHandler.js"></script>
     <script src="scripts/settingsWindowHandler.js"></script>
@@ -88,6 +94,7 @@
     <script src="scripts/editHandler.js"></script>
     <script src="scripts/enumService.js"></script>
     <script src="scripts/variableService.js"></script>
+    <script src="scripts/projectConversionService.js"></script>
 
     <!--Controllers-->
     <script src="scripts/controllers/propertiesWindowController.js"></script>
@@ -97,7 +104,8 @@
 </head>
 <body id="body"
       ng-controller="flexGuiCtrl"
-      class="screen">
+      class="screen"
+      hm-tap="mirrorMode.onScreenTap($event)">
 
     <style>
         .editModeOn{
@@ -111,52 +119,45 @@
     <div ng-keydown="::editHandler.onKeyDown($event)"
          ng-keyup="::editHandler.onKeyUp($event)"
          hm-panstart="::editHandler.onMouseDown($event)"
+         hm-recognizer-options='[{"type":"pan","threshold":5}]'
          hm-panend="::editHandler.onMouseUp($event)"
          hm-panmove="::editHandler.onMouseMove($event)"
          tabindex="0"
          class="main"
          id="main">
 
-        <!--Connection problem-->
-        <div class="alert alert-danger text-center connectionAlert" ng-if="!device.connected" style="width:100%;">
-            {{localization.currentLocal.ros.connectionError}} <a ng-bind="device.server" href="{{::model.server}}"></a>. <br />
-            <button class="btn btn-danger text-right" ng-click="device.init()">{{localization.currentLocal.buttons.reconnect}}</button>
+        <!--Screen area-->
+        <div id="currentScreen" style="position: relative; left: {{project.screenBeltVisible ? beltWidth : 0}}px; margin-right: {{editHandler.isEditMode ? beltWidth : 0}}px; height: 100%;"
+             hm-tap="::editHandler.onScreenTap($event)">
+            
+            <!-- Fidgets -->
+            <ng-include src="screenRoot"></ng-include>
         </div>
 
-        <!--Connection problem-->
-        <div class="alert alert-success text-center connectionAlert" ng-if="settings.demoMode" style="width:100%;">
+        <!--Connection: demo mode-->
+        <div class="alert alert-hollow text-center connectionAlert" ng-if="settings.demoMode" style="width:100%;">
             {{localization.currentLocal.settings.tabs.conn.demoMode}}
         </div>
 
-        <!--Screen area-->
-        <div id="currentScreen" style="margin-left: {{::beltWidth}}px; margin-right: {{editHandler.isEditMode ? beltWidth : 0}}px; height: 100%;"
-             hm-tap="::editHandler.onScreenTap($event)">
-
-            <!-- Fidgets -->
-            <ng-include src="'views/screen.html'"></ng-include>
-        </div>
-
-
         <!--Quick Call fidget (if installed)-->
-        <ng-include src="quickCall"></ng-include>
+        <ng-include src="toTrustedUrl(quickCall)"></ng-include>
 
         <!-- FidgetBelt -->
         <ng-include ng-if="editHandler.isEditMode && project.screens.length > 0" src="'views/fidgetBelt.html'"></ng-include>
 
         <!-- ScreenBelt -->
-        <ng-include ng-if="!editHandler.isEditMode" src="'views/screenBelt.html'"></ng-include>
+        <ng-include ng-if="!editHandler.isEditMode && project.screenBeltVisible" src="'views/screenBelt.html'"></ng-include>
 
         <!-- EditBelt -->
         <ng-include ng-if="editHandler.isEditMode" src="'views/editBelt.html'"></ng-include>
 
         <!-- EditSwitch -->
-        <ng-include src="'views/editSwitch.html'"></ng-include>
+        <ng-include ng-if="project.screenBeltVisible || editHandler.isEditMode" src="editHandler.editSwitch"></ng-include>
 
-        <!--Shows clicks of the users-->
+        <!-- Enable belt switch-->
+        <ng-include ng-hide="project.screenBeltVisible || editHandler.isEditMode" src="'views/openBelt.html'"></ng-include>
     </div>
 
     <ng-include src="'views/modalWindows.html'"></ng-include>
-    <script type="text/javascript" src="cordova.js"></script>
-    <script type="text/javascript" src="scripts/3rdParty/ng-cordova.js"></script>
 </body>
 </html>

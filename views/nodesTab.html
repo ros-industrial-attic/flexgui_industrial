@@ -16,7 +16,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License. 
  -->
- 
 
 <!--Search box-->
 <div class="input-group floatRight interfacesSearchBox">
@@ -35,26 +34,30 @@
     <h4 ng-if="!settings.nodesTabSelectedItem">{{localization.currentLocal.settings.tabs.nodes.nodeUnselected}}</h4>
 
     <!--List of interfaces on the node-->
-    <div class="tab-content" ng-if="settings.nodesTabSelectedItem">
-        <h4>{{localization.format(localization.currentLocal.settings.tabs.nodes.detailsOf, [settings.nodesTabSelectedItem.name])}}</h4>
+    <div class="tab-content" ng-if="settings.nodesTabSelectedItem" style="padding-left:0px;">
+        <h4>{{localization.format(localization.currentLocal.settings.tabs.nodes.detailsOf, [settings.nodesTabSelectedItem.__name])}}</h4>
+
+        <div ng-repeat="extra in nodeExtras" compile="extra">
+        </div>
+
         <ng-include src="'views/interfaceRepeater.html'"></ng-include>
     </div>
 </div>
 
 <!--Search results-->
 <div ng-if="settings.searchString.length > 1 && settings.searchInterfaces().length != 0">
-    <div class="tab-content">
+    <div class="tab-content" style="padding-left:0px;">
         <h4>{{localization.currentLocal.settings.tabs.nodes.searchResult}}</h4>
         <ng-include src="'views/interfaceRepeater.html'"></ng-include>
     </div>
 </div>
 
 <!--Too short search expression-->
-<div class="tab-content" ng-if="settings.searchString.length == 1">
+<div class="tab-content" ng-if="settings.searchString.length == 1" style="padding-left:0px;">
     <h4>{{localization.currentLocal.settings.tabs.nodes.tooShortError}}</h4>
 </div>
 
 <!--No search result-->
-<div class="tab-content" ng-if="settings.searchString.length > 1 && settings.searchInterfaces().length == 0">
+<div class="tab-content" ng-if="settings.searchString.length > 1 && settings.searchInterfaces().length == 0" style="padding-left:0px;">
     <h4>{{localization.format(localization.currentLocal.settings.tabs.nodes.detailsOf, [settings.searchString])}}</h4>
 </div>

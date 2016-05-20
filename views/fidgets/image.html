@@ -16,8 +16,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License. 
  -->
- 
-<div style="height: {{fidget.properties.height}}px; width:{{fidget.properties.width}}px; position:relative; overflow: hidden;">
+
+<div hm-tapend="onClick(fidget, fidget.properties.onClick)"
+     ng-mouseup="onClick(fidget, fidget.properties.onClick)"
+     style="height: {{fidget.properties.height}}px; width:{{fidget.properties.width}}px; position:relative; overflow: hidden;">
     
     <div class="{{fidget.properties.scale}}" 
          style="background-image: url({{fidget.properties.value}}); background-position: center; background-repeat: no-repeat; width: 100%; height: 100%;">

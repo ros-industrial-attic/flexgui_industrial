@@ -14,12 +14,12 @@
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
- * limitations under the License.
- */
- 
-projectWindowService.$inject = ['$rootScope', '$location', 'projectService', 'deviceService', 'popupService', 'historyService'];
+ * limitations under the License. 
+*/
 
-function projectWindowService($rootScope, $location, projectService, deviceService, popupService, historyService) {
+projectWindowService.$inject = ['$rootScope', '$location', 'projectService', 'deviceService', 'popupService', 'historyService', 'editorService', 'imageService', 'variableService', 'settingsWindowService'];
+
+function projectWindowService($rootScope, $location, projectService, deviceService, popupService, historyService, editorService, imageService, variableService, settingsWindowService) {
     var projectsWindowHandler = {
 
         //currently selected project in the window
@@ -48,9 +48,6 @@ function projectWindowService($rootScope, $location, projectService, deviceServi
 
             projectsWindowHandler.setProjects();
         },
-
-        //saves the project to local storage
-
 
         //load the selected project
         loadProject: function () {
@@ -116,23 +113,12 @@ function projectWindowService($rootScope, $location, projectService, deviceServi
 
         //download project in JSON format
         downloadPropject: function () {
-            var seen = [];
-            var json = JSON.stringify({
-                screens: projectService.screens,
-                initScript: projectService.initScript,
-                background: projectService.backgroundImage,
-                name: projectService.name,
-                id: projectService.id,
-                interfaceMetaDataList: projectService.interfaceMetaData.list,
-            }, function (key, val) {
-                if (val != null && typeof val == "object") {
-                    if (seen.indexOf(val) >= 0) {
-                        return;
-                    }
-                    seen.push(val);
-                }
-                return val;
+            var images = [];
+            var i = 0;
+            angular.forEach(imageService.slots, function (img) {
+                images.push({ index: i++, name: img.name, base64: img.base64 });
             });
+            var json = projectService.toJSON(images);
 
             var fileName = "project" + Date.now() + ".fgproj";
 
@@ -148,7 +134,6 @@ function projectWindowService($rootScope, $location, projectService, deviceServi
                 function writeLog(str) {
                     if (!fileObj) return;
                     fileObj.createWriter(function (fileWriter) {
-                        //var blob = new Blob([str], { type: 'application/json;charset=utf-8;' });
                         fileWriter.write(str);
                         popupService.show(localization.currentLocal.settings.tabs.project.savedToMobile + fileName);
                     }, fail);
@@ -167,6 +152,27 @@ function projectWindowService($rootScope, $location, projectService, deviceServi
             }
         },
 
+        //clean the current project and load a new one
+        clean: function () {
+            bootbox.confirm(localization.currentLocal.settings.tabs.project.cleanConfirm, function (result) {
+                if (result) {
+                    //disable edit mode
+                    editorService.switchEditMode();
+
+                    //load a clean project
+                    projectService.load(projectService.getCleanObject());
+                    deviceService.cleanNodes();
+                    projectService.currentScreen = null;
+                    //remove path
+                    $location.path('');
+
+                    //refresh ui and save the project
+                    deviceService.changeOnUi = true;
+                    deviceService.saveProject(true);
+                }
+            });
+        },
+
         //upload fgproj file and save to local storage
         uploadProject: function (file) {
             bootbox.confirm(localization.currentLocal.settings.tabs.project.uploadConfirm, function (result) {
@@ -181,6 +187,33 @@ function projectWindowService($rootScope, $location, projectService, deviceServi
                         });
 
                         if (proj) {
+
+                            if (proj.images && proj.images.length > 0) {
+                                //overwrite images
+                                bootbox.confirm(localization.currentLocal.settings.tabs.project.uploadImagesConfirm, function (result) {
+                                    if (result) {
+                                        angular.forEach(proj.images, function (img) {
+                                            if (img.base64) {
+                                                var slot = imageService.getSlot(img.name);
+
+                                                if (slot) {
+                                                    if (!settingsWindowService.demoMode) {
+                                                        deviceService.nodes.rosapi.set_param.call({ name: img.name, value: JSON.stringify({ base64: img.base64 }) });
+                                                    } else {
+                                                        //store image in local storage
+                                                        localStorage.setItem("flexgui4_images_" + img.name, img.base64);
+                                                    }
+
+                                                    slot.base64 = img.base64;
+                                                    variableService.friendlyCache[img.name] = slot;
+                                                }
+                                            }
+                                        });
+                                    }
+                                });
+                            }
+
+
                             projectService.load(proj);
                             deviceService.changeOnUi = true;
                             deviceService.saveProject(true);

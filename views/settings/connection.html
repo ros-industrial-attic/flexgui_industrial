@@ -16,19 +16,30 @@
  * See the License for the specific language governing permissions and
  * limitations under the License. 
  -->
- 
+
 <ng-include src="'views/helpIcon.html'" class="floatRight" ng-init="help = helpMessages.settings.connectionSettings" ng-if="helpMessages.show"></ng-include>
 <!--DI Settings-->
+<i>
+    {{localization.currentLocal.settings.tabs.conn.description}}
+</i>
+
 <div>
     <h5>{{localization.currentLocal.settings.tabs.conn.ip}}</h5>
     <input class="form-control" type="text" ng-model="device.ip" />
     <h5>{{localization.currentLocal.settings.tabs.conn.port}}</h5>
     <input class="form-control" type="text" ng-model="device.port" />
+    <h5>{{localization.currentLocal.settings.tabs.conn.secure}}</h5>
+    <div>
+        <div class="checkbox">
+            <input type="checkbox" ng-model="device.secure" id="secure">
+            <label for="secure">{{localization.currentLocal.settings.tabs.conn.secureSwitch}}</label>
+        </div>
+    </div>
 </div>
 <h5>{{localization.currentLocal.settings.tabs.conn.demoMode}}</h5>
 <div>
     <div class="checkbox">
-        <input type="checkbox" ng-model="settings.demoMode" id="demoMode">
+        <input type="checkbox" ng-model="settings.demoMode" id="demoMode" ng-disabled="window.location.protocol == 'https:'">
         <label for="demoMode">{{localization.currentLocal.settings.tabs.conn.demoModeSwitch}}</label>
     </div>
 </div>

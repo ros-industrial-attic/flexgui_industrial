@@ -16,9 +16,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License. 
  -->
- 
+
 <div class="modal" id="settingsDialog" data-backdrop="static"
-     data-keyboard="false">
+     data-keyboard="false"
+     ng-class="{'horizontal': !settings.isVertical}">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -33,13 +34,14 @@
 
             <!-- Tab panes -->
             <div class="tab-content">
-                <div class="tab-pane " ng-repeat="tab in settingsTabs track by $index" ng-class="{ 'active' : settings.tabIndex == $index }">
-                    <ng-include src="tab.source" ng-if="settings.tabIndex == $index"></ng-include>
+                <div class="tab-pane active">
+                    <ng-include src="toTrustedUrl(settingsTabs[settings.tabIndex].source)"></ng-include>
                 </div>
             </div>
 
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" ng-click="settings.setVisible(false)">{{localization.currentLocal.buttons.close}}</button>
+                <button autofocus type="button" ng-repeat="button in extraButtonsForSettingsWindow" class="btn {{button.type}}" ng-click="button.action()"><span ng-bind-html="button.title"></span></button>
+                <button type="button" class="btn btn-default" ng-disabled="device.hasDupes()" ng-click="settings.setVisible(false)">{{localization.currentLocal.buttons.close}}</button>
             </div>
         </div>
     </div>

@@ -14,13 +14,16 @@
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
- * limitations under the License.
- */
- 
+ * limitations under the License. 
+*/
 
-fidgetCtrl.$inject = ['$http', '$sce', '$scope', '$window', '$location', '$routeParams', '$attrs', '$timeout', 'editorService', 'popupService', 'deviceService', 'scriptManagerService', 'projectService', 'variableService', 'settingsWindowService'];
+fidgetCtrl.$inject = ['$http', '$sce', '$scope', '$window', '$location', '$routeParams', '$attrs', 'editorService',
+    'popupService', 'deviceService', 'scriptManagerService', 'projectService', 'variableService', 'settingsWindowService',
+    '$timeout', '$rootScope'];
 
-function fidgetCtrl($http, $sce, $scope, $window, $location, $routeParams, $attrs, $timeout, editorService, popupService, deviceService, scriptManagerService, projectService, variableService, settingsWindowService) {
+function fidgetCtrl($http, $sce, $scope, $window, $location, $routeParams, $attrs, editorService,
+    popupService, deviceService, scriptManagerService, projectService, variableService, settingsWindowService,
+    $timeout, $rootScope) {
     //onClick method for all fidgets. The current fidget is available in the script as 'fidget'.
     $scope.onClick = function (fidget, script) {
         if (editorService.selectedFidgets.length == 0) {
@@ -66,10 +69,34 @@ function fidgetCtrl($http, $sce, $scope, $window, $location, $routeParams, $attr
         return w;
     }
 
+    //calculates the text height for a given font
+    $scope.textHeight = function (text, font) {
+        var f = font || '14px',
+            o = $('<div>' + text + '</div>')
+                  .css({ 'position': 'absolute', 'float': 'left', 'white-space': 'nowrap', 'visibility': 'hidden', 'font-size': f })
+                  .appendTo($('body')),
+            h = o.height();
+
+        o.remove();
+
+        return h;
+    }
+
+    function isNumeric(n) {
+        return !isNaN(parseFloat(n)) && isFinite(n);
+    }
+
+    //calculates the number of the grid rectangles
+    $scope.getArray = function (size) {
+        size = isNumeric(size) ? size : 0;
+        var gridSize = settingsWindowService.gridsize || 1;
+        var d = size / gridSize == Math.floor(size / gridSize) ? 1 : 0;
+        var arrSize = Math.floor(size / gridSize) - d;
+        return  new Array(arrSize >= 0 ? arrSize : 0);
+    }
+
     //current fidget for the controller
     $scope.currentFidget = null;
-  
-    //init current indicator lamp
     $scope.initIndicatorLamp = function (f) {
         $scope.currentFidget = f;
         $scope.size = indicatorLampSize(f);

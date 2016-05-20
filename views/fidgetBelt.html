@@ -16,7 +16,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License. 
  -->
- 
+
 <perfect-scrollbar class="belt fidgetBelt" style="width: {{::beltWidth}}px;">
     <div class="fidgetHelp" style="height: 120px; pointer-events: initial" ng-if="helpMessages.show">
         <div style="width: 100px; height: 80px; overflow: hidden; margin: auto; display: table">
@@ -40,6 +40,6 @@
     </div>
 </perfect-scrollbar>
 
-<div ng-show="editHandler.selectedFidgets.length > 0 && editHandler.isMouseDown && !editHandler.inResize" class="beltOverlay belt fidgetBelt" style="width: {{::beltWidth}}px;">
+<div ng-show="(!editHandler.currentMode || editHandler.currentMode.showBeltOverlayes) && editHandler.selectedFidgets.length > 0 && editHandler.isMouseDown == true" class="beltOverlay belt fidgetBelt" style="width: {{::beltWidth}}px;">
     <div>{{localization.currentLocal.buttons.remove}}</div>
 </div>

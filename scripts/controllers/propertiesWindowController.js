@@ -14,12 +14,12 @@
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
- * limitations under the License.
- */
- 
-propertiesWindowCtrl.$inject = ['$scope', '$rootScope', '$window', '$location', '$routeParams', 'projectService', 'deviceService', 'editorService', 'colorPickerService', 'scriptManagerService', 'variableService', 'enumService'];
+ * limitations under the License. 
+*/
 
-function propertiesWindowCtrl($scope, $rootScope, $window, $location, $routeParams, projectService, deviceService, editorService, colorPickerService, scriptManagerService, variableService, enumService) {
+propertiesWindowCtrl.$inject = ['$scope', '$rootScope', '$window', '$location', '$routeParams', 'projectService', 'deviceService', 'editorService', 'colorPickerService', 'scriptManagerService', 'variableService', 'enumService', 'backgroundService'];
+
+function propertiesWindowCtrl($scope, $rootScope, $window, $location, $routeParams, projectService, deviceService, editorService, colorPickerService, scriptManagerService, variableService, enumService, backgroundService) {
     var invalidScripts = {};
 
     //returns if any of the property is an invalid script, used for disabling the save of the properties
@@ -27,9 +27,45 @@ function propertiesWindowCtrl($scope, $rootScope, $window, $location, $routePara
         return Object.keys(invalidScripts).length > 0;
     }
 
+    if (!$rootScope.onClickEditor) $rootScope.onClickEditor = 'views/properties/onClick.html';
+
+    //duplicate screen, copies all of the properties of screen and add " - Screen" tag after the name
+    $scope.duplicateScreen = function () {
+        //create a copy of the current screen
+        var copy = angular.copy(projectService.currentScreen);
+        var exists = true;
+        var id = "";
+
+        while (exists) {
+            exists = false;
+            angular.forEach(projectService.screens, function (screen) {
+                if (screen.properties.name == projectService.currentScreen.properties.name + " - Copy" + (id == "" ? id : (" " + id))) {
+                    exists = true;
+                    if (id == "")
+                        id = 2;
+                    else
+                        id++;
+                }
+            });
+        }
+
+        //update the name
+        copy.properties.name += " - Copy" + (id == "" ? id : (" " + id));
+        copy.id = projectService.getId();
+
+        //add to screen list
+        projectService.screens.push(copy);
+
+        //setup fidgets, generate new id for fidgets
+        projectService.setupContainer(copy, 1, function (f) { f.id = "fidget_" + variableService.guid(); });
+
+        //open screen editor window
+        $rootScope.editScreen(copy);
+    }
+
     //validates of the value of a property, unValidatedPropertes to be extended, if we want to exclude something from the validated prop list
     $scope.validate = function (error, fidget, property) {
-        var validateProperties = ["width", "height", "_value", "min", "max", "angleArc", "angleOffset", "precision", "step", "lock", "blinking", "blinkPeriod"];
+        var validateProperties = ["_width", "_height", "_value", "_min", "_max", "_angleArc", "_angleOffset", "_precision", "_step", "_lock", "_blinking", "_blinkPeriod", "_borderWidth"];
 
         if (fidget == projectService.currentScreen) {
             var existing = false;
@@ -46,14 +82,24 @@ function propertiesWindowCtrl($scope, $rootScope, $window, $location, $routePara
             }
         }
 
+        function error(property) {
+            error.scriptError = true;
+            invalidScripts[property] = "";
+        }
+
         if (validateProperties.indexOf(property) >= 0) {
             try {
-                eval(scriptManagerService.compile(fidget.properties[property]));
-                delete invalidScripts[property];
+                var value = fidget.properties[property];
+                if (value === undefined || value === null || value === "") {
+                    error(property);
+                    return;
+                } else {
+                    eval(scriptManagerService.compile(value));
+                    delete invalidScripts[property];
+                }
             }
             catch (e) {
-                error.scriptError = true;
-                invalidScripts[property] = "";
+                error(property);
                 return;
             }
         }
@@ -89,19 +135,31 @@ function propertiesWindowCtrl($scope, $rootScope, $window, $location, $routePara
         var image = colorPickerService.generateBase64Color(editorService.editedFidget.backgroundColor);
     }
 
-    $scope.$watch(function () { return editorService.editedFidget.backgroundColor }, function () {
-        if (editorService.editedFidget.backgroundColor == null || editorService.editedFidget.backgroundColor == undefined || editorService.editedFidget.backgroundColor.trim() == "") {
-            editorService.editedFidget.backgroundImage = null;
-        } else {
-            editorService.editedFidget.backgroundImage = colorPickerService.generateBase64Color(editorService.editedFidget.backgroundColor);
+    if (editorService.editedFidget == projectService.currentScreen) {
+        $scope.$watch(function () { return editorService.editedFidget.backgroundType }, function (nv, ov) {
+            if (!nv || !backgroundService.backgroundTypes[editorService.editedFidget.backgroundType.name]) {
+                editorService.editedFidget.backgroundType = backgroundService.backgroundTypes.Color;
+                editorService.editedFidget.backgroundColor = null;
+            }
+        });
 
-        }
-    });
+        $scope.$watch(function () { return editorService.editedFidget.backgroundColor }, function () {
+            if (editorService.editedFidget.backgroundType && editorService.editedFidget.backgroundType.key == backgroundService.backgroundTypes.Color.key) {
+                if (editorService.editedFidget.backgroundColor) editorService.editedFidget.backgroundImage = colorPickerService.generateBase64Color(editorService.editedFidget.backgroundColor);
+                else editorService.editedFidget.backgroundImage = null;
+            }
+        });
+    }
+
+    //if (!$rootScope.changeBacktroundType) {
+    //    $rootScope.changeBacktroundType = function () {
+    //        editorService.editedFidget.backgroundImage = colorPickerService.generateBase64Color(editorService.editedFidget.backgroundColor);
+    //    }
+    //}
 
     //init color picker to pick color for a factory screen background
     //for this we have to convert the color the a base64 image and back (to show which is selected)
     $scope.colorPickerInitForFactory = function () {
-
         if (editorService.editedFidget.id != projectService.currentScreen.id) return;
 
         var image = new Image();
@@ -155,15 +213,14 @@ function propertiesWindowCtrl($scope, $rootScope, $window, $location, $routePara
             for (var p in editorService.editedFidget.properties)
                 result.push(p);
         } else {
-
             //if a fidget, get the properties from the template (and keep the order)
             for (var p in editorService.editedFidget.template.properties)
                 result.push(p);
         }
-
         var result = result.sort();
-        //move onclick to the end of the list
-        if (result.indexOf("onClick") != -1) result.move(result.indexOf("onClick"), result.length - 1);
+        //move onclick to the end of the list and width next to height
+        if (result.indexOf("_height") > -1 && result.indexOf("_width") > -1) result.move(result.indexOf("_height"), result.indexOf("_width"));
+        if (result.indexOf("onClick") > -1) result.move(result.indexOf("onClick"), result.length - 1);
         return result;
     }
 

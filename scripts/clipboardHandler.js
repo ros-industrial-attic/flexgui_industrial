@@ -14,9 +14,9 @@
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
- * limitations under the License.
- */
- 
+ * limitations under the License. 
+*/
+
 clipboardService.$inject = ['projectService', 'deviceService', 'fidgetService'];
 
 function clipboardService(projectService, deviceService, fidgetService) {
@@ -49,20 +49,25 @@ function clipboardService(projectService, deviceService, fidgetService) {
 
             for (var i = 0; i < clipboardHandler.clipboard.length; i++) {
                 var fidget = clipboardHandler.clipboard[i];
-                clipboardHandler.pasteChild(fidget, destinationContainer, fidget.top, destinationContainer == projectService.currentScreen && fidget.left < $(".editBelt").width() ? $(".editBelt").width() : fidget.left);
+                clipboardHandler.pasted.push(
+                    clipboardHandler.pasteChild(
+                    fidget, destinationContainer,
+                    fidget.top,
+                    fidget.left));
             }
 
             deviceService.saveProject(true);
         },
 
         pasteChild: function (fidget, parent, top, left) {
-            var newFidget = fidgetService.getFidget(fidget.root, fidget.source, left, top, fidget.properties, fidget.icon, fidget.name);
+            var newFidget = fidgetService.getFidget(fidget.root, fidget.source, left, top, fidget.properties, fidget.icon, fidget.name, fidget.template);
             newFidget.parent = parent;
             parent.fidgets.push(newFidget);
-            clipboardHandler.pasted.push(newFidget);
             angular.forEach(fidget.fidgets, function (f) {
                 clipboardHandler.pasteChild(f, newFidget, f.top, f.left);
             });
+
+            return newFidget;
         }
     }
 

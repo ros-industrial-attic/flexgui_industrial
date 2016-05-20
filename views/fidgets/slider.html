@@ -16,7 +16,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License. 
  -->
- 
+
 <style>
     #{{fidget.id}} .slider-handle{
                        height: {{fidget.properties.height}}px; width:{{fidget.properties.height/2}}px;
@@ -28,6 +28,6 @@
                    }
 </style>
 
-<div style="width: {{fidget.properties.width}}px; height: {{fidget.properties.height}}px">
+<div style="width: {{fidget.properties.width}}px; height: {{fidget.properties.height}}px" hm-tapend="onClick(fidget, fidget.properties.onClick)" ng-mouseup="onClick(fidget, fidget.properties.onClick)">
     <slider ng-model="fidget.properties.value" min="fidget.properties.min" step="fidget.properties.step" max="fidget.properties.max" value="fidget.properties.value"></slider>
 </div>

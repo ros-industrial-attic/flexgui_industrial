@@ -16,10 +16,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License. 
  -->
- 
-<div style="width: {{fidget.properties.width}}px; height: {{fidget.properties.height}}px; opacity: {{editHandler.activeContainer == fidget && !editHandler.inResize ? 0.5 : 1}};" class="fidgetGroup">
+
+<div style="width: {{fidget.properties.width - fidget.properties.borderWidth}}px; height: {{fidget.properties.height - fidget.properties.borderWidth}}px; opacity: {{editHandler.activeContainer == fidget && !editHandler.inResize ? 0.5 : 1}}; border: {{fidget.properties.borderWidth || 0}}px solid {{fidget.properties.borderColor || 'transparent'}};" class="fidgetGroup">
     <div style="top: 0px; left: 0px; position: relative;">
-        <fg-fidget-repeater fidgets="fidget.fidgets" />
+        <div fg-fidget-repeater fidgets="fidget.fidgets" />
     </div>
 </div>
 

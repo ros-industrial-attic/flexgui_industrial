@@ -16,10 +16,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License. 
  -->
- 
+
 <div class="checkbox" style="width: {{fidget.properties.width}}px; height: {{fidget.properties.height}}px; display: table-cell; vertical-align: middle; text-align: center;">
     <input type="checkbox" id="chk_{{fidget.id}}" ng-model="fidget.properties.value" hm-tapend="onClick(fidget, fidget.properties.onClick)" ng-mouseup="onClick(fidget, fidget.properties.onClick)">
-    <label for="chk_{{fidget.id}}" style="color: {{fidget.properties.fontColor}}">
+    <label for="chk_{{fidget.id}}" hm-tapend="onClick(fidget, fidget.properties.onClick)" ng-mouseup="onClick(fidget, fidget.properties.onClick)" style="color: {{fidget.properties.fontColor}}">
         {{fidget.properties.text}}
     </label>
 </div>

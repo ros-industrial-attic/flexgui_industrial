@@ -16,7 +16,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License. 
  -->
- 
+
 <ng-include src="'views/helpIcon.html'" class="floatRight" ng-init="help = helpMessages.settings.project" ng-if="helpMessages.show"></ng-include>
 
 <!--Project Settings-->
@@ -31,4 +31,7 @@
 
     <h4>{{localization.currentLocal.settings.tabs.project.download}}</h4>
     <button class="btn btn-default btn-block btn-lg" ng-click="projects.downloadPropject()">{{localization.currentLocal.buttons.save}}</button>
+
+    <h4>{{localization.currentLocal.settings.tabs.project.newProject}}</h4>
+    <button class="btn btn-default btn-block btn-lg" ng-click="projects.clean(); settings.setVisible(false);">{{localization.currentLocal.settings.tabs.project.createNew}}</button>
 </div>

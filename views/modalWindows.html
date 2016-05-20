@@ -16,27 +16,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License. 
  -->
- 
-<!--Add screen window-->
-<ng-include src="'views/addScreen.html'" ng-if="project.addScreenVisible"></ng-include>
 
-<!--Properties window-->
-<ng-include src="'views/propertiesWindow.html'" ng-if="editHandler.propertiesWindowVisible"></ng-include>
-
-<!--Settings window-->
-<ng-include src="'views/settingsWindow.html'" ng-if="settings.visible"></ng-include>
-
-<!--NachiLinkWindow window-->
-<ng-include src="'views/nachiLinkWindow.html'" ng-if="nachiLink.visible"></ng-include>
-
-<!--Projects window-->
-<ng-include src="'views/projectsWindow.html'" ng-if="projects.visible"></ng-include>
-
-<!--ImageExplorer window-->
-<ng-include src="'views/imageExplorerWindow.html'" ng-if="images.visible"></ng-include>
-
-<!--Color picker window-->
-<ng-include src="'views/colorPickerWindow.html'" ng-if="colorPickerHandler.colorPickerModalVisible"></ng-include>
+<ng-include ng-repeat="modal in modals" src="modal.src" ng-if="modal.visible"></ng-include>
 
 <!--Help window-->
 <ng-include src="'views/helpMessage.html'" ng-if="helpMessages.open != null"></ng-include>
