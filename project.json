@@ -233,7 +233,7 @@
               "properties": {
                 "_height": 67,
                 "_width": 211,
-                "onClick": "#setScreen(projectService.screens[1]); ",
+                "onClick": "#setScreenByName('Monitoring'); ",
                 "_text": "Go To The First Example"
               },
               "absoluteOffset": {

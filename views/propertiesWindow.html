@@ -51,7 +51,7 @@
                             show-perfect-scroll-bar>
                             <td><label>{{localization.currentLocal.fidgets.properties[p]}}</label></td>
                             <td style="white-space: nowrap">
-                                <input type="text" name="{{p}}" ng-if="!(p == 'hasScreenBelt' && editHandler.editedFidget == project.currentScreen) && p != 'onClick' && p != 'scale' && p != '_screenLink' && p != '_icon' && p != 'backgroundType'" class="form-control" ng-class="{'form-control-66': p.toLowerCase().indexOf('color') != -1 || (editHandler.editedFidget.source == 'image' && p == '_value') }" ng-model="editHandler.editedFidget.properties[p]" ng-required="isPropertyRequired(p)" ng-change="validate(propertiesForm.{{p}}.$error, editHandler.editedFidget, p)">
+                                <input type="text" name="{{p}}" ng-if="!(p == 'hasScreenBelt' && editHandler.editedFidget == project.currentScreen) && ['onClick', 'scale', '_screenLink', 'backgroundType', '_icon', '_font', '_textAlign'].indexOf(p) == -1" class="form-control" ng-class="{'form-control-66': p.toLowerCase().indexOf('color') != -1 || (editHandler.editedFidget.source == 'image' && p == '_value') }" ng-model="editHandler.editedFidget.properties[p]" ng-required="isPropertyRequired(p)" ng-change="validate(propertiesForm.{{p}}.$error, editHandler.editedFidget, p)">
                                 <div ng-if="p.toLowerCase().indexOf('color') != -1 && editHandler.editedFidget.properties[p].indexOf('#') == 0"
                                      style="background-color: {{editHandler.editedFidget.properties[p]}};" class="colorMark"></div>
                                 <button ng-if="p.toLowerCase().indexOf('color') != -1" class="btn btn-default col-md-4" ng-click="openColorPicker(p, editHandler.editedFidget.properties[p])">{{localization.currentLocal.buttons.pick}}</button>
@@ -75,6 +75,15 @@
                                     <option value="addons/factoryDesigner/images/fidgets/robot.png">{{localization.currentLocal.properties.robot}}</option>
                                     <option value="addons/factoryDesigner/images/fidgets/plc.png">{{localization.currentLocal.properties.plc}}</option>
                                 </select>
+                                <select ng-model="editHandler.editedFidget.properties[p]" ng-if="p == '_font'" class="form-control">
+                                    <option ng-repeat="font in fidgets.fonts | stringSort" value="{{font}}">{{font}}</option>
+                                </select>
+                                <select ng-model="editHandler.editedFidget.properties[p]" ng-if="p == '_textAlign'" class="form-control">
+                                    <option value="left">{{localization.currentLocal.fidgets.properties.alignments.left}}</option>
+                                    <option value="center">{{localization.currentLocal.fidgets.properties.alignments.center}}</option>
+                                    <option value="right">{{localization.currentLocal.fidgets.properties.alignments.right}}</option>
+                                    <option value="justify">{{localization.currentLocal.fidgets.properties.alignments.justify}}</option>
+                                </select>
                             </td>
                         </tr>
 
@@ -86,8 +95,7 @@
                                     <select ng-model="editHandler.editedFidget.backgroundType"
                                             class="form-control"
                                             ng-change="background.changeBacktroundType(editHandler.editedFidget)"
-                                            ng-options="option.name for option in background.backgroundTypes track by option.key">
-                                    </select>
+                                            ng-options="option.name for option in background.backgroundTypes track by option.key"></select>
                                 </td>
                             </tr>
                             <tr class="form-group has-feedback" ng-include="background.backgroundTypes[editHandler.editedFidget.backgroundType.key].editor"></tr>
@@ -120,3 +128,4 @@
         </div>
     </div>
 </div>
+

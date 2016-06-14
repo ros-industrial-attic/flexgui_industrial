@@ -24,6 +24,11 @@ localization.languages.push('hu');
 localization.items.hu = {
     flag: 'scripts/localization/flags/hu.GIF',
     language: 'Magyar',
+    starting: {
+        downloadAddons: "Kiegészítők betöltése... ",
+        connectToRos: "Kapcsolódása a ROS Serverhez",
+        hideConnect: "Elrejtés"
+    },
     licensing: {
         notGenerated: "<h3>Nem jóváhagyott licensz</h3> <p>A licensz jóváhagyásához kérjük várjon!</p>",
     	licenseNotFound: "<h3>Nem található licensz</h3>"
@@ -168,7 +173,7 @@ localization.items.hu = {
         currentProjectTab: 'Aktuális',
         projectBrowserTab: 'Böngésző',
         blockMsg: 'Kérjük várjon...',
-        loading: 'Laden Projekt...',
+        loading: 'Projekt betöltése...',
         saveError: "Hiba a project mentése során. A mégse gombra kattintva kikapcsolható az üzenet és folytatható a munka, az okra kattintással újra megpróbáljuk elmenteni a projektet.",
         notForThisVersion: "A betölteni kívánt projekt verziója (@0) eltér az aktuálisan használt verziótól (@1). Konvertálja?",
         canNotConvert: "A projekt nem konvertálható, létrehoz egy újat?"
@@ -215,6 +220,15 @@ localization.items.hu = {
                 show: 'Megjelenítés',
                 hide: "Elrejtés"
             },
+            alignments: {
+                left: 'Balra',
+                right: 'Jobbra',
+                center: 'Középre',
+                justify: 'Sorkizárt'
+            },
+            _textAlign: "Igazítás",
+            _font: "Betűtípus",
+            _icon: "Ikon",
             _width: 'Szélesség',
             _height: 'Magasság',
             opacity: 'Láthatóság',

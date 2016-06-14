@@ -24,6 +24,11 @@ localization.languages.push('de');
 localization.items.de = {
     flag: 'scripts/localization/flags/de.GIF',
     language: 'Deutsch',
+    starting: {
+        downloadAddons: "Loading addons... ",
+        connectToRos: "Connecting to ROS Server",
+        hideConnect: "Hide"
+    },
 	licensing: {
         notGenerated: "<h3>License is not approved</h3> <p>Please be patient, we will generate your license soon!</p>",
         licenseNotFound: "<h3>Lizenz wurde nicht gefunden</h3>"
@@ -215,6 +220,15 @@ localization.items.de = {
                 show: 'Show',
                 hide: "Hide"
             },
+            alignments: {
+                left: 'Left',
+                right: 'Right',
+                center: 'Center',
+                justify: 'Justify'
+            },
+            _textAlign: "Align",
+            _font: "Font",
+            _icon: "Icon",
             _width: 'Breite',
             _height: 'Höhe',
             _angle: 'Winkel',

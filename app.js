@@ -165,7 +165,7 @@ function run($rootScope, $templateCache, $location, $timeout, projectService, va
     if (!$rootScope.settingsTabs) $rootScope.settingsTabs = [];
 
     $rootScope.currentUserId = "user_" + variableService.guid();
-    projectService.appVersion = "1.1";
+    projectService.appVersion = "1.2";
 
     //location setup
     $rootScope.startPage = $location.path().substring(1);

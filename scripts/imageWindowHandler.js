@@ -159,34 +159,47 @@ function imageService(deviceService, settingsWindowService, variableService, pop
             var img = new Image;
             img.src = URL.createObjectURL(file);
             img.onload = function () {
-                canvas.width = img.width;
-                canvas.height = img.height;
-                ctx.drawImage(img, 0, 0, img.width, img.height);
-                resized = document.createElement('canvas');
+				canvas.width = img.width;
+				canvas.height = img.height;
+				ctx.drawImage(img, 0, 0, img.width, img.height);
+				
 
-                //keep aspect
-                resized.width = img.width > img.height ? 1024 : 768;
-                resized.height = resized.width / img.width * img.height;
-                canvasResize(canvas, resized, function () {
-                    var base64 = resized.toDataURL("image/png");
-                    var slot = imageHandler.getSlot(imageHandler.currentImage);
+				function saveImg(c) {
+					var base64 = c.toDataURL("image/png");
+					var slot = imageHandler.getSlot(imageHandler.currentImage);
 
-                    if (slot) {
-                        if (!settingsWindowService.demoMode) {
-                            deviceService.nodes.rosapi.set_param.call({ name: imageHandler.currentImage, value: JSON.stringify({ base64: base64 }) });
-                        } else {
-                            localStorage.setItem("flexgui4_images_" + imageHandler.currentImage, base64);
-                        }
-                        slot.base64 = base64;
-                        variableService.friendlyCache[imageHandler.currentImage] = slot;
-                    }
+					if (slot) {
+						if (!settingsWindowService.demoMode) {
+							deviceService.nodes.rosapi.set_param.call({ name: imageHandler.currentImage, value: JSON.stringify({ base64: base64 }) });
+						} else {
+							localStorage.setItem("flexgui4_images_" + imageHandler.currentImage, base64);
+						}
+						slot.base64 = base64;
+						variableService.friendlyCache[imageHandler.currentImage] = slot;
+					}
 
-                    imageHandler.scope.$apply();
-                    imageHandler.scope.unBlockUI();
-                    imageHandler.setSelectedImage(variableService.friendlyCache[imageHandler.currentImage]);
-                    imageHandler.setTabIndex(0);
-                });
-            }
+					imageHandler.scope.$apply();
+					imageHandler.scope.unBlockUI();
+					imageHandler.setSelectedImage(variableService.friendlyCache[imageHandler.currentImage]);
+					imageHandler.setTabIndex(0);
+				}
+
+				//only resize, if bigger than 1024*768px
+				if (img.width * img.height > 1024 * 768) {
+					resized = document.createElement('canvas');
+
+					//keep aspect
+					resized.width = img.width > img.height ? 1024 : 768;
+					resized.height = resized.width / img.width * img.height;
+					canvasResize(canvas, resized, function () {
+						saveImg(resized)
+					});
+				} else {
+					saveImg(canvas);
+				}
+
+				
+			}
         },
     }
 

@@ -46,6 +46,37 @@ function projectConversionService() {
             return project;
         }
     }
+	
+	//step from 1.1 - 1.2: text align property update
+	serv.list[2] = {
+        from: "1.1",
+        to: "1.2",
+        action: function (project) {
+            function updateFidgets(c) {
+                angular.forEach(c.fidgets, function (f) {
+                    if (f.fidgets) updateFidgets(f);
+
+                    if (f.source == "text") {
+                        f.properties._font = "inherit";
+                        f.properties._textAlign = "left";
+                    }
+
+                    if (f.source == "scrollableText") {
+                        f.properties._font = "inherit";
+                        f.properties._textAlign = "left";
+                        f.properties._fontSize = 12;
+                        f.properties._color = "#000000";;
+                    }
+                });
+            }
+
+            angular.forEach(project.screens, function (screen) {
+                updateFidgets(screen);
+            });
+            project.appVersion = this.to;
+            return project;
+        }
+    }
 
 
     ////test step from 1.0 - 1.1

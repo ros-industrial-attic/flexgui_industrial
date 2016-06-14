@@ -49,6 +49,7 @@ function editorService(
 
                 },
                 onMouseUp: function (mousePos) {
+                    editHandler.isDragging = false;
                     var updatePos = true;
 
                     //delete fidgets if the mouse is over the delete belt
@@ -118,6 +119,8 @@ function editorService(
                     }
                 },
                 onMouseMove: function (mousePos) {
+                    editHandler.isDragging = true;
+
                     for (var i = 0; i < editHandler.selectedFidgets.length; i++) {
                         var fidget = editHandler.selectedFidgets[i];
                         editHandler.setFidgetPosition(fidget, mousePos);
@@ -132,6 +135,9 @@ function editorService(
 
         //is mouse down
         isMouseDown: false,
+
+        //is dragging
+        isDragging: false,
 
         //multiple fidget selection
         isMultiSelect: false,
@@ -309,7 +315,7 @@ function editorService(
         },
 
         //get closest fidget under the cursor
-        getClosestFidget: function (mousePos, $event, skipSelected) {
+        getClosestFidget: function (mousePos, $event, skipSelected, directHit) {
             var fidgets = []; //projectService.currentScreen.fidgets; //editHandler.selectedFidgets;
 
             if (editHandler.currentMode) {
@@ -373,37 +379,40 @@ function editorService(
             var closestDistance = editHandler.safetyDistance + 1;
             var closestFidget;
 
-            for (var i = fidgets.length - 1; i >= 0; i--) {
-                var fidget = fidgets[i];
-                var size = editHandler.getFidgetSize(fidget);
+            if (!directHit) {
 
-                var center = {
-                    x: fidget.absoluteOffset.left + size.width / 2,
-                    y: fidget.absoluteOffset.top + size.height / 2
-                };
+                for (var i = fidgets.length - 1; i >= 0; i--) {
+                    var fidget = fidgets[i];
+                    var size = editHandler.getFidgetSize(fidget);
 
-                var rotMouse = rot(mousePos.x - center.x, mousePos.y - center.y, fidget.properties.angle || parseInt(0));
-                rotMouse.x += center.x;
-                rotMouse.y += center.y;
+                    var center = {
+                        x: fidget.absoluteOffset.left + size.width / 2,
+                        y: fidget.absoluteOffset.top + size.height / 2
+                    };
 
-                if (editHandler.selectedFidgets.indexOf(fidget) > -1 && skipSelected) continue;
+                    var rotMouse = rot(mousePos.x - center.x, mousePos.y - center.y, fidget.properties.angle || parseInt(0));
+                    rotMouse.x += center.x;
+                    rotMouse.y += center.y;
 
-                var acceptedArea = {
-                    x1: fidget.absoluteOffset.left - editHandler.safetyDistance,
-                    x2: fidget.absoluteOffset.left + editHandler.safetyDistance + size.width,
-                    y1: fidget.absoluteOffset.top - editHandler.safetyDistance,
-                    y2: fidget.absoluteOffset.top + size.height + editHandler.safetyDistance
-                };
+                    if (editHandler.selectedFidgets.indexOf(fidget) > -1 && skipSelected) continue;
 
-                if (acceptedArea.x1 <= rotMouse.x && acceptedArea.x2 >= rotMouse.x && acceptedArea.y1 <= rotMouse.y && acceptedArea.y2 >= rotMouse.y) {
-                    var topY = editHandler.safetyDistance - (rotMouse.y - acceptedArea.y1);
-                    var bottomY = editHandler.safetyDistance - (acceptedArea.y2 - rotMouse.y);
-                    var rightX = editHandler.safetyDistance - (acceptedArea.x2 - rotMouse.x);
-                    var leftX = editHandler.safetyDistance - (rotMouse.x - acceptedArea.x1);
+                    var acceptedArea = {
+                        x1: fidget.absoluteOffset.left - editHandler.safetyDistance,
+                        x2: fidget.absoluteOffset.left + editHandler.safetyDistance + size.width,
+                        y1: fidget.absoluteOffset.top - editHandler.safetyDistance,
+                        y2: fidget.absoluteOffset.top + size.height + editHandler.safetyDistance
+                    };
 
-                    if (closestDistance > Math.min(Math.max(topY, bottomY, leftX, rightX), closestDistance)) {
-                        closestDistance = Math.max(topY, bottomY, leftX, rightX);
-                        closestFidget = fidget;
+                    if (acceptedArea.x1 <= rotMouse.x && acceptedArea.x2 >= rotMouse.x && acceptedArea.y1 <= rotMouse.y && acceptedArea.y2 >= rotMouse.y) {
+                        var topY = editHandler.safetyDistance - (rotMouse.y - acceptedArea.y1);
+                        var bottomY = editHandler.safetyDistance - (acceptedArea.y2 - rotMouse.y);
+                        var rightX = editHandler.safetyDistance - (acceptedArea.x2 - rotMouse.x);
+                        var leftX = editHandler.safetyDistance - (rotMouse.x - acceptedArea.x1);
+
+                        if (closestDistance > Math.min(Math.max(topY, bottomY, leftX, rightX), closestDistance)) {
+                            closestDistance = Math.max(topY, bottomY, leftX, rightX);
+                            closestFidget = fidget;
+                        }
                     }
                 }
             }
@@ -616,7 +625,7 @@ function editorService(
         onMouseMove: function ($event) {
             if (!editHandler.isEditMode || !editHandler.mouseDownPos || !editHandler.isMouseDown) return;
             var mousePos = editHandler.getMousePos($event);
-            var container = editHandler.getClosestFidget(mousePos, $event, true);
+            var container = editHandler.getClosestFidget(mousePos, $event, true, true);
 
             if (container && editHandler.selectedFidgets.indexOf(container.parent) == -1 && container.source == "fidgetGroup") {
                 editHandler.activeContainer = container;
@@ -749,7 +758,7 @@ function editorService(
 
                     if (changed) {
                         angular.forEach(editHandler.actions, function (action) {
-                            action.hidden = (editHandler.selectedFidgets.length == 1 && editHandler.isMouseDown == true && (!editHandler.currentMode || editHandler.currentMode.showBeltOverlayes)) || [projectService.currentScreen.type, enumService.screenTypesEnum.All].indexOf(action.forScreenType) == -1;
+                            action.hidden = [projectService.currentScreen.type, enumService.screenTypesEnum.All].indexOf(action.forScreenType) == -1;//(editHandler.selectedFidgets.length == 1 && editHandler.isMouseDown == true && (!editHandler.currentMode || editHandler.currentMode.showBeltOverlayes)) || [projectService.currentScreen.type, enumService.screenTypesEnum.All].indexOf(action.forScreenType) == -1;
                         });
 
                         angular.forEach(fidgetService.templates, function (fidget) {
