@@ -17,9 +17,16 @@
  * limitations under the License. 
  -->
 
-<div class="checkbox" style="width: {{fidget.properties.width}}px; height: {{fidget.properties.height}}px; display: table-cell; vertical-align: middle; text-align: center;">
-    <input type="checkbox" id="chk_{{fidget.id}}" ng-model="fidget.properties.value" hm-tapend="onClick(fidget, fidget.properties.onClick)" ng-mouseup="onClick(fidget, fidget.properties.onClick)">
-    <label for="chk_{{fidget.id}}" hm-tapend="onClick(fidget, fidget.properties.onClick)" ng-mouseup="onClick(fidget, fidget.properties.onClick)" style="color: {{fidget.properties.fontColor}}">
-        {{fidget.properties.text}}
-    </label>
-</div>
+<table class="checkbox" style="width: {{fidget.properties.width}}px; height: {{fidget.properties.height}}px; display: table-cell; vertical-align: middle; text-align: center;">
+    <tr hm-tapend="onClick(fidget, fidget.properties.onClick)" ng-mouseup="onClick(fidget, fidget.properties.onClick)">
+        <td>
+            <div class="checkbox">
+                <input type="checkbox" id="chk_{{fidget.id}}" ng-model="fidget.properties.value">
+                <label for="chk_{{fidget.id}}"></label>
+            </div>
+        </td>
+        <td style="color: {{fidget.properties.fontColor}}; font-family: {{fidget.properties.font || 'inherit'}}; font-size: {{fidget.properties.fontSize}}px; white-space: nowrap; padding-left: 10px;">
+            {{fidget.properties.text}}
+        </td>
+    </tr>
+</table>

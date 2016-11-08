@@ -77,6 +77,7 @@
     <script src="scripts/localization/localization.en.js"></script>
     <script src="scripts/localization/localization.de.js"></script>
     <script src="scripts/localization/localization.hu.js"></script>
+    <script src="scripts/localization/localization.ko.js"></script>
     <script src="scripts/backgroundService.js"></script>
     <script src="scripts/colorPickerHandler.js"></script>
     <script src="scripts/popupHandler.js"></script>
@@ -87,7 +88,6 @@
     <script src="scripts/clipboardHandler.js"></script>
     <script src="scripts/helpMessages.js"></script>
     <script src="scripts/deviceModel.js"></script>
-    <script src="scripts/demoMessengerModel.js"></script>
     <script src="scripts/scriptManager.js"></script>
     <script src="scripts/projectModel.js"></script>
     <script src="scripts/fidgetTemplates.js"></script>
@@ -95,6 +95,7 @@
     <script src="scripts/enumService.js"></script>
     <script src="scripts/variableService.js"></script>
     <script src="scripts/projectConversionService.js"></script>
+    <script src="scripts/projectStorageService.js"></script>
 
     <!--Controllers-->
     <script src="scripts/controllers/propertiesWindowController.js"></script>
@@ -105,7 +106,8 @@
 <body id="body"
       ng-controller="flexGuiCtrl"
       class="screen"
-      hm-tap="mirrorMode.onScreenTap($event)">
+      hm-tap="mirrorMode.onScreenTap($event)"
+      hm-pinch="pinchZoom($event)">
 
     <style>
         .editModeOn{
@@ -129,14 +131,36 @@
         <!--Screen area-->
         <div id="currentScreen" style="position: relative; left: {{project.screenBeltVisible ? beltWidth : 0}}px; margin-right: {{editHandler.isEditMode ? beltWidth : 0}}px; height: 100%;"
              hm-tap="::editHandler.onScreenTap($event)">
-            
+
             <!-- Fidgets -->
             <ng-include src="screenRoot"></ng-include>
         </div>
 
-        <!--Connection: demo mode-->
-        <div class="alert alert-hollow text-center connectionAlert" ng-if="settings.demoMode" style="width:100%;">
-            {{localization.currentLocal.settings.tabs.conn.demoMode}}
+        <div style="position: fixed; bottom: 0; right: {{editHandler.isEditMode ? beltWidth + 20 : 20}}px; font-size: 10px;">
+            Storage mode: {{drive.mode}}
+        </div>
+
+        <!--Connection: offline mode-->
+        <div class="alert alert-hollow text-center connectionAlert" ng-if="settings.isSoftwareOffline || drive.saveNeeded || drive.downloadNeeded" style="width:100%;">
+            <span ng-if="settings.isSoftwareOffline">
+                {{localization.currentLocal.settings.tabs.conn.offlineMode}}
+            </span>
+
+            <span ng-if="drive.downloadNeeded">
+                New version available on server, <a style="cursor: pointer;" ng-click="drive.download(true, true)">download</a> now.
+            </span>
+
+            <span ng-if="drive.saveNeeded">
+                Project changed, <a style="cursor: pointer;" ng-click="drive.save(false, false, true)">upload</a> to server to save your project.
+            </span>
+        </div>
+
+        <!--Offline topics-->
+        <div class="alert alert-hollow text-center offlineTopics" ng-if="(device.topics|filter:{isOffline:true}).length > 0" style="width:100%;">
+            <ul>
+                <li ng-repeat="topic in device.topics|filter:{isOffline:true}|limitTo:3">{{topic.path}}</li>
+                <li ng-if="(device.topics|filter:{isOffline:true}).length > 3"> and more({{(device.topics|filter:{isOffline:true}).length - 3}}) </li>
+            </ul>
         </div>
 
         <!--Quick Call fidget (if installed)-->

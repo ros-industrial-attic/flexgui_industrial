@@ -20,6 +20,6 @@
 <ng-include src="'views/helpIcon.html'" class="floatRight" ng-init="help = helpMessages.settings.nodes" ng-if="helpMessages.show"></ng-include>
 
 <!--Nodes tab-->
-<ng-include src="'views/nodesTab.html'" ng-if="!settings.demoMode"></ng-include>
+<ng-include src="'views/nodesTab.html'" ng-if="!settings.isSoftwareOffline"></ng-include>
 
-<h4 ng-if="settings.demoMode">{{localization.currentLocal.settings.tabs.nodes.demoAlert}}</h4>
+<h4 ng-if="settings.isSoftwareOffline">{{localization.currentLocal.settings.tabs.nodes.demoAlert}}</h4>

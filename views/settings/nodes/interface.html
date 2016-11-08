@@ -17,16 +17,24 @@
  * limitations under the License. 
  -->
 
-<td><label>{{interface.shortPath.indexOf("Variables/") == 0 ? interface.shortPath.substring(10) : interface.shortPath}}</label></td>
-<td>
-    <div title="{{device.isDupe(interface) ? localization.currentLocal.ros.interfaces.dupeError : ''}}" class="input-group has-feedback friendlyNameInput" ng-class="{ 'has-error' : device.isDupe(interface) }">
+ <td>
+    <label ng-if="!interface.value">{{interface.shortPath.indexOf("Variables/") == 0 ? interface.shortPath.substring(10) : interface.shortPath}}</label>
+    <a ng-click="settings.topicDetails.setVisible(true, interface)" ng-if="interface.value">{{interface.shortPath.indexOf("Variables/") == 0 ? interface.shortPath.substring(10) : interface.shortPath}}</a>
+</td>
+
+<td ng-if="interface.isTopic"><input type="checkbox" disabled="disabled" ng-model="interface.isOffline"/></td>
+<td ng-if="interface.isTopic"><input type="checkbox" disabled="disabled" ng-model="interface.upToDate" /></td>
+
+<td colspan="{{ interface.isTopic ? 1 : 3  }}">
+    <div title="{{device.isDupe(interface.friendlyName) ? localization.currentLocal.ros.interfaces.dupeError : ''}}" class="input-group has-feedback friendlyNameInput" ng-class="{ 'has-error' : device.isDupe(interface) }">
         <input type="text" class="form-control" ng-model="interface.friendlyName">
-        <span style="color: {{device.isDupe(interface) ? 'white' : 'black'}}"
-              class="glyphicon glyphicon-remove removeFriendlyName"
+        <span style="color: {{device.isDupe(interface.friendlyName) ? 'white' : 'black'}}; cursor: pointer; pointer-events: initial !important;"
+              class="glyphicon glyphicon-remove form-control-feedback"
               ng-click="interface.friendlyName = null"
               ng-if="interface.friendlyName != interface.defaultFriendlyName"
-              ng-class="{ 'btn-danger' : device.isDupe(interface) }"></span>
-        <span class="glyphicon glyphicon-remove form-control-feedback text-danger" ng-show="device.isDupe(interface) && interface.friendlyName == interface.defaultFriendlyName"></span>
+              ng-class="{ 'btn-danger' : device.isDupe(interface.friendlyName) }"></span>
+        <span class="glyphicon glyphicon-remove form-control-feedback text-danger" ng-show="device.isDupe(interface.friendlyName) && interface.friendlyName == interface.defaultFriendlyName"></span>
     </div>
 </td>
+
 <td ng-if="interface.isTopic"><input type="checkbox" ng-model="interface.subscribed" /></td>

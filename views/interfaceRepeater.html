@@ -25,17 +25,17 @@
         </thead>
 
         <tr class="panel-heading" data-toggle="collapse" data-target="#topics">
-            <td colspan="4">
+            <td colspan="6">
                 <label>Topics</label>
             </td>
         </tr>
 
         <tbody id="topics" class="panel-collapse collapse in">
-            <tr ng-repeat="interface in settings.shownInterfaces() | isTopicFilter:true | orderBy: 'path'" scroll-top-on-refresh ng-include="settings.interfaces.item" />
+            <tr ng-repeat="interface in settings.shownInterfaces() | isTopicFilter:true | orderBy: 'path'" scroll-top-on-refresh ng-include="settings.interfaces.item"/>
         </tbody>
 
         <tr class="panel-heading" data-toggle="collapse" data-target="#services">
-            <td colspan="4">
+            <td colspan="6">
                 <label>Services</label>
             </td>
         </tr>

@@ -43,30 +43,43 @@ var localization = {
 
     },
 
+    keyStrings: { en: [], hu: [], de: [] }, diff: [],
+    getProperties: function(obj, current, lang) {
+
+        if (typeof obj === "string" || !obj) return;
+
+        //get properties of obj
+        angular.forEach(Object.keys(obj), function (key) {
+
+            //create property string
+            var propString = current + ( current == "" ? "" : "." ) + key;
+
+            //add to keys
+            localization.keyStrings[lang].push(propString);
+
+            //go deeper
+            localization.getProperties(obj[key], propString, lang);
+        });
+    },
+
+    getLanguage: function(langObj, key){
+        localization.getProperties(langObj, "", key);
+        var items = "";
+        angular.forEach(localization.keyStrings[key], function (p) {
+            var i = "localization.items.en." + p;
+            if (typeof eval(i) === 'string')
+                items += p + "; " + eval(i) + "\r\n";
+                //console.log(p + "; " + eval(i));
+        });
+
+        console.log(items);
+    },
+
     compare: function(){
-        var keyStrings = { en: [], hu: [], de: [] }, diff = [];
-
-        function getProperties(obj, current, lang) {
-
-            if (typeof obj === "string" || !obj) return;
-
-            //get properties of obj
-            angular.forEach(Object.keys(obj), function (key) {
-
-                //create property string
-                var propString = current + ( current == "" ? "" : "." ) + key;
-
-                //add to keys
-                keyStrings[lang].push(propString);
-
-                //go deeper
-                getProperties(obj[key], propString, lang);
-            });
-        }
-
-        getProperties(localization.items.en, "", "en");
-        getProperties(localization.items.de, "", "de");
-        getProperties(localization.items.hu, "", "hu");
+        localization.getProperties(localization.items.en, "", "en");
+        localization.getProperties(localization.items.de, "", "de");
+        localization.getProperties(localization.items.hu, "", "hu");
+        localization.getProperties(localization.items.ko, "", "ko");
 
         function arr_diff(a1, a2) {
             var a = [], diff = [];

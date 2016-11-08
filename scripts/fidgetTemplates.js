@@ -25,13 +25,14 @@ function fidgetService(enumService, variableService, colorPickerService, scriptM
             var result = {
                 root: root,
                 source: source,
-                left: left,
-                top: top,
                 properties: angular.copy(properties),
                 icon: icon,
                 name: name,
                 template: template
             };
+
+            result.properties._left = left;
+            result.properties._top = top;
 
             if (result.source == "fidgetGroup") {
                 result.fidgets = [];
@@ -42,17 +43,6 @@ function fidgetService(enumService, variableService, colorPickerService, scriptM
             //adding onClick to all fidgets, if not defined explicitely
 
             return result;
-        },
-
-        //generate new uid
-        guid: function () {
-            function s4() {
-                return Math.floor((1 + Math.random()) * 0x10000)
-                  .toString(16)
-                  .substring(1);
-            }
-            return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
-              s4() + '-' + s4() + s4() + s4();
         },
 
         //stores if the property is a script or not
@@ -110,7 +100,11 @@ function fidgetService(enumService, variableService, colorPickerService, scriptM
                 }
             }
 
-            var fidgetGet = function (properties, propertyName) {
+            var fidgetGet = function (fidget, properties, propertyName) {
+                if ([null, undefined, ""].indexOf(properties[propertyName]) != -1) {
+                    return;
+                }
+
                 function isFloat(n) {
                     return n === Number(n) && n % 1 !== 0;
                 }
@@ -121,7 +115,7 @@ function fidgetService(enumService, variableService, colorPickerService, scriptM
 
                 function isBoolan(b) {
                     //var val = JSON.parse(JSON.stringify(b));
-                    return (b == true || b == false || b == "true" || b == "false") && b != "";
+                    return (b === true || b === false || b === "true" || b === "false") && b !== "";
                 }
 
                 var currentValue = properties[propertyName];
@@ -141,12 +135,17 @@ function fidgetService(enumService, variableService, colorPickerService, scriptM
 
                 if (fidgets.scriptDict[currentValue]) {
                     var value = eval(scriptManagerService.compile(currentValue));
+                    if (["object", "function"].indexOf(typeof value) > -1) {
+                        //if it is not a simple object, return with the string
+                        return currentValue;
+                    }
+
                     if (isFloat(value)) {
                         return Number(Number(value).toFixed(3));
                     } else if (isInteger(value)) {
                         return Number(value);
                     } else if (isBoolan(value)) {
-                        return value == "true" || value == true;
+                        return value == "true" || value == true || value == 1;
                     }
                     else {
                         return decodeURI(value);
@@ -156,17 +155,16 @@ function fidgetService(enumService, variableService, colorPickerService, scriptM
                     return currentValue;
             };
 
-            var fidgetSet = function (properties, propertyName, v) {
+            var fidgetSet = function (fidget, properties, propertyName, v) {
                 //if the _value is empty, we can return
-                if (properties[propertyName] == "") {
+                if ([null, undefined, ""].indexOf(properties[propertyName]) != -1) {
                     return;
                 }
 
                 try {
                     //compile property to be able to use friendly names
                     var compiledProp = scriptManagerService.compile(properties[propertyName]);
-
-                    if (eval("typeof " + compiledProp + " == 'string'")) {
+                    if (eval("typeof " + compiledProp + " == 'string'") || fidget.source == "textInput") {
                         eval(compiledProp + "= \"" + encodeURI(v) + "\"");
                     } else {
                         eval(compiledProp + "= " + v);
@@ -187,8 +185,8 @@ function fidgetService(enumService, variableService, colorPickerService, scriptM
                     //The definition is done this way to have definition-time info about the calling variable. 
                     //Without this we would not know who called the getter as 'this' refers to the object itself, not the getter or the property.
                     var definePropertyfidget = "Object.defineProperty(fidget.properties, property.substring(1), {";
-                    definePropertyfidget += "get: function () { return fidgetGet(this, \"" + property + "\")},";
-                    definePropertyfidget += "set: function (v) { return fidgetSet(this, \"" + property + "\", v)}})";
+                    definePropertyfidget += "get: function () { return fidgetGet(fidget, this, \"" + property + "\")},";
+                    definePropertyfidget += "set: function (v) { return fidgetSet(fidget, this, \"" + property + "\", v)}})";
 
                     eval(definePropertyfidget);
                 }
@@ -207,25 +205,32 @@ function fidgetService(enumService, variableService, colorPickerService, scriptM
                 propertyLabels: propertyLabels
             };
 
+            //define common properties
+            template.properties["_top"] = 0;
+            template.properties["_left"] = 0;
+            template.properties["_enabled"] = true;
+
             fidgets.defineProperties(template, true);
 
             return template;
         }
     };
 
+    fidgets.fonts = ['inherit', '"Courier New", Courier, monospace', '"Lucida Console", Monaco, monospace', 'Verdana, Geneva, sans-serif', 'Arial, Helvetica, sans-serif', '"Arial Black", Gadget, sans-serif', 'Impact, Charcoal, sans-serif', 'Georgia, serif', '"Times New Roman", Times, serif', '"Palatino Linotype", "Book Antiqua", Palatino, serif'];
+
     fidgets.templates = {
         "fidgetGroup": fidgets.getTemplate("views/fidgets/", "fidgetGroup", { _width: 200, _height: 200, _color: '#D1D1D1', opacity: 0.7, _borderColor: "#000000", _borderWidth: "0" }, enumService.screenTypesEnum.All, "images/fidgets/box.png"),
-        "progressBar": fidgets.getTemplate("views/fidgets/", "progressBar", { _width: 100, _height: 30, _value: "variableService.demo.int", _color: '#ff0000' }, enumService.screenTypesEnum.Normal),
-        "button": fidgets.getTemplate("views/fidgets/", "button", { _width: 100, _height: 30, _text: "Click me", onClick: "#message('Default button action.')" }, enumService.screenTypesEnum.Normal),
-        "checkBox": fidgets.getTemplate("views/fidgets/", "checkBox", { _width: 100, _height: 30, _text: "Check me", _value: "variableService.demo.bool", _fontColor: "#000000" }, enumService.screenTypesEnum.Normal),
+        "progressBar": fidgets.getTemplate("views/fidgets/", "progressBar", { _width: 100, _height: 30, _value: "variableService.demo.int", _color: '#ff0000', _fontColor: '' }, enumService.screenTypesEnum.Normal),
+        "button": fidgets.getTemplate("views/fidgets/", "button", { _width: 100, _height: 30, _text: "Click me", _font: "inherit", _fontSize: 12, _color: "", onClick: "#message('Default button action.')" }, enumService.screenTypesEnum.Normal),
+        "checkBox": fidgets.getTemplate("views/fidgets/", "checkBox", { _width: 100, _height: 30, _text: "Check me", _value: "variableService.demo.bool", _fontColor: "#000000",_font: "inherit", _fontSize: 16 }, enumService.screenTypesEnum.Normal),
         "textInput": fidgets.getTemplate("views/fidgets/", "textInput", { _width: 100, _height: 30, _text: "variableService.demo.string" }, enumService.screenTypesEnum.Normal, "images/fidgets/textinput.png"),
         "text": fidgets.getTemplate("views/fidgets/", "text", { _textAlign: "left", _font: "inherit", _width: 100, _height: 25, _fontSize: 16, _color: "#000000", _text: "variableService.demo.string" }, enumService.screenTypesEnum.All, "images/fidgets/text.png"),
         "scrollableText": fidgets.getTemplate("views/fidgets/", "scrollableText", { _textAlign: "left", _font: "inherit", _width: 100, _height: 100, _fontSize: 12, _color: "#000000", _text: "variableService.demo.string" }, enumService.screenTypesEnum.All, "images/fidgets/multilinetext.png"),
         "slider": fidgets.getTemplate("views/fidgets/", "slider", { _width: 100, _height: 30, _value: "variableService.demo.int", _min: 0, _max: 100, _step: 0.1 }, enumService.screenTypesEnum.Normal),
-        "radioButton": fidgets.getTemplate("views/fidgets/", "radioButton", { _width: 100, _height: 100, _value: "'Option1'", _options: 'Option1,Option2', _fontColor: "#000000" }, enumService.screenTypesEnum.Normal),
+        "radioButton": fidgets.getTemplate("views/fidgets/", "radioButton", { _width: 100, _height: 100, _value: "'Option1'", _options: 'Option1,Option2', _font: "inherit", _fontSize: 16, _fontColor: "#000000" }, enumService.screenTypesEnum.Normal),
         "fullgauge": fidgets.getTemplate("views/fidgets/", "fullgauge", { _width: 80, _height: 80, _value: "variableService.demo.int", _color: '#ff0000', _angleOffset: 0, _angleArc: 360, _step: 0.1, _min: 0.0, _max: 100.0, _lock: false }, enumService.screenTypesEnum.Normal),
-        "boolean": fidgets.getTemplate("views/fidgets/", "boolean", { _width: 100, _height: 30, _text: "Bool value", _value: "variableService.demo.bool" }, enumService.screenTypesEnum.Normal),
-        "image": fidgets.getTemplate("views/fidgets/", "image", { _width: 100, _height: 100, _value: "variableService.demo.image", scale: 'aspectFit' }, enumService.screenTypesEnum.Normal),
+        "boolean": fidgets.getTemplate("views/fidgets/", "boolean", { _width: 100, _height: 30, _font: "inherit", _fontSize: 16, _color: "#000000", _text: "Bool value", _value: "variableService.demo.bool" }, enumService.screenTypesEnum.Normal),
+        "image": fidgets.getTemplate("views/fidgets/", "image", { _width: 100, _height: 100, _value: "variableService.demo.image", scale: 'aspectFit' }, enumService.screenTypesEnum.Normal, "images/image-not-found.png"),
         "indicatorLamp": fidgets.getTemplate("views/fidgets/", "indicatorLamp", { _width: 100, _height: 30, _text: "Indicate", _value: "variableService.demo.bool", _onColor: '#00ff00', _offColor: '#ff0000', _fontColor: "#000000", _blinking: false, _blinkPeriod: 1 }, enumService.screenTypesEnum.Normal)
     };
 

@@ -31,7 +31,10 @@ function historyService(projectService) {
         //load project state
         loadState: function (proj, callback) {
             if (!proj) return;
+
+            var forceScreenBelt = projectService.forceScreenBelt;
             projectService.load(proj);
+            projectService.forceScreenBelt = forceScreenBelt;
         },
 
         clearHistory: function(){
@@ -57,7 +60,7 @@ function historyService(projectService) {
                 historyHandler.history.splice(historyHandler.currentHistoryIndex + 1, historyHandler.history.length - historyHandler.currentHistoryIndex + 1);
             }
             var seen = [];
-            historyHandler.history.push(projectService.toJSON());
+            historyHandler.history.push(projectService.toJSON(null, false));
             historyHandler.currentHistoryIndex = historyHandler.history.length - 1;
         }
     }

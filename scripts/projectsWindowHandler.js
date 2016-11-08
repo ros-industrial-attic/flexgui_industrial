@@ -16,10 +16,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License. 
 */
+projectWindowService.$inject = ['$rootScope', '$location', 'projectService', 'deviceService', 'popupService', 'historyService', 'editorService', 'imageService', 'variableService', 'settingsWindowService', 'projectStorageService'];
 
-projectWindowService.$inject = ['$rootScope', '$location', 'projectService', 'deviceService', 'popupService', 'historyService', 'editorService', 'imageService', 'variableService', 'settingsWindowService'];
-
-function projectWindowService($rootScope, $location, projectService, deviceService, popupService, historyService, editorService, imageService, variableService, settingsWindowService) {
+function projectWindowService($rootScope, $location, projectService, deviceService, popupService, historyService, editorService, imageService, variableService, settingsWindowService, projectStorageService) {
     var projectsWindowHandler = {
 
         //currently selected project in the window
@@ -47,20 +46,6 @@ function projectWindowService($rootScope, $location, projectService, deviceServi
             projectsWindowHandler.visible = value;
 
             projectsWindowHandler.setProjects();
-        },
-
-        //load the selected project
-        loadProject: function () {
-            //project = projectsWindowHandler.selectedProject;
-            project.initScript = projectsWindowHandler.selectedProject.initScript;
-            project.screens = projectsWindowHandler.selectedProject.screens;
-            project.id = projectsWindowHandler.selectedProject.id;
-            project.name = projectsWindowHandler.selectedProject.name;
-
-            project.runInit();
-            project.setupFidgets(fidgetService.defineProperties);
-
-            device.saveProject();
         },
 
         //compare two projects
@@ -118,7 +103,7 @@ function projectWindowService($rootScope, $location, projectService, deviceServi
             angular.forEach(imageService.slots, function (img) {
                 images.push({ index: i++, name: img.name, base64: img.base64 });
             });
-            var json = projectService.toJSON(images);
+            var json = projectService.toJSON(images, false);
 
             var fileName = "project" + Date.now() + ".fgproj";
 
@@ -156,11 +141,13 @@ function projectWindowService($rootScope, $location, projectService, deviceServi
         clean: function () {
             bootbox.confirm(localization.currentLocal.settings.tabs.project.cleanConfirm, function (result) {
                 if (result) {
+
                     //disable edit mode
                     editorService.switchEditMode();
 
                     //load a clean project
                     projectService.load(projectService.getCleanObject());
+                    projectStorageService.generateVersionId();
                     deviceService.cleanNodes();
                     projectService.currentScreen = null;
                     //remove path
@@ -168,7 +155,15 @@ function projectWindowService($rootScope, $location, projectService, deviceServi
 
                     //refresh ui and save the project
                     deviceService.changeOnUi = true;
-                    deviceService.saveProject(true);
+                    projectStorageService.save(true);
+
+                    //remove all images
+                    angular.forEach(imageService.slots, function (slot) {
+                        imageService.removeImage(slot.name);
+                    });
+
+                    $rootScope.$apply();
+
                 }
             });
         },
@@ -187,7 +182,6 @@ function projectWindowService($rootScope, $location, projectService, deviceServi
                         });
 
                         if (proj) {
-
                             if (proj.images && proj.images.length > 0) {
                                 //overwrite images
                                 bootbox.confirm(localization.currentLocal.settings.tabs.project.uploadImagesConfirm, function (result) {
@@ -197,7 +191,7 @@ function projectWindowService($rootScope, $location, projectService, deviceServi
                                                 var slot = imageService.getSlot(img.name);
 
                                                 if (slot) {
-                                                    if (!settingsWindowService.demoMode) {
+                                                    if (!settingsWindowService.offlineMode) {
                                                         deviceService.nodes.rosapi.set_param.call({ name: img.name, value: JSON.stringify({ base64: img.base64 }) });
                                                     } else {
                                                         //store image in local storage
@@ -213,10 +207,10 @@ function projectWindowService($rootScope, $location, projectService, deviceServi
                                 });
                             }
 
-
                             projectService.load(proj);
+                            projectStorageService.generateVersionId();
                             deviceService.changeOnUi = true;
-                            deviceService.saveProject(true);
+                            projectStorageService.save(true, true);
                             historyService.clearHistory();
                         }
 

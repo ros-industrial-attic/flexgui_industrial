@@ -16,6 +16,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License. 
  -->
-<div style="color: black; background-color: rgba(30,30,30,0.6); height:{{fidget.properties.height}}px; min-width:{{fidget.properties.width}}px; max-width:{{fidget.properties.width}}px; display: table-cell; vertical-align: middle; text-align: center;">
-    <div class="title glyphicon glyphicon-exclamation-sign">{{fidget.name}}</div>
-</div>
+
+<p>
+    <h1>{{localization.currentLocal.starting.connectToRos}}</h1>
+    <button class="btn btn-danger" ng-click="device.cancelConnect()">{{localization.currentLocal.starting.hideConnect}}</button>
+</p>

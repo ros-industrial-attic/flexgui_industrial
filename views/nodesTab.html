@@ -29,7 +29,7 @@
     <!--Dropdown list of nodes-->
     <select class="form-control" style="width: 300px;"
             ng-model="settings.nodesTabSelectedItem"
-            ng-options="nodeName for (nodeName, node) in nodes"></select>
+            ng-options="nodeName for (nodeName, node) in nodes | orderBy:'nodeName'"></select>
 
     <h4 ng-if="!settings.nodesTabSelectedItem">{{localization.currentLocal.settings.tabs.nodes.nodeUnselected}}</h4>
 

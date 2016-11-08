@@ -16,7 +16,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License. 
  -->
-
 <div style="width: {{fidget.properties.width}}px; height: {{fidget.properties.height}}px; display: table-cell; vertical-align: middle; text-align: center;" class="gauge">
     
     <div hm-tapend= hm-tapend="onClick(fidget, fidget.properties.onClick)" ng-mouseup="onClick(fidget, fidget.properties.onClick)">
@@ -37,7 +36,7 @@
 
     </div>
 
-    <div class="overlayer" ng-if="fidget.properties.lock == 'true'" style="width: 100%; height: 100%; position: absolute; top: 0; left: 0; opacity: 0.3">
+    <div class="overlayer" ng-if="fidget.properties.lock == true" style="width: 100%; height: 100%; position: absolute; top: 0; left: 0; opacity: 0.3">
 
 
     </div>

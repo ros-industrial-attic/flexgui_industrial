@@ -16,7 +16,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License. 
  -->
-
 <div style="width: {{fidget.properties.width}}px; height: {{fidget.properties.height}}px;" 
      ng-init="initIndicatorLamp(fidget)"
      class="indicatorLamp" 
@@ -57,7 +56,6 @@
             <div class="off blink_me bulb" ng-if="[false, 0, 'false', '0'].indexOf(fidget.properties.value) != -1"></div>
         </div>
     </div>
-    <div style="height: {{size}}px; line-height: {{size}}px; padding-left: {{size + 5}}px; color: {{fidget.properties.fontColor}} ">
-        {{fidget.properties.text}}
+    <div style="height: {{size}}px; line-height: {{size}}px; padding-left: {{size + 5}}px; color: {{fidget.properties.fontColor}}; white-space: nowrap;" ng-bind-html="fidget.properties.text">
     </div>
 </div>

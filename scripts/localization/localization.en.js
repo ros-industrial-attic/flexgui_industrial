@@ -60,99 +60,100 @@ localization.items.en = {
                     onChange: "On change script",
                 }
             },
-        	changeScreen: {
-        		title: "Change screen",
-				help: "Changes current screen to the selected one.",
-				params: {
-					screen: "Screen",
-				},
-				error: "Error! Can't change to non-existing screen: ",
-        	},
-        	connectorVariable: {
-        		title: "Connector node's variable: initialize",
-        		help: "This template automatically handles the node's selected variable. It subscribes properly and creates the necessary local variables. It is recommended to put this in Init script.",
-        		params: {
-        			node: "Node",
-        			variable: "Variable",
-        			friendlyName: "Friendly name",
-        		}
-        	},
-        	getConnectorVariable: {
-        		title: "Connector node's variable: get value",
-        		help: "This template returns with the current local data of a node's selected variable. It is recommended to put this to a property of a Fidget",
-        		params: {
-        			node: "Node",
-        			variable: "Variable",
-        		}
-        	},
-        	setConnectorVariable: {
-        		title: "Connector node's variable: set value",
-        		help: "This template sets local data of a node's selected variable to a new value and sends it to ROS. It is recommended to put this into an 'onClick' event of a button Fidget.",
-        		params: {
-        			node: "Node",
-        			variable: "Variable",
-        			value: "New value",
-        			operation: "Operation",
-        		}
-        	},
-        	getReadyConnectorVariable: {
-        		title: "Connector node's variable: get ready",
-        		help: "This template returns true if a node's selected variable is ready to write. It is recommended to put this to a property of a Fidget",
-        		params: {
-        			node: "Node",
-        			variable: "Variable",
-        		}
-        	},
-        	autoDefine: {
-        		title: "Define a variable if undefined",
-        		help: "This template sets a value to a variable if it is not defined yet. If the variable is already defined, then nothing happens.",
-        		params: {
-        			variable: "Variable",
-        			value: "Value",
-        		}
-        	},
-        	popup: {
-        		title: "Show a popup message",
-        		help: "This template shows a popup message with some text in it.",
-        		params: {
-        			message: "Message",
-        			type: "Type",
-        		}
-        	},
-        	timeout: {
-        		title: "Delay a script",
-        		help: "This template runs a script delayed.",
-        		params: {
-        			timeout: "Delay (ms)",
-        			type: "Function",
-        		}
-        	},
-        	setFunction: {
-        		title: "Define a function",
-        		help: "This template defines a custom function. The function can be called later, anywhere in FlexGui using the 'Call a function' template.",
-        		params: {
-        			name: "Name of function",
-        			type: "Function",
-        		}
-        	},
-        	callFunction: {
-        		title: "Call a function",
-        		help: "This template calls a custom function. You can choose any function you defined earlier, anywhere in FlexGui using the 'Define a function' template.",
-        		params: {
-        			name: "Name of function",
-        		},
-        		error: "Error! Can't call non-defined function: ",
-        	},
-        	callService: {
-        		title: "Call a service",
-        		help: "This template calls the selected service of a node. To make it work correctly you have to set the parameter correctly after inserting the code.",
-        		params: {
-        			node: "Node",
-        			service: "Service",
-        			parameter: "Parameter",
-        			callback: "Callback",
-        		},
-        	},
+            changeScreen: {
+                title: "Change screen",
+                help: "Changes current screen to the selected one.",
+                params: {
+                    screen: "Screen",
+                },
+                error: "Error! Can't change to non-existing screen: ",
+            },
+            connectorVariable: {
+                title: "Connector node's variable: initialize",
+                help: "This template automatically handles the node's selected variable. It subscribes properly and creates the necessary local variables. It is recommended to put this in Init script.",
+                params: {
+                    node: "Node",
+                    variable: "Variable",
+                    friendlyName: "Friendly name",
+                }
+            },
+            getConnectorVariable: {
+                title: "Connector node's variable: get value",
+                help: "This template returns with the current local data of a node's selected variable. It is recommended to put this to a property of a Fidget",
+                params: {
+                    node: "Node",
+                    variable: "Variable",
+                }
+            },
+            setConnectorVariable: {
+                title: "Connector node's variable: set value",
+                help: "This template sets local data of a node's selected variable to a new value and sends it to ROS. It is recommended to put this into an 'onClick' event of a button Fidget.",
+                params: {
+                    node: "Node",
+                    variable: "Variable",
+                    value: "New value",
+                    operation: "Operation",
+                }
+            },
+            getReadyConnectorVariable: {
+                title: "Connector node's variable: get ready",
+                help: "This template returns true if a node's selected variable is ready to write. It is recommended to put this to a property of a Fidget",
+                params: {
+                    node: "Node",
+                    variable: "Variable",
+                }
+            },
+            autoDefine: {
+                title: "Define a variable if undefined",
+                help: "This template sets a value to a variable if it is not defined yet. If the variable is already defined, then nothing happens.",
+                params: {
+                    variable: "Variable",
+                    value: "Value",
+                }
+            },
+            popup: {
+                title: "Show a popup message",
+                help: "This template shows a popup message with some text in it.",
+                params: {
+                    message: "Message",
+                    type: "Type",
+                }
+            },
+            timeout: {
+                title: "Delay a script",
+                help: "This template runs a script delayed.",
+                params: {
+                    timeout: "Delay (ms)",
+                    type: "Function",
+                    name: "Name"
+                }
+            },
+            setFunction: {
+                title: "Define a function",
+                help: "This template defines a custom function. The function can be called later, anywhere in FlexGui using the 'Call a function' template.",
+                params: {
+                    name: "Name of function",
+                    type: "Function",
+                }
+            },
+            callFunction: {
+                title: "Call a function",
+                help: "This template calls a custom function. You can choose any function you defined earlier, anywhere in FlexGui using the 'Define a function' template.",
+                params: {
+                    name: "Name of function",
+                },
+                error: "Error! Can't call non-defined function: ",
+            },
+            callService: {
+                title: "Call a service",
+                help: "This template calls the selected service of a node. To make it work correctly you have to set the parameter correctly after inserting the code.",
+                params: {
+                    node: "Node",
+                    service: "Service",
+                    parameter: "Parameter",
+                    callback: "Callback",
+                },
+            },
         }
     },
     general: {
@@ -263,7 +264,19 @@ localization.items.en = {
             onClick: 'On click',
             name: 'Name',
             _node: 'ROS Node name',
-            hasScreenBelt: "Has screen belt"
+            hasScreenBelt: "Has screen belt",
+            logo: 'Logo',
+            logoWidth: 'Logo width',
+            logoPosition: 'Logo position',
+            logoPositions: {
+                bottomRight: 'Bottom - Right',
+                bottomLeft: 'Bottom - Left',
+                topLeft: 'Top - Left',
+                topRight: 'Top - Right'
+            },
+            _top: 'Top',
+            _left: 'Left',
+            _enabled: 'Enabled'
         }
     },
     properties: {
@@ -281,6 +294,15 @@ localization.items.en = {
         reloadSettingsAlert: 'Reload FlexGui to use the current settings?',
         loadOnNextStartNote: 'FlexGui will use this settings on next start',
         tabs: {
+            timers: {
+                title: 'Timers',
+                delay: 'Delay',
+                repeat: 'Repeat',
+                enabled: 'Enabled',
+                name: 'Name',
+                action: 'Action',
+                duplicatedError: "You can not save with this name, because it is already exists in the friendly variable cache. Plase select another one!"
+            },
             enterprise: {
                 title: 'Enterprise',
                 trialTitle: 'Trial mode',
@@ -320,7 +342,12 @@ localization.items.en = {
                 statSwitchLabel: "Check to enable Performance Monitor",
                 gridSize: 'Gridsize',
                 gridSizeNote: 'Please note, that FlexGui will reload if you change this value!',
-                gridSizeError: 'The size has to be between 30 and 200'
+                gridSizeError: 'The size has to be between 30 and 200',
+                forceBelt: 'Force Screen Belt',
+                forceBeltSwitchLabel: 'Set to force to show the Screen Belt',
+                autoScale: 'Auto scale',
+                pinchEnabled: 'Pinch zoom',
+                switchPinchEnabled: 'Check here if you want to enable pinch zoom on your mobile device'
             },
             initScript: {
                 title: 'Init script',
@@ -337,16 +364,18 @@ localization.items.en = {
                 noResultMsg: 'No results for the keyword: \'@0\'',
                 changeScriptTitle: 'ChangeScript for @0',
                 changeScriptNote: 'You can access to the new and the old value directly, with  <b>\'newValue\'</b> and <b>\'oldValue\'</b> parameters',
-                demoAlert: 'Demo mode, no nodes are available',
-                nodeUnselected: 'Select a node to list properties.'
+                demoAlert: 'Offline mode, no nodes are available',
+                nodeUnselected: 'Select a node to list properties.',
+                topicOfflineError: "This topic is currently offline, so you can not publish a new value!",
+                topicOutOfDateWarning: "This topic's value is not updated from ROS yet. Do you want to publish this new value?"
             },
             conn: {
                 title: 'ROS Server Settings',
                 description: 'Set the location of the ROS server to use, so you can access the nodes on it. If you want to use FlexGui offline, check the box below.',
                 ip: 'IP',
                 port: 'Port',
-                demoMode: 'Demo mode',
-                demoModeSwitch: 'Check to enable demo mode',
+                offlineMode: 'Offline mode',
+                offlineModeSwitch: 'Check to disable ROS connection',
                 secure: 'Secure mode',
                 secureSwitch: 'Check to enable secure mode (WebSocket Security)'
             },
@@ -361,6 +390,13 @@ localization.items.en = {
                 title: "Themes",
                 theme: 'Theme',
                 themeNote: 'Please note, that FlexGui will reload if you change this value!',
+            },
+            userMode: {
+                title: "User mode",
+                modeSwitch: "Check this if you want to restrict of usage of your FG screens",
+                password: "Administrator password",
+                confirmPassword: "Confirm password",
+                passwordError: "The two password fields must match!"
             }
         }
     },
@@ -368,13 +404,24 @@ localization.items.en = {
         invalidUsernamePassword: 'Can not login to iVAR messenger. Plase check your username and password.',
         missingLoginData: 'iVAR Messenger can not login. Please set it up in Settings/Messenger.',
         enterMessage: 'Enter message...',
-        expertUsername: "Expert username"
+        expertUsername: "Expert username",
+        checkToEnableMessenger: "Check to enable built-in messenger",
+        messengerEnabled: "Enable messenger"
+
     },
     popup: {
         title: 'FlexGui Messages'
     },
+    timers: {
+        alreadyRunningError: 'This timer is already running!',
+        disableAll: 'Disable all',
+        createNew: 'Create new'
+    },
     buttons: {
+        start: 'Start',
+        stop: 'Stop',
         add: 'Add',
+        edit: 'Edit',
         duplicate: 'Duplicate',
         cancel: 'Cancel',
         clear: 'Clear',
@@ -534,6 +581,14 @@ localization.items.en = {
         cameraImage: {
             header: 'Help for Camera Image',
             content: "A Camera image Fidget displays your IP camera's video stream.<h5>Source</h5>Setting up the Source property to a .mjpg source will show the video. <h5>Authentication</h5>If your camera is password protected, please provide username and password to the popup window."
+        },
+        userMode: {
+            header: 'User mode',
+            content: 'With user mode, you can restrict the usage of your FG screens. <h5>Password</h5>You can setup the password for the administrator mode. The default value is: \"admin\"'
+        },
+        timers: {
+            header: 'Timers',
+            content: 'With timers you can manage the used timeouts and intervals. Check <b>repeat</b> to create an interval. An interval will run as long as the repeat is checked or the timeout is stopped. The minimum delay of a timeout is 30ms.'
         }
     },
     login: {
@@ -547,19 +602,24 @@ localization.items.en = {
         logoutSuccess: 'Logout success'
     },
     demo: {
-        callError: 'In demo mode you can not make calls.',
-        subscribeError: 'In demo mode you can not subscribe/unsubscribe'
+        callError: 'In offline mode you can not make calls.'
     },
     ros: {
         connectionError: 'FlexGui 4.0 is not able to Connect to the ROS server ',
-        connectionErrorBody: 'We can not connect to ROS Server or the connection is lost. If you want to try to reconnect, press the <b>Reconnect</b> button, or go to <b>Demo mode</b> and work offline.',
+        connectionErrorBody: 'We can not connect to ROS Server or the connection is lost. If you want to try to reconnect, press the <b>Reconnect</b> button, or go to <b>Offline mode</b> and work offline. <br /> For further information, please visit our website\'s <a href="https://www.ppm.no/flexgui4-Home/Index/downloads" target="_blank">donwload</a> section, where you can find more info about the ROS server setup.',
         reconnect: 'Reconnect',
         back: 'Back',
-        demoMode: 'Demo mode',
+        offlineMode: 'Offline mode',
         demoBody: 'Do you want to keep the <b>current</b> project? Keeping current project will overwrite your offline project!',
         keepProject: 'Keep project',
         discardProject: 'Discard project',
         communicationInitError: 'Communication initialization exception',
+        versionIsNotLatest: { 
+            body: "Your project is not the latest version, do you want to update, which can cause losses in your changes or overwrite the current version?",
+            title: "Project version is not the latest",
+            overwrite: "Overwrite on server",
+            update: "Update mine"
+        },
         interfaces: {
             type: 'Type',
             originalName: 'Original name',
@@ -578,7 +638,22 @@ localization.items.en = {
         selectSlot: 'Select slot',
         selectFile: 'Select file',
         blockMsg: 'Uploading image',
-        imageError: 'Only image files can be uploaded, please select a PNG, BMP or JPG file'
+        imageError: 'Only image files can be uploaded, please select a PNG, BMP or JPG file',
+        confirmOverwrite: 'Do you want to overwrite an existing image?'
+    },
+    nachiLink: {
+        addVariable: "Add variable",
+        connectionsTab: "Connections",
+        connectionError: "Can't connect to @0",
+        secure: "Secure",
+        IP: "IP",
+        port: "Port",
+        connected: "Connected",
+        Name: "Name",
+        createNew: "Create new",
+        reconnect: "Reconnect",
+        zeroConnection: "No direct connections found...",
+        nameLocked: "The name is received from the connected FlexGui, cannot be changed"
     },
     timeago: {
         settings: {

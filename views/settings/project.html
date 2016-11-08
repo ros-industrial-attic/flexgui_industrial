@@ -21,7 +21,6 @@
 
 <!--Project Settings-->
 <div>
-
     <h5 ng-if="isMobile" ng-bind-html="localization.currentLocal.settings.tabs.project.noteUseMobileMemory"></h5>
 
     <h4>{{localization.currentLocal.settings.tabs.project.upload}}</h4>
@@ -34,4 +33,22 @@
 
     <h4>{{localization.currentLocal.settings.tabs.project.newProject}}</h4>
     <button class="btn btn-default btn-block btn-lg" ng-click="projects.clean(); settings.setVisible(false);">{{localization.currentLocal.settings.tabs.project.createNew}}</button>
+
+    <div ng-if="!settings.offlineMode">
+        <h4>Project storage</h4>
+        <!--Dropdown list of nodes-->
+        <select class="form-control"
+                ng-model="drive.mode"
+                ng-change="drive.saveMode()"
+                ng-options="mode for mode in ['rosparam', 'localStorage']"></select>
+
+        <div ng-show="drive.mode == 'rosparam'">
+            <h5>Enable auto project update</h5>
+            <div class="checkbox">
+                <input type="checkbox" ng-model="drive.isAutoProjectUpdateEnabled" ng-change="drive.changeAutoUpdate()" id="showHideStats">
+                <label for="showHideStats">Check to enable automatic project update with ROS</label>
+            </div>
+            <i><b>Please note:</b> Enabled automatic project update can cause instable concurent using for multiple users.</i>
+        </div>
+    </div>
 </div>

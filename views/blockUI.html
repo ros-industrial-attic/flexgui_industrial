@@ -22,7 +22,8 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-body" style="text-align: center;">
-                <h1>{{blockMessage}}</h1>
+                <h1 ng-if="!blockHtml" ng-bind-html="blockMessage"></h1>
+                <ng-include ng-if="blockHtml" src="blockHtml"></ng-include>
 
                 <img src="images/loading.gif" style="height: 50px;" />
             </div>

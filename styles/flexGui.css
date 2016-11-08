@@ -2,6 +2,7 @@
     height: 100%;
     width: 100%;
     -webkit-touch-callout: none !important;
+    text-rendering: optimizeSpeed !important;
 }
 
 body {
@@ -16,6 +17,10 @@ body {
     overflow-x: hidden;
     overflow-y: hidden;
     font-size: 12px;
+}
+
+.radio, .checkbox {
+    margin: 0px !important;
 }
 
 .canEdit {
@@ -57,9 +62,9 @@ h4 {
         margin-top: 5px;
     }
 
-    .fidget .clickable{
-        cursor: pointer;
-    }
+.fidget .clickable {
+    cursor: pointer;
+}
 
 .fidgetTemplate, .editBelt .editActions, .fidgetHelp {
     font-size: 15px;
@@ -158,7 +163,7 @@ h4 {
 }
 
 .belt {
-    position: absolute;
+    position: fixed;
     top: 0px;
     padding-top: 10px;
     overflow: scroll;
@@ -439,10 +444,20 @@ textarea.propertiesScriptTextArea {
         padding-bottom: 5px;
     }
 
+.propertiesForm{
+    height: calc(100% - 160px);
+}
+
 .propertyRepeaterScrollBar {
-    max-height: 350px;
+    max-height: 100%;
     width: 100%;
 }
+
+.connectionRepeaterScrollBar, .timerRepeaterScrollBar, .topicDetailsRepeaterScrollBar {
+    max-height: 500px;
+    width: 100%;
+}
+
 
 .jointPositions table {
     width: 100%;
@@ -624,11 +639,11 @@ textarea.propertiesScriptTextArea {
 }
 
 #settingsDialog .tab-content {
-    min-height: 450px;
+    min-height: 500px;
 }
 
 .editSwitch {
-    position: absolute;
+    position: fixed;
     bottom: 0;
     left: 0;
     width: 120px;
@@ -647,33 +662,46 @@ textarea.propertiesScriptTextArea {
     pointer-events: none;
 }
 
-    .modal .modal-content {
-        pointer-events: all;
+
+#propertiesDialog .modal-dialog {
+    width: calc(100% - 40px);
+    height: calc(100% - 40px);
+    padding: 0;
+    margin: 20px auto;
+}
+
+#propertiesDialog .modal-content {
+  height: 100%;
+  border-radius: 0;
+}
+
+.modal .modal-content {
+    pointer-events: all;
+}
+
+.modal.horizontal .modal-dialog, #propertiesDialog .modal-dialog {
+    width: 90%;
+}
+
+.modal.horizontal .nav-tabs {
+    float: left;
+    height: 100%;
+    width: 200px;
+}
+
+    .modal.horizontal .nav-tabs > li {
+        float: initial;
     }
 
-    .modal.horizontal .modal-dialog, #propertiesDialog .modal-dialog{
-        width: 90%;
-    }
-
-     .modal.horizontal .nav-tabs{
-         float: left;
-         height: 100%;
-         width: 200px;
-     }
-
-    .modal.horizontal .nav-tabs>li{
-        float:initial;
-    }
-
-    .modal.horizontal .tab-content{
-        padding-left: 210px;
-        height: 100%;
-    }
+.modal.horizontal .tab-content {
+    padding-left: 210px;
+    height: 100%;
+}
 
 
-    #propertiesDialog table td:first-child{
-        width: 170px;
-    }
+#propertiesDialog table td:first-child {
+    width: 170px;
+}
 
 
 .fidgetBelt ng-include > div {
@@ -701,6 +729,22 @@ textarea.propertiesScriptTextArea {
         top: 0;
     }
 
+    .main .connectionAlert span{
+        margin-left: 15px;
+        margin-right: 15px;
+    }
+
+    .main .offlineTopics {
+        position: fixed;
+        bottom: 0;
+        margin-bottom: 0px;
+    }
+
+        .main .offlineTopics ul li {
+            display: inline;
+            margin: 10px;
+        }
+
     .main:focus {
         outline: none;
     }
@@ -714,7 +758,7 @@ body .touchPointer {
 }
 
 .main .callHelpContainer {
-    position: absolute;
+    position: fixed;
     bottom: 20px;
     right: 20px;
 }
@@ -900,20 +944,67 @@ body .touchPointer {
         color: black;
     }
 
-.btn-width-50{
+.btn-width-50 {
     width: 49%;
 }
 
-.scrollTop{
+.scrollTop {
     overflow: auto;
 }
 
-.openBelt{
+.openBelt {
     cursor: pointer;
     background: none;
     opacity: 0.7;
 }
 
-.openBelt:hover{
-    opacity: 1;
+    .openBelt:hover {
+        opacity: 1;
+    }
+
+.bottomRight {
+    position: fixed;
+    right: 10px;
+    bottom: 10px;
 }
+
+.bottomLeft {
+    position: fixed;
+    bottom: 10px;
+}
+
+.topRight {
+    position: fixed;
+    right: 10px;
+    top: 10px;
+}
+
+.topLeft {
+    position: fixed;
+    top: 10px;
+}
+
+.fidget .disabled {
+    opacity: 0.5;
+    pointer-events: none;
+}
+
+.btn {
+    white-space: initial !important;
+}
+
+.radioMark {
+    background-color: white;
+    border: 1px solid #cccccc;
+    float: left;
+    padding: 2px;
+    margin-right: 20px;
+    cursor: pointer;
+}
+
+    .radioMark .checked {
+        background-color: #555555;
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+    }

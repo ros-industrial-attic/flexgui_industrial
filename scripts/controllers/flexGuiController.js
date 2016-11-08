@@ -21,7 +21,7 @@ flexGuiCtrl.$inject = ['$scope', '$window', '$location', '$routeParams', '$sce',
     'editorService', 'historyService', 'deviceService', 'imageService', 'fidgetService',
     'projectService', 'enumService', 'projectWindowService', 'variableService',
     'clipboardService', 'settingsWindowService', 'colorPickerService', 'helpService', 'popupService',
-    'scriptManagerService', 'demoMessengerService'];
+    'scriptManagerService', 'projectStorageService'];
 
 function flexGuiCtrl($scope, $window, $location, $routeParams, $sce, $timeout, $rootScope, $interval, $injector, $cookies,
         editorService,
@@ -39,18 +39,17 @@ function flexGuiCtrl($scope, $window, $location, $routeParams, $sce, $timeout, $
         helpService,
         popupService,
         scriptManagerService,
-        demoMessengerService
+        projectStorageService
         ) {
-
-
-    $rootScope.blockMessage = localization.currentLocal.project.loading;
 
     var trusted = {};
 
+    //makes a URL to trusted, so it is possible to show on UI 
     $rootScope.toTrustedUrl = function (url) {
         return trusted[url] || (trusted[url] = $sce.trustAsResourceUrl(url))
     }
 
+    //the root dir of screen
     $rootScope.screenRoot = $rootScope.screenRoot || 'views/screen.html';
 
     //window size
@@ -58,6 +57,27 @@ function flexGuiCtrl($scope, $window, $location, $routeParams, $sce, $timeout, $
 
     //belt size
     $scope.beltWidth = 120;
+    $scope.parseNumber = Number;
+    var changing = false;
+    //enables pinch zoom funcionality on mobiles
+    $scope.pinchZoom = function ($event) {
+        if (!$rootScope.isMobile || changing || !settingsWindowService.pinchEnabled) return;
+
+        //use constant scale to prevent jumpings caused by the scaled coordinates
+        var scale = 0;
+        switch($event.additionalEvent){
+            case "pinchin":
+                scale = - 0.02;
+                break;
+            case "pinchout":
+                scale = + 0.02;
+                break;
+        }
+
+        //disable pinchzoom while setting up the new
+        changing = true;
+        $timeout(function () { settingsWindowService.setViewScale(settingsWindowService.viewScale + scale); changing = false }, 100);
+    }
 
     //cordova device ready event listener
     document.addEventListener("deviceready", function () {
@@ -77,62 +97,17 @@ function flexGuiCtrl($scope, $window, $location, $routeParams, $sce, $timeout, $
         $("#angularPerformanceStats").css({ right: 20, top: 20 });
     }
 
-    //if demo mode, then setup the demo parts
-    if (settingsWindowService.demoMode) {
-        demoMessengerService.init($scope);
+    //if offline mode, then setup the demo parts
+    if (settingsWindowService.offlineMode) {
         /*device service demo overrides*/
         deviceService.connected = true;
-        deviceService.saveProject = function (saveHistory) {
-            localStorage.setItem("demoProject", projectService.toJSON());
-
-            if (saveHistory) {
-                historyService.saveState();
-            }
-        };
-
-        deviceService.downloadProject = function () {
-            if (localStorage.getItem("demoProject")) {
-                //remove block ui
-                if ($rootScope.blockMessage == localization.currentLocal.project.loading) $rootScope.blockMessage = null;
-
-                var downloadedProject = projectService.parseJSON(localStorage.getItem("demoProject"));
-                if (downloadedProject) {
-                    projectService.load(downloadedProject);
-                }
-            } else {
-                projectService.addDefaultScreens();
-            }
-
-            setTimeout(device.saveProject, 1000);
-        };
-
-        deviceService.init = function (location) {
-            deviceService.location = location;
-
-            imageService.init = function () {
-                imageService.scope = $scope;
-
-                imageService.slots = [];
-
-                for (var i = 0; i < 21; i++) {
-                    imageService.slots.push({ name: "image" + i, base64: localStorage.getItem("flexgui4_images_image" + i) });
-                }
-
-                for (var i = 0; i < imageService.slots.length; i++) {
-                    var slot = imageService.slots[i];
-                    variableService.friendlyCache[slot.name] = slot;
-                }
-            }
-
-            imageService.init($scope);
-
-            try {
-                this.beginDownloadProject();
-            } catch (exception) {
-
-            }
-        };
+        projectStorageService.setMode('localStorage');
+        deviceService.init = function () {
+            projectStorageService.download();
+        }
     }
+
+    projectStorageService.init();
 
     $rootScope.project = projectService;
     $rootScope.device = deviceService;
@@ -188,6 +163,7 @@ function flexGuiCtrl($scope, $window, $location, $routeParams, $sce, $timeout, $
 
     $scope.historyHandler = historyService;
     $scope.clipboardHandler = clipboardService;
+    $scope.drive = projectStorageService;
 
     $rootScope.extraButtonsForSettingsWindow = [];
     $rootScope.editScreen = function (screen) {
@@ -216,17 +192,13 @@ function flexGuiCtrl($scope, $window, $location, $routeParams, $sce, $timeout, $
 
         $rootScope.$watch(function () { return eval(ngIf) }, function (nv, ov) { $rootScope.modals[name].visible = nv; }, true);
     }
-
-    deviceService.init($location);
-    imageService.init($scope);
-    editorService.init($scope.beltWidth);
-
     $rootScope.modals = {};
     $rootScope.addModal("addScreen", "views/addScreen.html", "projectService.addScreenVisible");
     $rootScope.addModal("propertiesWindow", "views/propertiesWindow.html", "editorService.propertiesWindowVisible");
     $rootScope.addModal("settingsWindow", "views/settingsWindow.html", "settingsWindowService.visible");
     $rootScope.addModal("imageExplorerWindow", "views/imageExplorerWindow.html", "imageService.visible");
     $rootScope.addModal("colorPickerWindow", "views/colorPickerWindow.html", "colorPickerService.colorPickerModalVisible");
+    $rootScope.addModal("topicDetailsWindow", "views/topicDetailsWindow.html", "$rootScope.settings.topicDetails.visible");
 
     $scope.$on("$locationChangeSuccess", function (event, newUrl) {
         //records the location to a global variable, because modules need to access it too
@@ -257,4 +229,15 @@ function flexGuiCtrl($scope, $window, $location, $routeParams, $sce, $timeout, $
     $scope.goFullScreen = function () {
         window.document.documentElement.webkitRequestFullScreen();
     }
+
+    $scope.logoStyles = {
+        bottomRight: { position: 'relative', right: 10, bottom: 10 },
+        bottomLeft: { position: 'relative', left: 10 + $scope.beltWidth, bottom: 10 },
+        topRight: { position: 'relative', right: 10, top: 10 },
+        topLeft: { position: 'relative', left: 10 + $scope.beltWidth, top: 10 }
+    };
+	
+	deviceService.init($location);
+    imageService.init($scope);
+    editorService.init($scope.beltWidth);
 };

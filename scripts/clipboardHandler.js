@@ -16,10 +16,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License. 
 */
+clipboardService.$inject = ['projectService', 'deviceService', 'fidgetService', 'projectStorageService'];
 
-clipboardService.$inject = ['projectService', 'deviceService', 'fidgetService'];
-
-function clipboardService(projectService, deviceService, fidgetService) {
+function clipboardService(projectService, deviceService, fidgetService, projectStorageService) {
     var clipboardHandler = {
         //fidgets on the clipboard
         clipboard: [],
@@ -39,7 +38,7 @@ function clipboardService(projectService, deviceService, fidgetService) {
                 projectService.deleteFidget(fidget.parent, fidget);
             });
 
-            deviceService.saveProject(true);
+            projectStorageService.save(true);
         },
 
         pasted: [],
@@ -52,19 +51,19 @@ function clipboardService(projectService, deviceService, fidgetService) {
                 clipboardHandler.pasted.push(
                     clipboardHandler.pasteChild(
                     fidget, destinationContainer,
-                    fidget.top,
-                    fidget.left));
+                    fidget.properties._top,
+                    fidget.properties._left));
             }
 
-            deviceService.saveProject(true);
+            projectStorageService.save(true);
         },
 
         pasteChild: function (fidget, parent, top, left) {
-            var newFidget = fidgetService.getFidget(fidget.root, fidget.source, left, top, fidget.properties, fidget.icon, fidget.name, fidget.template);
+            var newFidget = fidgetService.getFidget(fidget.root, fidget.source, Math.max(left, 0), Math.max(top, 0), fidget.properties, fidget.icon, fidget.name, fidget.template);
             newFidget.parent = parent;
             parent.fidgets.push(newFidget);
             angular.forEach(fidget.fidgets, function (f) {
-                clipboardHandler.pasteChild(f, newFidget, f.top, f.left);
+                clipboardHandler.pasteChild(f, newFidget, f.properties._top, f.properties._left);
             });
 
             return newFidget;

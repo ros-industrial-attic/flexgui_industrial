@@ -16,14 +16,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License. 
 */
+imageService.$inject = ['deviceService', 'settingsWindowService', 'variableService', 'popupService', 'editorService', 'projectStorageService'];
 
-imageService.$inject = ['deviceService', 'settingsWindowService', 'variableService', 'popupService', 'editorService'];
-
-function imageService(deviceService, settingsWindowService, variableService, popupService, editorService) {
+function imageService(deviceService, settingsWindowService, variableService, popupService, editorService, projectStorageService) {
     var editHandler = editorService;
 
     //Subcontroller for the image operations
     var imageHandler = {
+        //init image handler
         init: function (scope) {
             imageHandler.scope = scope;
             imageHandler.setSlots();
@@ -31,6 +31,8 @@ function imageService(deviceService, settingsWindowService, variableService, pop
 
         //The visibility of the window
         visible: false,
+
+        //set image handler modal window's visibility
         setVisible: function (value) {
             imageHandler.visible = value;
         },
@@ -57,19 +59,28 @@ function imageService(deviceService, settingsWindowService, variableService, pop
 
         //returns the value of a friendly cached image
         getImageFromFriendlyCache: function (str) {
-            if (str && str.indexOf("data:image/") > -1) return str;
+            try {
+                if (str && str.indexOf("data:image/") > -1) return str;
+                return eval(str);
+            } catch (e) {
+                console.log("Error loading image", str);
+                return "";
+            }
 
-            return eval(str);
         },
 
+        //image slots
         slots: [],
+
+        //set slots
         setSlots: function () {
-            for (var i = 1; i < 21; i++) {
+            for (var i = 0; i < 21; i++) {
                 imageHandler.slots.push({});
-                imageHandler.getImage("image" + i, i - 1);
+                imageHandler.getImage("image" + i, i);
             }
         },
 
+        //get slots and the connected images
         getSlot: function (name) {
             var slot = null;
 
@@ -83,15 +94,7 @@ function imageService(deviceService, settingsWindowService, variableService, pop
         },
 
         getImage: function (name, i) {
-            deviceService.callService("/rosapi/get_param", { name: name }, function (result) {
-                var value = JSON.parse(result.value);
-                var base64 = value == null ? null : value.base64;
-                var slot = { name: name, base64: base64 };
-
-                variableService.friendlyCache[name] = slot;
-                imageHandler.slots[i] = slot;
-                imageHandler.scope.$apply;
-            });
+            projectStorageService.getImage(name, i, imageHandler.slots);
         },
 
         //set selected image
@@ -106,6 +109,7 @@ function imageService(deviceService, settingsWindowService, variableService, pop
             imageHandler.setVisible(false);
         },
 
+        //checks and image valid or not
         isValidImage: function (src) {
             var ret = src != 'null' &&
                 src != null &&
@@ -138,7 +142,7 @@ function imageService(deviceService, settingsWindowService, variableService, pop
         //removes the image 
         removeImage: function (path) {
             variableService.friendlyCache[path].base64 = null;
-            if (!settingsWindowService.demoMode) {
+            if (!settingsWindowService.offlineMode) {
                 deviceService.nodes.rosapi.delete_param.call({ name: path });
             } else {
                 localStorage.removeItem("flexgui4_images_" + path);
@@ -153,53 +157,57 @@ function imageService(deviceService, settingsWindowService, variableService, pop
                 return;
             }
 
-            imageHandler.scope.blockUI(localization.currentLocal.images.blockMsg);
-            var canvas = document.createElement('canvas');
-            var ctx = canvas.getContext('2d');
-            var img = new Image;
-            img.src = URL.createObjectURL(file);
-            img.onload = function () {
-				canvas.width = img.width;
-				canvas.height = img.height;
-				ctx.drawImage(img, 0, 0, img.width, img.height);
-				
+            if (imageHandler.getSlot(imageHandler.currentImage).base64) {
+                bootbox.confirm(localization.currentLocal.images.confirmOverwrite, function (result) {
+                    if (result) upload();
+                });
+            } else {
+                upload();
+            }
 
-				function saveImg(c) {
-					var base64 = c.toDataURL("image/png");
-					var slot = imageHandler.getSlot(imageHandler.currentImage);
+            function upload() {
+                imageHandler.scope.blockUI(localization.currentLocal.images.blockMsg);
+                var canvas = document.createElement('canvas');
+                var ctx = canvas.getContext('2d');
+                var img = new Image;
+                img.src = URL.createObjectURL(file);
+                img.onload = function () {
+                    canvas.width = img.width;
+                    canvas.height = img.height;
+                    ctx.drawImage(img, 0, 0, img.width, img.height);
 
-					if (slot) {
-						if (!settingsWindowService.demoMode) {
-							deviceService.nodes.rosapi.set_param.call({ name: imageHandler.currentImage, value: JSON.stringify({ base64: base64 }) });
-						} else {
-							localStorage.setItem("flexgui4_images_" + imageHandler.currentImage, base64);
-						}
-						slot.base64 = base64;
-						variableService.friendlyCache[imageHandler.currentImage] = slot;
-					}
 
-					imageHandler.scope.$apply();
-					imageHandler.scope.unBlockUI();
-					imageHandler.setSelectedImage(variableService.friendlyCache[imageHandler.currentImage]);
-					imageHandler.setTabIndex(0);
-				}
+                    function saveImg(c) {
+                        var base64 = c.toDataURL("image/png");
+                        var slot = imageHandler.getSlot(imageHandler.currentImage);
 
-				//only resize, if bigger than 1024*768px
-				if (img.width * img.height > 1024 * 768) {
-					resized = document.createElement('canvas');
+                        if (slot) {
+                            projectStorageService.setImage(imageHandler.currentImage, base64);
+                            slot.base64 = base64;
+                            variableService.friendlyCache[imageHandler.currentImage] = slot;
+                        }
 
-					//keep aspect
-					resized.width = img.width > img.height ? 1024 : 768;
-					resized.height = resized.width / img.width * img.height;
-					canvasResize(canvas, resized, function () {
-						saveImg(resized)
-					});
-				} else {
-					saveImg(canvas);
-				}
+                        imageHandler.scope.$apply();
+                        imageHandler.scope.unBlockUI();
+                        imageHandler.setSelectedImage(variableService.friendlyCache[imageHandler.currentImage]);
+                        imageHandler.setTabIndex(0);
+                    }
 
-				
-			}
+                    //only resize, if bigger than 1024*768px
+                    if (img.width * img.height > 1024 * 768) {
+                        resized = document.createElement('canvas');
+
+                        //keep aspect
+                        resized.width = img.width > img.height ? 1024 : 768;
+                        resized.height = resized.width / img.width * img.height;
+                        canvasResize(canvas, resized, function () {
+                            saveImg(resized)
+                        });
+                    } else {
+                        saveImg(canvas);
+                    }
+                }
+            }
         },
     }
 

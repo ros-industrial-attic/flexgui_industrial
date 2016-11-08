@@ -16,8 +16,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License. 
 */
-
-editorService.$inject = ['$sce', '$timeout', '$rootScope', '$window', 'historyService', 'projectService', 'enumService', 'fidgetService', 'deviceService', 'clipboardService', 'settingsWindowService', 'popupService'];
+editorService.$inject = ['$sce', '$timeout', '$rootScope', '$window', 'historyService', 'projectService', 'enumService', 'fidgetService', 'deviceService', 'clipboardService', 'settingsWindowService', 'popupService', 'variableService', 'projectStorageService'];
 
 function editorService(
     $sce,
@@ -31,7 +30,9 @@ function editorService(
     deviceService,
     clipboardService,
     settingsWindowService,
-    popupService) {
+    popupService,
+    variableService,
+    projectStorageService) {
 
     var editHandler = {
         //edit mode on/off
@@ -76,44 +77,22 @@ function editorService(
                                 var fidget = editHandler.selectedFidgets[i];
 
                                 if (editHandler.activeContainer != fidget.parent && editHandler.activeContainer && editHandler.activeContainer.fidgets) {
-                                    var oldParent = fidget.parent;
-
-                                    projectService.deleteFidget(fidget.parent, fidget);
-                                    editHandler.activeContainer.fidgets.push(fidget);
-                                    fidget.parent = editHandler.activeContainer;
-                                    fidget.containerLevel = fidget.parent.containerLevel + 1;
-
-                                    var offset = { top: fidget.top, left: fidget.left };
-
-                                    function shiftOffset(parent, d) {
-                                        while (parent) {
-                                            offset.top = offset.top + d * (parent.top || 0);
-                                            offset.left = offset.left + d * (parent.left || 0);
-                                            parent = parent.parent;
-                                        }
-                                    }
-
-                                    shiftOffset(fidget.parent, -1);
-                                    shiftOffset(oldParent, 1);
-
-                                    fidget.top = offset.top;
-                                    fidget.left = offset.left;
+                                    moveFidgetToContainer(fidget, editHandler.activeContainer);
                                 }
 
-
-                                fidget.posBeforeDrag.left = fidget.left;
-                                fidget.posBeforeDrag.top = fidget.top;
+                                fidget.posBeforeDrag.left = fidget.properties.left;
+                                fidget.posBeforeDrag.top = fidget.properties.top;
                                 editHandler.selectedFidgets[i] = fidget;
                             }
 
-                            deviceService.saveProject(true);
+                            projectStorageService.save(true);
 
                         } else {
                             //restore original position
                             for (var i = 0; i < editHandler.selectedFidgets.length; i++) {
                                 var fidget = editHandler.selectedFidgets[i];
-                                fidget.left = fidget.posBeforeDrag.left;
-                                fidget.top = fidget.posBeforeDrag.top;
+                                fidget.properties.left = fidget.posBeforeDrag.left;
+                                fidget.properties.top = fidget.posBeforeDrag.top;
                             }
                         }
                     }
@@ -170,14 +149,17 @@ function editorService(
                 icon: icon,
                 onTap: onTap,
                 enabled: true,
+                isHidden: function(){ },
                 forScreenType: forScreenType || enumService.screenTypesEnum.All,
                 position: Object.keys(editHandler.actions).length + 1
             };
         },
 
+        //set action position
         setPosition: function (action, newPosition) {
             for (var i = 0; i < Object.keys(editHandler.actions).length; i++) {
                 var a = editHandler.actions[Object.keys(editHandler.actions)[i]];
+                //if another action is on that position move it by 1
                 if (a.position == newPosition) editHandler.setPosition(a, a.position + 1);
             }
 
@@ -199,15 +181,7 @@ function editorService(
                 //remove key capture capabilities
                 $(".main").removeAttr("tabindex");
 
-                //create the index image at the end of the digest loop to be as fresh as possible
-                $timeout(function () {
-                    projectService.generateIndexImage(projectService.currentScreen,
-                        function () {
-                            deviceService.saveProject();
 
-
-                        });
-                }, 0, false);
             }
 
             $("#angularPerformanceStats").css({ right: 20 + (editHandler.isEditMode ? editHandler.beltWidth : 0), top: 20 });
@@ -228,8 +202,8 @@ function editorService(
         /*END OF MODE SWITCHES*/
 
         setFidgetPosition: function (fidget, mousePos) {
-            fidget.left = fidget.posBeforeDrag.left + mousePos.x - editHandler.mouseDownPos.x;
-            fidget.top = fidget.posBeforeDrag.top + mousePos.y - editHandler.mouseDownPos.y;
+            fidget.properties.left = fidget.posBeforeDrag.left + mousePos.x - editHandler.mouseDownPos.x;
+            fidget.properties.top = fidget.posBeforeDrag.top + mousePos.y - editHandler.mouseDownPos.y;
         },
 
         //remove current selection
@@ -244,7 +218,7 @@ function editorService(
             }
 
             editHandler.selectedFidgets = [];
-            deviceService.saveProject(true);
+            projectStorageService.save(true);
         },
 
         //disables to remove the selection clear, called when it is not a screen tap (e.g.: tap -> panstart switch)
@@ -303,8 +277,8 @@ function editorService(
             if (fidget.source == "text" ||
                 [0, undefined, null, "undefined"].indexOf(fidget.properties.width) > -1 ||
                 [0, undefined, null, "undefined"].indexOf(fidget.properties.height) > -1 ||
-                $("#" + fidget.id).width() > fidget.properties.width ||
-                $("#" + fidget.id).height() > fidget.properties.height) {
+                ($("#" + fidget.id).width() > fidget.properties.width && !fidget.properties.angle) ||
+                ($("#" + fidget.id).height() > fidget.properties.height && !fidget.properties.angle)) {
                 return { width: $("#" + fidget.id).width(), height: $("#" + fidget.id).height() }
             }
 
@@ -325,10 +299,18 @@ function editorService(
 
             function getFidgets(container, top, left) {
                 angular.forEach(container.fidgets, function (fidget) {
+                    var containerOffset = { top: 0, left: 0 };
+
+                    if (container.properties.borderWidth) {
+                        containerOffset.top = parseInt(container.properties.borderWidth);
+                        containerOffset.left = parseInt(container.properties.borderWidth);
+                    }
+
                     fidget.absoluteOffset = {
-                        top: fidget.top + top,
-                        left: fidget.left + left
+                        top: fidget.properties.top + top + parseInt(containerOffset.top),
+                        left: fidget.properties.left + left + parseInt(containerOffset.left)
                     };
+
                     fidgets.push(fidget);
 
                     if (fidget.source == "fidgetGroup") {
@@ -354,63 +336,70 @@ function editorService(
                 var size = editHandler.getFidgetSize(fidget);
                 if (editHandler.selectedFidgets.indexOf(fidget) > -1 && skipSelected) continue;
 
-                var directClickArea = {
-                    x1: fidget.absoluteOffset.left,
-                    x2: fidget.absoluteOffset.left + size.width,
-                    y1: fidget.absoluteOffset.top,
-                    y2: fidget.absoluteOffset.top + size.height
-                };
-
+                var angle = parseInt([null, undefined, "undefined", "NaN"].indexOf(fidget.properties.angle) > -1 ? 0 : fidget.properties.angle);
+                var rad = angle * (Math.PI / 180);
+                var bBoxSize = variableService.fitRect(fidget.properties.width, fidget.properties.height, rad);
                 var center = {
-                    x: fidget.absoluteOffset.left + size.width / 2,
-                    y: fidget.absoluteOffset.top + size.height / 2
+                    x: fidget.absoluteOffset.left + bBoxSize.width / 2,
+                    y: fidget.absoluteOffset.top + bBoxSize.height / 2
                 };
 
-                var rotMouse = rot(mousePos.x - center.x, mousePos.y - center.y, fidget.properties.angle || 0);
-                rotMouse.x += center.x;
-                rotMouse.y += center.y;
-
-                if (directClickArea.x1 <= rotMouse.x && directClickArea.x2 >= rotMouse.x && directClickArea.y1 <= rotMouse.y && directClickArea.y2 >= rotMouse.y) {
+                // translate mouse point values to origin
+                var dx = mousePos.x - center.x, dy = mousePos.y - center.y;
+                // distance between the point and the center of the rectangle
+                var h1 = Math.sqrt(dx * dx + dy * dy);
+                var currA = Math.atan2(dy, dx);
+                // Angle of point rotated around origin of rectangle in opposition
+                var newA = currA - rad;
+                // New position of mouse point when rotated
+                var x2 = Math.cos(newA) * h1;
+                var y2 = Math.sin(newA) * h1;
+                // Check relative to center of rectangle
+                if (x2 > -0.5 * size.width && x2 < 0.5 * size.width && y2 > -0.5 * size.height && y2 < 0.5 * size.height) {
                     return fidget;
                 }
             }
 
             //go for safety distance
-            var closestDistance = editHandler.safetyDistance + 1;
+            var closestDistance = -editHandler.safetyDistance - 1;
             var closestFidget;
 
             if (!directHit) {
-
                 for (var i = fidgets.length - 1; i >= 0; i--) {
                     var fidget = fidgets[i];
                     var size = editHandler.getFidgetSize(fidget);
-
-                    var center = {
-                        x: fidget.absoluteOffset.left + size.width / 2,
-                        y: fidget.absoluteOffset.top + size.height / 2
-                    };
-
-                    var rotMouse = rot(mousePos.x - center.x, mousePos.y - center.y, fidget.properties.angle || parseInt(0));
-                    rotMouse.x += center.x;
-                    rotMouse.y += center.y;
-
                     if (editHandler.selectedFidgets.indexOf(fidget) > -1 && skipSelected) continue;
-
-                    var acceptedArea = {
-                        x1: fidget.absoluteOffset.left - editHandler.safetyDistance,
-                        x2: fidget.absoluteOffset.left + editHandler.safetyDistance + size.width,
-                        y1: fidget.absoluteOffset.top - editHandler.safetyDistance,
-                        y2: fidget.absoluteOffset.top + size.height + editHandler.safetyDistance
+                    var angle = parseInt([null, undefined, "undefined", "NaN"].indexOf(fidget.properties.angle) > -1 ? 0 : fidget.properties.angle);
+                    var rad = angle * (Math.PI / 180);
+                    var bBoxSize = variableService.fitRect(fidget.properties.width, fidget.properties.height, rad);
+                    var center = {
+                        x: fidget.absoluteOffset.left + bBoxSize.width / 2,
+                        y: fidget.absoluteOffset.top + bBoxSize.height / 2
                     };
 
-                    if (acceptedArea.x1 <= rotMouse.x && acceptedArea.x2 >= rotMouse.x && acceptedArea.y1 <= rotMouse.y && acceptedArea.y2 >= rotMouse.y) {
-                        var topY = editHandler.safetyDistance - (rotMouse.y - acceptedArea.y1);
-                        var bottomY = editHandler.safetyDistance - (acceptedArea.y2 - rotMouse.y);
-                        var rightX = editHandler.safetyDistance - (acceptedArea.x2 - rotMouse.x);
-                        var leftX = editHandler.safetyDistance - (rotMouse.x - acceptedArea.x1);
+                    // translate mouse point values to origin
+                    var dx = mousePos.x - center.x, dy = mousePos.y - center.y;
+                    // distance between the point and the center of the rectangle
+                    var h1 = Math.sqrt(dx * dx + dy * dy);
+                    var currA = Math.atan2(dy, dx);
+                    // Angle of point rotated around origin of rectangle in opposition
+                    var newA = currA - rad;
+                    // New position of mouse point when rotated
+                    var x2 = Math.cos(newA) * h1;
+                    var y2 = Math.sin(newA) * h1;
+                    // Check relative to center of rectangle
+                    if (x2 > -0.5 * (size.width + 2 * editHandler.safetyDistance) &&
+                        x2 < 0.5 * (size.width + 2 * editHandler.safetyDistance) &&
+                        y2 > -0.5 * (size.height + 2 * editHandler.safetyDistance) &&
+                        y2 < 0.5 * (size.height + 2 * editHandler.safetyDistance)) {
 
-                        if (closestDistance > Math.min(Math.max(topY, bottomY, leftX, rightX), closestDistance)) {
-                            closestDistance = Math.max(topY, bottomY, leftX, rightX);
+                        var topY = size.height / 2 - y2;
+                        var bottomY = size.height / 2 + y2;
+                        var rightX = size.width / 2 + x2;
+                        var leftX = size.width / 2 - x2;
+
+                        if (closestDistance < Math.max(Math.min(topY, bottomY, leftX, rightX), closestDistance)) {
+                            closestDistance = Math.min(topY, bottomY, leftX, rightX);
                             closestFidget = fidget;
                         }
                     }
@@ -459,12 +448,12 @@ function editorService(
                 if (saveProject && !doNotSave) {
                     //save history
                     projectService.generateIndexImage(projectService.currentScreen, function () {
-                        deviceService.saveProject(true);
+                        projectStorageService.save(true);
                     });
                 } else if (doNotSave) {
                     //load back
                     historyService.loadState(projectService.parseJSON(historyService.history[historyService.currentHistoryIndex]));
-                    deviceService.saveProject(false);
+                    projectStorageService.save(false);
                 }
             }
 
@@ -518,7 +507,7 @@ function editorService(
         //mouse down on fidget: put the fidget to the selection depending on the selection mode
         onFidgetMouseDown: function (fidget, $event, canRemoveSelection) {
             if (!editHandler.isEditMode) return;
-            
+
             if (editHandler.tapTimeout) {
                 window.clearTimeout(editHandler.tapTimeout);
                 editHandler.tapTimeout = null;
@@ -547,7 +536,7 @@ function editorService(
                         });
                         if (!sameContainer) editHandler.selectedFidgets = [];
 
-                        fidget.posBeforeDrag = { left: fidget.left, top: fidget.top };
+                        fidget.posBeforeDrag = { left: fidget.properties.left, top: fidget.properties.top };
                         editHandler.selectedFidgets.push(fidget);
                     }
                     else if (canRemoveSelection) {
@@ -557,7 +546,7 @@ function editorService(
                 } else {
                     editHandler.selectedFidgets = [];
                     editHandler.selectedFidgets.push(fidget);
-                    editHandler.selectedFidgets[0].posBeforeDrag = { left: fidget.left, top: fidget.top };
+                    editHandler.selectedFidgets[0].posBeforeDrag = { left: fidget.properties.left, top: fidget.properties.top };
                 }
             }
             $event.preventDefault();
@@ -575,7 +564,7 @@ function editorService(
             fidget.containerLevel = 1;
             projectService.currentScreen.fidgets.push(fidget);
             editHandler.selectedFidgets.push(fidget);
-            editHandler.selectedFidgets[0].posBeforeDrag = { left: fidget.left, top: fidget.top };
+            editHandler.selectedFidgets[0].posBeforeDrag = { left: fidget.properties.left, top: fidget.properties.top };
 
             editHandler.currentMode = null;
             editHandler.isMultiSelect = false;
@@ -585,6 +574,11 @@ function editorService(
         onKeyDown: function ($event) {
 
             if (!editHandler.isEditMode) return;
+
+            if (editHandler.nextKeyTimeout) {
+                window.clearTimeout(editHandler.nextKeyTimeout);
+                delete editHandler.nextKeyTimeout;
+            }
 
             var Keys = {
                 Left: 37,
@@ -599,20 +593,22 @@ function editorService(
                         //MOVE
                         switch ($event.keyCode) {
                             case Keys.Left:
-                                editHandler.selectedFidgets[i].left -= editHandler.deltaMove;
+                                editHandler.selectedFidgets[i].properties.left -= editHandler.deltaMove;
                                 break;
                             case Keys.Right:
-                                editHandler.selectedFidgets[i].left += editHandler.deltaMove;
+                                editHandler.selectedFidgets[i].properties.left += editHandler.deltaMove;
                                 break;
                             case Keys.Up:
-                                editHandler.selectedFidgets[i].top -= editHandler.deltaMove;
+                                editHandler.selectedFidgets[i].properties.top -= editHandler.deltaMove;
                                 break;
                             case Keys.Down:
-                                editHandler.selectedFidgets[i].top += editHandler.deltaMove;
+                                editHandler.selectedFidgets[i].properties.top += editHandler.deltaMove;
                                 break;
                         }
                     }
                 }
+
+                editHandler.nextKeyTimeout = window.setTimeout(function () { projectStorageService.save(true); }, 300);
             }
         },
 
@@ -707,8 +703,8 @@ function editorService(
                 }
             });
 
-            $rootScope.$watch(function () { return projectService.currentEditorId; }, function () {
-                if (editHandler._isEditMode && projectService.currentEditorId && projectService.currentEditorId != $rootScope.currentUserId) {
+            $rootScope.$watch(function () { return editHandler.currentEditorId; }, function (nv, ov) {
+                if (nv != ov && editHandler._isEditMode && editHandler.currentEditorId && editHandler.currentEditorId != $rootScope.currentUserId) {
                     popupService.show($sce.trustAsHtml(localization.currentLocal.editMode.editModeTaken), popupService.types.warning);
                     editHandler._isEditMode = false;
                 }
@@ -758,7 +754,7 @@ function editorService(
 
                     if (changed) {
                         angular.forEach(editHandler.actions, function (action) {
-                            action.hidden = [projectService.currentScreen.type, enumService.screenTypesEnum.All].indexOf(action.forScreenType) == -1;//(editHandler.selectedFidgets.length == 1 && editHandler.isMouseDown == true && (!editHandler.currentMode || editHandler.currentMode.showBeltOverlayes)) || [projectService.currentScreen.type, enumService.screenTypesEnum.All].indexOf(action.forScreenType) == -1;
+                            action.hidden = action.isHidden() || [projectService.currentScreen.type, enumService.screenTypesEnum.All].indexOf(action.forScreenType) == -1;
                         });
 
                         angular.forEach(fidgetService.templates, function (fidget) {
@@ -788,7 +784,7 @@ function editorService(
 
         //check if the current user is editing the project
         isUserTheEditer: function () {
-            return !projectService.currentEditorId || projectService.currentEditorId == $rootScope.currentUserId;
+            return !editHandler.currentEditorId || editHandler.currentEditorId == $rootScope.currentUserId;
         },
 
         //handlers for accessing edit mode
@@ -811,11 +807,13 @@ function editorService(
         editHandler.modes[key].init();
     });
 
+    editHandler.actions.update = editHandler.getAction("Update", function () { projectStorageService.download(true, true); }, 'images/down.png'); editHandler.actions.update.position = -2;
+    editHandler.actions.upload = editHandler.getAction("Upload", function () { projectStorageService.save(false, false, true); }, 'images/up.png'); editHandler.actions.upload.position = -1;
     editHandler.actions.select = editHandler.getAction(localization.currentLocal.editMode.multiSelect, editHandler.switchMultiSelect, 'images/select.png');
     editHandler.actions.delete = editHandler.getAction(localization.currentLocal.buttons.remove, editHandler.deleteAll, 'images/delete.png');
     editHandler.actions.unselect = editHandler.getAction(localization.currentLocal.editMode.unSelect, editHandler.unselectAll, 'images/unselect.png');
-    editHandler.actions.undo = editHandler.getAction(localization.currentLocal.editMode.undo, function () { historyService.undo(); editHandler.selectedFidgets = []; editHandler.clipboard = []; deviceService.saveProject(false); }, 'images/undo.png');
-    editHandler.actions.redo = editHandler.getAction(localization.currentLocal.editMode.redo, function () { historyService.redo(); editHandler.selectedFidgets = []; editHandler.clipboard = []; deviceService.saveProject(false); }, 'images/redo.png');
+    editHandler.actions.undo = editHandler.getAction(localization.currentLocal.editMode.undo, function () { historyService.undo(); editHandler.selectedFidgets = []; editHandler.clipboard = []; projectStorageService.save(false); }, 'images/undo.png');
+    editHandler.actions.redo = editHandler.getAction(localization.currentLocal.editMode.redo, function () { historyService.redo(); editHandler.selectedFidgets = []; editHandler.clipboard = []; projectStorageService.save(false); }, 'images/redo.png');
     editHandler.actions.copy = editHandler.getAction(localization.currentLocal.editMode.copy, function () { clipboardService.copy(editHandler.selectedFidgets); }, 'images/copy.png');
     editHandler.actions.cut = editHandler.getAction(localization.currentLocal.editMode.cut, function () { clipboardService.cut(editHandler.selectedFidgets); editHandler.selectedFidgets = []; }, 'images/cut.png');
     editHandler.actions.paste = editHandler.getAction(localization.currentLocal.editMode.paste, function () {
@@ -823,71 +821,235 @@ function editorService(
         //add to selected here;
         editHandler.selectedFidgets = clipboardService.pasted;
         angular.forEach(editHandler.selectedFidgets, function (fidget) {
-            fidget.posBeforeDrag = { left: fidget.left, top: fidget.top };
+            fidget.posBeforeDrag = { left: fidget.properties.left, top: fidget.properties.top };
         });
     }, 'images/paste.png');
 
+    //set actions to disabled
     editHandler.actions.delete.enabled = false;
     editHandler.actions.undo.enabled = false;
     editHandler.actions.redo.enabled = false;
     editHandler.actions.copy.enabled = false;
     editHandler.actions.cut.enabled = false;
     editHandler.actions.paste.enabled = false;
+    editHandler.actions.update.enabled = false; editHandler.actions.update.position = 1;
+    editHandler.actions.upload.enabled = false; editHandler.actions.upload.position = 2;
 
-    if (!settingsWindowService.demoMode) {
+    editHandler.actions.update.isHidden = function () {
+        return !projectStorageService.showBeltActions();
+    }
+
+    editHandler.actions.upload.isHidden = function () {
+        return !projectStorageService.showBeltActions();
+    }
+
+    $rootScope.$watchGroup([
+        function () { return projectStorageService.needReservation(); },
+        function () { return projectStorageService.saveNeeded },
+        function () { return projectStorageService.downloadNeeded }],
+
+        function () {
+            editHandler.actions.update.hidden = !projectStorageService.showBeltActions();
+            editHandler.actions.upload.hidden = !projectStorageService.showBeltActions();
+
+            editHandler.actions.update.enabled = projectStorageService.downloadNeeded;
+            editHandler.actions.upload.enabled = projectStorageService.saveNeeded;
+        });
+
+    if (!settingsWindowService.offlineMode) {
         //on page unload, remove editor from project
         window.onbeforeunload = function (e) {
             //release edit mode
-            if (projectService.currentEditorId && projectService.currentEditorId == $rootScope.currentUserId) {
-                projectService.currentEditorId = null;
-                deviceService.saveProject(false);
-
+            if (editHandler.currentEditorId && editHandler.currentEditorId == $rootScope.currentUserId && editHandler.isEditMode) {
+                editHandler.isEditMode = false;
                 return localization.currentLocal.editMode.confirmCloseWhenEditing;
             }
         };
     }
-    
+
     //handle hasRole for editMode
     Object.defineProperty(editHandler, 'isEditMode', {
         get: function () {
             return editHandler._isEditMode && editHandler.isEditAvailable();
         },
         set: function (value) {
+            function exitEditMode() {
+                if (!settingsWindowService.offlineMode && deviceService.connected) {
+                    //set editor id
+                    deviceService.callService("/rosapi/set_param", {
+                        name: "/currentEditorId", value: JSON.stringify("@null")
+                    }, function (r) {
+
+                    });
+                }
+
+                //create the index image at the end of the digest loop to be as fresh as possible
+                $timeout(function () {
+                    projectService.generateIndexImage(projectService.currentScreen,
+                        function () {
+                            projectStorageService.save();
+
+
+                        });
+                }, 0, false);
+            }
+
             function enterEditMode() {
                 editHandler._isEditMode = value;
-                projectService.currentEditorId = $rootScope.currentUserId;
-                deviceService.saveProject(false);
+                editHandler.currentEditorId = $rootScope.currentUserId;
 
-                //Save the original state, so we can undo changes
+                if (projectStorageService.needReservation()) {
+                    if (projectService.localVersion != projectStorageService.onlineVersion) {
+                        projectStorageService.versionNotLatestSaveDialog().modal('show');
+                    }
+
+                    //set editor id
+                    deviceService.callService("/rosapi/set_param", {
+                        name: "/currentEditorId", value: JSON.stringify($rootScope.currentUserId)
+                    }, function (r) {
+                        checkEditMode();
+                    });
+                }
+
                 if (historyService.history.length == 0) {
-                    deviceService.saveProject(true);
+                    //save history
+                    historyService.saveState();
                 }
 
                 editHandler.addWatchers();
             }
 
-            if (value) {
-                if (projectService.currentEditorId && projectService.currentEditorId != $rootScope.currentUserId && settingsWindowService.demoMode == false)
-                {
-                    bootbox.confirm(localization.currentLocal.editMode.confirmTakeEditMode, function (result) {
-                        if (result) {
-                            enterEditMode();
-                        }
+            //check edit mode is taken or not
+            function checkEditMode() {
+                if (editHandler.isEditMode) {
+                    //update editor id
+                    deviceService.callService("/rosapi/get_param", {
+                        name: "/currentEditorId"
+                    }, function (result) {
+                        var editorId = JSON.parse(result.value);
+                        editorId = editorId == "@null" ? null : editorId;
+                        editHandler.currentEditorId = editorId;
+
+                        setTimeout(checkEditMode, 1000);
                     });
                 }
-                else
-                {
-                    enterEditMode();
-                }
-            } else {
-                projectService.currentEditorId = null;
-                projectService.forceScreenBelt = false;
-                editHandler._isEditMode = false;
+            }
 
-                //deregister watchers
-                angular.forEach(editHandler.watchers, function (w) { w(); });
+            //if not in offline mode and auto project upload is enabled, handle edit mode on ros
+            if (projectStorageService.needReservation()) {
+                //update editor id
+                deviceService.callService("/rosapi/get_param", {
+                    name: "/currentEditorId"
+                }, function (result) {
+                    var editorId = JSON.parse(result.value);
+                    editorId = editorId == "@null" ? null : editorId;
+                    editHandler.currentEditorId = editorId;
+                    set(value);
+                });
+            } else {
+                set(value);
+            }
+
+            function set(value) {
+                if (value) {
+                    if (editHandler.currentEditorId && editHandler.currentEditorId != $rootScope.currentUserId && projectStorageService.needReservation()) {
+                        bootbox.confirm(localization.currentLocal.editMode.confirmTakeEditMode, function (result) {
+                            if (result) {
+                                enterEditMode();
+                            }
+                        });
+                    }
+                    else {
+                        enterEditMode();
+                    }
+                } else {
+                    editHandler.currentEditorId = null;
+                    projectService.forceScreenBelt = false;
+                    editHandler._isEditMode = false;
+
+                    //deregister watchers
+                    angular.forEach(editHandler.watchers, function (w) { w(); });
+
+                    exitEditMode();
+                }
             }
         }
+    });
+
+    //add fidget to container
+    //calculate the relative offset from parent container
+    function moveFidgetToContainer(fidget, container) {
+        var oldParent = fidget.parent;
+
+        projectService.deleteFidget(fidget.parent, fidget);
+        container.fidgets.push(fidget);
+        fidget.parent = container;
+        fidget.containerLevel = fidget.parent.containerLevel + 1;
+
+        var offset = { top: fidget.properties.top, left: fidget.properties.left };
+
+        function shiftOffset(parent, d) {
+            while (parent) {
+                offset.top = offset.top + d * (parent.properties.top || 0);
+                offset.left = offset.left + d * (parent.properties.left || 0);
+
+                if (parent.properties.borderWidth) {
+                    offset.top += d * parent.properties.borderWidth;
+                    offset.left += d * parent.properties.borderWidth;
+                }
+
+                parent = parent.parent;
+            }
+        }
+
+        shiftOffset(fidget.parent, -1);
+        shiftOffset(oldParent, 1);
+
+        fidget.properties.top = offset.top;
+        fidget.properties.left = offset.left;
+    }
+
+    var propertyWatchers = {};
+    $rootScope.$watchCollection(function () { return editHandler.selectedFidgets; }, function (nv, ov) {
+        angular.forEach(ov, function (i) { propertyWatchers[i](); });
+        angular.forEach(nv, function (i) {
+            propertyWatchers[i] =
+                $rootScope.$watchGroup([
+                    function () { return i.properties.top; },
+                    function () { return i.properties.left; },
+                    function () { return i.properties.width; },
+                    function () { return i.properties.height; },
+                    function () { return i.parent; }
+                ], function () {
+                    //check if fidget's center is outside of the container
+                    function checkFidget(f) {
+                        var size = editHandler.getFidgetSize(f);
+                        if (f.parent != projectService.currentScreen &&
+                            !editHandler.isMouseDown &&
+                            (f.properties.top + size.height / 2 > f.parent.properties.height ||
+                                f.properties.top + size.height / 2 < 0 ||
+                                f.properties.left + size.width / 2 < 0 ||
+                                f.properties.left + size.width / 2 > f.parent.properties.width)) {
+                            moveFidgetToContainer(f, f.parent.parent);
+                        } else if (f.parent == projectService.currentScreen) {
+                            //do not allow to move fidget outside the screen
+                            f.properties.top = Math.max(0, f.properties.top);
+                            f.properties.left = Math.max(0, f.properties.left);
+                        }
+                    }
+
+                    //check current fidget
+                    checkFidget(i);
+
+                    //check if a container changed and move childrens to the parent
+                    if (i.fidgets) {
+                        angular.forEach(i.fidgets, function (f) {
+                            checkFidget(f);
+                        });
+                    }
+                });
+        });
+
     });
 
     return editHandler;

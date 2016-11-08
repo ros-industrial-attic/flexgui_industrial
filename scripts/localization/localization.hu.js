@@ -124,6 +124,7 @@ localization.items.hu = {
             	params: {
             		timeout: "Delay (ms)",
             		type: "Function",
+            		name: "Name"
             	}
             },
             setFunction: {
@@ -262,7 +263,19 @@ localization.items.hu = {
             onClick: 'Kattintásra',
             name: 'Név',
             _node: 'ROS csomópont neve',
-            hasScreenBelt: "Screenbelt láthatósága"
+            hasScreenBelt: "Screenbelt láthatósága",
+            logo: 'Logo',
+            logoWidth: 'Logo width',
+            logoPosition: 'Logo position',
+            logoPositions: {
+                bottomRight: 'Bottom - Right',
+                bottomLeft: 'Bottom - Left',
+                topLeft: 'Top - Left',
+                topRight: 'Top - Right'
+            },
+            _top: 'Top',
+            _left: 'Left',
+            _enabled: 'Enabled'
         }
     },
     properties: {
@@ -280,6 +293,15 @@ localization.items.hu = {
         reloadSettingsAlert: 'FlexGui újraindítása az új beállítások használatával?',
         loadOnNextStartNote: 'Az új beállítások újraindítás után lesznek elérhetők',
         tabs: {
+            timers: {
+                title: 'Timers',
+                delay: 'Delay',
+                repeat: 'Repeat',
+                enabled: 'Enabled',
+                name: 'Name',
+                action: 'Action',
+                duplicatedError: 'A megadott névvel már van létrehozva a Friendly változók között elem. Kérjük válasszon másikat!'
+            },
             enterprise: {
                 title: 'Enterprise',
                 trialTitle: 'Trial mód',
@@ -318,7 +340,12 @@ localization.items.hu = {
                 statSwitchLabel: "Jelölje be a statisztikai mutatók megjelenítéséhez",
                 gridSize: 'Rács méret',
                 gridSizeNote: 'Az érték megváltoztatásához újra kell indítani a FlexGuit',
-                gridSizeError: 'A méretnek 30 és 200 között kell lennie'
+                gridSizeError: 'A méretnek 30 és 200 között kell lennie',
+                forceBelt: 'Force Screen Belt',
+                forceBeltSwitchLabel: 'Set to force to show the Screen Belt',
+                autoScale: 'Auto scale',
+                pinchEnabled: 'Pinch zoom',
+                switchPinchEnabled: 'Check here if you want to enable pinch zoom on your mobile device'
             },
             initScript: {
                 title: 'Induló szkript',
@@ -336,15 +363,17 @@ localization.items.hu = {
                 changeScriptTitle: 'ChangeScript a @0 változóhoz',
                 changeScriptNote: 'A \'newValue\' és \'oldValue\' paraméterekkel elérhető a frissítés előtti és utáni érték.',
                 demoAlert: 'Demo módban ez a funkció nem elérhető',
-                nodeUnselected: 'Válasszon ki egy csomópontot a tulajdonságok lekérdezéséhez'
+                nodeUnselected: 'Válasszon ki egy csomópontot a tulajdonságok lekérdezéséhez',
+                topicOfflineError: "A topic jelenleg nem elérhető, ezért az értéket nem lehet megváltoztatni!",
+                topicOutOfDateWarning: "A topic még nem volt frissítve az indítás óta, így elképzelhető hogy nem az aktuális értéket mutatja. Elküldi a beállított értéket a szervernek?"
             },
             conn: {
                 description: 'Használni kívánt ROS Server beállításai. Offline módhoz jelöld be a demó módot',
                 title: 'ROS Server beállítások',
                 ip: 'IP',
                 port: 'Port',
-                demoMode: 'Demó mód',
-                demoModeSwitch: 'Jelölje be a demó mód aktiválásához',
+                offlineMode: 'Demó mód',
+                offlineModeSwitch: 'Jelölje be a demó mód aktiválásához',
                 secure: 'Biztonságos kapcsolat',
                 secureSwitch: 'Jelölje be a biztonságos (WebSocket Security) kapcsolat aktiválásához'
             },
@@ -359,6 +388,13 @@ localization.items.hu = {
                 title: "Témák",
                 theme: 'Téma',
                 themeNote: 'Az érték megváltoztatásához újra kell indítani a FlexGuit',
+            },
+            userMode: {
+                title: "User mode",
+                modeSwitch: "Check this if you want to restrict of usage of your FG screens",
+                password: "Administrator password",
+                confirmPassword: "Confirm password",
+                passwordError: "The two password fields must match!"
             }
         }
     },
@@ -366,13 +402,23 @@ localization.items.hu = {
         invalidUsernamePassword: 'A felhasználónév/jelszó páros hibás. Kérem elennőrizze és próbálja újra.',
         missingLoginData: 'Hibás beállítások, kérjük a Beállítások/Üzenetek menüben adja meg a helyes értékeket.',
         enterMessage: 'Üzenet írása...',
-        expertUsername: "Expert felhasználó neve"
+        expertUsername: "Expert felhasználó neve",
+        checkToEnableMessenger: "Check to enable built-in messenger",
+        messengerEnabled: "Enable messenger"
     },
     popup: {
         title: 'FlexGui üzenetek'
     },
+    timers: {
+        alreadyRunningError: 'This timer is already running!',
+        disableAll: 'Disable all',
+        createNew: 'Create new'
+    },
     buttons: {
+        start: 'Start',
+        stop: 'Stop',
         add: 'Hozzáadás',
+        edit: 'Szerkesztés',
         duplicate: 'Másolás',
         cancel: 'Mégse',
         clear: 'Töröl',
@@ -532,6 +578,14 @@ localization.items.hu = {
         cameraImage: {
         	header: 'Kamera kép súgó',
             content: "A kamera kép fidget megjeleníti az IP kamera képét.<h5>Forrás</h5>Az érték tulajdonság beállítása után a kép megjelenik a fidgeten.<h5>Authentikáció</h5>Amennyiben a kamera képe jelszóval védett, kérjük adja meg a felhasználónév / jelszó páros a felugró ablakban."
+        },
+        userMode: {
+            header: 'User mode',
+            content: 'With user mode, you can restrict the usage of your FG screens. <h5>Password</h5>You can setup the password for the administrator mode. The default value is: \"admin\"'
+        },
+        timers: {
+            header: 'Timers',
+            content: 'With timers you can manage the used timeouts and intervals. Check <b>repeat</b> to create an interval. An interval will run as long as the repeat is checked or the timeout is stopped. The minimum delay of a timeout is 30ms.'
         }
     },
     login: {
@@ -550,14 +604,20 @@ localization.items.hu = {
     },
     ros: {
     	connectionError: 'Hiba a szerverhez való kapcsolódás során ',
-    	connectionErrorBody: 'Nem tudunk a ROS szerverhez csatlakonzni, vagy a kapcsolat megszakadt. Ha újra szeretne csatlakozni, nyomja meg az <b>Újrakapcsolódás</b> gombot, vagy válassza a <b>Demó módot</b> offline munkához.',
+    	connectionErrorBody: 'Nem tudunk a ROS szerverhez csatlakonzni, vagy a kapcsolat megszakadt. Ha újra szeretne csatlakozni, nyomja meg az <b>Újrakapcsolódás</b> gombot, vagy válassza a <b>Demó módot</b> offline munkához. <br /> További információért keresse fel weboldalunk  <a href="https://www.ppm.no/flexgui4-Home/Index/downloads">letöltések</a> aldoldalát, ahol további információkkal szolgálunk a ROS serverek beállítását illetően.',
     	reconnect: 'Újrakapcsolódás',
     	back: 'Vissza',
-    	demoMode: 'Demó mód',
+    	offlineMode: 'Demó mód',
     	demoBody: 'Szeretné megőrizni a <b>jelenlegi</b> projektet? A projekt megőrzése felül fogja írni korábbi offline projektjét!',
     	keepProject: 'Projekt megőrzése',
     	discardProject: 'Projekt elvetése',
-        communicationInitError: 'Kommunikációs hiba',
+    	communicationInitError: 'Kommunikációs hiba',
+    	versionIsNotLatest: {
+    	    body: "Your project is not the latest version, do you want to update, which can cause losses in your changes or overwrite the current version?",
+    	    title: "Project version is not the latest",
+    	    overwrite: "Overwrite on server",
+    	    update: "Update mine"
+    	},
         interfaces: {
             type: 'Típus',
             originalName: 'Név',
@@ -568,6 +628,20 @@ localization.items.hu = {
             dupeError: 'Egy másik interfésznek ugyan ez a neve.'
         }
     },
+    nachiLink: {
+        addVariable: "Változó hozzáadása",
+        connectionsTab: "Kapcsolatok",
+        connectionError: "Nem lehet kapcsolódni: @0",
+        secure: "Biztonságos",
+        IP: "IP",
+        port: "Port",
+        connected: "Kapcsolódva",
+        Name: "Név",
+        createNew: "Új létrehozása",
+        reconnect: "Újrakapcsolódás",
+        zeroConnection: "Nincsenek direkt kapcsolatok...",
+        nameLocked: "The name is received from the connected FlexGui, cannot be changed"
+    },
     images: {
         title: 'Kép böngésző',
         imagesTabTitle: 'Képek',
@@ -576,7 +650,8 @@ localization.items.hu = {
         selectSlot: 'Tároló kiválasztása',
         selectFile: 'Fájl kiválasztása',
         blockMsg: 'Kép feltöltése',
-        imageError: 'Csak képfájlok tölthetők fel: JPG, BMP, PNG.'
+        imageError: 'Csak képfájlok tölthetők fel: JPG, BMP, PNG.',
+        confirmOverwrite: 'Felülírja az aktuális képet?'
     },
     timeago: {
         settings: {

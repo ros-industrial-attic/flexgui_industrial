@@ -31,11 +31,13 @@ function fidgetCtrl($http, $sce, $scope, $window, $location, $routeParams, $attr
         }
     }
 
+    $scope.Math = window.Math;
+
     //calculates the size of the indicator lamp
     var indicatorLampSize = function (fidget) {
-        if (fidget.properties.width - $scope.textWidth(fidget.properties.text, 12) > fidget.properties.height) return fidget.properties.height;
+        if (fidget.properties.width > fidget.properties.height) return fidget.properties.height;
 
-        return fidget.properties.width - $scope.textWidth(fidget.properties.text, 12);
+        return fidget.properties.width;
     }
 
     //make trusted links
@@ -92,7 +94,7 @@ function fidgetCtrl($http, $sce, $scope, $window, $location, $routeParams, $attr
         var gridSize = settingsWindowService.gridsize || 1;
         var d = size / gridSize == Math.floor(size / gridSize) ? 1 : 0;
         var arrSize = Math.floor(size / gridSize) - d;
-        return  new Array(arrSize >= 0 ? arrSize : 0);
+        return new Array(arrSize >= 0 ? arrSize : 0);
     }
 
     //current fidget for the controller
@@ -102,6 +104,75 @@ function fidgetCtrl($http, $sce, $scope, $window, $location, $routeParams, $attr
         $scope.size = indicatorLampSize(f);
         $scope.$watchGroup([function () { return $scope.currentFidget.properties.width; }, function () { return $scope.currentFidget.properties.height; }], function () {
             $scope.size = indicatorLampSize($scope.currentFidget);
+        });
+    }
+
+    var imageResizeTimer = null;
+    $scope.initImage = function (f) {
+        $scope.currentFidget = f;
+        $scope.$watchGroup([function () { return $scope.currentFidget.properties.width }, function () { return $scope.currentFidget.properties.height }, function () { return $scope.currentFidget.properties.value }], function () {
+            function resize() {
+                function imageToDataUri(img, maxWidth, maxHeight) {
+                    var ratio = 0;  // Used for aspect ratio
+                    var width = img.width;    // Current image width
+                    var height = img.height;  // Current image height
+                    var needDownScale = false;
+                    // create an off-screen canvas
+                    var canvas = document.createElement('canvas'),
+                        ctx = canvas.getContext('2d');
+
+                    // Check if the current width is larger than the max
+                    if (width > maxWidth) {
+                        ratio = maxWidth / width;   // get ratio for scaling image
+                        canvas.width = maxWidth; // Set new width
+                        canvas.height = height * ratio;  // Scale height based on ratio
+                        height = height * ratio;    // Reset height to match scaled image
+                        width = width * ratio;    // Reset width to match scaled image
+                        needDownScale = true;
+                    } else if (height > maxHeight) {
+                        // Check if current height is larger than max
+                        ratio = maxHeight / height; // get ratio for scaling image
+                        canvas.height = maxHeight;   // Set new height
+                        canvas.width = width * ratio;    // Scale width based on ratio
+                        width = width * ratio;    // Reset width to match scaled image
+                        height = height * ratio;    // Reset height to match scaled image
+                        needDownScale = true;
+                    } 
+
+                    if (needDownScale) {
+                        // draw source image into the off-screen canvas:
+                        ctx.drawImage(img, 0, 0, width, height);
+                        // encode image to data-uri with base64 version of compressed image
+                        $scope.imageUrl = canvas.toDataURL();
+                    } else {
+                        //the image is smaller then the desired size, so we can keep the actual base64
+                        $scope.imageUrl = $scope.currentFidget.properties.value;
+                    }
+
+                    $scope.$apply();
+                }
+
+                var img = new Image;
+                img.onload = function () {
+                    imageToDataUri(img, $scope.currentFidget.properties.width, $scope.currentFidget.properties.height)
+                };
+                img.src = $scope.currentFidget.properties.value;
+            }
+
+            if (!$scope.imageUrl) {
+                //generate asap
+                resize();
+            } else {
+                //generate at the end of the loop
+                if (imageResizeTimer) {
+                    $timeout.cancel(imageResizeTimer);
+                    imageResizeTimer = null;
+                }
+
+                imageResizeTimer = $timeout(function () {
+                    resize();
+                }, 200);
+            }
         });
     }
 }

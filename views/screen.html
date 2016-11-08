@@ -20,5 +20,11 @@
 <div class="{{(screen || project.currentScreen).type}} screen"
      ng-style="project.currentScreen.backgroundImage ? { 'background': 'url(' + images.getImageFromFriendlyCache(project.currentScreen.backgroundImage)  + ')  no-repeat center center', 'background-size':'cover'} : {}"
      style="width: 100%; height: 100%;">
+    
+    <img style="width: {{project.currentScreen.properties.logoWidth}}px;"
+         ng-style="project.screenBeltVisible && project.currentScreen.properties.logoPosition.indexOf('Left') > -1 ? { left: beltWidth + 10 } : { }"
+         class="{{project.currentScreen.properties.logoPosition}}"
+         ng-src="{{project.currentLogo}}" />
+
     <div fg-fidget-repeater fidgets="project.currentScreen.fidgets" />
 </div>

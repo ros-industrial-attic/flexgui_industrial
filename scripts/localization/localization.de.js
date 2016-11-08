@@ -100,6 +100,7 @@ localization.items.de = {
 	        	params: {
 	        		node: "Node",
 	        		variable: "Variable",
+	        		name: "Name"
 	        	}
 	        },
 	        autoDefine: {
@@ -262,7 +263,19 @@ localization.items.de = {
             onClick: 'Bei Betätigung',
             name: 'Name',
             _node: 'ROS-Node-Name',
-            hasScreenBelt: "Has screen belt"
+            hasScreenBelt: "Has screen belt",
+            logo: 'Logo',
+            logoWidth: 'Logo width',
+            logoPosition: 'Logo position',
+            logoPositions: {
+                bottomRight: 'Bottom - Right',
+                bottomLeft: 'Bottom - Left',
+                topLeft: 'Top - Left',
+                topRight: 'Top - Right'
+            },
+            _top: 'Top',
+            _left: 'Left',
+            _enabled: 'Enabled'
         }
     },
     properties: {
@@ -280,6 +293,15 @@ localization.items.de = {
         reloadSettingsAlert: 'FlexGui neu laden, um die aktuellen Einstellungen zu benutzen?',
         loadOnNextStartNote: 'FlexGui wird diese Einstellungen beim nächsten start benutzen',
         tabs: {
+            timers: {
+                title: 'Timers',
+                delay: 'Delay',
+                repeat: 'Repeat',
+                enabled: 'Enabled',
+                name: 'Name',
+                action: 'Action',
+                duplicatedError: "You can not save with this name, because it is already exists in the friendly variable cache. Plase select another one!"
+            },
             enterprise: {
                 title: 'Enterprise',
                 trialTitle: 'Demomodus',
@@ -318,7 +340,12 @@ localization.items.de = {
                 statSwitchLabel: "Performance-Monitor an",
                 gridSize: 'Rastergröße',
                 gridSizeNote: 'Bitte beachten Sie, dass FlexGui neu geladen wird, wenn Sie diesen Wert verändern!',
-                gridSizeError: 'Der Wert muss zwischen 30 und 200 liegen'
+                gridSizeError: 'Der Wert muss zwischen 30 und 200 liegen',
+                forceBelt: 'Force Screen Belt',
+                forceBeltSwitchLabel: 'Set to force to show the Screen Belt',
+                autoScale: 'Auto scale',
+                pinchEnabled: 'Pinch zoom',
+                switchPinchEnabled: 'Check here if you want to enable pinch zoom on your mobile device'
             },
             initScript: {
                 title: 'Initialisierungsskript',
@@ -336,15 +363,17 @@ localization.items.de = {
                 changeScriptTitle: 'ChangeScript für @0',
                 changeScriptNote: 'Sie können den alten und neuen Wert direkt mit \'newValue\' und \'oldValue\' Parametern.',
                 demoAlert: 'Demomodus - keine Knoten verfügbar',
-                nodeUnselected: 'Wählen Sie einen Knoten, um die Eigenschaften anzuzeigen.'
+                nodeUnselected: 'Wählen Sie einen Knoten, um die Eigenschaften anzuzeigen.',
+                topicOfflineError: "This topic is currently offline, so you can not publish a new value!",
+                topicOutOfDateWarning: "This topic's value is not updated from ROS yet. Do you want to publish this new value?"
             },
             conn: {
                 title: 'ROS-Server Einstellungen',
                 description: 'Geben Sie die IP des ROS-Servers an um die aktiven Nodes zu sehen. Wenn Sie FlexGui offline benutzen möchten, setzen Sie bitte unten den Haken.',
                 ip: 'IP',
                 port: 'Port',
-                demoMode: 'Demomodus',
-                demoModeSwitch: 'Haken für Demomodus',
+                offlineMode: 'Demomodus',
+                offlineModeSwitch: 'Haken für Demomodus',
                 secure: 'Sicherer Modus',
                 secureSwitch: 'Sicherer Modus an'
             },
@@ -359,6 +388,13 @@ localization.items.de = {
                 title: "Themes",
                 theme: 'Theme',
                 themeNote: 'Bitte beachten Sie, dass FlexGui neu geladen wird, wenn Sie diesen Wert verändern!',
+            },
+            userMode: {
+                title: "User mode",
+                modeSwitch: "Check this if you want to restrict of usage of your FG screens",
+                password: "Administrator password",
+                confirmPassword: "Confirm password",
+                passwordError: "The two password fields must match!"
             }
         }
     },
@@ -366,13 +402,23 @@ localization.items.de = {
         invalidUsernamePassword: 'Verbindung zum Messanger nicht möglich. Bitte überprüfen Sie Benutzername und Kennwort',
         missingLoginData: 'iVAR-Messenger kann keine Verbindung aufbauen. Bitte richten Sie diese in den Einstellungen/Messanger ein.',
         enterMessage: 'Nachricht eingeben...',
-        expertUsername: "Experten-Benutzername"
+        expertUsername: "Experten-Benutzername",
+        checkToEnableMessenger: "Check to enable built-in messenger",
+        messengerEnabled: "Enable messenger"
     },
     popup: {
         title: 'FlexGui Nachrichten'
     },
+    timers: {
+        alreadyRunningError: 'This timer is already running!',
+        disableAll: 'Disable all',
+        createNew: 'Create new'
+    },
     buttons: {
+        start: 'Start',
+        stop: 'Stop',
         add: 'Add',
+        edit: 'Edit',
         duplicate: 'Duplikat',
         cancel: 'Abbruch',
         clear: 'Leeren',
@@ -531,6 +577,14 @@ localization.items.de = {
 			header: 'Hilfe für Kamerabild-Fidget',
 			//title: "Kamerabild-Fidget"
             content: "Ein Kamerabild-Fidget zeigt den Stream Ihrer IP-Kamera.<h5>Quelle</h5> Mit dem Einstellen der Quelle auf eine .mjpg-Quelle sehen Sie das Video. <h5>Anmeldung</h5> Sofern Ihre Kamera passwortgeschützt ist, geben Sie bitte die Accountinformationen im Popup-Fenster ein."
+        },
+        userMode: {
+            header: 'User mode',
+            content: 'With user mode, you can restrict the usage of your FG screens. <h5>Password</h5>You can setup the password for the administrator mode. The default value is: \"admin\"'
+        },
+        timers: {
+            header: 'Timers',
+            content: 'With timers you can manage the used timeouts and intervals. Check <b>repeat</b> to create an interval. An interval will run as long as the repeat is checked or the timeout is stopped. The minimum delay of a timeout is 30ms.'
         }
     },
     login: {
@@ -549,14 +603,20 @@ localization.items.de = {
     },
     ros: {
 		connectionError: 'FlexGui kann sich nicht mit dem ROS-Server verbinden',
-        connectionErrorBody: 'Wir können die Verbindung zum ROS-Server nicht aufbauen oder die Verbindung ist unterbrochen. Wenn Sie wiederverbinden möchten klicken Sie deb <b>Wiederverbinden</b>-Button, oder wechseln Sie in den <b>Demomodus</b> um offline zu arbeiten.',
+		connectionErrorBody: 'Wir können die Verbindung zum ROS-Server nicht aufbauen oder die Verbindung ist unterbrochen. Wenn Sie wiederverbinden möchten klicken Sie deb <b>Wiederverbinden</b>-Button, oder wechseln Sie in den <b>Demomodus</b> um offline zu arbeiten.<br /> For further information, please visit our website\'s <a href="https://www.ppm.no/flexgui4-Home/Index/downloads" target="_blank">donwload</a> section, where you can find more info about the ROS server setup.',
         reconnect: 'Wiederverbinden',
 		back: 'Zurück',
-		demoMode: 'Demomodus',
+		offlineMode: 'Demomodus',
 		demoBody: 'Möchten Sie das <b>aktuelle</b> Projekt behalten? Wenn Sie das aktuelle Projekt behalten, wird dies das offline Projekt überschreiben!',
 		keepProject: 'Projekt behalten',
 		discardProject: 'Projekt verwerfen',
 		communicationInitError: 'Fehler bei der Kommunikationsinitialisierung',
+		versionIsNotLatest: {
+		    body: "Your project is not the latest version, do you want to update, which can cause losses in your changes or overwrite the current version?",
+		    title: "Project version is not the latest",
+		    overwrite: "Overwrite on server",
+		    update: "Update mine"
+		},
         interfaces: {
             type: 'Typ',
             originalName: 'ursprünglicher Name',
@@ -575,7 +635,22 @@ localization.items.de = {
         selectSlot: 'Wählen Sie den Slot',
         selectFile: 'Datei wählen',
         blockMsg: 'Bild wird hochgeladen',
-        imageError: 'Es können nur Bilddateien hochgeladen werden, bitte wäheln Sie eine PNG, BMP oder JPG-Datei'
+        imageError: 'Es können nur Bilddateien hochgeladen werden, bitte wäheln Sie eine PNG, BMP oder JPG-Datei',
+        confirmOverwrite: 'Do you want to overwrite an existing image?'
+    },
+    nachiLink: {
+        addVariable: "Add variable",
+        connectionsTab: "Connections",
+        connectionError: "Can't connect to @0",
+        secure: "Secure",
+        IP: "IP",
+        port: "Port",
+        connected: "Connected",
+        Name: "Name",
+        createNew: "Create new",
+        reconnect: "Reconnect",
+        zeroConnection: "No direct connections found...",
+        nameLocked: "The name is received from the connected FlexGui, cannot be changed"
     },
     timeago: {
         settings: {

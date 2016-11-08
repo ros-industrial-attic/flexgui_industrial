@@ -17,8 +17,6 @@
  * limitations under the License. 
  -->
 
-<button type="button" class="btn btn-default" 
-        style="width: {{fidget.properties.width}}px; height: {{fidget.properties.height}}px;" 
-        hm-tapend="onClick(fidget, fidget.properties.onClick)" ng-mouseup="onClick(fidget, fidget.properties.onClick)">
-    {{fidget.properties.text}}
-</button>
+<button type="button" class="btn btn-default"
+        style="width: {{fidget.properties.width}}px; min-height: {{fidget.properties.height}}px; font-family: {{fidget.properties.font || 'inherit'}} !important; font-size: {{fidget.properties.fontSize}}px; {{fidget.properties.color ? 'color: ' + fidget.properties.color + ' !important' : ''}}"
+        hm-tapend="onClick(fidget, fidget.properties.onClick)" ng-mouseup="onClick(fidget, fidget.properties.onClick)" ng-bind-html="fidget.properties.text"></button>

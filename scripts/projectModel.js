@@ -23,13 +23,19 @@ function projectService($rootScope, enumService, fidgetService, popupService, $l
     var project = {
         currentScreen: null,
         appVersion: null,
+        adminEnabled: false,
         forceScreenBelt: false,
+        prevProject: null,
+        onlineVersion: null,
+        localVersion: null,
+        projectUploading: false,
+        needSave: null,
         //returns with a new, empty screen
         getScreen: function (name, type) {
             return {
                 id: project.getId(),
                 type: type || enumService.screenTypesEnum.Normal,
-                properties: { name: name, hasScreenBelt: 'true' },
+                properties: { name: name, hasScreenBelt: 'true', logo: '', logoPosition: 'bottomRight', logoWidth: 0 },
                 fidgets: []
             }
         },
@@ -72,26 +78,31 @@ function projectService($rootScope, enumService, fidgetService, popupService, $l
                 backgroundImage: null,
                 interfaceMetaDataList: [],
                 initScript: null,
-                appVersion: project.appVersion
+                appVersion: project.appVersion,
+                adminEnabled: false,
             };
 
             //add capability to add new parameters to the get from addons
             angular.forEach(project.extraCleanParamGetters, function (f) { obj = f(obj); });
 
+            project.interfaceMetaData.list = [];
+
             return obj;
         },
 
-        getObject: function (images) {
+        getObject: function (images, saveEditorId) {
             var obj = {
                 screens: project.screens,
                 initScript: project.initScript,
                 background: project.backgroundImage,
                 name: project.name,
                 id: project.id,
-                currentEditorId: project.currentEditorId,
                 images: images,
                 appVersion: project.appVersion,
                 interfaceMetaDataList: project.interfaceMetaData.list,
+                adminEnabled: project.adminEnabled,
+                clientId: $rootScope.currentUserId,
+                projectVersion: project.localVersion
             }
 
             //add capability to add new parameters to the get from addons
@@ -106,7 +117,7 @@ function projectService($rootScope, enumService, fidgetService, popupService, $l
             project.id = proj.id;
             project.backgroundImage = proj.backgroundImage;
             project.interfaceMetaData.list = proj.interfaceMetaDataList || [];
-            project.currentEditorId = proj.currentEditorId;
+            project.localVersion = proj.projectVersion
 
             //add capability to add new parameters to the get from addons
             angular.forEach(project.extraParamSetters, function (f) { f(proj); });
@@ -118,9 +129,9 @@ function projectService($rootScope, enumService, fidgetService, popupService, $l
         },
 
         //save the project object to a JSON string
-        toJSON: function (images) {
+        toJSON: function (images, saveEditorId) {
             var seen = [];
-            var projectJson = JSON.stringify(project.getObject(images), function (key, val) {
+            var projectJson = JSON.stringify(project.getObject(images, saveEditorId), function (key, val) {
                 if (!val && val !== 0) {
                     return "@null";
                 }
@@ -204,7 +215,7 @@ function projectService($rootScope, enumService, fidgetService, popupService, $l
             //Adds a new metadata entry. Removes already existing entries for the same path.
             add: function (path) {
                 this.remove(path);
-                var meta = { path: path, friendlyName: null, subscribed: false };
+                var meta = { path: path, friendlyName: null, subscribed: false, deepFriendlyNames: {}, lastValue: null, isTopic: $rootScope.device.getInterface(path).isTopic };
                 this.list.push(meta);
                 return meta;
             },
@@ -219,41 +230,59 @@ function projectService($rootScope, enumService, fidgetService, popupService, $l
             //Sets the friendly name for an entry. 
             //Creates the entry if it doesn't exist,
             //Removes the entry if it contains default data.
-            setFriendlyName: function (path, friendlyName) {
+            setFriendlyName: function (path, type, friendlyName) {
+                var metaChanged = false;
                 var meta = this.find(path);
                 //if meta doesn't exist and friendlyName is empty, nothing to do
                 if (!meta && !friendlyName)
-                    return;
+                    return metaChanged;
                     //meta doesn't exist, friendlyName isn't empty
                 else if (!meta && friendlyName) {
                     meta = this.add(path);
+                    metaChanged = true;
                     meta.friendlyName = friendlyName;
                 }
                     //default meta
-                else if (!friendlyName && !meta.subscribed)
+                else if (!friendlyName && !meta.subscribed) {
                     this.remove(path);
+                    metaChanged = true;
+                    return metaChanged;
+                }
                 else
                     meta.friendlyName = friendlyName;
+
+                if (type) meta.type = type;
+
+                return metaChanged;
             },
 
             //Sets the subscribed property for an entry. 
             //Creates the entry if it doesn't exist,
             //Removes the entry if it contains default data.
-            setSubscribed: function (path, subscribed) {
+            setSubscribed: function (path, type, subscribed) {
+                var metaChanged = false;
                 var meta = this.find(path);
                 //if meta doesn't exist and subscribed is false, nothing to do
                 if (!meta && !subscribed)
-                    return;
+                    return metaChanged;
                     //meta doesn't exist, friendlyName isn't empty
                 else if (!meta && subscribed) {
                     meta = this.add(path);
                     meta.subscribed = true;
+                    metaChanged = true;
                 }
                     //default meta
-                else if (!subscribed && !meta.friendlyName)
+                else if (!subscribed && !meta.friendlyName) {
                     this.remove(path);
+                    metaChanged = true;
+                    return metaChanged;
+                }
                 else
                     meta.subscribed = subscribed;
+
+                meta.type = type;
+
+                return metaChanged;
             },
 
             //Returns if the metadata is subscribed.
@@ -266,6 +295,79 @@ function projectService($rootScope, enumService, fidgetService, popupService, $l
             getFriendlyName: function (path) {
                 var meta = this.find(path);
                 return meta == null ? null : meta.friendlyName;
+            },
+
+            //Returns the deep friendly names of the metadata if exists.
+            getDeepFriendlyNames: function (path) {
+                var meta = this.find(path);
+                return meta == null || !meta.deepFriendlyNames ? {} : meta.deepFriendlyNames;
+            },
+
+            //Set deep friendly name
+            setDeepFriendlyName: function (path, type, key, value, oldKey) {
+                var meta = this.find(path);
+                //if meta doesn't exist and subscribed is false, nothing to do
+                if (!meta && !subscribed)
+                    return;
+                //meta doesn't exist, friendlyName isn't empty
+
+                //TODO: move this to project conversion service
+                if (!meta.deepFriendlyNames) meta.deepFriendlyNames = {};
+
+                //remove the old value
+                if (oldKey && meta.deepFriendlyNames[oldKey]) {
+                    delete meta.deepFriendlyNames[oldKey];
+                }
+
+                //add the new value
+                meta.deepFriendlyNames[key] = value;
+                meta.type = type;
+            },
+
+            //Set last value
+            setLastValue: function (path, type, value) {
+                var metaChanged = false;
+                //find meta
+                var meta = this.find(path);
+
+                //if not existing, create a new
+                if (!meta) {
+                    meta = this.add(path);
+                    metaChanged = true;
+                }
+                if (!meta.type) meta.type = type;
+
+                //set value
+                meta.lastValue = value;
+
+                return metaChanged;
+            },
+
+            //Get last value
+            getLastValue: function (path) {
+                var meta = this.find(path);
+
+                if (!meta || !meta.lastValue) {
+                    return null;
+                }
+
+                return meta.lastValue;
+            },
+
+            setType: function (path, type) {
+                var metaChanged = false;
+                //find meta
+                var meta = this.find(path);
+
+                //if not existing, create a new
+                if (!meta) {
+                    meta = this.add(path);
+                    metaChanged = true;
+                }
+
+                meta.type = type;
+                
+                return metaChanged;
             }
         },
 
@@ -345,7 +447,7 @@ function projectService($rootScope, enumService, fidgetService, popupService, $l
         setCurrentScreen: function (screen) {
             this.currentScreenIndex = this.screens.indexOf(screen);
             this.forceScreenBelt = false;
-
+            this.currentLogo =
             $rootScope.$apply;
             this.currentScreen = screen;
             if (screen) {
@@ -362,8 +464,6 @@ function projectService($rootScope, enumService, fidgetService, popupService, $l
         //Sets the screen index directly
         setCurrentScreenIndex: function (value) {
             this.setCurrentScreen(this.screens[value]);
-            //this.currentScreenIndex = value;
-            //this.currentScreen = this.screens[value];
         },
 
         //Finds a screen with the given name and set it as current
@@ -412,7 +512,6 @@ function projectService($rootScope, enumService, fidgetService, popupService, $l
             }
             this.screens.push(s);
             $rootScope.editScreen(s);
-            //device.saveProject(true);
             return s;
         },
 
@@ -444,10 +543,16 @@ function projectService($rootScope, enumService, fidgetService, popupService, $l
                 });
             }
         },
-
+        //available screen types
         screenTypes: [],
+        //screen added
         screenAdded: null,
+        //the given project version is not the latest
         projectVersionError: false,
+        //last load date
+        loaded: null,
+        //project is changed but not saved yet
+        changed: false,
         //loads a given project
         load: function (proj) {
             //remove block ui
@@ -462,11 +567,10 @@ function projectService($rootScope, enumService, fidgetService, popupService, $l
                             if (p) {
                                 project.projectVersionError = false;
 
-                                //load the converted project
-                                project.load(p);
-
-                                //save 
-                                project.forceSave = new Date();
+                                $rootScope.$apply(function () {
+                                    //load the converted project
+                                    project.load(p);
+                                });
                             } else {
                                 //the conversion failed
                                 bootbox.confirm(localization.currentLocal.project.canNotConvert, function (result) {
@@ -480,7 +584,6 @@ function projectService($rootScope, enumService, fidgetService, popupService, $l
                                         $location.path('');
 
                                         //save 
-                                        project.forceSave = new Date();
                                         project.projectVersionError = false;
                                         project.currentScreen = null;
                                     } else {
@@ -500,19 +603,23 @@ function projectService($rootScope, enumService, fidgetService, popupService, $l
                     });
                 }
             } else {
+                //hold a reference to the prev. project
+                project.prevProject = angular.copy(project);
+
                 //if we have the same version, we can load it
                 project.setObject(proj);
                 project.setupFidgets();
+                project.adminEnabled = proj.adminEnabled || false;
 
                 if (project.currentScreenIndex == -1 && project.screens.length > 0) {
                     project.setCurrentScreenIndex(0);
                 }
 
                 if ($rootScope.sessionCookie) {
+                    //load the start page if existing or from location
                     var location = $rootScope.startPage || $location.path().substring(1);
-                    if (project.findScreen($rootScope.startPage)) {
-                        delete $rootScope.startPage;
-                    }
+                    //remove startPage link
+                    delete $rootScope.startPage;
 
                     if (location) {
                         project.setCurrentScreenByName(location);
@@ -521,13 +628,46 @@ function projectService($rootScope, enumService, fidgetService, popupService, $l
                         $location.path(project.currentScreen.name);
                     }
                 }
+
+                //change the last loaded time to be able to watch the project load action from other services
+                project.loaded = new Date();
             }
+        },
+        getFidgetById: function (id) {
+            var f = null;
+
+            function searchInContainer(container) {
+                angular.forEach(container.fidgets, function (fidget) {
+                    if (fidget.id == id) {
+                        f = fidget;
+                    } else if (fidget.fidgets){
+                        searchInContainer(fidget)
+                    }
+                });
+            }
+
+            searchInContainer(project.currentScreen);
+
+            return f;
         }
     };
 
     Object.defineProperty(project, "screenBeltVisible", {
         get: function () {
-            return !project.currentScreen || [null, undefined, true, "true"].indexOf(project.currentScreen.properties.hasScreenBelt) > -1 || project.forceScreenBelt;
+            return !project.currentScreen || [null, undefined, true, "true"].indexOf(project.currentScreen.properties.hasScreenBelt) > -1 || project.forceScreenBelt || $rootScope.settings.forceScreenBeltShow;
+        }
+    });
+
+    Object.defineProperty(project, "currentLogo", {
+        get: function () {
+            var logo = "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7";
+
+            if (project && project.currentScreen && project.currentScreen.properties && project.currentScreen.properties.logo != '') {
+                var base64 = eval(project.currentScreen.properties.logo);
+                logo = base64 || logo;
+            }
+
+            return logo;
         }
     });
 
@@ -537,7 +677,7 @@ function projectService($rootScope, enumService, fidgetService, popupService, $l
         action: function () {
             project.addScreen(enumService.screenTypesEnum.Normal);
             project.showAddScreen(false);
-            project.screenAdded = Date.now();
+            project.needSave = { history: true, ts: Date.now() };
         }
     })
 

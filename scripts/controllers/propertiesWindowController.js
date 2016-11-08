@@ -16,10 +16,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License. 
 */
+propertiesWindowCtrl.$inject = ['$scope', '$rootScope', '$window', '$location', '$routeParams', 'projectService', 'deviceService', 'editorService', 'colorPickerService', 'scriptManagerService', 'variableService', 'enumService', 'backgroundService', 'projectStorageService'];
 
-propertiesWindowCtrl.$inject = ['$scope', '$rootScope', '$window', '$location', '$routeParams', 'projectService', 'deviceService', 'editorService', 'colorPickerService', 'scriptManagerService', 'variableService', 'enumService', 'backgroundService'];
-
-function propertiesWindowCtrl($scope, $rootScope, $window, $location, $routeParams, projectService, deviceService, editorService, colorPickerService, scriptManagerService, variableService, enumService, backgroundService) {
+function propertiesWindowCtrl($scope, $rootScope, $window, $location, $routeParams, projectService, deviceService, editorService, colorPickerService, scriptManagerService, variableService, enumService, backgroundService, projectStorageService) {
     var invalidScripts = {};
 
     //returns if any of the property is an invalid script, used for disabling the save of the properties
@@ -220,6 +219,7 @@ function propertiesWindowCtrl($scope, $rootScope, $window, $location, $routePara
         var result = result.sort();
         //move onclick to the end of the list and width next to height
         if (result.indexOf("_height") > -1 && result.indexOf("_width") > -1) result.move(result.indexOf("_height"), result.indexOf("_width"));
+        if (result.indexOf("_top") > -1 && result.indexOf("_left") > -1) result.move(result.indexOf("_top"), result.indexOf("_left"));
         if (result.indexOf("onClick") > -1) result.move(result.indexOf("onClick"), result.length - 1);
         return result;
     }
@@ -233,7 +233,7 @@ function propertiesWindowCtrl($scope, $rootScope, $window, $location, $routePara
 
         }
         editorService.setPropertiesWindowVisible(false);
-        deviceService.saveProject(true);
+        projectStorageService.save(true);
     }
 
     //moves a screen up or down in the screenbelt
@@ -243,7 +243,7 @@ function propertiesWindowCtrl($scope, $rootScope, $window, $location, $routePara
         projectService.screens.splice(index, 1);
         projectService.screens.splice(index + d, 0, s);
         projectService.setCurrentScreenIndex(projectService.currentScreenIndex + d);
-        deviceService.saveProject(true);
+        projectStorageService.save(true);
     }
 
     //enum for the fidget's position on the layer
@@ -260,7 +260,7 @@ function propertiesWindowCtrl($scope, $rootScope, $window, $location, $routePara
         var index = f.parent.fidgets.indexOf(f);
         f.parent.fidgets.splice(index, 1);
         f.parent.fidgets.splice(index + d, 0, f);
-        deviceService.saveProject(true);
+        projectStorageService.save(true);
     }
 
     //returns true if a property is required

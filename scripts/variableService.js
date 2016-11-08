@@ -27,7 +27,37 @@ function variableService() {
             }
             return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
               s4() + '-' + s4() + s4() + s4();
+        },
+        fitRect: function (rw, rh, radians) {
+            radians = [null, undefined, "undefined", "NaN"].indexOf(radians) > -1 ? 0 : radians;
+
+            var x1 = -rw/2,
+                x2 = rw/2,
+                x3 = rw/2,
+                x4 = -rw/2,
+                y1 = rh/2,
+                y2 = rh/2,
+                y3 = -rh/2,
+                y4 = -rh/2;
+
+            var x11 = x1 * Math.cos(radians) + y1 * Math.sin(radians),
+                y11 = -x1 * Math.sin(radians) + y1 * Math.cos(radians),
+                x21 = x2 * Math.cos(radians) + y2 * Math.sin(radians),
+                y21 = -x2 * Math.sin(radians) + y2 * Math.cos(radians), 
+                x31 = x3 * Math.cos(radians) + y3 * Math.sin(radians),
+                y31 = -x3 * Math.sin(radians) + y3 * Math.cos(radians),
+                x41 = x4 * Math.cos(radians) + y4 * Math.sin(radians),
+                y41 = -x4 * Math.sin(radians) + y4 * Math.cos(radians);
+
+            var x_min = Math.min(x11,x21,x31,x41),
+                x_max = Math.max(x11,x21,x31,x41);
+
+            var y_min = Math.min(y11,y21,y31,y41);
+            y_max = Math.max(y11,y21,y31,y41);
+
+            return { width: parseInt(x_max - x_min), height: parseInt(y_max - y_min )};
         }
+
     };
 
     // Friendly name based hash

@@ -16,7 +16,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License. 
 */
-
 scriptManagerService.$inject = ['popupService', 'variableService', '$timeout', '$rootScope'];
 
 function scriptManagerService(popupService, variableService, $timeout, $rootScope) {
@@ -40,6 +39,12 @@ function scriptManagerService(popupService, variableService, $timeout, $rootScop
     { from: '#getConnectorVariable' },
     { from: '#setConnectorVariable' },
     { from: '#getReadyConnectorVariable' },
+    { from: '#timeout' },
+    { from: '#autoDefine' },
+    { from: '#popup' },
+    { from: '#setFunction' },
+    { from: '#callFunction' },
+    { from: '#callService' },
     ],
 
         //adds or modifies a replace 
@@ -61,8 +66,8 @@ function scriptManagerService(popupService, variableService, $timeout, $rootScop
         },
 
         compile: function (script) {
-			if (!script) return script;
-			
+            if (!script) return script;
+
             //replace quick script calls
             for (var i = 0; i < scriptManager.toReplace.length; i++) {
                 if (scriptManager.toReplace[i].to){
@@ -81,7 +86,10 @@ function scriptManagerService(popupService, variableService, $timeout, $rootScop
             //replace friendlyCache variables
             var friendlyNameVars = scriptManager.getAllFriendlyVars(script);
             for (var i = 0; i < friendlyNameVars.length; i++) {
-                script = scriptManager.replaceAll(script, friendlyNameVars[i], "variableService.getFriedlyVariable('" + friendlyNameVars[i].substring(1) + "')");
+                var friendly = variableService.friendlyCache[friendlyNameVars[i].substring(1)];
+                //replace deep friendly names with their full expression (if there is any)
+                var isDeep = friendly && variableService.friendlyCache[friendlyNameVars[i].substring(1)].__isDeep;
+                script = scriptManager.replaceAll(script, friendlyNameVars[i], isDeep ? variableService.friendlyCache[friendlyNameVars[i].substring(1)].value : "variableService.getFriedlyVariable('" + friendlyNameVars[i].substring(1) + "')");
             }
 
             if (scriptManager.unknownScripts.names.length > 0 && !scriptManager.unknownScripts.alertVisible && $rootScope.pluginCount == $rootScope.downloadedAddonCount) {

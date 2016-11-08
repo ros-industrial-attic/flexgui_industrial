@@ -21,10 +21,10 @@ angular.module("flexGuiApp", ["ngCookies", "ngRoute", 'ngSanitize', "ui.bootstra
     .directive("ngFileSelect", ngFileSelect)
     .directive("fgFidgetRepeater", function () {
         var directive = {
-            restrict: 'AEC',
+            restrict: 'AEC', 
             template: function (elm, attr) {
-                return "<div class='fidget' ng-if='fidget.template' id='{{fidget.id}}' ng-repeat='fidget in " + attr.fidgets + " track by $index' ng-class=\"{'editModeOn': editHandler.isEditMode, 'selected': editHandler.selectedFidgets.indexOf(fidget) >= 0  }\" style=\"left:{{fidget.left}}px; top: {{fidget.top}}px;\">" +
-                           "<div ng-class=\"{'clickable': !editHandler.isEditMode && [undefined, 'undefined', '', null, 'null'].indexOf(fidget.properties.onClick) == -1, 'selectedFidget': editHandler.selectedFidgets.indexOf(fidget) > -1 && editHandler.isEditMode, 'dragged': editHandler.selectedFidgets.length > 0 && editHandler.isMouseDown && !editHandler.inResize && editHandler.selectedFidgets.indexOf(fidget) > -1 }\">" +
+                return "<div class='fidget' ng-if='fidget.template' id='{{fidget.id}}' ng-repeat='fidget in " + attr.fidgets + " track by fidget.id' ng-class=\"{'editModeOn': editHandler.isEditMode, 'selected': editHandler.selectedFidgets.indexOf(fidget) >= 0  }\" style=\"left:{{fidget.properties.left}}px; top: {{fidget.properties.top}}px;\">" +
+                           "<div ng-class=\"{'disabled': [false, 'false', 0].indexOf(fidget.properties.enabled) != -1 ,'clickable': !editHandler.isEditMode && [undefined, 'undefined', '', null, 'null'].indexOf(fidget.properties.onClick) == -1, 'selectedFidget': editHandler.selectedFidgets.indexOf(fidget) > -1 && editHandler.isEditMode, 'dragged': editHandler.selectedFidgets.length > 0 && editHandler.isMouseDown && !editHandler.inResize && editHandler.selectedFidgets.indexOf(fidget) > -1 }\">" +
                                 "<ng-include ng-controller='fidgetCtrl' src=\"toTrustedUrl(fidget.template.root + fidget.template.source + '.html')\"></ng-include>" +
                            "</div>" +
                        "</div>";
@@ -118,6 +118,10 @@ angular.module("flexGuiApp", ["ngCookies", "ngRoute", 'ngSanitize', "ui.bootstra
             if (reverse) filtered.reverse();
             return filtered;
         };
+    }).filter('stringSort', function () {
+        return function (input) {
+            return input.sort();
+        }
     })
 .controller('flexGuiCtrl', flexGuiCtrl)
 .controller('propertiesWindowCtrl', propertiesWindowCtrl)
@@ -138,8 +142,8 @@ angular.module("flexGuiApp", ["ngCookies", "ngRoute", 'ngSanitize', "ui.bootstra
 .factory('popupService', popupService)
 .factory('scriptManagerService', scriptManagerService)
 .factory('colorPickerService', colorPickerService)
-.factory('demoMessengerService', demoMessengerService)
 .factory('projectConversionService', projectConversionService)
+.factory('projectStorageService', projectStorageService)
 .run(run);
 
 ngFileSelect.$inject = ['$parse', 'projectWindowService'];
@@ -159,13 +163,40 @@ function ngFileSelect($parse, projectWindowService) {
     return directiveDefinitionObject;
 }
 
-run.$inject = ['$rootScope', '$templateCache', '$location', '$timeout', 'projectService', 'variableService'];
-function run($rootScope, $templateCache, $location, $timeout, projectService, variableService) {
+run.$inject = ['$rootScope', '$templateCache', '$location', '$timeout', 'settingsWindowService', 'projectService', 'variableService', 'deviceService'];
+function run($rootScope, $templateCache, $location, $timeout, settingsWindowService, projectService, variableService, deviceService) {
 
     if (!$rootScope.settingsTabs) $rootScope.settingsTabs = [];
 
+    $rootScope.mirrorMode = {};
+    $rootScope.addonServerUrl = "";
     $rootScope.currentUserId = "user_" + variableService.guid();
-    projectService.appVersion = "1.2";
+    projectService.appVersion = "1.9.4";
+
+    //set ROS address with query string
+    var queryString = $location.search();
+    if (queryString && queryString.RosUrl) {
+
+        console.log("Using ROS server in the query string");    
+
+        //get parameters from query string
+        var rosurl = queryString.RosUrl, ip, port, wss = false;
+        if (rosurl.indexOf("wss") === 0) {
+            wss = true;
+            ip = rosurl.substring(6, rosurl.lastIndexOf(":"));
+        } else {
+            ip = rosurl.substring(5, rosurl.lastIndexOf(":"));
+        }
+
+        port = rosurl.substring(rosurl.lastIndexOf(":") + 1);
+
+        //setup parameters
+        deviceService.port = port;
+        deviceService.ip = ip;
+        deviceService.secure = wss;
+
+        settingsWindowService.demoMode = false;
+    }
 
     //location setup
     $rootScope.startPage = $location.path().substring(1);
