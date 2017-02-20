@@ -30,6 +30,7 @@ function projectService($rootScope, enumService, fidgetService, popupService, $l
         localVersion: null,
         projectUploading: false,
         needSave: null,
+        testSequence: [],
         //returns with a new, empty screen
         getScreen: function (name, type) {
             return {
@@ -38,7 +39,7 @@ function projectService($rootScope, enumService, fidgetService, popupService, $l
                 properties: { name: name, hasScreenBelt: 'true', logo: '', logoPosition: 'bottomRight', logoWidth: 0 },
                 fidgets: []
             }
-        },
+        },  
 
         generateIndexImage: function (screen, callback) {
             html2canvas(document.getElementById('currentScreen'), {
@@ -78,8 +79,9 @@ function projectService($rootScope, enumService, fidgetService, popupService, $l
                 backgroundImage: null,
                 interfaceMetaDataList: [],
                 initScript: null,
+                testSequence: [],
                 appVersion: project.appVersion,
-                adminEnabled: false,
+                adminEnabled: false
             };
 
             //add capability to add new parameters to the get from addons
@@ -88,6 +90,22 @@ function projectService($rootScope, enumService, fidgetService, popupService, $l
             project.interfaceMetaData.list = [];
 
             return obj;
+        },
+        
+        getFidgetById: function(id){
+            var ret = null;
+
+            function searchInFidgets(fidget) {
+                angular.forEach(fidget.fidgets, function (f) {
+                    if (f.id == id) ret = f; else if (f.fidgets) searchInFidgets(f);
+                });
+            }
+
+            angular.forEach(project.screens, function(s){
+                searchInFidgets(s);
+            });
+
+            return ret;
         },
 
         getObject: function (images, saveEditorId) {
@@ -98,6 +116,7 @@ function projectService($rootScope, enumService, fidgetService, popupService, $l
                 name: project.name,
                 id: project.id,
                 images: images,
+                testSequence: project.testSequence,
                 appVersion: project.appVersion,
                 interfaceMetaDataList: project.interfaceMetaData.list,
                 adminEnabled: project.adminEnabled,
@@ -118,6 +137,7 @@ function projectService($rootScope, enumService, fidgetService, popupService, $l
             project.backgroundImage = proj.backgroundImage;
             project.interfaceMetaData.list = proj.interfaceMetaDataList || [];
             project.localVersion = proj.projectVersion
+            project.testSequence = proj.testSequence || [];
 
             //add capability to add new parameters to the get from addons
             angular.forEach(project.extraParamSetters, function (f) { f(proj); });
@@ -307,11 +327,10 @@ function projectService($rootScope, enumService, fidgetService, popupService, $l
             setDeepFriendlyName: function (path, type, key, value, oldKey) {
                 var meta = this.find(path);
                 //if meta doesn't exist and subscribed is false, nothing to do
-                if (!meta && !subscribed)
+                if (!meta && !meta.subscribed)
                     return;
                 //meta doesn't exist, friendlyName isn't empty
 
-                //TODO: move this to project conversion service
                 if (!meta.deepFriendlyNames) meta.deepFriendlyNames = {};
 
                 //remove the old value
@@ -426,7 +445,6 @@ function projectService($rootScope, enumService, fidgetService, popupService, $l
         },
 
         //delete fidgets from screen
-        //project.currentScreen: screen
         deleteFidget: function (container, fidget) {
             container.fidgets.splice(container.fidgets.indexOf(fidget), 1);
         },
@@ -452,9 +470,6 @@ function projectService($rootScope, enumService, fidgetService, popupService, $l
             this.currentScreen = screen;
             if (screen) {
                 $location.path(screen.properties.name);
-
-                //$timeout(project.generateIndexImage, 0, true, screen);
-
             } else {
                 $location.path(null);
                 return;
@@ -538,8 +553,31 @@ function projectService($rootScope, enumService, fidgetService, popupService, $l
             if (project.screens.length == 0) {
                 $.getJSON("project.json", function (data) {
                     //automatic conersion for the demo project
-                    data = projectConversionService.convert(data, project.appVersion);
-                    project.load(data);
+                    var proj = JSON.parse(JSON.stringify(data), function (k, v) {
+                        if (v == "@null") { return null; }
+                        return v;
+                    });
+
+                    //convert to latest version
+                    proj = projectConversionService.convert(proj, project.appVersion);
+
+                    //load images
+                    if (proj.images) {
+                        angular.forEach(proj.images, function (img) {
+                            if (img.base64) {
+                                var slot = $rootScope.images.getSlot(img.name);
+
+                                if (slot) {
+                                    $rootScope.drive.setImage(img.name, img.base64);
+                                    slot.base64 = img.base64;
+                                    variableService.friendlyCache[img.name] = slot;
+                                }
+                            }
+                        });
+                    }
+
+                    //load project
+                    project.load(proj);
                 });
             }
         },
@@ -607,30 +645,50 @@ function projectService($rootScope, enumService, fidgetService, popupService, $l
                 project.prevProject = angular.copy(project);
 
                 //if we have the same version, we can load it
-                project.setObject(proj);
-                project.setupFidgets();
+                project.interfaceMetaData.list = proj.interfaceMetaDataList || [];
+                project.name = proj.name;
+                project.id = proj.id;
+                project.localVersion = proj.projectVersion
+                project.testSequence = proj.testSequence || [];
+                project.password = proj.password;
+
+                //add capability to add new parameters to the get from addons
+                angular.forEach(project.extraParamSetters, function (f) { f(proj); });
+                
                 project.adminEnabled = proj.adminEnabled || false;
 
-                if (project.currentScreenIndex == -1 && project.screens.length > 0) {
-                    project.setCurrentScreenIndex(0);
-                }
+                $timeout(function () {
+                    project.screens = proj.screens;
+                    project.backgroundImage = proj.backgroundImage;
+                    project.setupFidgets();
 
-                if ($rootScope.sessionCookie) {
-                    //load the start page if existing or from location
-                    var location = $rootScope.startPage || $location.path().substring(1);
-                    //remove startPage link
-                    delete $rootScope.startPage;
-
-                    if (location) {
-                        project.setCurrentScreenByName(location);
+                    if (project.initScript != proj.initScript) {
+                        project.initScript = proj.initScript;
+                        project.runInit();
                     }
-                    else if (project.currentScreen) {
-                        $location.path(project.currentScreen.name);
-                    }
-                }
 
-                //change the last loaded time to be able to watch the project load action from other services
-                project.loaded = new Date();
+                    if (project.currentScreenIndex == -1 && project.screens.length > 0) {
+                        project.setCurrentScreenIndex(0);
+                    }
+
+                    if ($rootScope.sessionCookie) {
+                        //load the start page if existing or from location
+                        var location = $rootScope.startPage || $location.path().substring(1);
+                        //remove startPage link
+                        delete $rootScope.startPage;
+
+                        if (location) {
+                            project.setCurrentScreenByName(location);
+                        }
+                        else if (project.currentScreen) {
+                            $location.path(project.currentScreen.name);
+                        }
+                    }
+
+                    //change the last loaded time to be able to watch the project load action from other services
+                    project.loaded = new Date();
+                }, 0, true);
+
             }
         },
         getFidgetById: function (id) {
@@ -683,3 +741,5 @@ function projectService($rootScope, enumService, fidgetService, popupService, $l
 
     return project;
 }
+
+

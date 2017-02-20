@@ -61,6 +61,10 @@ function helpService() {
             enterprise: {
                 for: localization.currentLocal.help.enterprise.header,
                 source: 'views/help/enterprise.html'
+            },
+            diagnostics: {
+                for: localization.currentLocal.help.diagnostics.header,
+                source: 'views/help/diagnostics_main.html'
             }
         },
         fidgetBelt: {

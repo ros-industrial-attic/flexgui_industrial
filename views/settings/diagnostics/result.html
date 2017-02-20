@@ -1,0 +1,55 @@
+﻿<!--
+ * Software License Agreement (Apache License)
+ *
+ * Copyright (c) 2016, PPM AS
+ * Contact: laszlo.nagy@ppmas.no
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License. 
+ -->
+
+<div class="modal" id="diagnosticsResultWindow" data-backdrop="static"
+     data-keyboard="false">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4>{{localization.currentLocal.diagnostics.resultTitle}}</h4>
+            </div>
+            <div class="modal-body">
+                <div ng-repeat="test in project.testSequence | filter:{selected:true} track by test.id">
+                    <!--Status-->
+                    
+                    <span ng-if="diagnostics.finishedTests == project.testSequence.length || diagnostics.currentIndex > project.testSequence.indexOf(test)" class="glyphicon glyphicon-ok-circle"></span>
+                    <span ng-if="test == diagnostics.currentTest && diagnostics.finishedTests != project.testSequence.length && diagnostics.currentIndex <= project.testSequence.indexOf(test)" class="glyphicon glyphicon-play-circle"></span>
+                    <span ng-if="test != diagnostics.currentTest && diagnostics.finishedTests != project.testSequence.length && diagnostics.currentIndex <= project.testSequence.indexOf(test)" class="glyphicon glyphicon-time"></span>
+
+                    <b ng-if="!test.isUserDefined">{{localization.currentLocal.diagnostics.tests[test.name].name}}</b>
+                    <b ng-if="test.isUserDefined">{{test.name}}</b>
+                    <i ng-if="!test.isUserDefined">{{test.params}}</i> <br />
+                    <div ng-bind-html="toTrustedHTML(test.result)"></div>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" 
+                        ng-click="diagnostics.finishedTests = project.testSequence.length;diagnostics.setResultVisible(false)" 
+                        ng-disabled="diagnostics.finishedTests == project.testSequence.length">{{localization.currentLocal.diagnostics.cancel}}</button>
+
+                <button type="button" class="btn btn-default" ng-click="diagnostics.setResultVisible(false)" ng-disabled="diagnostics.finishedTests != project.testSequence.length">{{localization.currentLocal.diagnostics.close}}</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $("#diagnosticsResultWindow").modal("show");
+</script>

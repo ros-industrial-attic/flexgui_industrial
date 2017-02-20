@@ -136,6 +136,15 @@ localization.items.ko = {
                     type: "기능",
                 }
             },
+            publishTopic: {
+                title: "Publish topic",
+                help: "Publish a value to a topic, if the topic is not existing, advertise the topic and then publish a value.",
+                params: {
+                    path: "Path",
+                    value: "Value",
+                    type: "Type"
+                }
+            },
             callFunction: {
                 title: "기능 불러오기",
                 help: "이 템플릿은 사용자 정의 기능을 불러옵니다. 사용자는 이미 지정한 기능에 대하여 Define a fuction템플릿을 사용하여 FlexGui내에 어디에서든지 불러올 수 있습니다",
@@ -216,6 +225,7 @@ localization.items.ko = {
         device: '장치',
         genericObstacle: '장애물',
         cameraImage: '카메라 이미지',
+        remoteView: 'Remote view',
         endOfWay: '막다른 길',
         properties: {
             hasScreenBeltValues: {
@@ -229,11 +239,15 @@ localization.items.ko = {
                 justify: '좌우정렬'
             },
             _textAlign: "정렬",
+            _fps: 'FPS',
+            _fpsValues: ["낮은", "중간", "높음"],
+            _dockKeyboard: '독 (Dock) 키보드',
+            _showKeyboard: '키보드를 강제로 표시합니다.',
             _font: "글꼴",
             _icon: "아이콘",
             _width: '넓이',
             _height: '높이',
-            opacity: '불투명도',
+            _opacity: '불투명도',
             _angle: '각',
             _value: '값',
             _color: '색',
@@ -253,11 +267,12 @@ localization.items.ko = {
             _angleArc: '각 호',
             _lock: '잠금',
             scale: '범위',
+            _scale: '범위',
             source: '소스',
             _onColor: '온 컬러',
             _offColor: '오프 컬러',
             _blinking: '깜박임',
-            _blinkPeriod: '깜박이는 시간',
+            _blinkFrequency: '깜박이는 시간',
             _screenLink: '화면 링크',
             _borderColor: '경계 색',
             _borderWidth: '경계 넓이',
@@ -294,6 +309,16 @@ localization.items.ko = {
         reloadSettingsAlert: 'FlexGui를 다시 불러오고 현재 설정을 사용하시겠습니까?',
         loadOnNextStartNote: 'FlexGui는 이 설정값을 다음 시동 때 사용할 것입니다.',
         tabs: {
+            backup: {
+                title: 'Backups',
+                restore: 'Restore',
+                size: 'Size',
+                date: 'Date',
+                failed: 'Backup failed, because the localStorage is full.',
+                keepLast: 'Keep last only',
+                disableBackup: 'Disable backup',
+                enableBackup: 'Check to enable backup'
+            },
             timers: {
                 title: '타이머',
                 delay: '지연',
@@ -430,6 +455,7 @@ localization.items.ko = {
         closeAll: '모두 닫기',
         remove: '제거',
         reconnect: '재연결',
+        connect: '잇다',
         select: '선택',
         removeBackground: '제거',
         pick: '줍기',
@@ -443,7 +469,8 @@ localization.items.ko = {
         addFactoryScreen: '공장 화면',
         addNormalScreen: '일반 화면',
         upload: '업로드',
-        download: '다운로드'
+        download: '다운로드',
+        disable: '무능하게하다'
     },
     editMode: {
         openBelt: '벨트 열기',
@@ -654,6 +681,77 @@ localization.items.ko = {
         reconnect: "재연결",
         zeroConnection: "직접 연결을 찾을 수 없습니다…",
         nameLocked: "이름은 연결된 FlexGui에서 받아옵니다. 이름은 변경할 수 없습니다."
+    },
+    diagnostics: {
+        cancel: "Cancel",
+        close: "Close",
+        save: "Save",
+        editTest: "Edit test",
+        newtest: "New test",
+        userDefineCheck: "Check this if you want to make an own script",
+        name: "Name",
+        script: "Script",
+        params: "Parameters",
+        selected: "Selected",
+        tests: {
+            stressTest: {
+                name: "Stress test",
+                description: "Calls a selected service N times",
+                params: {
+                    n: { description: 'Call the service N times' },
+                    servicePath: { description: 'Service path, e.g: /rosapi/publishers' },
+                    params: { description: 'Service parameters in JSON format, e.g.: {"paramName": "value"}' },
+                    limit: { desciption: 'The max response time should be lower then the given limit.' }
+                }
+            },
+            getTopicRespTime: {
+                name: "ROS topics response time",
+                description: "Runs the rosapi/topics service and measures the time between the request and the response.",
+                params: {
+                    limit: { desciption: 'The max response time should be lower then the given limit.' }
+                },
+            },
+            getServiceRespTime: {
+                name: "ROS services response time",
+                description: "Runs the rosapi/services service and measures the time between the request and the response.",
+                params: {
+                    limit: { desciption: 'The max response time should be lower then the given limit.' }
+                }
+            },
+            topicUpdateRate: {
+                name: "Topic update rate",
+                description: "Calculates the average update time of the topics in a selected node",
+                params: {
+                    nodeName: { description: 'The name of the tested node, e.g. FlexGuiNode' },
+                    timeout: { description: 'Length of the measurement in sec' },
+                    limit: { desciption: 'The refresh time should be lower then the given limit.' }
+                }
+            },
+            offlineTopics: {
+                name: "Offline topics",
+                description: "Gets the offline topics in a selected node",
+                params: {
+                    nodeName: { description: 'The name of the tested node, e.g. FlexGuiNode' }
+                }
+            },
+            serviceCallRespTime: {
+                name: 'Service call response time',
+                description: "Calls a selected service and measures the time (ms) between the request and the response.",
+                params: {
+                    servicePath: { description: 'Service path, e.g: /rosapi/publishers' },
+                    params: { description: 'Service parameters in JSON format, e.g.: {"paramName": "value"}' },
+                    limit: { desciption: 'The max response time should be lower then the given limit.' }
+                }
+            },
+            rosConnection: {
+                name: 'ROS connection',
+                description: "Check if ROS is connected",
+                params: {
+                    limit: { desciption: 'The max response time should be lower then the given limit.' }
+                }
+            }
+        },
+        resultTitle: "Diagnostics result",
     },
     timeago: {
         settings: {

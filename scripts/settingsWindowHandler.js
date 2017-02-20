@@ -16,6 +16,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License. 
 */
+
 settingsWindowService.$inject = ['projectService', 'deviceService', 'popupService', '$rootScope', '$cookies', 'variableService', '$timeout'];
 
 function settingsWindowService(projectService, deviceService, popupService, $rootScope, $cookies, variableService, $timeout) {
@@ -51,9 +52,10 @@ function settingsWindowService(projectService, deviceService, popupService, $roo
             } else {
                 //save last init script
                 settingsWindowHandler.lastInitScript = projectService.initScript;
-
-                $timeout(function () { $("#settingsDialog .tab-content").css("minHeight", 42 * $rootScope.settingsTabs.length); }, 200);
-
+                //set default tab if null
+                settingsWindowHandler.setCurrentGroup($rootScope.settingsTabs.general);
+                //set height of settings windows
+                //$timeout(function () { $("#settingsDialog .tab-content").css("minHeight", 42 * Object.keys($rootScope.settingsTabs).length); }, 200);
             }
         },
 
@@ -112,27 +114,22 @@ function settingsWindowService(projectService, deviceService, popupService, $roo
             this.setViewScale(localStorage.getItem("viewScale") || 0.5);
         },
 
-        //saves the selected theme to local storage and reloads the page
-        changeTheme: function (t) {
-            localStorage.setItem("theme", t);
-
-            bootbox.confirm(localization.currentLocal.settings.reloadSettingsAlert, function (result) {
-                if (result) {
-                    location.reload();
-                } else {
-                    popupService.show(localization.currentLocal.settings.loadOnNextStartNote, popupService.types.info);
-                }
-            });
-
+        //Current tab on the window
+        currentTab: null,
+        //current group
+        currentGroup: null,
+        //set current tab
+        setCurrentTab: function (tab, group) {
+            settingsWindowHandler.currentTab = tab;
+            settingsWindowHandler.currentGroup = group;
         },
-
-
-        //Current tabIndex on the window
-        tabIndex: 0,
-        setTabIndex: function (value) {
-            settingsWindowHandler.tabIndex = value;
+        //set current tabGroup
+        setCurrentGroup: function (group) {
+            if (group.children.length == 0) {
+                settingsWindowHandler.currentGroup = group;
+                settingsWindowHandler.currentTab = group;
+            }
         },
-
         //Current selected node on the nodes tab
         nodesTabSelectedItem: null,
         setNodesTabSelectedItem: function (value) {
@@ -356,15 +353,22 @@ function settingsWindowService(projectService, deviceService, popupService, $roo
 
     $(window).resize();
 
-    if (!$rootScope.settingsTabs) $rootScope.settingsTabs = [];
+    if (!$rootScope.settingsTabs) $rootScope.settingsTabs = {};
+    if (!$rootScope.settingsTabs) $rootScope.settingsGroups = {};
     if (!$rootScope.nodeExtras) $rootScope.nodeExtras = [];
 
-    $rootScope.settingsTabs.push({ source: "views/settings/general.html", title: localization.currentLocal.settings.tabs.general.title });
-    $rootScope.settingsTabs.push({ source: "views/settings/init.html", title: localization.currentLocal.settings.tabs.initScript.title, classes: "settingsScriptTab" });
-    $rootScope.settingsTabs.push({ source: "views/settings/nodes.html", title: localization.currentLocal.settings.tabs.nodes.title, classes: "settingsNodesTab" });
-    $rootScope.settingsTabs.push({ source: "views/settings/connection.html", title: localization.currentLocal.settings.tabs.conn.title, classes: "diSettingsTab" });
-    $rootScope.settingsTabs.push({ source: "views/settings/project.html", title: localization.currentLocal.settings.tabs.project.title, classes: "projectSettingsTab" });
-    $rootScope.settingsTabs.push({ source: "views/settings/language.html", title: localization.currentLocal.settings.tabs.language.title, classes: "languageSettingsTab" });
+    //subtabs
+    $rootScope.settingsTabs.operation = { position: 1, source: "views/settings/project.html", title: "Operations", classes: "projectSettingsTab" };
+    $rootScope.settingsTabs.init = { position: 2, source: "views/settings/init.html", title: localization.currentLocal.settings.tabs.initScript.title, classes: "settingsScriptTab" };
+
+    //main tabs
+    $rootScope.settingsTabs.general = { children: [], position: 1, source: "views/settings/general.html", title: localization.currentLocal.settings.tabs.general.title };
+    $rootScope.settingsTabs.nodes = { children: [], position: 3, source: "views/settings/nodes.html", title: localization.currentLocal.settings.tabs.nodes.title, classes: "settingsNodesTab" };
+    $rootScope.settingsTabs.connection = { children: [], position: 4, source: "views/settings/connection.html", title: localization.currentLocal.settings.tabs.conn.title, classes: "diSettingsTab" };
+    $rootScope.settingsTabs.language = { children: [], position: 6, source: "views/settings/language.html", title: localization.currentLocal.settings.tabs.language.title, classes: "languageSettingsTab" };
+    $rootScope.settingsTabs.about = { children: [], position: 9999, source: "views/settings/about.html", title: "About", classes: "aboutSettingsTab" };
+    $rootScope.settingsTabs.project = { children: [$rootScope.settingsTabs.init, $rootScope.settingsTabs.operation], position: 5, source: "views/settings/project.html", title: localization.currentLocal.settings.tabs.project.title };
+    $rootScope.settingsTabs.addons = { children: [], position: 9998, source: '', title: 'Addons', children: [], hideEmpty: true }
 
     //function container to extend the online state
     settingsWindowHandler.offlineCheckers = [];

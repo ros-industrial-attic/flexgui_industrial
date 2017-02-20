@@ -17,9 +17,11 @@
  * limitations under the License. 
  -->
 
-<div style="width: {{fidget.properties.width - fidget.properties.borderWidth}}px; height: {{fidget.properties.height - fidget.properties.borderWidth}}px; opacity: {{editHandler.activeContainer == fidget && !editHandler.inResize ? 0.5 : 1}}; border: {{fidget.properties.borderWidth}}px solid {{fidget.properties.borderColor}};" class="fid class=" fidgetgroup"
+<div style="width: {{fidget.properties.width}}px; height: {{fidget.properties.height}}px; opacity: {{editHandler.activeContainer == fidget && !editHandler.inResize ? 0.5 : 1}}; border: {{fidget.properties.borderWidth}}px solid {{fidget.properties.borderColor}};" class="fid class=" fidgetgroup"
      hm-tapend="onClick(fidget, fidget.properties.onClick)"
-     ng-mouseup="onClick(fidget, fidget.properties.onClick)">
+     ng-mouseup="onClick(fidget, fidget.properties.onClick)"
+     ng-controller="fidgetGroupCtrl"
+     ng-init="initGroup(fidget)">
     <div style="top: 0px; left: 0px; position: relative;">
         <div fg-fidget-repeater fidgets="fidget.fidgets" />
     </div>

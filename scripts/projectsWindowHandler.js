@@ -16,6 +16,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License. 
 */
+
 projectWindowService.$inject = ['$rootScope', '$location', 'projectService', 'deviceService', 'popupService', 'historyService', 'editorService', 'imageService', 'variableService', 'settingsWindowService', 'projectStorageService'];
 
 function projectWindowService($rootScope, $location, projectService, deviceService, popupService, historyService, editorService, imageService, variableService, settingsWindowService, projectStorageService) {
@@ -128,12 +129,18 @@ function projectWindowService($rootScope, $location, projectService, deviceServi
                     }
                 }
             } else {
+                var a = document.createElement('a');
+                a.style = "display: none";
                 var blob = new Blob([json], { type: "application/json;charset=utf-8;" });
-
-                var downloadLink = angular.element('<a></a>');
-                downloadLink.attr('href', window.URL.createObjectURL(blob));
-                downloadLink.attr('download', fileName);
-                downloadLink[0].click();
+                var url = window.URL.createObjectURL(blob);
+                a.href = url;
+                a.download = fileName;
+                document.body.appendChild(a);
+                a.click();
+                setTimeout(function () {
+                    document.body.removeChild(a);
+                    window.URL.revokeObjectURL(url);
+                }, 100);
             }
         },
 
@@ -191,13 +198,7 @@ function projectWindowService($rootScope, $location, projectService, deviceServi
                                                 var slot = imageService.getSlot(img.name);
 
                                                 if (slot) {
-                                                    if (!settingsWindowService.offlineMode) {
-                                                        deviceService.nodes.rosapi.set_param.call({ name: img.name, value: JSON.stringify({ base64: img.base64 }) });
-                                                    } else {
-                                                        //store image in local storage
-                                                        localStorage.setItem("flexgui4_images_" + img.name, img.base64);
-                                                    }
-
+                                                    projectStorageService.setImage(img.name, img.base64);
                                                     slot.base64 = img.base64;
                                                     variableService.friendlyCache[img.name] = slot;
                                                 }

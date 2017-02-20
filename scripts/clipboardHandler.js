@@ -16,6 +16,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License. 
 */
+
 clipboardService.$inject = ['projectService', 'deviceService', 'fidgetService', 'projectStorageService'];
 
 function clipboardService(projectService, deviceService, fidgetService, projectStorageService) {

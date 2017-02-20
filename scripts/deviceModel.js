@@ -16,9 +16,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License. 
 */
+
 deviceService.$inject = ['$rootScope', 'historyService', 'projectService', 'variableService', 'popupService', 'scriptManagerService', 'fidgetService', '$interval'];
 
 function deviceService($rootScope, historyService, projectService, variableService, popupService, scriptManagerService, fidgetService, $interval) {
+
     // Communication with the ROS
     var device = {
         //connection starts from unconnected state
@@ -40,8 +42,18 @@ function deviceService($rootScope, historyService, projectService, variableServi
         // True if the ROS update is started already
         rosUpdateStarted: false,
 
+        nextRosUpdate: null,
+
         // Updates the list of topics, then calls itself after a delay
         updateRos: function () {
+
+            if (!variableService.ros) return;
+
+            if (device.nextRosUpdate) {
+                window.clearTimeout(device.nextRosUpdate);
+                delete device.nextRosUpdate;
+            }
+
             variableService.ros.getTopics(function (pathList) {
                 device.findRemovedInterfaces(pathList, device.topics);
 
@@ -56,9 +68,14 @@ function deviceService($rootScope, historyService, projectService, variableServi
 
                             //switch offline state for topic
                             var topic = device.nodes[_interf.nodeName][_interf.shortPath];
+
                             if (topic.isOffline) {
-                                topic.isOffline = false;
-                                topic.subscribe();
+                                device.callService("/rosapi/publishers", { topic: topic.path }, function (resp) {
+                                    if (resp.publishers.length > 0) {
+                                        topic.isOffline = false;
+                                        topic.subscribe();
+                                    }
+                                });
                             }
                         });
                     });
@@ -77,7 +94,7 @@ function deviceService($rootScope, historyService, projectService, variableServi
                 });
             });
 
-            setTimeout(device.updateRos, 10000);
+            device.nextRosUpdate = setTimeout(device.updateRos, 10000);
         },
 
         //init topic's value from project
@@ -134,7 +151,7 @@ function deviceService($rootScope, historyService, projectService, variableServi
             });
 
             angular.forEach(toRemove, function (_interf) {
-                if (_interf.isTopic) {
+                if (_interf.isTopic && projectService.interfaceMetaData.find(_interf.path)) {
                     _interf.isOffline = true;
                 } else {
                     //Remove the interface from the flat list
@@ -188,13 +205,19 @@ function deviceService($rootScope, historyService, projectService, variableServi
 
         cleanNodes: function () {
             function fn(i) {
+                //reset friendlyName, subscribed, deepfriendlyNames
                 i.friendlyName = null;
-                delete projectService.interfaceMetaData.list[i.path];
+                i.subsribed = false;
+                i.deepFriendlyNames = {};
             }
 
+            projectService.interfaceMetaData.list = [];
+
+            //reset topics and services
             angular.forEach(device.topics, fn);
             angular.forEach(device.services, fn);
 
+            device.updateRos();
             device.updateFriendlyCache();
         },
 
@@ -433,6 +456,7 @@ function deviceService($rootScope, historyService, projectService, variableServi
 
             // Set topic value
             this.setValue = function (message) {
+
                 //save the last value to the project if it is null
                 if (projectService.interfaceMetaData.getLastValue(this.path) == null) {
                     projectService.interfaceMetaData.setLastValue(this.path, this.type, angular.copy(message));
@@ -441,7 +465,6 @@ function deviceService($rootScope, historyService, projectService, variableServi
                 }
 
                 this.upToDate = true;
-
                 // Compares the content of the values, to avoid unnecessary ui updates
                 if (JSON.stringify(this.value) != JSON.stringify(message)) {
                     //save the old value
@@ -542,7 +565,7 @@ function deviceService($rootScope, historyService, projectService, variableServi
 
                     // Saves the change in the projectService.
                     if (projectService.interfaceMetaData.setSubscribed(path, type, newValue)) {
-//                        device.saveProject(false);
+                        //                        device.saveProject(false);
                         projectService.needSave = { history: false, ts: Date.now() };
                     }
 
@@ -580,9 +603,6 @@ function deviceService($rootScope, historyService, projectService, variableServi
 
             setTimeout(device.refreshUi, 200);
         },
-
-        // Friendly name based hash
-        friendlyCache: {},
 
         // Close connection modal window
         cancelConnect: function () {
@@ -746,7 +766,7 @@ function deviceService($rootScope, historyService, projectService, variableServi
     };
 
     //if the project is loaded at the first time, update the offline topics from interface meta data
-    $rootScope.$watch(function () { return projectService.loaded; }, function (nv, ov) {
+    $rootScope.$watchCollection(function () { return projectService.interfaceMetaData.list; }, function () {
         //The project is loaded, we can release the lock
         device.lockUiChange = false;
 
@@ -810,6 +830,28 @@ function deviceService($rootScope, historyService, projectService, variableServi
 
     //delete script dict in every 5 sec
     $interval(function () { fidgetService.scriptDict = {}; }, 5000);
+
+    //delete changedScripts
+    device.changedTopicWatchers = [];
+    $interval(function () {
+        //get the min index
+        var minIndex = device.changedTopics.length;
+        angular.forEach(device.changedTopicWatchers, function (w) {
+            var i = w.get();
+            if (minIndex > i) minIndex = i;
+        });
+
+        //remove until the min index
+        if (minIndex > 0) {
+            device.changedTopics.splice(0, minIndex);
+        }
+
+        //decrese the current index
+        angular.forEach(device.changedTopicWatchers, function (w) {
+            var i = w.get() - minIndex;
+            w.set(i);
+        });
+    }, 5000);
 
     return device;
 }

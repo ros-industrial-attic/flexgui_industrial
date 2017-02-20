@@ -233,7 +233,7 @@
               "properties": {
                 "_height": 67,
                 "_width": 211,
-                "onClick": "#setScreenByName('Monitoring'); ",
+                "onClick": "#setScreen(projectService.screens[1]); ",
                 "_text": "Go To The First Example"
               },
               "absoluteOffset": {
@@ -612,7 +612,7 @@
               "root": "views/fidgets/",
               "top": 143,
               "properties": {
-                "_blinkPeriod": 1,
+                "_blinkFrequency": 1,
                 "_height": "35",
                 "_width": "160",
                 "_blinking": "false",
@@ -642,7 +642,7 @@
                   "_offColor": "#ff0000",
                   "_fontColor": "#000000",
                   "_blinking": null,
-                  "_blinkPeriod": 1,
+                  "_blinkFrequency": 1,
                   "onClick": null
                 },
                 "name": "Indicator lamp",
@@ -668,7 +668,7 @@
               "root": "views/fidgets/",
               "top": 203,
               "properties": {
-                "_blinkPeriod": 1,
+                "_blinkFrequency": 1,
                 "_height": "35",
                 "_width": "160",
                 "_blinking": null,
@@ -699,7 +699,7 @@
               "root": "views/fidgets/",
               "top": 265,
               "properties": {
-                "_blinkPeriod": 1,
+                "_blinkFrequency": 1,
                 "_height": "35",
                 "_width": "160",
                 "_blinking": null,
@@ -1068,7 +1068,7 @@
               "root": "views/fidgets/",
               "top": 80,
               "properties": {
-                "_blinkPeriod": 1,
+                "_blinkFrequency": 1,
                 "_height": 30,
                 "_width": "200",
                 "_blinking": null,
@@ -1099,7 +1099,7 @@
               "root": "views/fidgets/",
               "top": 120,
               "properties": {
-                "_blinkPeriod": 1,
+                "_blinkFrequency": 1,
                 "_height": 30,
                 "_width": "200",
                 "_blinking": null,
@@ -1130,7 +1130,7 @@
               "root": "views/fidgets/",
               "top": 160,
               "properties": {
-                "_blinkPeriod": 1,
+                "_blinkFrequency": 1,
                 "_height": 30,
                 "_width": "200",
                 "_blinking": null,
@@ -1161,7 +1161,7 @@
               "root": "views/fidgets/",
               "top": 200,
               "properties": {
-                "_blinkPeriod": 1,
+                "_blinkFrequency": 1,
                 "_height": 30,
                 "_width": "200",
                 "_blinking": null,
@@ -1193,7 +1193,7 @@
               "root": "views/fidgets/",
               "top": 240,
               "properties": {
-                "_blinkPeriod": 1,
+                "_blinkFrequency": 1,
                 "_height": 30,
                 "_width": "200",
                 "_blinking": null,
@@ -1224,7 +1224,7 @@
               "root": "views/fidgets/",
               "top": 80,
               "properties": {
-                "_blinkPeriod": 1,
+                "_blinkFrequency": 1,
                 "_height": 30,
                 "_width": "200",
                 "_blinking": null,
@@ -1255,7 +1255,7 @@
               "root": "views/fidgets/",
               "top": 120,
               "properties": {
-                "_blinkPeriod": 1,
+                "_blinkFrequency": 1,
                 "_height": 30,
                 "_width": "200",
                 "_blinking": null,
@@ -1286,7 +1286,7 @@
               "root": "views/fidgets/",
               "top": 160,
               "properties": {
-                "_blinkPeriod": 1,
+                "_blinkFrequency": 1,
                 "_height": 30,
                 "_width": "200",
                 "_blinking": null,
@@ -1317,7 +1317,7 @@
               "root": "views/fidgets/",
               "top": 200,
               "properties": {
-                "_blinkPeriod": 1,
+                "_blinkFrequency": 1,
                 "_height": 30,
                 "_width": "200",
                 "_blinking": null,
@@ -1348,7 +1348,7 @@
               "root": "views/fidgets/",
               "top": 240,
               "properties": {
-                "_blinkPeriod": 1,
+                "_blinkFrequency": 1,
                 "_height": 30,
                 "_width": "200",
                 "_blinking": null,
@@ -1379,7 +1379,7 @@
               "root": "views/fidgets/",
               "top": 80,
               "properties": {
-                "_blinkPeriod": 1,
+                "_blinkFrequency": 1,
                 "_height": 30,
                 "_width": "200",
                 "_blinking": null,
@@ -1410,7 +1410,7 @@
               "root": "views/fidgets/",
               "top": 120,
               "properties": {
-                "_blinkPeriod": 1,
+                "_blinkFrequency": 1,
                 "_height": 30,
                 "_width": "200",
                 "_blinking": null,
@@ -1441,7 +1441,7 @@
               "root": "views/fidgets/",
               "top": 160,
               "properties": {
-                "_blinkPeriod": 1,
+                "_blinkFrequency": 1,
                 "_height": 30,
                 "_width": "200",
                 "_blinking": null,
@@ -1472,7 +1472,7 @@
               "root": "views/fidgets/",
               "top": 200,
               "properties": {
-                "_blinkPeriod": 1,
+                "_blinkFrequency": 1,
                 "_height": 30,
                 "_width": "200",
                 "_blinking": null,
@@ -1503,7 +1503,7 @@
               "root": "views/fidgets/",
               "top": 240,
               "properties": {
-                "_blinkPeriod": 1,
+                "_blinkFrequency": 1,
                 "_height": 30,
                 "_width": "200",
                 "_blinking": null,
@@ -2527,7 +2527,7 @@
               "root": "views/fidgets/",
               "top": 60,
               "properties": {
-                "_blinkPeriod": 1,
+                "_blinkFrequency": 1,
                 "_height": 30,
                 "_width": 100,
                 "_blinking": null,
@@ -2558,7 +2558,7 @@
               "root": "views/fidgets/",
               "top": 120,
               "properties": {
-                "_blinkPeriod": 1,
+                "_blinkFrequency": 1,
                 "_height": 30,
                 "_width": 100,
                 "_blinking": null,
@@ -2697,7 +2697,7 @@
               "root": "views/fidgets/",
               "top": 200,
               "properties": {
-                "_blinkPeriod": 1,
+                "_blinkFrequency": 1,
                 "_height": 30,
                 "_width": 100,
                 "_blinking": null,
@@ -2728,7 +2728,7 @@
               "root": "views/fidgets/",
               "top": 260,
               "properties": {
-                "_blinkPeriod": 1,
+                "_blinkFrequency": 1,
                 "_height": 30,
                 "_width": 100,
                 "_blinking": null,
@@ -2759,7 +2759,7 @@
               "root": "views/fidgets/",
               "top": 340,
               "properties": {
-                "_blinkPeriod": 1,
+                "_blinkFrequency": 1,
                 "_height": 30,
                 "_width": 100,
                 "_blinking": null,
@@ -2790,7 +2790,7 @@
               "root": "views/fidgets/",
               "top": 400,
               "properties": {
-                "_blinkPeriod": 1,
+                "_blinkFrequency": 1,
                 "_height": 30,
                 "_width": 100,
                 "_blinking": null,
@@ -3024,11 +3024,10 @@
   "background": null,
   "name": "Project",
   "id": -1,
-  "currentEditorId": "user_268d0218-66ed-ca24-0a03-42dbc42fd958",
   "images": [
     
   ],
-  "appVersion": "1.1",
+  "appVersion": "1.0",
   "interfaceMetaDataList": [
     
   ],

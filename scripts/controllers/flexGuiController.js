@@ -21,7 +21,7 @@ flexGuiCtrl.$inject = ['$scope', '$window', '$location', '$routeParams', '$sce',
     'editorService', 'historyService', 'deviceService', 'imageService', 'fidgetService',
     'projectService', 'enumService', 'projectWindowService', 'variableService',
     'clipboardService', 'settingsWindowService', 'colorPickerService', 'helpService', 'popupService',
-    'scriptManagerService', 'projectStorageService'];
+    'scriptManagerService', 'projectStorageService', 'diagnosticsService', 'backupService'];
 
 function flexGuiCtrl($scope, $window, $location, $routeParams, $sce, $timeout, $rootScope, $interval, $injector, $cookies,
         editorService,
@@ -39,8 +39,21 @@ function flexGuiCtrl($scope, $window, $location, $routeParams, $sce, $timeout, $
         helpService,
         popupService,
         scriptManagerService,
-        projectStorageService
+        projectStorageService,
+        diagnosticsService,
+        backupService
         ) {
+
+    Array.prototype.move = function (old_index, new_index) {
+        if (new_index >= this.length) {
+            var k = new_index - this.length;
+            while ((k--) + 1) {
+                this.push(undefined);
+            }
+        }
+        this.splice(new_index, 0, this.splice(old_index, 1)[0]);
+        return this; // for testing purposes
+    };
 
     var trusted = {};
 
@@ -100,10 +113,11 @@ function flexGuiCtrl($scope, $window, $location, $routeParams, $sce, $timeout, $
     //if offline mode, then setup the demo parts
     if (settingsWindowService.offlineMode) {
         /*device service demo overrides*/
-        deviceService.connected = true;
         projectStorageService.setMode('localStorage');
         deviceService.init = function () {
-            projectStorageService.download();
+            console.log("Download local project");
+            deviceService.connected = true;
+            //projectStorageService.download();
         }
     }
 
@@ -120,7 +134,7 @@ function flexGuiCtrl($scope, $window, $location, $routeParams, $sce, $timeout, $
     $rootScope.fidgets = fidgetService;
     $rootScope.settings = settingsWindowService;
     $scope.localization = localization;
-    $scope.projects = projectWindowService;
+    $rootScope.projects = projectWindowService;
     projectWindowService.scope = $scope;
 
     $rootScope.editHandler = editorService;
@@ -129,7 +143,7 @@ function flexGuiCtrl($scope, $window, $location, $routeParams, $sce, $timeout, $
     $scope.helpMessages = helpService;
     $scope.popup = popupService;
 
-    $scope.images = imageService;
+    $rootScope.images = imageService;
 
 
     $rootScope.settings.loadLocalStorage();
@@ -151,7 +165,7 @@ function flexGuiCtrl($scope, $window, $location, $routeParams, $sce, $timeout, $
         var visible = editorService.propertiesWindowVisible ||
             $rootScope.settings.visible ||
             $scope.projects.visible ||
-            $scope.images.visible ||
+            $rootScope.images.visible ||
             $scope.colorPickerModalVisible ||
             $scope.helpMessages.open != null ||
             $scope.popup.messages.length != 0 ||
@@ -163,8 +177,8 @@ function flexGuiCtrl($scope, $window, $location, $routeParams, $sce, $timeout, $
 
     $scope.historyHandler = historyService;
     $scope.clipboardHandler = clipboardService;
-    $scope.drive = projectStorageService;
 
+    $rootScope.drive = projectStorageService;
     $rootScope.extraButtonsForSettingsWindow = [];
     $rootScope.editScreen = function (screen) {
         historyService.saveState();
@@ -192,6 +206,7 @@ function flexGuiCtrl($scope, $window, $location, $routeParams, $sce, $timeout, $
 
         $rootScope.$watch(function () { return eval(ngIf) }, function (nv, ov) { $rootScope.modals[name].visible = nv; }, true);
     }
+
     $rootScope.modals = {};
     $rootScope.addModal("addScreen", "views/addScreen.html", "projectService.addScreenVisible");
     $rootScope.addModal("propertiesWindow", "views/propertiesWindow.html", "editorService.propertiesWindowVisible");
@@ -199,6 +214,8 @@ function flexGuiCtrl($scope, $window, $location, $routeParams, $sce, $timeout, $
     $rootScope.addModal("imageExplorerWindow", "views/imageExplorerWindow.html", "imageService.visible");
     $rootScope.addModal("colorPickerWindow", "views/colorPickerWindow.html", "colorPickerService.colorPickerModalVisible");
     $rootScope.addModal("topicDetailsWindow", "views/topicDetailsWindow.html", "$rootScope.settings.topicDetails.visible");
+    $rootScope.addModal("editTestItemWindow", "views/settings/diagnostics/testItemEditor.html", "diagnosticsService.isTestItemEditorOpen");
+    $rootScope.addModal("diagnosticsResultWindow", "views/settings/diagnostics/result.html", "diagnosticsService.isResultOpen");
 
     $scope.$on("$locationChangeSuccess", function (event, newUrl) {
         //records the location to a global variable, because modules need to access it too
@@ -236,8 +253,10 @@ function flexGuiCtrl($scope, $window, $location, $routeParams, $sce, $timeout, $
         topRight: { position: 'relative', right: 10, top: 10 },
         topLeft: { position: 'relative', left: 10 + $scope.beltWidth, top: 10 }
     };
-	
-	deviceService.init($location);
+
+    $scope.copyHtmlById = function (id) {
+        return $("#" + id).text();
+    }
+    deviceService.init($location);
     imageService.init($scope);
-    editorService.init($scope.beltWidth);
-};
+    editorService.init($scope.beltWidth);};

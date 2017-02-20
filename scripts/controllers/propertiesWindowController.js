@@ -16,9 +16,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License. 
 */
-propertiesWindowCtrl.$inject = ['$scope', '$rootScope', '$window', '$location', '$routeParams', 'projectService', 'deviceService', 'editorService', 'colorPickerService', 'scriptManagerService', 'variableService', 'enumService', 'backgroundService', 'projectStorageService'];
 
-function propertiesWindowCtrl($scope, $rootScope, $window, $location, $routeParams, projectService, deviceService, editorService, colorPickerService, scriptManagerService, variableService, enumService, backgroundService, projectStorageService) {
+propertiesWindowCtrl.$inject = ['$scope', '$rootScope', '$window', '$location', '$routeParams', 'projectService', 'deviceService', 'editorService', 'colorPickerService', 'scriptManagerService', 'variableService', 'enumService', 'backgroundService', 'projectStorageService', 'fidgetService'];
+
+function propertiesWindowCtrl($scope, $rootScope, $window, $location, $routeParams, projectService, deviceService, editorService, colorPickerService, scriptManagerService, variableService, enumService, backgroundService, projectStorageService, fidgetService) {
     var invalidScripts = {};
 
     //returns if any of the property is an invalid script, used for disabling the save of the properties
@@ -64,7 +65,7 @@ function propertiesWindowCtrl($scope, $rootScope, $window, $location, $routePara
 
     //validates of the value of a property, unValidatedPropertes to be extended, if we want to exclude something from the validated prop list
     $scope.validate = function (error, fidget, property) {
-        var validateProperties = ["_width", "_height", "_value", "_min", "_max", "_angleArc", "_angleOffset", "_precision", "_step", "_lock", "_blinking", "_blinkPeriod", "_borderWidth"];
+        var validateProperties = ["_width", "_height", "_value", "_min", "_max", "_angleArc", "_angleOffset", "_precision", "_step", "_lock", "_blinking", "_blinkFrequency", "_borderWidth", "_top", "_left"];
 
         if (fidget == projectService.currentScreen) {
             var existing = false;
@@ -93,8 +94,15 @@ function propertiesWindowCtrl($scope, $rootScope, $window, $location, $routePara
                     error(property);
                     return;
                 } else {
-                    eval(scriptManagerService.compile(value));
-                    delete invalidScripts[property];
+                    var sizeAndPos = ["_height", "_width", "_top", "_left"];
+                    if (sizeAndPos.indexOf(property) > -1 && value.toString().indexOf("%") > -1) {
+                        //do not eval if contains % but we can assume it is ok
+                        var x = fidgetService.calculateSizeAndPosProperty(fidget, property, value, sizeAndPos);
+                        delete invalidScripts[property];
+                    } else {
+                        eval(scriptManagerService.compile(value));
+                        delete invalidScripts[property];
+                    }
                 }
             }
             catch (e) {
@@ -192,16 +200,7 @@ function propertiesWindowCtrl($scope, $rootScope, $window, $location, $routePara
         image.src = editorService.editedFidget.backgroundImage;
     }
 
-    Array.prototype.move = function (old_index, new_index) {
-        if (new_index >= this.length) {
-            var k = new_index - this.length;
-            while ((k--) + 1) {
-                this.push(undefined);
-            }
-        }
-        this.splice(new_index, 0, this.splice(old_index, 1)[0]);
-        return this; // for testing purposes
-    };
+    
 
     //returns with the fidget properties (setted up in fidgetTemplate.js)
     $scope.getFidgetProperties = function () {

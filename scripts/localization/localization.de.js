@@ -42,6 +42,7 @@ localization.items.de = {
                                     + "<p>Bitte registrieren Sie sich auf der <a onclick='window.open(\"@1\", \"_system\")' href='#'>FlexGui 4.0 Webseite</a></p><p> Nach der Registrierung gehen Sie bitte auf Ihr <a onclick='window.open(\"@1\",\"_system\")' href='#'>Profil</a> und fordern Sie eine Demo-Lizenz an.</p>"
 	},
 	wizard: {
+	    unknownWizard: "<p>You have scripts, which won't run in this version: </p>@0<p><br/>For more information, please visit our <a target='_blank' href='https://www.ppm.no/flexgui4-Home/Index/pricing'>website</a></p>",
 	    addScriptTemplate: "Add script template",
 	    output: "Output code",
 	    param: "Parameters",
@@ -49,27 +50,27 @@ localization.items.de = {
 	    title: "Script template wizard",
 	    templates: {
 	        createTopic: {
-	            title: "Create topic",
-	            help: "Advertise and optionally subscribe a topic with given type, name and friendly name. The new topic will have the '/wizard/[name]' path.",
+	            title: "Topic erstellen",
+	            help: "Erstellt und optinal subscribt ein Topic mit einem definierten Typ, Namen und Freundlichem Namen. Der neue Topic wird den '/wizard/[name]' Pfad haben.",
 	            params: {
 	                name: "Name",
-	                type: "Type",
+	                type: "Typ",
 	                subscribe: "Subscribe",
-	                friendlyName: "Friendly name",
-	                onChange: "On change script",
+	                friendlyName: "Freundlicher Name",
+	                onChange: "On change-Skript",
 	            }
 	        },
 	        changeScreen: {
-	        	title: "Change screen",
-	        	help: "Changes current screen to the selected one.",
+	        	title: "Screen wechseln",
+	        	help: "Wechselt den aktuellen Screen zu dem ausgewählten.",
 	        	params: {
 	        		screen: "Screen",
 	        	},
-	        	error: "Error! Can't change to non-existing screen: ",
+	        	error: "Error! Es ist nicht möglich zu einem nicht existierenden Screen zu wechseln: ",
 	        },
 	        connectorVariable: {
-	        	title: "Connector node's variable: initialize",
-	        	help: "This template automatically handles the node's selected variable. It subscribes properly and creates the necessary local variables. It is recommended to put this in Init script.",
+	        	title: "Verbindungs-Node Variable: Initialisierung",
+	        	help: "Diese Vorlage handhabt die ausgewählte Variable einer Node automatisch. Sie subscribt und erstellt die notwendigen lokalen Variablen automatisch. Es wird empfohlen dies in das Init-Skript zu integrieren.",
 	        	params: {
 	        		node: "Node",
 	        		variable: "Variable",
@@ -77,21 +78,21 @@ localization.items.de = {
 	        	}
 	        },
 	        getConnectorVariable: {
-	        	title: "Connector node's variable: get value",
-	        	help: "This template returns with the current local data of a node's selected variable. It is recommended to put this to a property of a Fidget",
+	        	title: "Verbindungs-Node Variable: Wert ermitteln",
+	        	help: "Diese Vorlage ermittelt den aktuellen Wert einer ausgewählten Variable einer Node. Es wird empfohlen dies in die Eigenschaften eines Fidgets zu integrieren",
 	        	params: {
 	        		node: "Node",
 	        		variable: "Variable",
 	        	}
 	        },
 	        setConnectorVariable: {
-	        	title: "Connector node's variable: set value",
-	        	help: "This template sets local data of a node's selected variable to a new value and sends it to ROS. It is recommended to put this into an 'onClick' event of a button Fidget.",
+	        	title: "Verbindungs-Node Variable: neuen Wert setzen",
+	        	help: "Diese Vorlage setzt die lokalen Daten einer Variable einer Nodde auf einen neuen Wert und sendet disen an ROS. Es wird empfohlen dies in ein 'onClick'-Event oder ein button Fidget zu integrieren.",
 	        	params: {
 	        		node: "Node",
 	        		variable: "Variable",
-	        		value: "New value",
-	        		operation: "Operation",
+	        		value: "Neuer Wert",
+	        		operation: "Handlung",
 	        	}
 	        },
 	        getReadyConnectorVariable: {
@@ -99,53 +100,62 @@ localization.items.de = {
 	        	help: "This template returns true if a node's selected variable is ready to write. It is recommended to put this to a property of a Fidget",
 	        	params: {
 	        		node: "Node",
-	        		variable: "Variable",
-	        		name: "Name"
+	        		variable: "Variable"
 	        	}
 	        },
 	        autoDefine: {
-	        	title: "Define a variable if undefined",
-	        	help: "This template sets a value to a variable if it is not defined yet. If the variable is already defined, then nothing happens.",
+	        	title: "Definiert eine Variable sofern undefieniert",
+	        	help: "Diese Vorlage weist der Variable einen Wert zu, sofern die Variable undefiniert ist. Sollte die Variable schon definiert sein, geschieht nichts.",
 	        	params: {
 	        		variable: "Variable",
-	        		value: "Value",
+	        		value: "Wert",
 	        	}
 	        },
 	        popup: {
-	        	title: "Show a popup message",
-	        	help: "This template shows a popup message with some text in it.",
+	        	title: "Popup-Nachricht zeigen",
+	        	help: "Diese Vorlage lässt eine Popup-Nachricht mit Text zeigen",
 	        	params: {
-	        		message: "Message",
-	        		type: "Type",
+	        		message: "Nachricht",
+	        		type: "Typ",
 	        	}
 	        },
 	        timeout: {
-	        	title: "Delay a script",
-	        	help: "This template runs a script delayed.",
+	        	title: "Verzögerungsskript",
+	        	help: "Diese Vorlage lässt ein Skript verzögert starten",
 	        	params: {
-	        		timeout: "Delay (ms)",
+	        		timeout: "Verzögerung (ms)",
 	        		type: "Function",
+                    name: "Name"
 	        	}
 	        },
 	        setFunction: {
-	        	title: "Define a function",
-	        	help: "This template defines a custom function. The function can be called later, anywhere in FlexGui using the 'Call a function' template.",
+	        	title: "Eine Funktion definieren",
+	        	help: "Die Vorlage definiert eine selbsterstellte Funktion. Die Funktion kann später in FlexGui über die 'Funktion aufrufen'-Vorlage aufgerufen werden.",
 	        	params: {
-	        		name: "Name of function",
-	        		type: "Function",
+	        		name: "Name der Funktion",
+	        		type: "Funktion",
 	        	}
 	        },
+	        publishTopic: {
+	            title: "Topic publishen",
+	            help: "Ein Wert auf einen Topic publishen. Sofern das Topic nicht exisitiert, weisen Sie das Topic zu und publishen Sie den Wert.",
+	            params: {
+	                path: "Pfad",
+	                value: "Wert",
+	                type: "Typ"
+	            }
+	        },
 	        callFunction: {
-	        	title: "Call a function",
-	        	help: "This template calls a custom function. You can choose any function you defined earlier, anywhere in FlexGui using the 'Define a function' template.",
+	        	title: "Funktion aufrufen",
+	        	help: "Diese Vorlage ruft eine selbsterstellte Funktion auf. Sie können jede Funktion, die Sie vorher definiert haben, auswählen.",
 	        	params: {
-	        		name: "Name of function",
+	        		name: "Name der Funktion",
 	        	},
-	        	error: "Error! Can't call non-defined function: ",
+	        	error: "Error! Funktion ist nicht definiert: ",
 	        },
 	        callService: {
-	        	title: "Call a service",
-	        	help: "This template calls the selected service of a node. To make it work correctly you have to set the parameter correctly after inserting the code.",
+	        	title: "Einen Service aufrufen",
+	        	help: "Diese Vorlage ruft den gewählten Service einer Node auf. Bitte setzen Sie die richten Parameter.",
 	        	params: {
 	        		node: "Node",
 	        		service: "Service",
@@ -174,9 +184,9 @@ localization.items.de = {
         currentProjectTab: 'Aktuelles Projekt',
         projectBrowserTab: 'Projektbrowser',
         blockMsg: 'Bitte warten...',
-        notForThisVersion: "The project's application version (@0) is different than the current one (@1). Do you want to convert it?",
-        canNotConvert: "The project is not suitable for the current application version, do you want to create a new one?",
-        loading: 'Loading project...',
+        notForThisVersion: "Die Version des Projekts (@0) unterscheidet sich von der aktuellen Version der Anwendung (@1). Möchten Sie diese konvertieren?",
+        canNotConvert: "Das Projekt ist mit die aktuelle Version der Anwendung nicht kompatibel. Möchten Sie ein neues Projekt erstellen?",
+        loading: 'Projekt wird geladen...',
         saveError: "Speicherung des Projekts fehlgeschlagen. Sie können fortfahren und diese Nachricht mit Cancel deaktivieren, oder mit Ok ein weiteres mal versuchen das Projekt zu speichern."
     },
     fidgets: {
@@ -215,20 +225,25 @@ localization.items.de = {
         device: 'Gerät',
         genericObstacle: 'Hindernis',
         endOfWay: 'Sackgasse',
-        cameraImage: 'Kamerabild',
+        cameraImage: 'Kamera',
+        remoteView: 'Remote view',
         properties: {
             hasScreenBeltValues: {
-                show: 'Show',
-                hide: "Hide"
+                show: 'Zeigen',
+                hide: "Ausblenden"
             },
             alignments: {
-                left: 'Left',
-                right: 'Right',
-                center: 'Center',
-                justify: 'Justify'
+                left: 'Links',
+                right: 'Rechts',
+                center: 'Mitte',
+                justify: 'justieren'
             },
-            _textAlign: "Align",
-            _font: "Font",
+            _textAlign: "Ausrichten",
+            _fps: 'FPS',
+            _fpsValues: ["Niedrig", "Niedrig", "Hoch"],
+            _dockKeyboard: 'Dock keyboard',
+            _showKeyboard: 'Force to show keyboard',
+            _font: "Schriftart",
             _icon: "Icon",
             _width: 'Breite',
             _height: 'Höhe',
@@ -238,7 +253,7 @@ localization.items.de = {
             _text: 'Text',
             _fontSize: 'Schriftgröße',
             _min: 'Minimum',
-            opacity: 'Deckkraft',
+            _opacity: 'Deckkraft',
             _max: 'Maximum',
             backgroundColor: 'Hintergrundfarbe',
             backgroundType: 'Hintergrundart',
@@ -251,11 +266,12 @@ localization.items.de = {
             _angleArc: 'Winkelanzeige',
             _lock: 'Sperre',
             scale: 'Skala',
+            _scale: 'Skala',
             source: 'Quelle',
             _onColor: 'Farbe an',
             _offColor: 'Farbe aus',
             _blinking: 'Blinken',
-            _blinkPeriod: 'Blinkfrequenz',
+            _blinkFrequency: 'Blinkfrequenz',
             _screenLink: 'Screenverknüfpung',
             _borderColor: 'Rahmenfarbe',
             _borderWidth: 'Rahmenbreite',
@@ -263,19 +279,19 @@ localization.items.de = {
             onClick: 'Bei Betätigung',
             name: 'Name',
             _node: 'ROS-Node-Name',
-            hasScreenBelt: "Has screen belt",
+            hasScreenBelt: "Hat Screen-Belt",
             logo: 'Logo',
-            logoWidth: 'Logo width',
-            logoPosition: 'Logo position',
+            logoWidth: 'Logobreite',
+            logoPosition: 'Logoposition',
             logoPositions: {
-                bottomRight: 'Bottom - Right',
-                bottomLeft: 'Bottom - Left',
-                topLeft: 'Top - Left',
-                topRight: 'Top - Right'
+                bottomRight: 'Unten - Rechts',
+                bottomLeft: 'Unten - Links',
+                topLeft: 'Oben - Links',
+                topRight: 'Oben - Rechts'
             },
-            _top: 'Top',
-            _left: 'Left',
-            _enabled: 'Enabled'
+            _top: 'Oben',
+            _left: 'Links',
+            _enabled: 'Aktiviert'
         }
     },
     properties: {
@@ -293,14 +309,24 @@ localization.items.de = {
         reloadSettingsAlert: 'FlexGui neu laden, um die aktuellen Einstellungen zu benutzen?',
         loadOnNextStartNote: 'FlexGui wird diese Einstellungen beim nächsten start benutzen',
         tabs: {
+            backup: {
+                title: 'Backups',
+                restore: 'Restore',
+                size: 'Size',
+                date: 'Date',
+                failed: 'Backup failed, because the localStorage is full.',
+                keepLast: 'Keep last only',
+                disableBackup: 'Disable backup',
+                enableBackup: 'Check to enable backup'
+            },
             timers: {
-                title: 'Timers',
-                delay: 'Delay',
-                repeat: 'Repeat',
-                enabled: 'Enabled',
+                title: 'Timer',
+                delay: 'Verzögerung',
+                repeat: 'Wiederholen',
+                enabled: 'Aktiviert',
                 name: 'Name',
-                action: 'Action',
-                duplicatedError: "You can not save with this name, because it is already exists in the friendly variable cache. Plase select another one!"
+                action: 'Aktion',
+                duplicatedError: "Sie können mit diesem Namen nicht Speichern, weil der Name schon vergeben ist. Bitte wählen Sie einen anderen um speichern zu können.!"
             },
             enterprise: {
                 title: 'Enterprise',
@@ -316,13 +342,14 @@ localization.items.de = {
                 uploadConfirm: 'Möchten Sie das aktuelle Projekt überschreiben?',
                 cleanConfirm: 'Möchten Sie wirklich das aktuelle Projekt zu entfernen und eine neue laden?',
                 newProject: 'Neues Projekt',
-                createNew: 'Schaffen',
+                createNew: 'Neu',
                 upload: 'Upload',
                 download: 'Download',
                 uploadComplete: 'Upload fertig!',
                 savedToMobile: 'Die Projektdatei ist in Ihrem Root-Ordner gespeichert: ',
                 savedFailed: 'Speichern fehlgeschlagen',
-                noteUseMobileMemory: '<i><u><b>Bitte beachten Sie:</b></u> navigieren Sie in Ihrem Ordnerverzeichnis um Projekte hochzuladen!</i>'
+                noteUseMobileMemory: '<i><u><b>Bitte beachten Sie:</b></u> navigieren Sie in Ihrem Ordnerverzeichnis um Projekte hochzuladen!</i>',
+                uploadImagesConfirm: 'Das Project beinhaltet Bilder. Möchten Sie die existierenden Bilder überschreiben?'
             },
             language: {
                 title: 'Sprache',
@@ -341,11 +368,11 @@ localization.items.de = {
                 gridSize: 'Rastergröße',
                 gridSizeNote: 'Bitte beachten Sie, dass FlexGui neu geladen wird, wenn Sie diesen Wert verändern!',
                 gridSizeError: 'Der Wert muss zwischen 30 und 200 liegen',
-                forceBelt: 'Force Screen Belt',
-                forceBeltSwitchLabel: 'Set to force to show the Screen Belt',
-                autoScale: 'Auto scale',
-                pinchEnabled: 'Pinch zoom',
-                switchPinchEnabled: 'Check here if you want to enable pinch zoom on your mobile device'
+                forceBelt: 'Screen Belt immer sichtbar',
+                forceBeltSwitchLabel: 'Screen Belt immer sichtbar an',
+                autoScale: 'Automatisch Skalieren',
+                pinchEnabled: 'Pinch-Zoom',
+                switchPinchEnabled: 'Pinch-Zoom auf mobilem Gerät aktivieren'
             },
             initScript: {
                 title: 'Initialisierungsskript',
@@ -364,8 +391,8 @@ localization.items.de = {
                 changeScriptNote: 'Sie können den alten und neuen Wert direkt mit \'newValue\' und \'oldValue\' Parametern.',
                 demoAlert: 'Demomodus - keine Knoten verfügbar',
                 nodeUnselected: 'Wählen Sie einen Knoten, um die Eigenschaften anzuzeigen.',
-                topicOfflineError: "This topic is currently offline, so you can not publish a new value!",
-                topicOutOfDateWarning: "This topic's value is not updated from ROS yet. Do you want to publish this new value?"
+                topicOfflineError: "Diser Topic ist zurzeit Offline. Sie können keinen neuen Wert publishen!",
+                topicOutOfDateWarning: "Der Wert diese Topics ist noch nicht von ROS upgedatet. Möchten Sie den neuen Wert publishen?"
             },
             conn: {
                 title: 'ROS-Server Einstellungen',
@@ -373,7 +400,7 @@ localization.items.de = {
                 ip: 'IP',
                 port: 'Port',
                 offlineMode: 'Demomodus',
-                offlineModeSwitch: 'Haken für Demomodus',
+                offlineModeSwitch: 'Demomodus an',
                 secure: 'Sicherer Modus',
                 secureSwitch: 'Sicherer Modus an'
             },
@@ -390,11 +417,11 @@ localization.items.de = {
                 themeNote: 'Bitte beachten Sie, dass FlexGui neu geladen wird, wenn Sie diesen Wert verändern!',
             },
             userMode: {
-                title: "User mode",
-                modeSwitch: "Check this if you want to restrict of usage of your FG screens",
-                password: "Administrator password",
-                confirmPassword: "Confirm password",
-                passwordError: "The two password fields must match!"
+                title: "Nutzermodi",
+                modeSwitch: "FG Screens nur für bestimmte Nutzer freigeben",
+                password: "Admin-Passwort",
+                confirmPassword: "Passwort bestätitgen",
+                passwordError: "Die beiden Passwortfelder müssen übereinstimmen!"
             }
         }
     },
@@ -403,21 +430,21 @@ localization.items.de = {
         missingLoginData: 'iVAR-Messenger kann keine Verbindung aufbauen. Bitte richten Sie diese in den Einstellungen/Messanger ein.',
         enterMessage: 'Nachricht eingeben...',
         expertUsername: "Experten-Benutzername",
-        checkToEnableMessenger: "Check to enable built-in messenger",
+        checkToEnableMessenger: "Eingebetteten Messenger aktivieren",
         messengerEnabled: "Enable messenger"
     },
     popup: {
         title: 'FlexGui Nachrichten'
     },
     timers: {
-        alreadyRunningError: 'This timer is already running!',
-        disableAll: 'Disable all',
-        createNew: 'Create new'
+        alreadyRunningError: 'Dieser Timer läuft bereits!',
+        disableAll: 'Alle Deaktivieren',
+        createNew: 'Neuer Timer'
     },
     buttons: {
         start: 'Start',
         stop: 'Stop',
-        add: 'Add',
+        add: 'Hinzufügen',
         edit: 'Edit',
         duplicate: 'Duplikat',
         cancel: 'Abbruch',
@@ -427,6 +454,7 @@ localization.items.de = {
         closeAll: 'Alle schließen',
         remove: 'Löschen',
         reconnect: 'Wiederverbinden',
+        connect: 'Verbinden',
         select: 'Auswählen',
         removeBackground: 'Entfernen',
         pick: 'Wählen...',
@@ -440,13 +468,14 @@ localization.items.de = {
         addNormalScreen: 'Normaler Screen',
         addFactoryScreen: 'Fabrik-Screen',
         upload: 'Upload',
-        download: 'Download'
+        download: 'Download',
+        disable: 'Deaktivieren'
     },
     editMode: {
         openBelt: 'Open belt',
-        editModeTaken: '<h3>The edit right is taken by someone else.</h3>',
-        confirmTakeEditMode: '<h3>Take edit mode confirmation</h3><p>Someone else is editing right now, but only one person can edit at the same time. Do you want to take the edit right?</p>',
-        confirmCloseWhenEditing: 'Do you want to leave edit mode and close FlexGui?',
+        editModeTaken: '<h3>Die Edit-Rechte wurden von jemandem abgenommen.</h3>',
+        confirmTakeEditMode: '<h3>Edit-Rechte Abnehmen</h3><p>Jemand editiert gerade, aber nur eine Person kann zur gleichen Zeit editieren.Möchten Sie die Edit-Rechte abnehmen?</p>',
+        confirmCloseWhenEditing: 'Möchten Sie den Editiermodus verlassen und FlexGui schließen?',
         switchLabel: 'Editmodus',
         settings: 'Einstellungen',
         properties: 'Eigenschaften',
@@ -561,7 +590,7 @@ localization.items.de = {
         messenger: {
 			header: 'Hilfe für Messenger',
             title: "Messenger",
-            content: "Kommunizieren Sie mit einem remote expert. Geben Sie die Benutzerinformationen an indem Sie zu Settings - Messenger im Edit belt navigieren"
+            content: "Kommunizieren Sie mit einem Remote-Expert. Geben Sie die Benutzerinformationen ein, indem Sie zu Settings - Messenger im Edit belt navigieren"
         },
         mirrorMode: {
 			header: 'Hilfe für Spiegelmodus',
@@ -571,20 +600,20 @@ localization.items.de = {
         themes: {
 			header: 'Hilfe für Themes',
 			//title: "Themes"
-            content: "Themes is ein Addon für FlexGui 4.0 und erlaub es dem Benutzer die Farbschemen zu ändern."
+            content: "Themes is ein Addon für FlexGui 4.0 und erlaubt es dem Benutzer die Farbschemen zu ändern."
         },
         cameraImage: {
-			header: 'Hilfe für Kamerabild-Fidget',
-			//title: "Kamerabild-Fidget"
-            content: "Ein Kamerabild-Fidget zeigt den Stream Ihrer IP-Kamera.<h5>Quelle</h5> Mit dem Einstellen der Quelle auf eine .mjpg-Quelle sehen Sie das Video. <h5>Anmeldung</h5> Sofern Ihre Kamera passwortgeschützt ist, geben Sie bitte die Accountinformationen im Popup-Fenster ein."
+			header: 'Hilfe für Kamera-Fidget',
+			//title: "Kamera-Fidget"
+            content: "Ein Kamera-Fidget zeigt den Stream Ihrer IP-Kamera.<h5>Quelle</h5> Mit dem Einstellen der Quelle auf eine .mjpg-Quelle sehen Sie das Video. <h5>Anmeldung</h5> Sofern Ihre Kamera passwortgeschützt ist, geben Sie bitte die Accountinformationen im Popup-Fenster ein."
         },
         userMode: {
-            header: 'User mode',
-            content: 'With user mode, you can restrict the usage of your FG screens. <h5>Password</h5>You can setup the password for the administrator mode. The default value is: \"admin\"'
+            header: 'Nutzermodi',
+            content: 'Mit Nutzermodi können Sie Screens für einzelne Nutzter freigeben. <h5>Passwort</h5> Sie können das Passwort für den Administratormodus setzen. Das Standardpasswort ist: \"admin\"'
         },
         timers: {
-            header: 'Timers',
-            content: 'With timers you can manage the used timeouts and intervals. Check <b>repeat</b> to create an interval. An interval will run as long as the repeat is checked or the timeout is stopped. The minimum delay of a timeout is 30ms.'
+            header: 'Timer',
+            content: 'Mit Timer können Sie Timeouts und Intervalle verwalten. Setzen Sie <b>wiederholen</b> um ein Intervall zu erzeugen. Ein Intervall wird  An interval will run as long as the repeat is checked or the timeout is stopped. The minimum delay of a timeout is 30ms.'
         }
     },
     login: {
@@ -598,8 +627,7 @@ localization.items.de = {
         logoutSuccess: 'Logout erfolgreich'
     },
     demo: {
-        callError: 'Im Demo-Modus können Sie keine Anrufe tätigen.',
-        subscribeError: 'Im Demo-Modus können Sie nicht subscriben/unsubscriben'
+        callError: 'Im Demo-Modus können Sie keine Anrufe tätigen.'
     },
     ros: {
 		connectionError: 'FlexGui kann sich nicht mit dem ROS-Server verbinden',
@@ -612,10 +640,10 @@ localization.items.de = {
 		discardProject: 'Projekt verwerfen',
 		communicationInitError: 'Fehler bei der Kommunikationsinitialisierung',
 		versionIsNotLatest: {
-		    body: "Your project is not the latest version, do you want to update, which can cause losses in your changes or overwrite the current version?",
-		    title: "Project version is not the latest",
-		    overwrite: "Overwrite on server",
-		    update: "Update mine"
+		    body: "Ihr Projekt ist nicht auf dem neuesten Stand. Möchten Sie das Projekt updaten, was bedeuten kann, dass Sie Ihre Änderungen verlieren können, oder das Projekt überschreiben?",
+		    title: "Projekt ist nicht auf dem neuesten Stand",
+		    overwrite: "Auf Server überschreiben",
+		    update: "Mein Projekt updaten"
 		},
         interfaces: {
             type: 'Typ',
@@ -636,21 +664,92 @@ localization.items.de = {
         selectFile: 'Datei wählen',
         blockMsg: 'Bild wird hochgeladen',
         imageError: 'Es können nur Bilddateien hochgeladen werden, bitte wäheln Sie eine PNG, BMP oder JPG-Datei',
-        confirmOverwrite: 'Do you want to overwrite an existing image?'
+        confirmOverwrite: 'Möchten Sie ein existierendes Bild überschreiben?'
     },
     nachiLink: {
-        addVariable: "Add variable",
-        connectionsTab: "Connections",
-        connectionError: "Can't connect to @0",
-        secure: "Secure",
+        addVariable: "Variable hinzufügen",
+        connectionsTab: "Verbindungen",
+        connectionError: "Verbindung zu @0 nicht möglich",
+        secure: "Sicher",
         IP: "IP",
         port: "Port",
-        connected: "Connected",
+        connected: "Verbunden",
         Name: "Name",
-        createNew: "Create new",
-        reconnect: "Reconnect",
-        zeroConnection: "No direct connections found...",
-        nameLocked: "The name is received from the connected FlexGui, cannot be changed"
+        createNew: "Neu",
+        reconnect: "Wiederverbinden",
+        zeroConnection: "Keine Direct Connection gefunden",
+        nameLocked: " Der Name wird von FlexGui erhalten und kann nicht geändert werden"
+    },
+    diagnostics: {
+        cancel: "Abbrechen",
+        close: "Schließen",
+        save: "Speichern",
+        editTest: "Test editieren",
+        newtest: "Neuer Test",
+        userDefineCheck: "Eigenes Skript an",
+        name: "Name",
+        script: "Skript",
+        params: "Parameter",
+        selected: "Ausgewählt",
+        tests: {
+            stressTest: {
+                name: "Stresstest",
+                description: "Ruft einen Service N mal auf",
+                params: {
+                    n: { description: 'Ruft einen Service N mal auf' },
+                    servicePath: { description: 'Service Pfad, z.B.: /rosapi/publishers' },
+                    params: { description: 'Serviceparameter im JSON Format, z.B.: {"paramName": "value"}' },
+                    limit: { desciption: 'Die maximale Antwortezeit sollte geringer als das vorgegebene Limit sein.' }
+                }
+            },
+            getTopicRespTime: {
+                name: "Antwortezeit von ROS-Topics",
+                description: "Started den ROSAPI/Topic-Service und misst die Zeit zwischen Anfrage und Antwort.",
+                params: {
+                    limit: { desciption: 'Die maximale Antwortzeit sollte geringer als das vorgegebene Limit sein.' }
+                },
+            },
+            getServiceRespTime: {
+                name: "Antwortezeit des ROS-Services",
+                description: "Started den ROSAPI/Topic-Service und misst die Zeit zwischen Anfrage und Antwort.",
+                params: {
+                    limit: { desciption: 'Die maximale Antwortzeit sollte geringer als das vorgegebene Limit sein.' }
+                }
+            },
+            topicUpdateRate: {
+                name: "Update-Rate der Topics",
+                description: "Berechnet die mittlere Update-Zeit der Topics einer gewählteen Node.",
+                params: {
+                    nodeName: { description: 'Der Name zu testenden Node, z.B. FlexGuiNode' },
+                    timeout: { description: 'Gemessene Zeit in Sekunden.' },
+                    limit: { desciption: 'Die maximale Antwortezeit sollte geringer als das vorgegebene Limit sein.' }
+                }
+            },
+            offlineTopics: {
+                name: "Offline-Topics",
+                description: "Erhält die Offline-Topics einer gewählten Node",
+                params: {
+                    nodeName: { description: 'Der Name zu testenden Node, z.B. FlexGuiNode' }
+                }
+            },
+            serviceCallRespTime: {
+                name: 'Antwortezeit von Service-Calls',
+                description: "Ruft einen gewählten Service auf und misst die Zeit in ms zwischen Anfrage und Antwort.",
+                params: {
+                    servicePath: { description: 'Service-Pfad, z.B.: /rosapi/publishers' },
+                    params: { description: 'Service-Parameter in JSON-Format, z.B.: {"paramName": "value"}' },
+                    limit: { desciption: 'Die maximale Antwortezeit sollte geringer als das vorgegebene Limit sein.' }
+                }
+            },
+            rosConnection: {
+                name: 'ROS-Verbindung',
+                description: "Überprüfen Sie, ob ROS verbunden ist.",
+                params: {
+                    limit: { desciption: 'Die maximale Antwortezeit sollte geringer als das vorgegebene Limit sein.' }
+                }
+            }
+        },
+        resultTitle: "Ergebnis der Diagnose",
     },
     timeago: {
         settings: {

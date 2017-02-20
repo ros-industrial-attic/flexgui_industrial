@@ -16,6 +16,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License. 
 */
+
 projectConversionService.$inject = ['$rootScope', 'popupService'];
 
 function projectConversionService($rootScope, popupService) {
@@ -297,6 +298,64 @@ function projectConversionService($rootScope, popupService) {
         }
     }
 
+    serv.list[14] = {
+        from: "1.9.4",
+        to: "1.9.5",
+        action: function (project) {
+            console.log("converting...", this.from, this.to);
+            project.appVersion = this.to;
+            project.theme = localStorage.getItem("theme") || "default";
+            return project;
+        }
+    }
+
+    serv.list[15] = {
+        from: "1.9.5",
+        to: "1.9.6",
+        action: function (project) {
+            console.log("converting...", this.from, this.to);
+            project.appVersion = this.to;
+
+            function updateFidgets(c) {
+                angular.forEach(c.fidgets, function (f) {
+                    if (f.fidgets) updateFidgets(f);
+                    if (f.properties.opacity !== undefined) {
+                        f.properties._opacity = f.properties.opacity;
+                    }
+                });
+            }
+
+            angular.forEach(project.screens, function (screen) {
+                updateFidgets(screen);
+            });
+
+            return project;
+        }
+    }
+
+    serv.list[16] = {
+        from: "1.9.6",
+        to: "1.9.7",
+        action: function (project) {
+            console.log("converting...", this.from, this.to);
+            project.appVersion = this.to;
+
+            function updateFidgets(c) {
+                angular.forEach(c.fidgets, function (f) {
+                    if (f.fidgets) updateFidgets(f);
+                    if (!f.properties.layout && ["fidgetGroup"].indexOf(f.source) > -1) {
+                        f.properties._layout = "";
+                    }
+                });
+            }
+
+            angular.forEach(project.screens, function (screen) {
+                updateFidgets(screen);
+            });
+
+            return project;
+        }
+    }
 
     var loops = 0;
 

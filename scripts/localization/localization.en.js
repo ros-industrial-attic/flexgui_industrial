@@ -136,6 +136,15 @@ localization.items.en = {
                     type: "Function",
                 }
             },
+            publishTopic: {
+                title: "Publish topic",
+                help: "Publish a value to a topic, if the topic is not existing, advertise the topic and then publish a value.",
+                params: {
+                    path: "Path",
+                    value: "Value",
+                    type: "Type"
+                }
+            },
             callFunction: {
                 title: "Call a function",
                 help: "This template calls a custom function. You can choose any function you defined earlier, anywhere in FlexGui using the 'Define a function' template.",
@@ -216,8 +225,15 @@ localization.items.en = {
         device: 'Device',
         genericObstacle: 'Obstacle',
         cameraImage: 'Camera image',
+        remoteView: 'Remote view',
         endOfWay: 'End of way',
         properties: {
+            layout: "Layout",
+            _margin: "Margin",
+            layoutValues: {
+                vertical: "Vertical",
+                horizontal: "Horizontal"
+            },
             hasScreenBeltValues: {
                 show: 'Show',
                 hide: "Hide"
@@ -229,11 +245,15 @@ localization.items.en = {
                 justify: 'Justify'
             },
             _textAlign: "Align",
+            _fps: 'FPS',
+            _fpsValues: ["Low", "Medium", "High"],
+            _dockKeyboard: 'Dock keyboard',
+            _showKeyboard: 'Force to show keyboard',
             _font: "Font",
             _icon: "Icon",
             _width: 'Width',
             _height: 'Height',
-            opacity: 'Opacity',
+            _opacity: 'Opacity',
             _angle: 'Angle',
             _value: 'Value',
             _color: 'Color',
@@ -253,11 +273,12 @@ localization.items.en = {
             _angleArc: 'Angle arc',
             _lock: 'Lock',
             scale: 'Scale',
+            _scale: 'Scale',
             source: 'Source',
             _onColor: 'On color',
             _offColor: 'Off color',
             _blinking: 'Blinking',
-            _blinkPeriod: 'Blink period',
+            _blinkFrequency: 'Blink frequency',
             _screenLink: 'Screen link',
             _borderColor: 'Border color',
             _borderWidth: 'Border width',
@@ -294,6 +315,16 @@ localization.items.en = {
         reloadSettingsAlert: 'Reload FlexGui to use the current settings?',
         loadOnNextStartNote: 'FlexGui will use this settings on next start',
         tabs: {
+            backup: {
+                title: 'Backups',
+                restore: 'Restore',
+                size: 'Size',
+                date: 'Date',
+                failed: 'Backup failed, because the localStorage is full.',
+                keepLast: 'Keep last only',
+                disableBackup: 'Disable backup',
+                enableBackup: 'Check to enable backup'
+            },
             timers: {
                 title: 'Timers',
                 delay: 'Delay',
@@ -430,6 +461,7 @@ localization.items.en = {
         closeAll: 'Close all',
         remove: 'Delete',
         reconnect: 'Reconnect',
+        connect: 'Connect',
         select: 'Select',
         removeBackground: 'Remove',
         pick: 'Pick...',
@@ -443,7 +475,8 @@ localization.items.en = {
         addFactoryScreen: 'Factory screen',
         addNormalScreen: 'Normal screen',
         upload: 'Upload',
-        download: 'Download'
+        download: 'Download',
+        disable: 'Disable'
     },
     editMode: {
         openBelt: 'Open belt',
@@ -471,6 +504,14 @@ localization.items.en = {
         enterprise: {
             header: 'Help for Enterprise Trial',
             content: '<h3>Trial mode</h3><p>With Trial mode you can use all function of FlexGui 4.0 for free. The trial mode requires internet connection.</p><h3>How to use</h3><p>To be able to enable <b>Trial mode</b> you will need to follow these instructions: <ol><li>Register an account on <a href="https://flexgui4.ppm.no">our website</a></li><li>Go to your Profile page</li><li>Request a trial license for FlexGui 4.0</li></ol></p>'
+        },
+        diagnostics: {
+            content: "<p>In diagnostics you can create sequences to test your environment.</p><h4>Create/Edit</h4><p>To create a new item, press the <b>Add new button</b> and follow the insturctions. If you want to edit and already existing item, press the small pen icon in the end of the line. You can also reorder your test sequence by pressing the up and down icons.</p><h4>Run</h4><p>Press <b>Run test</b> button to start the selected tests. You can add/remove items from the sequence by click on the checkbox in front of the test</p>",
+            header: "Diagnostics"
+        },
+        diagnosticsEditor: {
+            content: "<p>In test editor you can choose a built in script and set up its parameters or write a custom script.</p><h4>Custom script</h4><i><b><u>Please note:</u></b> use the following variables for optimal result</i><ul><li><b>test.result:</b> thiw will be shown on the UI under the name of your script</li><li><b>srv.testFinished();</b> Call this function when your script finished to be able to jump to the next test.</li><li><b>$rootScope.$apply();</b> call this function, when the script ends if you have any async calls (timeout, interval or e.g. waiting for a ROS event to end)</li></ul>",
+            header: "Diagnostics editor"
         },
         screenBelt: {
             header: 'Help for Screen Belt',
@@ -614,7 +655,7 @@ localization.items.en = {
         keepProject: 'Keep project',
         discardProject: 'Discard project',
         communicationInitError: 'Communication initialization exception',
-        versionIsNotLatest: { 
+        versionIsNotLatest: {
             body: "Your project is not the latest version, do you want to update, which can cause losses in your changes or overwrite the current version?",
             title: "Project version is not the latest",
             overwrite: "Overwrite on server",
@@ -678,5 +719,76 @@ localization.items.en = {
                 numbers: []
             }
         }
+    },
+    diagnostics: {
+        cancel: "Cancel",
+        close: "Close",
+        save: "Save",
+        editTest: "Edit test",
+        newtest: "New test",
+        userDefineCheck: "Check this if you want to make an own script",
+        name: "Name",
+        script: "Script",
+        params: "Parameters",
+        selected: "Selected",
+        tests: {
+            stressTest: {
+                name: "Stress test",
+                description: "Calls a selected service N times",
+                params: {
+                    n: { description: 'Call the service N times' },
+                    servicePath: { description: 'Service path, e.g: /rosapi/publishers' },
+                    params: { description: 'Service parameters in JSON format, e.g.: {"paramName": "value"}' },
+                    limit: { desciption: 'The max response time should be lower then the given limit.' }
+                }
+            },
+            getTopicRespTime: {
+                name: "ROS topics response time",
+                description: "Runs the rosapi/topics service and measures the time between the request and the response.",
+                params: {
+                    limit: { desciption: 'The max response time should be lower then the given limit.' }
+                },
+            },
+            getServiceRespTime: {
+                name: "ROS services response time",
+                description: "Runs the rosapi/services service and measures the time between the request and the response.",
+                params: {
+                    limit: { desciption: 'The max response time should be lower then the given limit.' }
+                }
+            },
+            topicUpdateRate: {
+                name: "Topic update rate",
+                description: "Calculates the average update time of the topics in a selected node",
+                params: {
+                    nodeName: { description: 'The name of the tested node, e.g. FlexGuiNode' },
+                    timeout: { description: 'Length of the measurement in sec' },
+                    limit: { desciption: 'The refresh time should be lower then the given limit.' }
+                }
+            },
+            offlineTopics: {
+                name: "Offline topics",
+                description: "Gets the offline topics in a selected node",
+                params: {
+                    nodeName: { description: 'The name of the tested node, e.g. FlexGuiNode' }
+                }
+            },
+            serviceCallRespTime: {
+                name: 'Service call response time',
+                description: "Calls a selected service and measures the time (ms) between the request and the response.",
+                params: {
+                    servicePath: { description: 'Service path, e.g: /rosapi/publishers' },
+                    params: { description: 'Service parameters in JSON format, e.g.: {"paramName": "value"}' },
+                    limit: { desciption: 'The max response time should be lower then the given limit.' }
+                }
+            },
+            rosConnection: {
+                name: 'ROS connection',
+                description: "Check if ROS is connected",
+                params: {
+                    limit: { desciption: 'The max response time should be lower then the given limit.' }
+                }
+            }
+        },
+        resultTitle: "Diagnostics result",
     }
 }

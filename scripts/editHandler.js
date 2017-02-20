@@ -16,6 +16,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License. 
 */
+
 editorService.$inject = ['$sce', '$timeout', '$rootScope', '$window', 'historyService', 'projectService', 'enumService', 'fidgetService', 'deviceService', 'clipboardService', 'settingsWindowService', 'popupService', 'variableService', 'projectStorageService'];
 
 function editorService(
@@ -58,11 +59,11 @@ function editorService(
                         editHandler.deleteAll();
                     } else {
                         //open property window if there is only 1 selected fidget and the mouse is over the prop belt
-                        var left = 0, top = 0;
+                        //var left = 0, top = 0;
                         if (mousePos.x < 0) {
                             updatePos = false;
-                            left = editHandler.selectedFidgets[0].posBeforeDrag.left;
-                            top = editHandler.selectedFidgets[0].posBeforeDrag.top;
+                            //left = editHandler.selectedFidgets[0].posBeforeDrag.left;
+                            //top = editHandler.selectedFidgets[0].posBeforeDrag.top;
                             if (editHandler.selectedFidgets.length == 1) {
                                 editHandler.editedFidget = editHandler.selectedFidgets[0];
                                 editHandler.setPropertiesWindowVisible(true);
@@ -76,12 +77,18 @@ function editorService(
                             for (var i = 0; i < editHandler.selectedFidgets.length; i++) {
                                 var fidget = editHandler.selectedFidgets[i];
 
-                                if (editHandler.activeContainer != fidget.parent && editHandler.activeContainer && editHandler.activeContainer.fidgets) {
+                                if (editHandler.activeContainer != fidget.parent &&
+                                    editHandler.activeContainer &&
+                                    editHandler.activeContainer.fidgets) {
                                     moveFidgetToContainer(fidget, editHandler.activeContainer);
                                 }
 
                                 fidget.posBeforeDrag.left = fidget.properties.left;
                                 fidget.posBeforeDrag.top = fidget.properties.top;
+
+                                fidget.posBeforeDrag._left = fidget.properties._left;
+                                fidget.posBeforeDrag._top = fidget.properties._top;
+
                                 editHandler.selectedFidgets[i] = fidget;
                             }
 
@@ -91,8 +98,8 @@ function editorService(
                             //restore original position
                             for (var i = 0; i < editHandler.selectedFidgets.length; i++) {
                                 var fidget = editHandler.selectedFidgets[i];
-                                fidget.properties.left = fidget.posBeforeDrag.left;
-                                fidget.properties.top = fidget.posBeforeDrag.top;
+                                fidget.properties._left = fidget.posBeforeDrag._left;
+                                fidget.properties._top = fidget.posBeforeDrag._top;
                             }
                         }
                     }
@@ -536,7 +543,8 @@ function editorService(
                         });
                         if (!sameContainer) editHandler.selectedFidgets = [];
 
-                        fidget.posBeforeDrag = { left: fidget.properties.left, top: fidget.properties.top };
+                        //fidget.posBeforeDrag = { left: fidget.properties.left, top: fidget.properties.top };
+                        fidget.posBeforeDrag = { top: fidget.properties.top, left: fidget.properties.left, _top: fidget.properties._top, _left: fidget.properties._left };
                         editHandler.selectedFidgets.push(fidget);
                     }
                     else if (canRemoveSelection) {
@@ -546,7 +554,7 @@ function editorService(
                 } else {
                     editHandler.selectedFidgets = [];
                     editHandler.selectedFidgets.push(fidget);
-                    editHandler.selectedFidgets[0].posBeforeDrag = { left: fidget.properties.left, top: fidget.properties.top };
+                    editHandler.selectedFidgets[0].posBeforeDrag = { top: fidget.properties.top, left: fidget.properties.left, _top: fidget.properties._top, _left: fidget.properties._left };
                 }
             }
             $event.preventDefault();
@@ -564,7 +572,7 @@ function editorService(
             fidget.containerLevel = 1;
             projectService.currentScreen.fidgets.push(fidget);
             editHandler.selectedFidgets.push(fidget);
-            editHandler.selectedFidgets[0].posBeforeDrag = { left: fidget.properties.left, top: fidget.properties.top };
+            editHandler.selectedFidgets[0].posBeforeDrag = { top: fidget.properties.top, left: fidget.properties.left, _top: fidget.properties._top, _left: fidget.properties._left };
 
             editHandler.currentMode = null;
             editHandler.isMultiSelect = false;
@@ -821,7 +829,7 @@ function editorService(
         //add to selected here;
         editHandler.selectedFidgets = clipboardService.pasted;
         angular.forEach(editHandler.selectedFidgets, function (fidget) {
-            fidget.posBeforeDrag = { left: fidget.properties.left, top: fidget.properties.top };
+            fidget.posBeforeDrag = { top: fidget.properties.top, left: fidget.properties.left, _top: fidget.properties._top, _left: fidget.properties._left };
         });
     }, 'images/paste.png');
 
@@ -1033,8 +1041,8 @@ function editorService(
                             moveFidgetToContainer(f, f.parent.parent);
                         } else if (f.parent == projectService.currentScreen) {
                             //do not allow to move fidget outside the screen
-                            f.properties.top = Math.max(0, f.properties.top);
-                            f.properties.left = Math.max(0, f.properties.left);
+                            if (f.properties.top < 0) f.properties.top = Math.max(0, f.properties.top);
+                            if (f.properties.left < 0) f.properties.left = Math.max(0, f.properties.left);
                         }
                     }
 

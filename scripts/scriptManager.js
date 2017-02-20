@@ -16,6 +16,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License. 
 */
+
 scriptManagerService.$inject = ['popupService', 'variableService', '$timeout', '$rootScope'];
 
 function scriptManagerService(popupService, variableService, $timeout, $rootScope) {
@@ -87,9 +88,14 @@ function scriptManagerService(popupService, variableService, $timeout, $rootScop
             var friendlyNameVars = scriptManager.getAllFriendlyVars(script);
             for (var i = 0; i < friendlyNameVars.length; i++) {
                 var friendly = variableService.friendlyCache[friendlyNameVars[i].substring(1)];
+                var userDefined = variableService.userDefined[friendlyNameVars[i].substring(1)];
                 //replace deep friendly names with their full expression (if there is any)
                 var isDeep = friendly && variableService.friendlyCache[friendlyNameVars[i].substring(1)].__isDeep;
-                script = scriptManager.replaceAll(script, friendlyNameVars[i], isDeep ? variableService.friendlyCache[friendlyNameVars[i].substring(1)].value : "variableService.getFriedlyVariable('" + friendlyNameVars[i].substring(1) + "')");
+                var replaceTo =
+                    userDefined ? "variableService.userDefined['" + friendlyNameVars[i].substring(1) + "']" :
+                    isDeep ? variableService.friendlyCache[friendlyNameVars[i].substring(1)].value : "variableService.getFriedlyVariable('" + friendlyNameVars[i].substring(1) + "')";
+
+                script = scriptManager.replaceAll(script, friendlyNameVars[i], replaceTo);
             }
 
             if (scriptManager.unknownScripts.names.length > 0 && !scriptManager.unknownScripts.alertVisible && $rootScope.pluginCount == $rootScope.downloadedAddonCount) {
@@ -123,7 +129,9 @@ function scriptManagerService(popupService, variableService, $timeout, $rootScop
             while (found = reg.exec(script)) {
                 matches.push(found[0]);
             }
-            return matches;
+            return matches.sort(function (a, b) {
+                return b.length - a.length;
+            });
         },
 
 

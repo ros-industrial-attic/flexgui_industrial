@@ -30,7 +30,6 @@ function fidgetService(enumService, variableService, colorPickerService, scriptM
                 name: name,
                 template: template
             };
-
             result.properties._left = left;
             result.properties._top = top;
 
@@ -78,6 +77,38 @@ function fidgetService(enumService, variableService, colorPickerService, scriptM
                 fidgets.nextTemplateCheck = window.setTimeout(fidgets.reCheckTemplate, 1000);
             }
         },
+        calculateSizeAndPosProperty: function (fidget, propertyName, currentValue, sizeAndPos) {
+            //get all of the % parts
+            var reg = /(\d*%)/g;
+            var matches = [], values = [], found;
+            while (found = reg.exec(currentValue)) {
+                matches.push(found[0]);
+            }
+
+            var originalValue = currentValue;
+            angular.forEach(matches, function (m) {
+                //calculate from property
+                var cprop = sizeAndPos[sizeAndPos.indexOf(propertyName) % 2];
+                //parent property value
+                var pprop = fidget.containerLevel == 1 ? parseInt($("#currentScreen").css(cprop.substring(1))) : fidget.parent.properties[cprop.substring(1)];
+
+                if (["fidgetGroup"].indexOf(fidget.parent.source) > -1) {
+                    pprop = pprop - 2 * fidget.parent.properties["borderWidth"];
+                }
+
+                //use the css prop of the screen if the parent is the current screen
+                //else the container's property
+                var v = parseInt(pprop * (m.substring(0, m.length - 1) / 100)); // + "/* cprop: " + cprop + "; pprop: " + pprop + " */";
+                //replace the calculated value
+                currentValue = scriptManager.replaceAll(currentValue, m, v);
+            });
+
+            try{
+                return Number(eval(scriptManagerService.compile(currentValue)));
+            } catch (e) {
+
+            }
+        },
 
         //define properties for "private" (props starts with '_') members and sets up the comm. with the device
         defineProperties: function (fidget, isTemplate) {
@@ -106,11 +137,11 @@ function fidgetService(enumService, variableService, colorPickerService, scriptM
                 }
 
                 function isFloat(n) {
-                    return n === Number(n) && n % 1 !== 0;
+                    return n == Number(n) && n % 1 !== 0 && !isBoolan(n) && n !== "";
                 }
 
                 function isInteger(n) {
-                    return n === Number(n) && n % 1 === 0;
+                    return n == Number(n) && n % 1 === 0 && !isBoolan(n) && n !== "";
                 }
 
                 function isBoolan(b) {
@@ -119,6 +150,17 @@ function fidgetService(enumService, variableService, colorPickerService, scriptM
                 }
 
                 var currentValue = properties[propertyName];
+                var sizeAndPos = ["_height", "_width", "_top", "_left"];
+
+                //percentage check in position and size and convert value
+                if (sizeAndPos.indexOf(propertyName) > -1 &&
+                    !isFloat(currentValue) &&
+                    !isInteger(currentValue) &&
+                    currentValue.toString().indexOf("%") > -1) {
+
+                    return fidgets.calculateSizeAndPosProperty(fidget, propertyName, currentValue, sizeAndPos);
+                }
+
                 if (!(currentValue in fidgets.scriptDict)) {
                     if (variableService == undefined || currentValue === 0)
                         fidgets.scriptDict[currentValue] = false;
@@ -127,7 +169,7 @@ function fidgetService(enumService, variableService, colorPickerService, scriptM
                             eval(scriptManagerService.compile(currentValue));
                             fidgets.scriptDict[currentValue] = true;
                         }
-                    	catch (e) {
+                        catch (e) {
                             fidgets.scriptDict[currentValue] = false;
                         }
                     }
@@ -135,6 +177,7 @@ function fidgetService(enumService, variableService, colorPickerService, scriptM
 
                 if (fidgets.scriptDict[currentValue]) {
                     var value = eval(scriptManagerService.compile(currentValue));
+
                     if (["object", "function"].indexOf(typeof value) > -1) {
                         //if it is not a simple object, return with the string
                         return currentValue;
@@ -184,7 +227,7 @@ function fidgetService(enumService, variableService, colorPickerService, scriptM
 
                     //The definition is done this way to have definition-time info about the calling variable. 
                     //Without this we would not know who called the getter as 'this' refers to the object itself, not the getter or the property.
-                    var definePropertyfidget = "Object.defineProperty(fidget.properties, property.substring(1), {";
+                    var definePropertyfidget = "Object.defineProperty(fidget.properties, property.substring(1), { configurable: true,";
                     definePropertyfidget += "get: function () { return fidgetGet(fidget, this, \"" + property + "\")},";
                     definePropertyfidget += "set: function (v) { return fidgetSet(fidget, this, \"" + property + "\", v)}})";
 
@@ -219,10 +262,10 @@ function fidgetService(enumService, variableService, colorPickerService, scriptM
     fidgets.fonts = ['inherit', '"Courier New", Courier, monospace', '"Lucida Console", Monaco, monospace', 'Verdana, Geneva, sans-serif', 'Arial, Helvetica, sans-serif', '"Arial Black", Gadget, sans-serif', 'Impact, Charcoal, sans-serif', 'Georgia, serif', '"Times New Roman", Times, serif', '"Palatino Linotype", "Book Antiqua", Palatino, serif'];
 
     fidgets.templates = {
-        "fidgetGroup": fidgets.getTemplate("views/fidgets/", "fidgetGroup", { _width: 200, _height: 200, _color: '#D1D1D1', opacity: 0.7, _borderColor: "#000000", _borderWidth: "0" }, enumService.screenTypesEnum.All, "images/fidgets/box.png"),
+        "fidgetGroup": fidgets.getTemplate("views/fidgets/", "fidgetGroup", { layout: "", _margin: 10, _width: 200, _height: 200, _color: '#D1D1D1', _opacity: 0.7, _borderColor: "#000000", _borderWidth: "0" }, enumService.screenTypesEnum.All, "images/fidgets/box.png"),
         "progressBar": fidgets.getTemplate("views/fidgets/", "progressBar", { _width: 100, _height: 30, _value: "variableService.demo.int", _color: '#ff0000', _fontColor: '' }, enumService.screenTypesEnum.Normal),
         "button": fidgets.getTemplate("views/fidgets/", "button", { _width: 100, _height: 30, _text: "Click me", _font: "inherit", _fontSize: 12, _color: "", onClick: "#message('Default button action.')" }, enumService.screenTypesEnum.Normal),
-        "checkBox": fidgets.getTemplate("views/fidgets/", "checkBox", { _width: 100, _height: 30, _text: "Check me", _value: "variableService.demo.bool", _fontColor: "#000000",_font: "inherit", _fontSize: 16 }, enumService.screenTypesEnum.Normal),
+        "checkBox": fidgets.getTemplate("views/fidgets/", "checkBox", { _width: 100, _height: 30, _text: "Check me", _value: "variableService.demo.bool", _fontColor: "#000000", _font: "inherit", _fontSize: 16 }, enumService.screenTypesEnum.Normal),
         "textInput": fidgets.getTemplate("views/fidgets/", "textInput", { _width: 100, _height: 30, _text: "variableService.demo.string" }, enumService.screenTypesEnum.Normal, "images/fidgets/textinput.png"),
         "text": fidgets.getTemplate("views/fidgets/", "text", { _textAlign: "left", _font: "inherit", _width: 100, _height: 25, _fontSize: 16, _color: "#000000", _text: "variableService.demo.string" }, enumService.screenTypesEnum.All, "images/fidgets/text.png"),
         "scrollableText": fidgets.getTemplate("views/fidgets/", "scrollableText", { _textAlign: "left", _font: "inherit", _width: 100, _height: 100, _fontSize: 12, _color: "#000000", _text: "variableService.demo.string" }, enumService.screenTypesEnum.All, "images/fidgets/multilinetext.png"),
@@ -231,7 +274,7 @@ function fidgetService(enumService, variableService, colorPickerService, scriptM
         "fullgauge": fidgets.getTemplate("views/fidgets/", "fullgauge", { _width: 80, _height: 80, _value: "variableService.demo.int", _color: '#ff0000', _angleOffset: 0, _angleArc: 360, _step: 0.1, _min: 0.0, _max: 100.0, _lock: false }, enumService.screenTypesEnum.Normal),
         "boolean": fidgets.getTemplate("views/fidgets/", "boolean", { _width: 100, _height: 30, _font: "inherit", _fontSize: 16, _color: "#000000", _text: "Bool value", _value: "variableService.demo.bool" }, enumService.screenTypesEnum.Normal),
         "image": fidgets.getTemplate("views/fidgets/", "image", { _width: 100, _height: 100, _value: "variableService.demo.image", scale: 'aspectFit' }, enumService.screenTypesEnum.Normal, "images/image-not-found.png"),
-        "indicatorLamp": fidgets.getTemplate("views/fidgets/", "indicatorLamp", { _width: 100, _height: 30, _text: "Indicate", _value: "variableService.demo.bool", _onColor: '#00ff00', _offColor: '#ff0000', _fontColor: "#000000", _blinking: false, _blinkPeriod: 1 }, enumService.screenTypesEnum.Normal)
+        "indicatorLamp": fidgets.getTemplate("views/fidgets/", "indicatorLamp", { _width: 100, _height: 30, _text: "Indicate", _value: "variableService.demo.bool", _onColor: '#00ff00', _offColor: '#ff0000', _fontColor: "#000000", _blinking: false, _blinkFrequency: 1 }, enumService.screenTypesEnum.Normal)
     };
 
     $rootScope.$watch(function () { return fidgets.templatelessFidgets.length; }, function () {

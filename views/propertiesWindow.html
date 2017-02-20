@@ -51,16 +51,24 @@
                             show-perfect-scroll-bar>
                             <td><label>{{localization.currentLocal.fidgets.properties[p]}}</label></td>
                             <td style="white-space: nowrap">
-                                <input type="text" name="{{p}}" ng-if="!(p == 'hasScreenBelt' && editHandler.editedFidget == project.currentScreen) && ['onClick', 'scale', '_screenLink', 'backgroundType', '_icon', '_font', '_textAlign', 'logoPosition'].indexOf(p) == -1" class="form-control" ng-class="{'form-control-66': p.toLowerCase().indexOf('color') != -1 || (editHandler.editedFidget.source == 'image' && p == '_value') || (project.currentScreen == editHandler.editedFidget && p == 'logo')}" ng-model="editHandler.editedFidget.properties[p]" ng-required="isPropertyRequired(p)" ng-change="validate(propertiesForm.{{p}}.$error, editHandler.editedFidget, p)">
+                                <input type="text" name="{{p}}" hm-press="propertyPressed(p)" ng-if="!(p == 'hasScreenBelt' && editHandler.editedFidget == project.currentScreen) && ['layout', 'onClick', 'scale', '_screenLink', 'backgroundType', '_icon', '_font', '_textAlign', '_fps', 'logoPosition'].indexOf(p) == -1" class="form-control" ng-class="{'form-control-66': p.toLowerCase().indexOf('color') != -1 || (editHandler.editedFidget.source == 'image' && p == '_value') || (project.currentScreen == editHandler.editedFidget && p == 'logo')}" ng-model="editHandler.editedFidget.properties[p]" ng-required="isPropertyRequired(p)" ng-change="validate(propertiesForm.{{p}}.$error, editHandler.editedFidget, p)">
 
                                 <div ng-if="p.toLowerCase().indexOf('color') != -1 && editHandler.editedFidget.properties[p].indexOf('#') == 0"
                                      style="background-color: {{editHandler.editedFidget.properties[p]}};" class="colorMark"></div>
 
-                                <button ng-if="p.toLowerCase().indexOf('color') != -1" class="btn btn-default col-md-4" ng-click="openColorPicker(p, editHandler.editedFidget.properties[p])">{{localization.currentLocal.buttons.pick}}</button>
+                                <button ng-if="p.toLowerCase().indexOf('color') != -1" 
+                                        class="btn btn-default button-33" 
+                                        ng-click="openColorPicker(p, editHandler.editedFidget.properties[p])">
+                                    {{localization.currentLocal.buttons.pick}}
+                                </button>
 
                                 <ng-include ng-if="p == 'onClick'" src="onClickEditor"></ng-include>
 
-                                <button class="btn btn-default col-md-4" ng-click="images.openImageExplorer('editHandler.editedFidget.properties.' + p)" ng-if="(editHandler.editedFidget.source == 'image' && p == '_value') || p == 'logo'">{{localization.currentLocal.buttons.select}}</button>
+                                <button class="btn btn-default button-33" 
+                                        ng-click="images.openImageExplorer('editHandler.editedFidget.properties.' + p)" 
+                                        ng-if="(editHandler.editedFidget.source == 'image' && p == '_value') || p == 'logo'">
+                                    {{localization.currentLocal.buttons.select}}
+                                </button>
 
                                 <select ng-if="p == 'scale'" ng-model="editHandler.editedFidget.properties[p]" class="form-control">
                                     <option value="aspectFit">{{localization.currentLocal.properties.aspectFit}}</option>
@@ -101,6 +109,17 @@
                                     <option value="bottomLeft">{{localization.currentLocal.fidgets.properties.logoPositions.bottomLeft}}</option>
                                     <option value="topLeft">{{localization.currentLocal.fidgets.properties.logoPositions.topLeft}}</option>
                                     <option value="topRight">{{localization.currentLocal.fidgets.properties.logoPositions.topRight}}</option>
+                                </select>
+
+                                <select ng-model="editHandler.editedFidget.properties[p]" ng-if="p == '_fps'" class="form-control">
+                                    <option value="0.5">{{localization.currentLocal.fidgets.properties._fpsValues[0]}}</option>
+                                    <option value="1">{{localization.currentLocal.fidgets.properties._fpsValues[1]}}</option>
+                                    <option value="5">{{localization.currentLocal.fidgets.properties._fpsValues[2]}}</option>
+                                </select>
+                                <select ng-model="editHandler.editedFidget.properties[p]" ng-if="p == 'layout'" class="form-control">
+                                    <option value="vertical">{{localization.currentLocal.fidgets.properties.layoutValues.vertical}}</option>
+                                    <option value="horizontal">{{localization.currentLocal.fidgets.properties.layoutValues.horizontal}}</option>
+                                    <option value="">-</option>
                                 </select>
                             </td>
                         </tr>

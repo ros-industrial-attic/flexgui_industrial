@@ -16,10 +16,5 @@
  * See the License for the specific language governing permissions and
  * limitations under the License. 
  -->
-<perfect-scrollbar show-perfect-scroll-bar
-                   hm-tapend="onClick(fidget, fidget.properties.onClick)"
-                   ng-mouseup="onClick(fidget, fidget.properties.onClick)"
-                   class="scroller scrollableText perfectScrollBar"
-                   style="width:{{fidget.properties.width}}px; height:{{fidget.properties.height}}px; font-size: {{fidget.properties.fontSize}}px; color: {{fidget.properties.color}}; font-family: {{fidget.properties.font}}; text-align: {{fidget.properties.textAlign}};">
-    <div ng-bind-html="fidget.properties.text" style="margin: 10px;"></div>
-</perfect-scrollbar>
+
+<textarea style="width: 100%; height: 200px;" ng-model="editHandler.editedFidget.properties[p]"></textarea>

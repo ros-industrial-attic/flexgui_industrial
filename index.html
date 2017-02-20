@@ -78,6 +78,7 @@
     <script src="scripts/localization/localization.de.js"></script>
     <script src="scripts/localization/localization.hu.js"></script>
     <script src="scripts/localization/localization.ko.js"></script>
+    <script src="scripts/localization/localization.it.js"></script>
     <script src="scripts/backgroundService.js"></script>
     <script src="scripts/colorPickerHandler.js"></script>
     <script src="scripts/popupHandler.js"></script>
@@ -96,11 +97,14 @@
     <script src="scripts/variableService.js"></script>
     <script src="scripts/projectConversionService.js"></script>
     <script src="scripts/projectStorageService.js"></script>
+    <script src="scripts/diagnosticsService.js"></script>
+    <script src="scripts/backupService.js"></script>
 
     <!--Controllers-->
     <script src="scripts/controllers/propertiesWindowController.js"></script>
     <script src="scripts/controllers/flexGuiController.js"></script>
     <script src="scripts/controllers/fidgetController.js"></script>
+    <script src="scripts/controllers/fidgetGroupController.js"></script>
     <script src="app.js"></script>
 </head>
 <body id="body"
@@ -121,7 +125,7 @@
     <div ng-keydown="::editHandler.onKeyDown($event)"
          ng-keyup="::editHandler.onKeyUp($event)"
          hm-panstart="::editHandler.onMouseDown($event)"
-         hm-recognizer-options='[{"type":"pan","threshold":5}]'
+         hm-recognizer-options='[{"type":"pan","threshold":2}]'
          hm-panend="::editHandler.onMouseUp($event)"
          hm-panmove="::editHandler.onMouseMove($event)"
          tabindex="0"

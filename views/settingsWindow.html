@@ -29,13 +29,29 @@
 
             <!-- Nav tabs -->
             <ul class="nav nav-tabs" role="tablist">
-                <li ng-repeat="tab in settingsTabs track by $index" ng-class="{ 'active' : settings.tabIndex == $index }"><a role="tab" data-toggle="tab" ng-click="settings.setTabIndex($index)">{{tab.title}}</a></li>
+                <li ng-hide="group.children == null || (group.children.length == 0 && group.hideEmpty)" ng-repeat="group in settingsTabs | orderObjectBy:['position'] track by $index"
+                    ng-class="{ 'active' : settings.currentGroup == group, 'dropdown': group.children.length > 0 }">
+                    
+                    <a role="tab"
+                       data-toggle="{{group.children.length > 0 ? 'dropdown' : 'tab'}}"
+                       ng-click="settings.setCurrentGroup(group)">
+                        {{group.title}}
+                        <span class="caret" ng-if="group.children.length > 0"></span>
+                    </a>
+
+                    <ul class="dropdown-menu" ng-if="group.children.length > 0">
+                        <li ng-repeat="tab in group.children | orderObjectBy:['position'] track by $index"><a ng-click="settings.setCurrentTab(tab, group)">{{tab.title}}</a></li>
+                    </ul>
+                </li>
             </ul>
 
             <!-- Tab panes -->
             <div class="tab-content">
+                <!-- Nav tabs -->
                 <div class="tab-pane active">
-                    <ng-include src="toTrustedUrl(settingsTabs[settings.tabIndex].source)"></ng-include>
+                    <h3 style="margin-top: 0px;">{{settings.currentTab.title}}</h3>
+
+                    <ng-include src="toTrustedUrl(settings.currentTab.source)"></ng-include>
                 </div>
             </div>
 

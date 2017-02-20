@@ -16,6 +16,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License. 
 */
+
 imageService.$inject = ['deviceService', 'settingsWindowService', 'variableService', 'popupService', 'editorService', 'projectStorageService'];
 
 function imageService(deviceService, settingsWindowService, variableService, popupService, editorService, projectStorageService) {

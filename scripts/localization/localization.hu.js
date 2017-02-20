@@ -42,115 +42,125 @@ localization.items.hu = {
                                     + "<p>Kérjük regisztráljon a <a onclick='window.open(\"@1\", \"_system\")' href='#'>FlexGui 4.0 weboldalon</a></p><p>Regisztráció után lépjen be <a onclick='window.open(\"@1\",\"_system\")' href='#'>profil oldalára</a> és igényeljen egy Trial licenszt.</p>"
     },
     wizard: {
-        addScriptTemplate: "Script sablon beszúrása",
+        unknownWizard: "<p>Vannak scriptek, amik nem futnak a jelenlegi verzión: </p>@0<p><br/>További információk <a target='_blank' href='https://www.ppm.no/flexgui4-Home/Index/pricing'>weboldalunkon</a> találhatók.</p>",
+        addScriptTemplate: "Szkript sablon beszúrása",
         output: "Kimeneti kód",
         param: "Paraméterek",
         select: "Sablon választás",
-        title: "Script sablon varázsló",
+        title: "Szkript sablon varázsló",
         templates: {
             createTopic: {
                 title: "Topic létrehozása",
-                help: "Advertise and optionally subscribe a topic with given type, name and friendly name. The new topic will have the '/wizard/[name]' path.",
+                help: "Egy topic hirdetése és opcionális feliratkozása a megadott típussal, névvel és egyszerű névvel. Az új topic útvonala '/wizard/[name]' lesz.",
                 params: {
                     name: "Név",
                     type: "Típus",
-                	subscribe: "Subscribe",
-                	friendlyName: "Friendly name",
-                	onChange: "On change script",
+                	subscribe: "Feliratkozás",
+                	friendlyName: "Egyszerű név",
+                	onChange: "Módosításkor lefutó szkript",
                 }
             },
             changeScreen: {
-            	title: "Change screen",
-            	help: "Changes current screen to the selected one.",
+            	title: "Képernyő váltás",
+            	help: "Váltson képernyőt a kijelöltre.",
             	params: {
-            		screen: "Screen",
+            		screen: "Képernyő",
             	},
-            	error: "Error! Can't change to non-existing screen: ",
+            	error: "Hiba! Nem lehet nem létező képernyőre váltani: ",
             },
             connectorVariable: {
-            	title: "Connector node's variable: initialize",
-            	help: "This template automatically handles the node's selected variable. It subscribes properly and creates the necessary local variables. It is recommended to put this in Init script.",
+            	title: "Csatlakozó csomópont változója: inicializáció",
+            	help: "Ez a sablon automatikusan kezeli a csomópont kiválasztott változóját. Megfelelően feliratkozik és létrehozza a szükséges lokális változókat. Javasolt ezt a sablont az induló szkript-be tenni.",
             	params: {
-            		node: "Node",
-            		variable: "Variable",
-            		friendlyName: "Friendly name",
+            		node: "Csomópont",
+            		variable: "Változó",
+            		friendlyName: "Egyszerű név",
             	}
             },
             getConnectorVariable: {
-            	title: "Connector node's variable: get value",
-            	help: "This template returns with the current local data of a node's selected variable. It is recommended to put this to a property of a Fidget",
+            	title: "Csatlakozó csomópont változója: érték lekérdezés",
+            	help: "Ez a sablon visszatér a csomópont kiválasztott változójának lokálisan mentett értékével. Fidget tulajdonságok között célszerű ezt a függvényt használni.",
             	params: {
-            		node: "Node",
-            		variable: "Variable",
+            		node: "Csomópont",
+            		variable: "Változó",
             	}
             },
             setConnectorVariable: {
-            	title: "Connector node's variable: set value",
-            	help: "This template sets local data of a node's selected variable to a new value and sends it to ROS. It is recommended to put this into an 'onClick' event of a button Fidget.",
+            	title: "Csatlakozó csomópont változója: érték beállítás",
+            	help: "Ez a sablon beállítja a csomópont kiválasztott változójának lokálisan mentett értékét, majd szinkronizálja a ROS-al. Ezt a függvényt lehet a 'kattintás' eseményéhez rendelni például egy gomb Fidget-nek.",
             	params: {
-            		node: "Node",
-            		variable: "Variable",
-            		value: "New value",
-            		operation: "Operation",
+            		node: "Csomópont",
+            		variable: "Változó",
+            		value: "Új érték",
+            		operation: "Művelet",
             	}
             },
             getReadyConnectorVariable: {
-            	title: "Connector node's variable: get ready",
-            	help: "This template returns true if a node's selected variable is ready to write. It is recommended to put this to a property of a Fidget",
+            	title: "Csatlakozó csomópont változója: írásra kész",
+            	help: "Ez a sablon igazzal tér vissza, ha a csomópont kiválasztott változója kész az írásra. Fidget tulajdonságok között célszerű ezt a függvényt használni.",
             	params: {
-            		node: "Node",
-            		variable: "Variable",
+            		node: "Csomópont",
+            		variable: "Változó",
             	}
             },
             autoDefine: {
-            	title: "Define a variable if undefined",
-            	help: "This template sets a value to a variable if it is not defined yet. If the variable is already defined, then nothing happens.",
+            	title: "Változó definiálása, ha az még nem létezik",
+            	help: "Ez a sablon ad egy változónak egy új értéket, ha az a változó még nem létezik. Ha a változó már létezik, semmi nem történik.",
             	params: {
-            		variable: "Variable",
-            		value: "Value",
+            		variable: "Változó",
+            		value: "Érték",
             	}
             },
             popup: {
-            	title: "Show a popup message",
-            	help: "This template shows a popup message with some text in it.",
+            	title: "Felugró ablak megjelenítése",
+            	help: "Ez a sablon egy szöveges felugró ablakot jelenít meg.",
             	params: {
-            		message: "Message",
-            		type: "Type",
+            		message: "Üzenet",
+            		type: "Típus",
             	}
             },
             timeout: {
-            	title: "Delay a script",
-            	help: "This template runs a script delayed.",
+            	title: "Szkript késleltetése",
+            	help: "Ez a sablon egy szkript-et késleltet",
             	params: {
-            		timeout: "Delay (ms)",
-            		type: "Function",
-            		name: "Name"
+            		timeout: "Késleltetés (millisec)",
+            		type: "Funkció",
+            		name: "Név"
             	}
             },
             setFunction: {
-            	title: "Define a function",
-            	help: "This template defines a custom function. The function can be called later, anywhere in FlexGui using the 'Call a function' template.",
+            	title: "Funkció definiálása",
+            	help: "Ez a sablon egy tetszőleges funkciót definiál. Ez a funkció később bárhol meghívható a FlexGui-n belül, a 'Funkció meghívása' sablonnal.",
             	params: {
-            		name: "Name of function",
-            		type: "Function",
+            		name: "Funkció neve",
+            		type: "Funkció",
             	}
             },
+            publishTopic: {
+                title: "Topic értékadás",
+                help: "Amennyiben a topic létezik, új értéket rendel hozzá, amennyiben nem, létrehozza a topicot a választott értékkel és típussal.",
+                params: {
+                    path: "Útvonal",
+                    value: "Érték",
+                    type: "Típus"
+                }
+            },
             callFunction: {
-            	title: "Call a function",
-            	help: "This template calls a custom function. You can choose any function you defined earlier, anywhere in FlexGui using the 'Define a function' template.",
+            	title: "Funkció meghívása",
+            	help: "Ez a sablon meghív egy tetszőleges funkciót. Bármely funkciót meg lehet hívni, amely a 'Funkció definiálása' sablonnal lett meghívva bárhol a FlexGui-ban.",
             	params: {
-            		name: "Name of function",
+            		name: "Funkció neve",
             	},
-            	error: "Error! Can't call non-defined function: ",
+            	error: "Hiba! Nem definiált funkciót nem lehet meghívni: ",
             },
             callService: {
-            	title: "Call a service",
-            	help: "This template calls the selected service of a node. To make it work correctly you have to set the parameter correctly after inserting the code.",
+            	title: "Szolgáltatás hívása",
+            	help: "Ez a sablon meghívja a csomópont választott kiválasztott szolgáltatását. Ahhoz, hogy jól működjön a funkció, a paraméterek formátumát pontosan kell megadni a kód injektálás után.",
             	params: {
-            		node: "Node",
-            		service: "Service",
-            		parameter: "Parameter",
-            		callback: "Callback",
+            		node: "Csomópont",
+            		service: "Szolgáltatás",
+            		parameter: "Paraméter",
+            		callback: "Visszatérő függvény",
             	},
             },
         }
@@ -215,6 +225,7 @@ localization.items.hu = {
         device: 'Eszköz',
         genericObstacle: 'Alakzat',
         cameraImage: 'Kamerakép',
+        remoteView: 'Remote view',
         endOfWay: 'Út vége',
         properties: {
             hasScreenBeltValues: {
@@ -228,11 +239,15 @@ localization.items.hu = {
                 justify: 'Sorkizárt'
             },
             _textAlign: "Igazítás",
+            _fps: 'FPS',
+            _fpsValues: ["Alacsony", "Közepes", "Magas"],
+            _dockKeyboard: 'Dokkoló billentyűzet',
+            _showKeyboard: 'Mindig mutassa a billentyűzetet',
             _font: "Betűtípus",
             _icon: "Ikon",
             _width: 'Szélesség',
             _height: 'Magasság',
-            opacity: 'Láthatóság',
+            _opacity: 'Láthatóság',
             _angle: 'Forgásszög',
             _value: 'Érték',
             _color: 'Szín',
@@ -252,11 +267,12 @@ localization.items.hu = {
             _angleArc: 'Szög',
             _lock: 'Csak olvasható',
             scale: 'Skála',
+            _scale: 'Skála',
             source: 'Forrás',
             _onColor: 'Bekapcsolt szín',
             _offColor: 'Kikapcsolt szín',
             _blinking: 'Villog',
-            _blinkPeriod: 'Villogás gyakorisága',
+            _blinkFrequency: 'Villogás gyakorisága (Hz)',
             _screenLink: 'Képernyő',
             _borderColor: 'Keret szín',
             _borderWidth: 'Keret vastagság',
@@ -264,18 +280,18 @@ localization.items.hu = {
             name: 'Név',
             _node: 'ROS csomópont neve',
             hasScreenBelt: "Screenbelt láthatósága",
-            logo: 'Logo',
-            logoWidth: 'Logo width',
-            logoPosition: 'Logo position',
+            logo: 'Logó',
+            logoWidth: 'Logó szélesség',
+            logoPosition: 'Logó pozíció',
             logoPositions: {
-                bottomRight: 'Bottom - Right',
-                bottomLeft: 'Bottom - Left',
-                topLeft: 'Top - Left',
-                topRight: 'Top - Right'
+                bottomRight: 'Jobb lent',
+                bottomLeft: 'Bal lent',
+                topLeft: 'Bal fent',
+                topRight: 'Jobb fent'
             },
-            _top: 'Top',
-            _left: 'Left',
-            _enabled: 'Enabled'
+            _top: 'Teteje',
+            _left: 'Bal széle',
+            _enabled: 'Engedélyezett'
         }
     },
     properties: {
@@ -293,13 +309,23 @@ localization.items.hu = {
         reloadSettingsAlert: 'FlexGui újraindítása az új beállítások használatával?',
         loadOnNextStartNote: 'Az új beállítások újraindítás után lesznek elérhetők',
         tabs: {
+            backup: {
+                title: 'Automatikus mentés',
+                restore: 'Visszaállítás',
+                size: 'Méret',
+                date: 'Időpont',
+                failed: 'A mentés sikertelen, mert a tárhely megtelt',
+                keepLast: 'Csak az utolsó megtartása',
+                disableBackup: 'Mentés kikapcsolása',
+                enableBackup: 'Mentés bekapcsolva'
+            },
             timers: {
-                title: 'Timers',
-                delay: 'Delay',
-                repeat: 'Repeat',
-                enabled: 'Enabled',
-                name: 'Name',
-                action: 'Action',
+                title: 'Időzítők',
+                delay: 'Késleltetés',
+                repeat: 'Ismétlés',
+                enabled: 'Engedélyezett',
+                name: 'Név',
+                action: 'Akció',
                 duplicatedError: 'A megadott névvel már van létrehozva a Friendly változók között elem. Kérjük válasszon másikat!'
             },
             enterprise: {
@@ -322,7 +348,8 @@ localization.items.hu = {
                 uploadComplete: 'A feltöltés elkészült!',
                 savedToMobile: 'A project fájl elmentve a gyökér könyvtárba: ',
                 savedFailed: 'Hiba a mentés folyamán',
-                noteUseMobileMemory: '<i><u><b>Fontos:</b></u> A belső memóriát használja a projektek átvitele folyamán!</i>'
+                noteUseMobileMemory: '<i><u><b>Fontos:</b></u> A belső memóriát használja a projektek átvitele folyamán!</i>',
+                uploadImagesConfirm: 'Felülírja az aktuális képeket a projektben levőkkel?'
             },
             language: {
                 title: 'Nyelv',
@@ -341,11 +368,11 @@ localization.items.hu = {
                 gridSize: 'Rács méret',
                 gridSizeNote: 'Az érték megváltoztatásához újra kell indítani a FlexGuit',
                 gridSizeError: 'A méretnek 30 és 200 között kell lennie',
-                forceBelt: 'Force Screen Belt',
-                forceBeltSwitchLabel: 'Set to force to show the Screen Belt',
-                autoScale: 'Auto scale',
-                pinchEnabled: 'Pinch zoom',
-                switchPinchEnabled: 'Check here if you want to enable pinch zoom on your mobile device'
+                forceBelt: 'Erőltesse a képernyő sávot',
+                forceBeltSwitchLabel: 'Ennek beállításával a képernyő sáv mindenképp meg fog jelenni',
+                autoScale: 'Automatikus méretezés',
+                pinchEnabled: 'Kétujjas nagyítás',
+                switchPinchEnabled: 'Itt lehet jelölni, hogy a kétujjas nagyítás engedélyezve legyen-e a mobil eszközökön'
             },
             initScript: {
                 title: 'Induló szkript',
@@ -390,11 +417,11 @@ localization.items.hu = {
                 themeNote: 'Az érték megváltoztatásához újra kell indítani a FlexGuit',
             },
             userMode: {
-                title: "User mode",
-                modeSwitch: "Check this if you want to restrict of usage of your FG screens",
-                password: "Administrator password",
-                confirmPassword: "Confirm password",
-                passwordError: "The two password fields must match!"
+                title: "Felhasználó mód",
+                modeSwitch: "Itt lehet korlátozni a FlexGui képernyők elérését",
+                password: "Rendszergazdai jelszó",
+                confirmPassword: "Jelszó ellenőrzés",
+                passwordError: "A két jelszó mező nem egyezik!"
             }
         }
     },
@@ -403,20 +430,20 @@ localization.items.hu = {
         missingLoginData: 'Hibás beállítások, kérjük a Beállítások/Üzenetek menüben adja meg a helyes értékeket.',
         enterMessage: 'Üzenet írása...',
         expertUsername: "Expert felhasználó neve",
-        checkToEnableMessenger: "Check to enable built-in messenger",
-        messengerEnabled: "Enable messenger"
+        checkToEnableMessenger: "A beépített üzenetküldő engedélyezésének ki-be kapcsolása",
+        messengerEnabled: "Engedélyezze a beépített üzenetküldőt"
     },
     popup: {
         title: 'FlexGui üzenetek'
     },
     timers: {
-        alreadyRunningError: 'This timer is already running!',
-        disableAll: 'Disable all',
-        createNew: 'Create new'
+        alreadyRunningError: 'Ez az időzítő már fut!',
+        disableAll: 'Mind leállítása',
+        createNew: 'Új létrehozása'
     },
     buttons: {
-        start: 'Start',
-        stop: 'Stop',
+        start: 'Indítás',
+        stop: 'Megállítás',
         add: 'Hozzáadás',
         edit: 'Szerkesztés',
         duplicate: 'Másolás',
@@ -427,6 +454,7 @@ localization.items.hu = {
         closeAll: 'Mind bezárása',
         remove: 'Töröl',
         reconnect: 'Újrakapcsolódás',
+        connect: 'Kapcsolódás',
         select: 'Kiválaszt',
         removeBackground: 'Töröl',
         pick: 'Választ...',
@@ -440,7 +468,8 @@ localization.items.hu = {
         addNormalScreen: 'Normál képernyő',
         upload: 'Feltöltés',
         download: 'Letöltés',
-        addScreen: 'Új képernyő'
+        addScreen: 'Új képernyő',
+        disable: 'Letiltás'
     },
     editMode: {
         openBelt: 'Belt megjelenítése',
@@ -480,7 +509,7 @@ localization.items.hu = {
         },
         initScript: {
         	header: 'Inicializáló szkript súgó',
-            text: 'Inicializáló szkriptek megadására szolgál a program indulásakor, például saját változók hozhatók létre segítségével.'
+            text: 'Inicializáló szkript-ek megadására szolgál a program indulásakor, például saját változók hozhatók létre segítségével.'
         },
         settings: {
         	header: 'Beállítások ablak súgó',
@@ -580,12 +609,12 @@ localization.items.hu = {
             content: "A kamera kép fidget megjeleníti az IP kamera képét.<h5>Forrás</h5>Az érték tulajdonság beállítása után a kép megjelenik a fidgeten.<h5>Authentikáció</h5>Amennyiben a kamera képe jelszóval védett, kérjük adja meg a felhasználónév / jelszó páros a felugró ablakban."
         },
         userMode: {
-            header: 'User mode',
-            content: 'With user mode, you can restrict the usage of your FG screens. <h5>Password</h5>You can setup the password for the administrator mode. The default value is: \"admin\"'
+            header: 'Felhasználó mód',
+            content: 'Itt lehet korlátozni a FlexGui képernyők elérését. <h5>Jelszó</h5>Be lehet állítani egy jelszót az adminisztrátor módhoz. Az alapértelmezett jelszó: \"admin\"'
         },
         timers: {
-            header: 'Timers',
-            content: 'With timers you can manage the used timeouts and intervals. Check <b>repeat</b> to create an interval. An interval will run as long as the repeat is checked or the timeout is stopped. The minimum delay of a timeout is 30ms.'
+            header: 'Időzítők',
+            content: 'Időzítőkkel késleltetéseket és ismételt időintervallumokat lehet beállítani. Az <b>ismétlés</b> kijelölésével lehet intervallumot beállítani. Az intervallum folyamatosan ismétli magát addig, amíg a gomb ki van pipálva, vagy az időzítő nincs kézzel megállítva. Az időzítő minimum ideje 30 millisec.'
         }
     },
     login: {
@@ -599,8 +628,7 @@ localization.items.hu = {
         logoutSuccess: 'Sikeres kijelentkezés'
     },
     demo: {
-        callError: 'Demó módban nem lehet hívást indítani!',
-        subscribeError: 'Demó módban nem lehet változókra fel és leiratkozni!'
+        callError: 'Demó módban nem lehet hívást indítani!'
     },
     ros: {
     	connectionError: 'Hiba a szerverhez való kapcsolódás során ',
@@ -613,10 +641,10 @@ localization.items.hu = {
     	discardProject: 'Projekt elvetése',
     	communicationInitError: 'Kommunikációs hiba',
     	versionIsNotLatest: {
-    	    body: "Your project is not the latest version, do you want to update, which can cause losses in your changes or overwrite the current version?",
-    	    title: "Project version is not the latest",
-    	    overwrite: "Overwrite on server",
-    	    update: "Update mine"
+    	    body: "Ez a projekt nem a legfrissebb verziójú FlexGui-val lett elmentve. Szeretné a projektet frissíteni, aminek során esetleges változtatások vagy felülírások történhetnek a projektben?",
+    	    title: "A projekt verziója nem a legfrissebb",
+    	    overwrite: "Írja felül a szerveren",
+    	    update: "Frissítse a lokális verziót"
     	},
         interfaces: {
             type: 'Típus',
@@ -640,7 +668,7 @@ localization.items.hu = {
         createNew: "Új létrehozása",
         reconnect: "Újrakapcsolódás",
         zeroConnection: "Nincsenek direkt kapcsolatok...",
-        nameLocked: "The name is received from the connected FlexGui, cannot be changed"
+        nameLocked: "A név a csatlakozott FlexGui-tól származik, nem lehet megváltoztatni"
     },
     images: {
         title: 'Kép böngésző',
@@ -676,5 +704,76 @@ localization.items.hu = {
                 numbers: []
             }
         }
+    },
+    diagnostics: {
+        cancel: "Mégse",
+        close: "Bezárás",
+        save: "Mentés",
+        editTest: "Teszt szerkesztése",
+        newtest: "Új teszt",
+        userDefineCheck: "Saját szkript-et szeretnék írni",
+        name: "Név",
+        script: "Szkript",
+        params: "Paraméterek",
+        selected: "Kiválasztott",
+        tests: {
+            stressTest: {
+                name: "Igénybevétel tesztje",
+                description: "A kiválasztott szolgáltatást meghívja N-szer",
+                params: {
+                    n: { description: 'A szolgáltatást meghívja N-szer' },
+                    servicePath: { description: 'Szolgáltatás útja, pl.: /rosapi/publishers' },
+                    params: { description: 'Szolgáltatás paraméterei JSON formátumban, pl.: {"paramName": "value"}' },
+                    limit: { desciption: 'A teszt sikeres, ha a maximális visszajelzés ideje kisebb, mint a beállított limit.' }
+                }
+            },
+            getTopicRespTime: {
+                name: "ROS topikok visszajelzési ideje",
+                description: "Lefuttatja a rosapi/topics szolgáltatást és leméri a kérés és visszajelzés között eltelt időt.",
+                params: {
+                    limit: { desciption: 'A teszt sikeres, ha a maximális visszajelzés ideje kisebb, mint a beállított limit.' }
+                },
+            },
+            getServiceRespTime: {
+                name: "ROS services response time",
+                description: "Runs the rosapi/services service and measures the time between the request and the response.",
+                params: {
+                    limit: { desciption: 'The max response time should be lower then the given limit.' }
+                }
+            },
+            topicUpdateRate: {
+                name: "Topic frissítési ráta",
+                description: "Kiszámolja az átlagos frissítési idejét a választott csomópont topikjainak",
+                params: {
+                    nodeName: { description: 'A tesztelt csomópont neve, pl.: FlexGuiNode' },
+                    timeout: { description: 'A mérés hossza másodpercekben megadva' },
+                    limit: { desciption: 'A teszt sikeres, ha a frissítés ideje kisebb, mint a beállított limit.' }
+                }
+            },
+            offlineTopics: {
+                name: "Offline topikok",
+                description: "Lekérdezi az offline topikjait a kiválasztott csomópontnak",
+                params: {
+                    nodeName: { description: 'A tesztelt csomópont neve, pl.: FlexGuiNode' }
+                }
+            },
+            serviceCallRespTime: {
+                name: 'Szolgáltatás visszajelzésének ideje',
+                description: "Meghívja a kiválasztott szolgáltatást és leméri a kérés és visszajelzés idejét millisec-ben mérve.",
+                params: {
+                    servicePath: { description: 'Szolgáltatás útvonala, pl.: /rosapi/publishers' },
+                    params: { description: 'Szolgáltatás paraméterei JSON formátumban, pl.: {"paramName": "value"}' },
+                    limit: { desciption: 'A teszt sikeres, ha a maximális visszajelzés ideje kisebb, mint a beállított limit.' }
+                }
+            },
+            rosConnection: {
+                name: 'ROS kapcsolat',
+                description: "ROS kapcsolódás ellenőrzése",
+                params: {
+                    limit: { desciption: 'A maximum válaszidőnek az érték alatt kell maradnia (ms).' }
+                }
+            }
+        },
+        resultTitle: "Diagnosztika eredményei",
     }
 }

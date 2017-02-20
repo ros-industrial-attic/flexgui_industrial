@@ -26,7 +26,7 @@
         <div style="text-align: center;" title="{{screen.properties.name}}">{{screen.properties.name}}</div>
     </div>
     <!--New screen-->
-    <div class="screenBeltItem" ng-click="project.showAddScreen(true)" ng-if="editHandler.isEditAvailable()">
+    <div class="screenBeltItem" ng-click="project.showAddScreen(true)" ng-if="editHandler.isEditAvailable() && project.loaded">
         <div class="screen addScreen">+</div>
         <span>{{localization.currentLocal.buttons.addScreen}}</span>
     </div>

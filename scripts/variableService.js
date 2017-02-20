@@ -31,31 +31,31 @@ function variableService() {
         fitRect: function (rw, rh, radians) {
             radians = [null, undefined, "undefined", "NaN"].indexOf(radians) > -1 ? 0 : radians;
 
-            var x1 = -rw/2,
-                x2 = rw/2,
-                x3 = rw/2,
-                x4 = -rw/2,
-                y1 = rh/2,
-                y2 = rh/2,
-                y3 = -rh/2,
-                y4 = -rh/2;
+            var x1 = -rw / 2,
+                x2 = rw / 2,
+                x3 = rw / 2,
+                x4 = -rw / 2,
+                y1 = rh / 2,
+                y2 = rh / 2,
+                y3 = -rh / 2,
+                y4 = -rh / 2;
 
             var x11 = x1 * Math.cos(radians) + y1 * Math.sin(radians),
                 y11 = -x1 * Math.sin(radians) + y1 * Math.cos(radians),
                 x21 = x2 * Math.cos(radians) + y2 * Math.sin(radians),
-                y21 = -x2 * Math.sin(radians) + y2 * Math.cos(radians), 
+                y21 = -x2 * Math.sin(radians) + y2 * Math.cos(radians),
                 x31 = x3 * Math.cos(radians) + y3 * Math.sin(radians),
                 y31 = -x3 * Math.sin(radians) + y3 * Math.cos(radians),
                 x41 = x4 * Math.cos(radians) + y4 * Math.sin(radians),
                 y41 = -x4 * Math.sin(radians) + y4 * Math.cos(radians);
 
-            var x_min = Math.min(x11,x21,x31,x41),
-                x_max = Math.max(x11,x21,x31,x41);
+            var x_min = Math.min(x11, x21, x31, x41),
+                x_max = Math.max(x11, x21, x31, x41);
 
-            var y_min = Math.min(y11,y21,y31,y41);
-            y_max = Math.max(y11,y21,y31,y41);
+            var y_min = Math.min(y11, y21, y31, y41);
+            y_max = Math.max(y11, y21, y31, y41);
 
-            return { width: parseInt(x_max - x_min), height: parseInt(y_max - y_min )};
+            return { width: parseInt(x_max - x_min), height: parseInt(y_max - y_min) };
         }
 
     };
@@ -63,7 +63,24 @@ function variableService() {
     // Friendly name based hash
     vars.friendlyCache = {};
     vars.unavailableFriendlyCache = [];
+    vars.userDefined = {};
+    
+    //check if friednly name is valid or not
+    vars.isFriendlyNameValid = function (name) {
+        return Object.keys(vars.friendlyCache).indexOf(name) == -1;
+    }
 
+    //remove a friendly name
+    vars.removeFriendlyName = function (name) {
+        delete vars.friendlyCache[name];
+    }
+
+    //add a new friendly name to the cache
+    vars.addFriendlyName = function (name, object) {
+        vars.friendlyCache[name] = object;
+    }
+
+    //get a friendly variable
     vars.getFriedlyVariable = function (name) {
         if (Object.keys(vars.friendlyCache).indexOf(name) !== -1) {
             var index = vars.unavailableFriendlyCache.indexOf(name);
@@ -76,7 +93,7 @@ function variableService() {
         }
 
         var index = vars.unavailableFriendlyCache.indexOf(name);
-        if (index === -1) {
+        if (index === -1) { 
             vars.unavailableFriendlyCache.push(name);
         }
     }
@@ -95,6 +112,67 @@ function variableService() {
     vars.demo.part1 = "data:image/jpeg;base64,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";
     vars.demo.part2 = "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABALDA4MChAODQ4SERATGCgaGBYWGDEjJR0oOjM9PDkzODdASFxOQERXRTc4UG1RV19iZ2hnPk1xeXBkeFxlZ2P/2wBDARESEhgVGC8aGi9jQjhCY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2P/wAARCABhAGMDASIAAhEBAxEB/8QAGwABAAIDAQEAAAAAAAAAAAAAAAECAwQGBQf/xAA2EAACAQMCAwYDBAsAAAAAAAAAAQIDBBEFMRIhURMUIkFhkQaBsTJSoeEVJVNiY3Fyc8HR8f/EABYBAQEBAAAAAAAAAAAAAAAAAAABAv/EABoRAQEAAwEBAAAAAAAAAAAAAAABAhExIRL/2gAMAwEAAhEDEQA/APoAAAAAAAAAIGV1AkAAAAAAAAAAAAAAAEGnPULSE4wlXgpSbS8XmvLPluhqiXcajfkjl9USp04T24bmplfywyZXUWTddpkkwWs3UtaM3u4Rb9jMVEgAAAAAIAEggASCBldQNPU05WFVLfC+pzHxBB91ucS+zccl/UvyOl1Wp2en1JJ88pL3Ob1yK7lcTUvtKnUe2HyxkxlxrHrqdPf6vtv7cfojZ6nm/D9dV9Ds5/w0vbkejlc+ZqcZvVgRkZXVFEgjK6gBldSMrqefqcJ1KcVxwjDKzxSazl+noea4Vlw8dzSXFN7TbXLKWflgDoO0p5xxxznG/mVVxQcVJVqbi9mpI8KpbNU5ccqLfC+SlU/AyRsFKSlKpSUmt05N+7yRfHo1NSs4tpV4ya54i8/kaVbXqMG1CjKaXT/jK9xlxYVemnjp+RNG0qwckrqgm3uoRz9CerNPO1D4hlX4qMbOalTlu3546NdTRv5zv6i7GhUpUmo00qlOTePXGdtz16ttdQuK0I38aUFPjXk8vLbNWUbhtr9Ncl++Yy+q1NRp6Zea5Y0ZUqdjVq0+LMeOm+S6I2Jaxr8mmrCpDMtlSlhL15f6EoUlF9rqtTPnwxT/AMmJ07XEX3i7njGHGkly3wvT19BNwuqxT1rWOKLlCtF8Lms8vC/PZGOlqOq1nFqvOGFjx1cLD2znC+e/Uwq3pZoSlG6fCmq3PDfJbPpn3Kwt4KdOatq7UF4oSqLntg16zdOzsL9zs6crqcY1sNTVOcZRzndP13Bz1j8Md6s6dedzVpOefA1tzYNMu0aTWGhwr7q9iwKK4GCwAp2cfuR9jG7Si5cXZrPUzgDUlY2823Kknnd8y0bK3isRpJfNmwAMPdaP7OPsS6NNqWaUHxb+FczKCCihFZxFc/Qtj0LAoqkksY/AFgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAf//Z";
     vars.demo.part3 = "data:image/jpeg;base64,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";
+
+    var keys = {};
+    var propertyCount = 0;
+    vars.getProperties = function (obj, current, prefix, currentKey, onSave) {
+        if (typeof obj === "string" || !obj) return;
+
+        //get properties of obj
+        angular.forEach(Object.getOwnPropertyNames(obj), function (key) {
+            if (typeof obj[key] === "function") return;
+
+            //create property string
+            if ($.isArray(obj)) {
+                var propString = current + "[" + key + "]";
+            } else {
+                var propString = current + "['" + key + "']";
+                //var propString = current + (current == "" ? "" : ".") + key;
+            }
+
+            var item = { path: prefix + propString, value: obj[key], children: [], name: key };
+            if (obj[key] !== null && typeof obj[key] === 'object') {
+                vars.getProperties(obj[key], propString, prefix, item, onSave);
+            }
+
+            if (item.children.length != 0) {
+                delete item.value;
+            } else {
+                item.onSave = onSave;
+            }
+
+            currentKey.children.push(item);
+            propertyCount++;
+        });
+    }
+
+    //get available variables
+    vars.getVariables = function (objs) {
+        keys = { path: "", children: [], name: 'root' };
+        propertyCount = 0;
+
+        var userDefined = { path: "userDefined", children: [], name: 'User defined variables' };
+        var friendly = { path: "friendlyCache", children: [], name: 'Friendly cache' };
+
+        vars.getProperties(vars.userDefined, "", "variableService.userDefined", userDefined);
+        vars.getProperties(vars.friendlyCache, "", "variableService.friendlyCache", friendly);
+
+        keys.children.push(userDefined);
+        keys.children.push(friendly);
+
+        //get keys from the extensions
+        if (objs) {
+            angular.forEach(objs, function (o) {
+                var item = { path: o.key, children: [], name: o.name };
+                vars.getProperties(o.value, "", o.key, item, o.onSave);
+                keys.children.push(item);
+            });
+        }
+
+        keys.propertyCount = propertyCount - keys.children.length - 1;
+
+        return keys;
+    }
 
     return vars;
 }

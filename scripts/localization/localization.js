@@ -43,7 +43,7 @@ var localization = {
 
     },
 
-    keyStrings: { en: [], hu: [], de: [] }, diff: [],
+    keyStrings: { en: [], hu: [], de: [], ko: [], it: [] }, diff: [],
     getProperties: function(obj, current, lang) {
 
         if (typeof obj === "string" || !obj) return;
@@ -69,7 +69,6 @@ var localization = {
             var i = "localization.items.en." + p;
             if (typeof eval(i) === 'string')
                 items += p + "; " + eval(i) + "\r\n";
-                //console.log(p + "; " + eval(i));
         });
 
         console.log(items);
@@ -80,6 +79,7 @@ var localization = {
         localization.getProperties(localization.items.de, "", "de");
         localization.getProperties(localization.items.hu, "", "hu");
         localization.getProperties(localization.items.ko, "", "ko");
+        localization.getProperties(localization.items.it, "", "it");
 
         function arr_diff(a1, a2) {
             var a = [], diff = [];
@@ -102,8 +102,10 @@ var localization = {
             return diff;
         };
 
-        console.log("Missing from de: ", arr_diff(keyStrings.en, keyStrings.de));
-        console.log("Missing from hu: ", arr_diff(keyStrings.en, keyStrings.hu));
+        console.log("Missing from de: ", arr_diff(localization.keyStrings.en, localization.keyStrings.de));
+        console.log("Missing from hu: ", arr_diff(localization.keyStrings.en, localization.keyStrings.hu));
+        console.log("Missing from ko: ", arr_diff(localization.keyStrings.en, localization.keyStrings.it));
+        console.log("Missing from it: ", arr_diff(localization.keyStrings.en, localization.keyStrings.ko));
     }
 }
 

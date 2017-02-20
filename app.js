@@ -126,6 +126,7 @@ angular.module("flexGuiApp", ["ngCookies", "ngRoute", 'ngSanitize', "ui.bootstra
 .controller('flexGuiCtrl', flexGuiCtrl)
 .controller('propertiesWindowCtrl', propertiesWindowCtrl)
 .controller('fidgetCtrl', fidgetCtrl)
+.controller('fidgetGroupCtrl', fidgetGroupCtrl)
 .factory('backgroundService', backgroundService)
 .factory('editorService', editorService)
 .factory('deviceService', deviceService)
@@ -144,6 +145,8 @@ angular.module("flexGuiApp", ["ngCookies", "ngRoute", 'ngSanitize', "ui.bootstra
 .factory('colorPickerService', colorPickerService)
 .factory('projectConversionService', projectConversionService)
 .factory('projectStorageService', projectStorageService)
+.factory('diagnosticsService', diagnosticsService)
+.factory('backupService', backupService)
 .run(run);
 
 ngFileSelect.$inject = ['$parse', 'projectWindowService'];
@@ -163,15 +166,15 @@ function ngFileSelect($parse, projectWindowService) {
     return directiveDefinitionObject;
 }
 
-run.$inject = ['$rootScope', '$templateCache', '$location', '$timeout', 'settingsWindowService', 'projectService', 'variableService', 'deviceService'];
-function run($rootScope, $templateCache, $location, $timeout, settingsWindowService, projectService, variableService, deviceService) {
+run.$inject = ['$rootScope', '$templateCache', '$location', '$timeout', 'settingsWindowService', 'projectService', 'variableService', 'deviceService', 'popupService'];
+function run($rootScope, $templateCache, $location, $timeout, settingsWindowService, projectService, variableService, deviceService, popupService) {
 
     if (!$rootScope.settingsTabs) $rootScope.settingsTabs = [];
 
     $rootScope.mirrorMode = {};
     $rootScope.addonServerUrl = "";
     $rootScope.currentUserId = "user_" + variableService.guid();
-    projectService.appVersion = "1.9.4";
+    projectService.appVersion = "1.9.7";
 
     //set ROS address with query string
     var queryString = $location.search();
@@ -197,10 +200,8 @@ function run($rootScope, $templateCache, $location, $timeout, settingsWindowServ
 
         settingsWindowService.demoMode = false;
     }
-
     //location setup
     $rootScope.startPage = $location.path().substring(1);
-
     $rootScope.$on('$routeChangeStart', function (event, next, current) {
         if (typeof (current) !== 'undefined') {
             $templateCache.remove(current.templateUrl);

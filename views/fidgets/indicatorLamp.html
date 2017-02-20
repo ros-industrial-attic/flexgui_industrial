@@ -38,15 +38,15 @@
     <style ng-if="fidget.properties.blinking == true">
         #{{fidget.id}} .blink_me {
             -webkit-animation-name: blinker;
-            -webkit-animation-duration: {{fidget.properties.blinkPeriod}}s;
+            -webkit-animation-duration: {{1 / fidget.properties.blinkFrequency}}s;
             -webkit-animation-timing-function: linear;
             -webkit-animation-iteration-count: infinite;
         }
 
         @-webkit-keyframes blinker {  
-            0% { opacity: {{fidget.properties.blinkPeriod}}; }
+            0% { opacity: {{1 / fidget.properties.blinkFrequency}}; }
             50% { opacity: 0.0; }
-            100% { opacity: {{fidget.properties.blinkPeriod}}; }
+            100% { opacity: {{1 / fidget.properties.blinkFrequency}}; }
         }
     </style>
 
@@ -59,3 +59,4 @@
     <div style="height: {{size}}px; line-height: {{size}}px; padding-left: {{size + 5}}px; color: {{fidget.properties.fontColor}}; white-space: nowrap;" ng-bind-html="fidget.properties.text">
     </div>
 </div>
+
