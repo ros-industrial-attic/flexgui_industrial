@@ -1,91 +1,56 @@
-﻿<!--
- * Software License Agreement (Apache License)
- *
- * Copyright (c) 2016, PPM AS
- * Contact: laszlo.nagy@ppmas.no
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License. 
- -->
-
-<ng-include src="'views/helpIcon.html'" class="floatRight" ng-init="help = helpMessages.settings.diagnostics" ng-if="helpMessages.show"></ng-include>
-
-<h3>
-    Test sequence
-</h3>
-
-<style>
-    .sequence .testAction{
-        cursor: pointer; 
-        width: 20px; 
-        height: 20px;
-        line-height: 20px;
-        font-size: 18px;
-        margin: 0 5px;
-    }
-
-    .sequence .testAction.disabled{
-        opacity: 0.5;
-        pointer-events: none;
-    }
-</style>
-
-<table style="width: 100%" class="sequenceHeader">
-    <tr>
-        <th style="width:60px;">
-            {{localization.currentLocal.diagnostics.selected}}
-        </th>
-        <th style="width: 200px;">
-            {{localization.currentLocal.diagnostics.name}}
-        </th>
-        <th>
-            {{localization.currentLocal.diagnostics.params}}
-        </th>
-        <th style="width:140px;">
-        </th>
-    </tr>
+﻿<table class="diagnostics">
+    <thead>
+        <tr>
+            <th>
+                {{localization.currentLocal.diagnostics.selected}}
+            </th>
+            <th>
+                {{localization.currentLocal.diagnostics.name}}
+            </th>
+            <th>
+                {{localization.currentLocal.diagnostics.params}}
+            </th>
+            <th>
+            </th>
+        </tr>
+    </thead>
 </table>
 
 <perfect-scrollbar class="scroller interfaceRepeaterScrollBar scrollTop perfectScrollBar" show-perfect-scroll-bar style="height: 600px;">
-    <div ng-if="!project.testSequence || project.testSequence.length == 0">0 tests defined</div>
-    <table style="width: 100%" class="sequence">
-        <tr ng-repeat="test in project.testSequence track by test.id" class="diagnosticItem">
-            <td style="width:60px; text-align: center;">
-                <div class="checkbox">
-                    <input type="checkbox" ng-model="test.selected" id="selected_{{test.id}}">
-                    <label for="selected_{{test.id}}"></label>
-                </div>
-            </td>
-            <td style="width: 200px;">
-                <b ng-if="!test.isUserDefined">{{localization.currentLocal.diagnostics.tests[test.name].name}}</b>
-                <b ng-if="test.isUserDefined">{{test.name}}</b>
-            </td>
-            <td>
-                <span ng-if="!test.isUserDefined">{{test.params}}</span>
-            </td>
-            <td style="width:140px;">
-                <span class="testAction glyphicon glyphicon-remove" ng-click="diagnostics.removeTestItem(test)"></span>
-                <span ng-class="{'disabled': test == project.testSequence[0] }" ng-click="diagnostics.move(test, -1)" class="testAction glyphicon glyphicon-chevron-up"></span>
-                <span ng-class="{'disabled': test == project.testSequence[project.testSequence.length - 1] }" ng-click="testActiondiagnostics.move(test, 1)" class="testAction glyphicon glyphicon-chevron-down"></span>
-                <span class="testAction glyphicon glyphicon-pencil" ng-click="diagnostics.editTestItem(test)"></span>
-            </td>
-        </tr>
+    <table class="diagnostics table-striped">
+        <tbody>
+            <tr class="diagnosticItem" ng-if="!project.testSequence || project.testSequence.length == 0">
+                <td colspan="4">0 tests defined</td>
+            </tr>
+            <tr ng-repeat="test in project.testSequence track by test.id" class="diagnosticItem">
+                <td>
+                    <div class="checkbox">
+                        <input type="checkbox" ng-model="test.selected" id="selected_{{test.id}}">
+                        <label for="selected_{{test.id}}"></label>
+                    </div>
+                </td>
+                <td>
+                    <span ng-if="!test.isUserDefined">{{localization.currentLocal.diagnostics.tests[test.name].name}}</span>
+                    <span ng-if="test.isUserDefined">{{test.name}}</span>
+                </td>
+                <td>
+                    <span ng-if="!test.isUserDefined">{{test.params}}</span>
+                </td>
+                <td>
+                    <span class="testAction glyphicon glyphicon-remove" ng-click="diagnostics.removeTestItem(test)"></span>
+                    <span ng-class="{'disabled': test == project.testSequence[0] }" ng-click="diagnostics.move(test, -1)" class="testAction glyphicon glyphicon-chevron-up"></span>
+                    <span ng-class="{'disabled': test == project.testSequence[project.testSequence.length - 1] }" ng-click="testActiondiagnostics.move(test, 1)" class="testAction glyphicon glyphicon-chevron-down"></span>
+                    <span class="testAction glyphicon glyphicon-pencil" ng-click="diagnostics.editTestItem(test)"></span>
+                </td>
+            </tr>
+        </tbody>
     </table>
 </perfect-scrollbar>
 
-<div style="margin-top: 15px; width: 100%; text-align: left;">
-    <button style="width: 150px" ng-click="diagnostics.addTestItem()" class="btn btn-default">Add new</button>
-    <button style="width: 150px" ng-click="diagnostics.selectAll()" class="btn btn-default">Select all</button>
-    <button style="width: 150px" class="btn btn-success" ng-click="diagnostics.setResultVisible(true);" ng-disabled="project.testSequence.length == 0">Run test</button>
+<div class="diagnosticsButtons">
+    <button ng-click="diagnostics.addTestItem()" class="btn btn-default btn-100">Add new</button>
+    <button ng-click="diagnostics.selectAll()" class="btn btn-default btn-100">Select all</button>
+    <button class="btn btn-default btn-100" ng-click="diagnostics.setResultVisible(true);" ng-disabled="project.testSequence.length == 0">Run test</button>
 </div>
 
 

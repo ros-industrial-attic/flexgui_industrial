@@ -50,14 +50,14 @@
                 <!-- Nav tabs -->
                 <div class="tab-pane active">
                     <h3 style="margin-top: 0px;">{{settings.currentTab.title}}</h3>
-
+                    <ng-include src="'views/helpIcon.html'" class="floatRight settingsHelpIcon" ng-init="help = settings.currentTab.help" ng-if="settings.currentTab.help && helpMessages.show"></ng-include>
                     <ng-include src="toTrustedUrl(settings.currentTab.source)"></ng-include>
                 </div>
             </div>
 
             <div class="modal-footer">
-                <button autofocus type="button" ng-repeat="button in extraButtonsForSettingsWindow" class="btn {{button.type}}" ng-click="button.action()"><span ng-bind-html="button.title"></span></button>
-                <button type="button" class="btn btn-default" ng-disabled="device.hasDupes()" ng-click="settings.setVisible(false)">{{localization.currentLocal.buttons.close}}</button>
+                <button autofocus type="button" ng-repeat="button in extraButtonsForSettingsWindow" class="btn {{button.type}} btn-100" ng-click="button.action()"><span ng-bind-html="button.title"></span></button>
+                <button type="button" class="btn btn-default btn-100" ng-disabled="device.hasDupes()" ng-click="settings.setVisible(false)">{{localization.currentLocal.buttons.close}}</button>
             </div>
         </div>
     </div>

@@ -22,16 +22,20 @@
     <label for="backupEnabled">{{localization.currentLocal.settings.tabs.backup.enableBackup}}</label>
 </div>
 
-<table style="width: 100%;">
+<table class="backups">
     <tr>
-        <th>{{localization.currentLocal.settings.tabs.backup.date}}</th>
-        <th>{{localization.currentLocal.settings.tabs.backup.size}}</th>
-        <th></th>
+        <td style="width: 200px;">{{localization.currentLocal.settings.tabs.backup.date}}</td>
+        <td style="width: 100px; text-align: left;">{{localization.currentLocal.settings.tabs.backup.size}}</td>
+        <td>&nbsp;</td>
     </tr>
+</table>
 
-    <tr ng-repeat="item in backup.list track by $index" style="margin: 3px;">
-        <td><time datetime="{{::(item.date * 1000 | date:'yyyy-MM-dd HH:mm')}}" class="unselectable">{{backup.timeago(item.date)}}</time></td>
-        <td>{{item.size / 1000}}kB</td>
-        <td><button type="button" class="btn btn-default" ng-click="backup.restore(item)">{{localization.currentLocal.settings.tabs.backup.restore}}</button></td>
-    </tr>
+<table class="backups table-striped">
+    <tbody>
+        <tr ng-repeat="item in backup.list track by $index" style="">
+            <td><time datetime="{{::(item.date * 1000 | date:'yyyy-MM-dd HH:mm')}}" class="unselectable">{{backup.timeago(item.date)}}</time></td>
+            <td>{{item.size / 1000}}kB</td>
+            <td><button type="button" class="btn btn-default btn-100" ng-click="backup.restore(item)">{{localization.currentLocal.settings.tabs.backup.restore}}</button></td>
+        </tr>
+    </tbody>
 </table>

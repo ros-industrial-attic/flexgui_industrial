@@ -19,6 +19,10 @@ body {
     font-size: 12px;
 }
 
+label {
+    font-weight: 100 !important;
+}
+
 .radio, .checkbox {
     margin: 0px !important;
 }
@@ -32,7 +36,7 @@ body {
 }
 
 .editBelt .stick {
-    background-color: rgba(30,30,30, 0.2);
+    border-left-width: 4px;
 }
 
 h4 {
@@ -50,17 +54,9 @@ h4 {
     z-index: 0;
 }
 
-.fidgetTemplate, .fidgetHelp {
+.fidgetHelp {
     padding-top: 10px;
 }
-
-    .fidgetTemplate p, .fidgetHelp p {
-        margin: 10px 0 0 0;
-    }
-
-    .fidgetTemplate > span, .fidgetHelp > span {
-        margin-top: 5px;
-    }
 
 .fidget .clickable {
     cursor: pointer;
@@ -69,7 +65,6 @@ h4 {
 .fidgetTemplate, .editBelt .editActions, .fidgetHelp {
     font-size: 15px;
     text-align: center;
-    margin: 0 5px 0 5px;
     padding-bottom: 15px;
 }
 
@@ -77,21 +72,34 @@ h4 {
     pointer-events: none;
 }
 
-    .editBelt .disabled img {
-        opacity: 0.5;
-    }
-
-.fidgetTemplate .remoteView {
-    width: 100px !important;
-    height: 80px !important;
-    top: 0px !important;
-    left: 0px !important;
-    margin-top: -40px;
+.editBelt .disabled {
+    opacity: 0.3;
 }
 
-    .fidgetTemplate .remoteView .toolbar {
-        display: none;
+.editBelt .editActions {
+    background-repeat: no-repeat;
+    background-position: center center;
+    padding-top: 90px;
+}
+
+.fidgetTemplate {
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: 100%;
+    padding-top: 90px;
+}
+
+    .fidgetTemplate .remoteView {
+        width: 100px !important;
+        height: 80px !important;
+        top: 0px !important;
+        left: 0px !important;
+        margin-top: -40px;
     }
+
+        .fidgetTemplate .remoteView .toolbar {
+            display: none;
+        }
 
 .fullgaugeTemplate > div {
     margin-left: 15px !important;
@@ -107,15 +115,25 @@ h4 {
     height: 60px;
 }
 
-.screenBeltItem {
-    min-height: 90px;
-    margin: 2px;
-    margin-bottom: 15px;
+.fidgetHelp {
+    border-width: 1px 0 1px 4px;
+    border-style: solid;
+    border-left-color: transparent;
+    border-top-color: #6a7181;
+    border-bottom-color: #373b3e;
+}
+
+.screenBeltItem, .editActions, .fidgetTemplate {
+    height: 120px;
+    padding: 5px;
     text-align: center;
     position: relative;
-    border-width: 3px;
+    border-width: 1px 4px 1px 4px;
     border-style: solid;
-    border-color: transparent;
+    border-left-color: transparent;
+    border-top-color: #6a7181;
+    border-bottom-color: #373b3e;
+    border-right-color: transparent;
 }
 
     .screenBeltItem > div {
@@ -124,24 +142,26 @@ h4 {
         top: 2px;
         bottom: 0;
         overflow: hidden;
+        text-align: center;
+        white-space: nowrap;
     }
 
-        .screenBeltItem > div > div {
-            transform-origin: 0% 0%;
-            position: relative;
-            left: 0;
-            top: 0;
-            pointer-events: none;
-        }
-
-    .screenBeltItem > span {
-        bottom: 0;
-        left: 0;
-        right: 0;
+    .screenBeltItem img {
+        height: 85px;
+        width: 100%;
     }
 
-.progress-bar {
+.fidgetTemplate {
+    padding-top: 90px;
 }
+
+    .fidgetTemplate p, .fidgetHelp p {
+        margin: 10px 0 0 0;
+    }
+
+    .fidgetTemplate > span, .fidgetHelp > span {
+        margin-top: 5px;
+    }
 
 .progress-bar-percent {
     display: table;
@@ -165,7 +185,6 @@ h4 {
 .belt {
     position: fixed;
     top: 0px;
-    padding-top: 10px;
     overflow: scroll;
     overflow-y: scroll;
     overflow-x: hidden;
@@ -318,16 +337,16 @@ input[type=checkbox] {
         border-radius: 20px;
         color: rgba(0,0,0,0.6);
         font-size: 40px;
+        background-size: 100%;
+        margin-top: 5px;
+        background-position: center center;
+        background-repeat: no-repeat;
     }
 
-.helpIconScreenBelt {
+.helpIconFidgetBelt, .helpIconScreenBelt {
     width: 100%;
-}
-
-.helpIconFidgetBelt {
-    width: 100%;
-    margin-bottom: 15px;
     display: block;
+    margin-left: -4px;
 }
 
 .floatRight {
@@ -458,7 +477,11 @@ textarea.propertiesScriptTextArea {
     width: 100%;
 }
 
-.variableRepeaterScrollBar{
+    .topicDetailsRepeaterScrollBar > div {
+        width: 100%;
+    }
+
+.variableRepeaterScrollBar {
     min-height: 500px;
 }
 
@@ -556,12 +579,12 @@ textarea.propertiesScriptTextArea {
     left: 0;
 }
 
-.button-33{
+.button-33 {
     width: 33.33333% !important;
 }
 
-.button-66{
-   width: 66.66666% !important;
+.button-66 {
+    width: 66.66666% !important;
 }
 
 .form-control-66 {
@@ -657,6 +680,93 @@ textarea.propertiesScriptTextArea {
     min-height: 500px;
 }
 
+    #settingsDialog .tab-content table {
+        width: 100%;
+    }
+
+        #settingsDialog .tab-content table.backups tr, #settingsDialog .tab-content table.files tr {
+            margin: 3px;
+            height: 40px;
+        }
+
+        #settingsDialog .tab-content table.backups td:nth-child(1) {
+            width: 200px;
+        }
+
+        #settingsDialog .tab-content table.backups td:nth-child(2) {
+            width: 100px;
+            text-align: left;
+        }
+
+        #settingsDialog .tab-content table.backups td:nth-child(3) {
+            text-align: right;
+            padding-right: 5px;
+        }
+
+        #settingsDialog .tab-content table.diagnostics tr {
+            margin: 3px;
+        }
+
+        #settingsDialog .tab-content table.diagnostics th:nth-child(1), #settingsDialog .tab-content table.diagnostics td:nth-child(1) {
+            width: 100px;
+        }
+
+        #settingsDialog .tab-content table.diagnostics th:nth-child(2), #settingsDialog .tab-content table.diagnostics td:nth-child(2) {
+            width: 200px;
+        }
+
+        #settingsDialog .tab-content table.diagnostics th:nth-child(4), #settingsDialog .tab-content table.diagnostics td:nth-child(4) {
+            width: 140px;
+        }
+
+#editTestItemWindow .modal-dialog {
+    max-width: 80%;
+    width: 800px;
+}
+
+#editTestItemWindow .testItemEditorHelp {
+    margin-top: -40px;
+}
+
+.predefinedTestSelector {
+    width: 100%;
+    height: calc(100% - 60px);
+}
+
+.diagnosticsButtons {
+    margin-top: 15px;
+    width: 100%;
+    text-align: left;
+}
+
+.remainingTrial {
+    margin-bottom: 0px;
+    width: 100%;
+    height: 40px;
+}
+
+    .remainingTrial > div {
+        background-color: red;
+    }
+
+.screenScaleContainer {
+    width: 100%;
+}
+
+.diagnostics .testAction {
+    cursor: pointer;
+    width: 20px;
+    height: 20px;
+    line-height: 20px;
+    font-size: 18px;
+    margin: 0 5px;
+}
+
+    .diagnostics .testAction.disabled {
+        opacity: 0.5;
+        pointer-events: none;
+    }
+
 .editSwitch {
     position: fixed;
     bottom: 0;
@@ -668,6 +778,13 @@ textarea.propertiesScriptTextArea {
     cursor: pointer;
 }
 
+    .editSwitch > div {
+        width: 100%;
+        height: 100%;
+        background-position: center center;
+        padding-top: 80px;
+    }
+
 .editBelt {
     padding-top: 0px;
 }
@@ -677,6 +794,17 @@ textarea.propertiesScriptTextArea {
     pointer-events: none;
 }
 
+.modal-content {
+    border-radius: 0px !important;
+}
+
+.modal-header {
+    border: none !important;
+}
+
+.modal-footer {
+    border: none !important;
+}
 
 #propertiesDialog .modal-dialog {
     width: calc(100% - 40px);
@@ -709,7 +837,8 @@ textarea.propertiesScriptTextArea {
     }
 
 .modal.horizontal .tab-content {
-    padding-left: 210px;
+    margin-left: 200px;
+    padding-left: 10px;
     height: 100%;
 }
 
@@ -739,30 +868,37 @@ textarea.propertiesScriptTextArea {
     z-index: 0;
 }
 
-    .main .connectionAlert {
-        position: fixed;
-        top: 0;
+.alert {
+    margin-bottom: 0px !important;
+}
+
+.main .notificationBar {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}
+
+.main .connectionAlert, .main .offlineTopics {
+    width: 100%;
+}
+
+    .main .connectionAlert span {
+        margin-left: 15px;
+        margin-right: 15px;
     }
 
-        .main .connectionAlert span {
-            margin-left: 15px;
-            margin-right: 15px;
+        .main .connectionAlert span > a {
+            cursor: pointer;
         }
 
-    .main .offlineTopics {
-        position: fixed;
-        bottom: 0;
-        margin-bottom: 0px;
+    .main .offlineTopics ul li {
+        display: inline;
+        margin: 10px;
     }
 
-        .main .offlineTopics ul li {
-            display: inline;
-            margin: 10px;
-        }
-
-    .main:focus {
-        outline: none;
-    }
+.main:focus {
+    outline: none;
+}
 
 body .touchPointer {
     position: absolute;
@@ -896,6 +1032,10 @@ body .touchPointer {
     z-index: 1;
 }
 
+.editModeOn.notSelectable {
+    opacity: 0.5;
+}
+
 
 .editModeOn {
     pointer-events: none;
@@ -963,6 +1103,10 @@ body .touchPointer {
     width: 49%;
 }
 
+.btn-100 {
+    min-width: 150px;
+}
+
 .scrollTop {
     overflow: auto;
 }
@@ -970,11 +1114,16 @@ body .touchPointer {
 .openBelt {
     cursor: pointer;
     background: none;
-    opacity: 0.7;
+    opacity: 0.1;
+    background: none !important;
+    height: 120px;
+    width: 120px;
+    background-position: center center;
+    background-size: 100%;
 }
 
     .openBelt:hover {
-        opacity: 1;
+        opacity: 0.4;
     }
 
 .bottomRight {
@@ -1044,7 +1193,7 @@ body .touchPointer {
         position: absolute;
         top: 0;
         right: 0;
-        bottom: 0;
+        bottom: 70px;
         left: 0;
     }
 
@@ -1052,10 +1201,143 @@ body .touchPointer {
         top: 0px !important;
     }
 
-    .scriptEditor.fullscreen .editorContainer{
+    .scriptEditor.fullscreen .editorContainer {
         height: calc(100% - 80px) !important;
     }
 
-    .scriptEditor .controllers{
+    .scriptEditor .controllers {
         margin-top: 10px;
     }
+
+.editSwitch > div {
+    border-top: 4px;
+    border-color: transparent;
+    border-top-color: transparent;
+    border-style: solid;
+}
+
+.diagnosticItem {
+    height: 40px;
+}
+
+th {
+    font-weight: 100;
+}
+
+#currentScreen {
+    position: relative;
+    height: 100%;
+}
+
+#addScreenModal .modal-content, #colorPicker .modal-content {
+    min-height: 170px;
+}
+
+#addScreenModal .modal-body {
+    text-align: center;
+    min-height: 110px;
+}
+
+    #addScreenModal .modal-body button {
+        text-align: center;
+        width: 200px;
+        height: 170px;
+        padding: 20px;
+        padding-top: 120px;
+        margin: 5px;
+        background-position: center initial;
+        background-size: 100%;
+    }
+
+    #addScreenModal .modal-body img {
+        height: 160px;
+    }
+
+#colorPicker .modal-body {
+    text-align: center;
+    min-height: 110px;
+}
+
+#blockUI .modal-body {
+    text-align: center;
+}
+
+#blockUI img.loading {
+    height: 50px;
+}
+
+.color {
+    float: left;
+    padding: 2px;
+    width: 35px;
+    height: 35px;
+    margin: 3px;
+    border: 2px solid transparent;
+}
+
+    .color > div {
+        width: 100%;
+        height: 100%;
+    }
+
+
+.imageHelp {
+    margin-top: -32px;
+    margin-right: 30px;
+}
+
+.interfacesTable {
+    width: calc(100% - 15px);
+}
+
+.form-control-300 {
+    width: 300px !important;
+}
+
+.selectedNode {
+    padding-left: 0px;
+}
+
+.searchResult {
+    padding-left: 0px;
+}
+
+.moveButtons > button, .screenEditorButtons > button {
+    width: 23%;
+    white-space: nowrap;
+}
+
+.propertiesHelp {
+    margin-top: -32px;
+    margin-right: 30px;
+}
+
+.screen {
+    width: 100%;
+    height: 100%;
+}
+
+.settingsHelpIcon {
+    margin-top: -40px;
+}
+
+.scroller {
+    padding-right: 15px !important;
+}
+
+.enableAlert {
+    text-align: left;
+    margin-bottom: -34px;
+    margin-left: 20px;
+    line-height: 34px;
+    width: 100%;
+    color: red;
+}
+
+.disabledMultiProperty > *{
+    pointer-events: none;
+}
+
+*:focus {
+    outline: none;
+}

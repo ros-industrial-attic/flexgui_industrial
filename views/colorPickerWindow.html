@@ -17,15 +17,17 @@
  * limitations under the License. 
  -->
 
-<div id="colorPicker" class="modal nontransparent" data-backdrop="static"
+<div id="colorPicker" 
+     class="modal nontransparent" 
+     data-backdrop="static"
      data-keyboard="false">
     <div class="modal-dialog">
-        <div class="modal-content" style="min-height: 170px;">
-            <div class="modal-body" style="text-align: center;min-height: 110px;">
+        <div class="modal-content">
+            <div class="modal-body">
                 <ng-include src="'views/colorPicker.html'"></ng-include>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" ng-click="colorPickerHandler.showColorPicker(false)">{{localization.currentLocal.buttons.cancel}}</button>
+                <button type="button" class="btn btn-default btn-100" ng-click="colorPickerHandler.showColorPicker(false)">{{localization.currentLocal.buttons.cancel}}</button>
             </div>
         </div>
     </div>

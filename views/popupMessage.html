@@ -17,7 +17,9 @@
  * limitations under the License. 
  -->
 
-<div class="modal nontransparent" id="popupMessageDialog" data-backdrop="static"
+<div class="modal nontransparent" 
+     id="popupMessageDialog" 
+     data-backdrop="static"
      data-keyboard="false">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -32,8 +34,8 @@
                 <span class="text-large" ng-bind-html="popup.last().text"></span>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-danger" ng-click="popup.closeAll()">{{localization.currentLocal.buttons.closeAll}}</button>
-                <button type="button" class="btn btn-default" ng-click="popup.close()">{{localization.currentLocal.buttons.close}}</button>
+                <button type="button" class="btn btn-danger btn-100" ng-click="popup.closeAll()">{{localization.currentLocal.buttons.closeAll}}</button>
+                <button type="button" class="btn btn-default btn-100" ng-click="popup.close()">{{localization.currentLocal.buttons.close}}</button>
             </div>
         </div>
     </div>

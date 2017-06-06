@@ -1,23 +1,4 @@
-﻿/*
- * Software License Agreement (Apache License)
- *
- * Copyright (c) 2016, PPM AS
- * Contact: laszlo.nagy@ppmas.no
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License. 
-*/
-
-//add english translation to available languages
+﻿//add english translation to available languages
 localization.languages.push('it');
 
 //translation
@@ -196,7 +177,7 @@ localization.items.it = {
             }
         },
         messenger: 'Messenger',
-        fidgetGroup: 'Fidget Group',
+        fidgetGroup: 'Gruppo di Fidget',
         progressBar: 'Barra di caricamento',
         button: 'Pulsante',
         checkBox: 'Box di scelta',
@@ -219,6 +200,10 @@ localization.items.it = {
         remoteView: 'Remote view',
         endOfWay: 'Fine percorso',
         properties: {
+            multipleDiffValueDisabledMsg: "[ Multiedit with different value, double tap to reset. ]",
+            _name: "Name",
+            layout: "Layout",
+            _margin: "Margin",
             hasScreenBeltValues: {
                 show: 'Mostra',
                 hide: "Nascondi"
@@ -339,7 +324,13 @@ localization.items.it = {
                 savedToMobile: 'Il progetto è stato salvato nella directory principale: ',
                 savedFailed: 'Salvataggio fallito',
                 noteUseMobileMemory: '<i><u><b>Attenzione:</b></u> accedi alla memoria locale per caricare i progetti!</i>',
-                uploadImagesConfirm: 'Il progetto contiene immagini, vuoi sovrascrivere quelle esistenti?'
+                uploadImagesConfirm: 'Il progetto contiene immagini, vuoi sovrascrivere quelle esistenti?',
+                storageMode: {
+                    title: 'Project storage',
+                    autoUpdate: 'Enable auto project update',
+                    autoUpdateSwitch: 'Check to enable automatic project update with ROS',
+                    autoUpdateNote: '<b>Please note:</b> Enabled automatic project update can cause instable concurent using for multiple users.'
+                }
             },
             language: {
                 title: 'Lingua',
@@ -392,7 +383,9 @@ localization.items.it = {
                 offlineMode: 'Modalità offline',
                 offlineModeSwitch: 'Seleziona per disabilitare la connessione a ROS',
                 secure: 'Modalità sicura',
-                secureSwitch: 'Seleziona per abilitare la modalità sicura (WebSocket Security)'
+                secureSwitch: 'Seleziona per abilitare la modalità sicura (WebSocket Security)',
+                addons: 'Addons',
+                localAddons: 'Skip addon loading from server'
             },
             messenger: {
                 title: 'Messenger'
@@ -488,6 +481,14 @@ localization.items.it = {
         enterprise: {
             header: 'Aiuto per Enterprise Trial',
             content: '<h3>Modalità Trial</h3><p>Nella modalità Trial puoi usare tutte le funzioni di FlexGui 4.0 gratuitamente. La modalità Trial necessita di una connessione internet.</p><h3>Come usarla</h3><p>Per poter utilizzare la <b>Modalità Trial</b> segui le istruzioni seguenti: <ol><li>Registra un nuovo account presso il <a href="https://flexgui4.ppm.no">nostro sito</a></li><li>Vai alla tua pagina del profilo</li><li>Richiedi una licenza Trial per FlexGui 4.0</li></ol></p>'
+        },
+        diagnostics: {
+            content: "<p>In diagnostics you can create sequences to test your environment.</p><h4>Create/Edit</h4><p>To create a new item, press the <b>Add new button</b> and follow the insturctions. If you want to edit and already existing item, press the small pen icon in the end of the line. You can also reorder your test sequence by pressing the up and down icons.</p><h4>Run</h4><p>Press <b>Run test</b> button to start the selected tests. You can add/remove items from the sequence by click on the checkbox in front of the test</p>",
+            header: "Diagnostics"
+        },
+        diagnosticsEditor: {
+            content: "<p>In test editor you can choose a built in script and set up its parameters or write a custom script.</p><h4>Custom script</h4><i><b><u>Please note:</u></b> use the following variables for optimal result</i><ul><li><b>test.result:</b> thiw will be shown on the UI under the name of your script</li><li><b>srv.testFinished();</b> Call this function when your script finished to be able to jump to the next test.</li><li><b>$rootScope.$apply();</b> call this function, when the script ends if you have any async calls (timeout, interval or e.g. waiting for a ROS event to end)</li></ul>",
+            header: "Diagnostics editor"
         },
         screenBelt: {
             header: 'Aiuto per la barra degli schermi',

@@ -17,13 +17,14 @@
  * limitations under the License. 
 */
 
+angular.module("flexGuiApp", ["ngCookies", "ngRoute", 'ngSanitize', "ui.bootstrap-slider", "perfect_scrollbar", "jg.knob", "hmTouchEvents", "ngCordova", "angularStats", "ui.router", "oc.lazyLoad"])
 angular.module("flexGuiApp", ["ngCookies", "ngRoute", 'ngSanitize', "ui.bootstrap-slider", "perfect_scrollbar", "jg.knob", "hmTouchEvents", "angularStats", "ui.router"])
     .directive("ngFileSelect", ngFileSelect)
     .directive("fgFidgetRepeater", function () {
         var directive = {
             restrict: 'AEC', 
             template: function (elm, attr) {
-                return "<div class='fidget' ng-if='fidget.template' id='{{fidget.id}}' ng-repeat='fidget in " + attr.fidgets + " track by fidget.id' ng-class=\"{'editModeOn': editHandler.isEditMode, 'selected': editHandler.selectedFidgets.indexOf(fidget) >= 0  }\" style=\"left:{{fidget.properties.left}}px; top: {{fidget.properties.top}}px;\">" +
+                return "<div class='fidget {{fidget.properties.name}}' ng-if='fidget.template' id='{{fidget.id}}' ng-repeat='fidget in " + attr.fidgets + " track by fidget.id' ng-class=\"{'notSelectable': editHandler.selectableFidgets != null && editHandler.selectableFidgets.indexOf(fidget.id) == -1,  'editModeOn': editHandler.isEditMode, 'selected': editHandler.selectedFidgets.indexOf(fidget) >= 0  }\" style=\"left:{{fidget.properties.left}}px; top: {{fidget.properties.top}}px;\">" +
                            "<div ng-class=\"{'disabled': [false, 'false', 0].indexOf(fidget.properties.enabled) != -1 ,'clickable': !editHandler.isEditMode && [undefined, 'undefined', '', null, 'null'].indexOf(fidget.properties.onClick) == -1, 'selectedFidget': editHandler.selectedFidgets.indexOf(fidget) > -1 && editHandler.isEditMode, 'dragged': editHandler.selectedFidgets.length > 0 && editHandler.isMouseDown && !editHandler.inResize && editHandler.selectedFidgets.indexOf(fidget) > -1 }\">" +
                                 "<ng-include ng-controller='fidgetCtrl' src=\"toTrustedUrl(fidget.template.root + fidget.template.source + '.html')\"></ng-include>" +
                            "</div>" +
@@ -147,8 +148,8 @@ angular.module("flexGuiApp", ["ngCookies", "ngRoute", 'ngSanitize', "ui.bootstra
 .factory('projectStorageService', projectStorageService)
 .factory('diagnosticsService', diagnosticsService)
 .factory('backupService', backupService)
+.factory('iconService', iconService)
 .run(run);
-
 ngFileSelect.$inject = ['$parse', 'projectWindowService'];
 function ngFileSelect($parse, projectWindowService) {
     var directiveDefinitionObject = {
@@ -172,9 +173,8 @@ function run($rootScope, $templateCache, $location, $timeout, settingsWindowServ
     if (!$rootScope.settingsTabs) $rootScope.settingsTabs = [];
 
     $rootScope.mirrorMode = {};
-    $rootScope.addonServerUrl = "";
     $rootScope.currentUserId = "user_" + variableService.guid();
-    projectService.appVersion = "1.9.7";
+    projectService.appVersion = "1.9.8";
 
     //set ROS address with query string
     var queryString = $location.search();
@@ -207,4 +207,6 @@ function run($rootScope, $templateCache, $location, $timeout, settingsWindowServ
             $templateCache.remove(current.templateUrl);
         }
     });
+
+    $(window).resize(function () { $rootScope.$apply(); });
 }

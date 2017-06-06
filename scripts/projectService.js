@@ -17,14 +17,14 @@
  * limitations under the License. 
 */
 
-projectService.$inject = ['$rootScope', 'enumService', 'fidgetService', 'popupService', '$location', 'scriptManagerService', 'variableService', '$timeout', 'backgroundService', 'projectConversionService'];
+projectService.$inject = ['$rootScope', 'enumService', 'fidgetService', 'popupService', '$location', 'scriptManagerService', 'variableService', '$timeout', 'backgroundService', 'projectConversionService', 'iconService'];
 
-function projectService($rootScope, enumService, fidgetService, popupService, $location, scriptManagerService, variableService, $timeout, backgroundService, projectConversionService) {
+function projectService($rootScope, enumService, fidgetService, popupService, $location, scriptManagerService, variableService, $timeout, backgroundService, projectConversionService, iconService) {
     var project = {
         currentScreen: null,
         appVersion: null,
         adminEnabled: false,
-        forceScreenBelt: false,
+        _forceScreenBelt: false,
         prevProject: null,
         onlineVersion: null,
         localVersion: null,
@@ -39,7 +39,7 @@ function projectService($rootScope, enumService, fidgetService, popupService, $l
                 properties: { name: name, hasScreenBelt: 'true', logo: '', logoPosition: 'bottomRight', logoWidth: 0 },
                 fidgets: []
             }
-        },  
+        },
 
         generateIndexImage: function (screen, callback) {
             html2canvas(document.getElementById('currentScreen'), {
@@ -81,7 +81,8 @@ function projectService($rootScope, enumService, fidgetService, popupService, $l
                 initScript: null,
                 testSequence: [],
                 appVersion: project.appVersion,
-                adminEnabled: false
+                adminEnabled: false,
+                password: null
             };
 
             //add capability to add new parameters to the get from addons
@@ -91,8 +92,8 @@ function projectService($rootScope, enumService, fidgetService, popupService, $l
 
             return obj;
         },
-        
-        getFidgetById: function(id){
+
+        getFidgetById: function (id) {
             var ret = null;
 
             function searchInFidgets(fidget) {
@@ -101,7 +102,7 @@ function projectService($rootScope, enumService, fidgetService, popupService, $l
                 });
             }
 
-            angular.forEach(project.screens, function(s){
+            angular.forEach(project.screens, function (s) {
                 searchInFidgets(s);
             });
 
@@ -121,7 +122,8 @@ function projectService($rootScope, enumService, fidgetService, popupService, $l
                 interfaceMetaDataList: project.interfaceMetaData.list,
                 adminEnabled: project.adminEnabled,
                 clientId: $rootScope.currentUserId,
-                projectVersion: project.localVersion
+                projectVersion: project.localVersion,
+                password: project.password
             }
 
             //add capability to add new parameters to the get from addons
@@ -131,21 +133,7 @@ function projectService($rootScope, enumService, fidgetService, popupService, $l
         },
 
         setObject: function (proj) {
-            project.screens = proj.screens;
-            project.name = proj.name;
-            project.id = proj.id;
-            project.backgroundImage = proj.backgroundImage;
-            project.interfaceMetaData.list = proj.interfaceMetaDataList || [];
-            project.localVersion = proj.projectVersion
-            project.testSequence = proj.testSequence || [];
 
-            //add capability to add new parameters to the get from addons
-            angular.forEach(project.extraParamSetters, function (f) { f(proj); });
-
-            if (project.initScript != proj.initScript) {
-                project.initScript = proj.initScript;
-                project.runInit();
-            }
         },
 
         //save the project object to a JSON string
@@ -385,7 +373,7 @@ function projectService($rootScope, enumService, fidgetService, popupService, $l
                 }
 
                 meta.type = type;
-                
+
                 return metaChanged;
             }
         },
@@ -518,13 +506,13 @@ function projectService($rootScope, enumService, fidgetService, popupService, $l
             }
 
             var s = this.getScreen(name + (id == "" ? id : (" " + id)), type);
+
             s.backgroundType = backgroundService.backgroundTypes["Image"];
-            //set default background for factory screens
-            if (s.type == enumService.screenTypesEnum.Factory) {
-                s.backgroundImage = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAAAAAA6fptVAAAACklEQVQYV2P4DwABAQEAWk1v8QAAAABJRU5ErkJggg==";
-                s.indexImage = s.backgroundImage;
-                s.backgroundType = backgroundService.backgroundTypes["Color"];
-            }
+            //add default logo
+            s.properties.logo = "iconService.get('images/logo_small.png')";
+            s.properties.logoWidth = 100;
+            s.properties.logoPosition = 'bottomRight';
+
             this.screens.push(s);
             $rootScope.editScreen(s);
             return s;
@@ -654,7 +642,7 @@ function projectService($rootScope, enumService, fidgetService, popupService, $l
 
                 //add capability to add new parameters to the get from addons
                 angular.forEach(project.extraParamSetters, function (f) { f(proj); });
-                
+
                 project.adminEnabled = proj.adminEnabled || false;
 
                 $timeout(function () {
@@ -691,6 +679,38 @@ function projectService($rootScope, enumService, fidgetService, popupService, $l
 
             }
         },
+        getFidgetByName: function (name) {
+            function isArray(obj) {
+                return !!obj && obj.constructor === Array;
+            }
+
+            var f = null;
+
+            function searchInContainer(container) {
+                angular.forEach(container.fidgets, function (fidget) {
+                    if (fidget.properties.name == name) {
+                        //if there is more then one with the same name, return with an array
+                        if (f != null) {
+                            if (!isArray(f)) {
+                                var temp = f;
+                                f = [];
+                                f.push(temp);
+                            }
+
+                            f.push(fidget);
+                        } else {
+                            f = fidget;
+                        }
+                    } else if (fidget.fidgets) {
+                        searchInContainer(fidget)
+                    }
+                });
+            }
+
+            searchInContainer(project.currentScreen);
+
+            return f;
+        },
         getFidgetById: function (id) {
             var f = null;
 
@@ -698,7 +718,7 @@ function projectService($rootScope, enumService, fidgetService, popupService, $l
                 angular.forEach(container.fidgets, function (fidget) {
                     if (fidget.id == id) {
                         f = fidget;
-                    } else if (fidget.fidgets){
+                    } else if (fidget.fidgets) {
                         searchInContainer(fidget)
                     }
                 });
@@ -729,9 +749,19 @@ function projectService($rootScope, enumService, fidgetService, popupService, $l
         }
     });
 
+    Object.defineProperty(project, "forceScreenBelt", {
+        get: function () {
+            return project._forceScreenBelt;
+        },
+        set: function (v) {
+            if ($rootScope.editHandler.isEditMode) return;
+            project._forceScreenBelt = v;
+        }
+    });
+
     project.screenTypes.push({
         title: localization.currentLocal.buttons.addNormalScreen,
-        icon: 'images/folder.png',
+        icon: 'images/normalScreen.png',
         action: function () {
             project.addScreen(enumService.screenTypesEnum.Normal);
             project.showAddScreen(false);

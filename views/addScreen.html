@@ -17,17 +17,18 @@
  * limitations under the License. 
  -->
 
-<div id="addScreenModal" class="modal nontransparent" data-backdrop="static"
+<div id="addScreenModal" 
+     class="modal nontransparent" 
+     data-backdrop="static"
      data-keyboard="false">
     <div class="modal-dialog">
-        <div class="modal-content" style="min-height: 170px;">
-            <div class="modal-body" style="text-align: center;min-height: 110px;">
+        <div class="modal-content">
+            <div class="modal-body">
 
                 <h3>{{localization.currentLocal.general.selectScreenType}}</h3>
 
-                <button class="btn btn-default" ng-repeat="screenType in project.screenTypes track by $index" ng-click="screenType.action()">
+                <button class="btn btn-default" style="background-image: url({{screenType.icon}});" ng-repeat="screenType in project.screenTypes track by $index" ng-click="screenType.action()">
                     <div>
-                        <img ng-src="{{screenType.icon}}" />
                         <h4>
                             {{screenType.title}}
                         </h4>
@@ -35,29 +36,11 @@
                 </button>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" ng-click="project.showAddScreen(false)">{{localization.currentLocal.buttons.cancel}}</button>
+                <button type="button" class="btn btn-default btn-100" ng-click="project.showAddScreen(false)">{{localization.currentLocal.buttons.cancel}}</button>
             </div>
         </div>
     </div>
 </div>
-
-<style>
-    #addScreenModal .modal-body button {
-        text-align: center;
-        width: 260px;
-        height: 260px;
-        padding: 20px;
-        background-color: #e6e6e6 !important;
-    }
-
-    #addScreenModal .modal-body button:hover {
-        background-color: #f3f3f3 !important;
-    }
-
-    #addScreenModal .modal-body img {
-        height: 160px;
-    }
-</style>
 
 <script type="text/javascript">
     $("#addScreenModal").modal("show");

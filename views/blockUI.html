@@ -17,15 +17,17 @@
  * limitations under the License. 
  -->
 
-<div id="blockUI" class="modal nontransparent" data-backdrop="static"
+<div id="blockUI" 
+     class="modal nontransparent" 
+     data-backdrop="static"
      data-keyboard="false">
     <div class="modal-dialog">
         <div class="modal-content">
-            <div class="modal-body" style="text-align: center;">
+            <div class="modal-body">
                 <h1 ng-if="!blockHtml" ng-bind-html="blockMessage"></h1>
                 <ng-include ng-if="blockHtml" src="blockHtml"></ng-include>
 
-                <img src="images/loading.gif" style="height: 50px;" />
+                <img src="images/loading.gif" class="loading"/>
             </div>
         </div>
     </div>

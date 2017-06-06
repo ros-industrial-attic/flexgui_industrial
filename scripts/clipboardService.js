@@ -60,9 +60,7 @@ function clipboardService(projectService, deviceService, fidgetService, projectS
         },
 
         pasteChild: function (fidget, parent, top, left) {
-            var newFidget = fidgetService.getFidget(fidget.root, fidget.source, Math.max(left, 0), Math.max(top, 0), fidget.properties, fidget.icon, fidget.name, fidget.template);
-            newFidget.parent = parent;
-            parent.fidgets.push(newFidget);
+            var newFidget = fidgetService.getFidget(fidget.root, fidget.source, left, top, fidget.properties, fidget.icon, fidget.name, fidget.template, parent);
             angular.forEach(fidget.fidgets, function (f) {
                 clipboardHandler.pasteChild(f, newFidget, f.properties._top, f.properties._left);
             });

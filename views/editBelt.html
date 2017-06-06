@@ -18,21 +18,13 @@
  -->
 
 <perfect-scrollbar class="belt editBelt" style="width: {{::beltWidth}}px;">
-    
     <!--Actions-->
     <div ng-hide="action.hidden"
          ng-repeat="action in editHandler.actions | orderObjectBy:['position']"
          class="editActions"
          ng-click="action.onTap()"
-         ng-class="{'disabled': !action.enabled, 'stick': action.sticked }">
-
-        <div style="width: 100px; height: 80px; overflow: hidden; margin: auto">
-            <div style="width: 100%; height: 100%; display: table">
-                <div style="display: table-cell; vertical-align: middle;">
-                    <img ng-src="{{::action.icon}}" />
-                </div>
-            </div>
-        </div>
+         ng-class="{'disabled': !action.enabled, 'stick': action.sticked }"
+         style="background-image: url({{::icons.get(action.icon)}}), url({{::icons.get(action.icon, true)}});">
 
         <span class="fidgetName">{{::action.label}}</span>
     </div>

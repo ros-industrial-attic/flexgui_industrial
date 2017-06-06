@@ -18,23 +18,17 @@
  -->
 
 <perfect-scrollbar class="belt fidgetBelt" style="width: {{::beltWidth}}px;">
-    <div class="fidgetHelp" style="height: 120px; pointer-events: initial" ng-if="helpMessages.show">
-        <div style="width: 100px; height: 80px; overflow: hidden; margin: auto; display: table">
-            <ng-include src="'views/helpIcon.html'" class="helpIconFidgetBelt" ng-init="help = helpMessages.fidgetBelt"></ng-include>
-            <span>{{localization.currentLocal.help.label}}</span>
-        </div>
+    <div class="fidgetHelp" style="height: 120px; pointer-events: initial;" ng-if="helpMessages.show">
+        <ng-include src="'views/helpIcon.html'" class="helpIconFidgetBelt" ng-init="help = helpMessages.fidgetBelt; resize = 2;"></ng-include>
+        <span>{{localization.currentLocal.help.label}}</span>
     </div>
 
     <!--FidgetTemplates-->
     <div ng-hide="fidget.hidden"
-         ng-repeat="fidget in fidgets.templates" class="fidgetTemplate {{fidget.source}}Template"
-         hm-press="::editHandler.onFidgetTemplateMouseDown(fidget, $event)">
-        <div style="width: 100px; height: 80px; overflow: hidden; margin: auto">
-            <div style="width: 100%; height: 100%; display: table" id="{{fidget.id}}">
-                <ng-include ng-if="::!fidget.icon" src="fidget.root + fidget.source + '.html'" ng-controller="fidgetCtrl" style="display: table-cell; vertical-align: middle;"></ng-include>
-                <img ng-src="{{::fidget.icon}}" alt="{{::fidget.name}}" ng-if="fidget.icon" style="max-width: 100%; max-height: 70px;" />
-            </div>
-        </div>
+         ng-repeat="fidget in fidgets.templates"
+         class="fidgetTemplate {{fidget.source}}Template"
+         hm-press="::editHandler.onFidgetTemplateMouseDown(fidget, $event)"
+         style="background-image: url({{::icons.get(fidget.icon)}}), url({{::icons.get(fidget.icon, true)}});">
 
         <span class="fidgetName">{{::fidget.name}}</span>
     </div>

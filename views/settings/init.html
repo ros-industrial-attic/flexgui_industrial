@@ -17,9 +17,8 @@
  * limitations under the License. 
  -->
 
-<ng-include src="'views/helpIcon.html'" class="floatRight" ng-init="help = helpMessages.settings.initScript" ng-if="helpMessages.show"></ng-include>
 <h4>{{localization.currentLocal.settings.tabs.initScript.note}}</h4>
-<textarea style="width: 100%; height: 360px;" ng-model="project.initScript"></textarea>
+<textarea class="form-control" style="width: 100%; height: 360px;" ng-model="project.initScript"></textarea>
 
 <style>
     .ace_editor {

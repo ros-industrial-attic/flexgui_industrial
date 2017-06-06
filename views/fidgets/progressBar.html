@@ -16,9 +16,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License. 
  -->
-<div class="progress" style="margin-bottom: 0px; width:{{fidget.properties.width}}px; height: {{fidget.properties.height}}px;" 
-     hm-tapend="onClick(fidget, fidget.properties.onClick)" 
-     ng-mouseup="onClick(fidget, fidget.properties.onClick)">
+<div class="progress" style="margin-bottom: 0px; width:{{fidget.properties.width}}px; height: {{fidget.properties.height}}px;"
+     
+     ng-click="onClick(fidget, fidget.properties.onClick)">
     <div class="progress-bar" role="progressbar" aria-valuenow="{{fidget.properties.value > 100 ? 100.00 : fidget.properties.value}}"
          aria-valuemin="-100" aria-valuemax="100" style="width: {{fidget.properties.value > 100 ? 100.00 : fidget.properties.value}}%; background-color: {{fidget.properties.color}}">
         <div class="progress-bar-percent" style="{{fidget.properties.fontColor ? 'color: ' + fidget.properties.fontColor + ' !important' : ''}}">

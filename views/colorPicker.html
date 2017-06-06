@@ -19,11 +19,12 @@
 
 <ng-include src="'views/helpIcon.html'" class="floatRight" ng-init="help = helpMessages.colorPick" ng-if="helpMessages.show"></ng-include>
 
-<div ng-repeat="color in ::colorPickerHandler.colors"
+<div class="color"
+     ng-repeat="color in ::colorPickerHandler.colors"
      ng-click="colorPickerHandler.setSelectedColor(color)"
      hm-tap="colorPickerHandler.setSelectedColor(color)"
-     style="float:left; padding: 2px; width: 35px; height: 35px;  margin: 3px; border: 2px solid {{colorPickerHandler.selectedColor == color ? color : 'transparent'}}">
-    <div style="background-color: {{color}}; width: 100%; height: 100%; ">
+     style="border-color: {{colorPickerHandler.selectedColor == color ? color : 'transparent'}}">
+    <div style="background-color: {{color}};">
 
     </div>
 </div>

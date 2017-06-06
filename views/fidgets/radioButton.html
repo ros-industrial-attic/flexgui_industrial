@@ -22,14 +22,14 @@
                    wheel-propagation="true"
                    wheel-speed="10"
                    min-scrollbar-length="20"
-                   hm-tapend="onClick(fidget, fidget.properties.onClick)"
-                   ng-mouseup="onClick(fidget, fidget.properties.onClick)">
+                   
+                   ng-click="onClick(fidget, fidget.properties.onClick)">
     <table style="border-collapse:collapse; padding: 0px;">
         <tr ng-repeat="option in fidget.properties.options.split(',')" ng-click="setValue(fidget, option)" style="font-family: {{fidget.properties.font || 'inherit'}}; font-size: {{fidget.properties.fontSize}}px; vertical-align: middle">
             <td style="vertical-align: middle;">
                 <div class="radioMark">
                     <div class="checked" ng-if="option == fidget.properties.value"></div>
-                </div>  
+                </div>
             </td>
             <td style="color: {{fidget.properties.fontColor}}">
                 {{option}}
@@ -45,3 +45,6 @@
         border-radius:{{fidget.properties.fontSize / 2}}px;
     }
 </style>
+
+
+

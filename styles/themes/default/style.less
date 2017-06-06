@@ -1,11 +1,30 @@
-﻿@main-color: #ff5f00;
-@font-color: #000000;
+﻿@font-face {
+  font-family: 'Roboto Condensed';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Roboto Condensed'), local('RobotoCondensed-Regular'), url('font/RobotoCondensed.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
+}
+
+/*@font-face {
+    font-family: 'Prototype';
+    font-style: normal;
+    font-weight: normal;
+    src: local('Prototype'), url('font/Prototype.woff') format('woff');
+}*/
+
+@beltBackground: #515763;
+@beltText: #b8c1cf;
+
+@main-color: #ff5f00;
+@font-color: #b8c1cf;
 @screen-color-dark: #1e1e1e;
 @screen-color-dark-trasparent: rgba(30,30,30, 0.5);
 @screen-color-light: #e6e6e6;
-@screen-background-image: url(images/bg.jpg);
-@modal-color: rgba(230,230,230,0.95);
-@modal-font-color: #000000;
+@screen-background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mM0Nbf5DwAC+gGpoMttmQAAAABJRU5ErkJggg==);
+@modal-color: #515763;
+@modal-font-color: #b8c1cf;
+@modal-footer-color: #3c404b;
 
 @alert-danger-color: rgba(169, 68, 66, 1);
 @alert-danger-background-color: rgba(242, 222, 222, 0.7);
@@ -15,15 +34,29 @@
 @alert-success-background-color: rgba(223, 240, 216, 0.7);
 @alert-success-border-color: rgba(214, 233, 198, 0,7);
 
-@striped-table-odd: transparent;
+@font: 'Roboto Condensed';
+
+@nav-content-bg: #4b515f;
+@nav-item-bg: #444853;
+
+@input-bg: #434752;
+@input-active-bg: #515763;
+@input-font-color: #b8c1cf;
+
+@btn-bg: #464a55;
+@btn-text: #ff5f00;
+@btn-text-disabled: #b8c1cf;
+@btn-border: #3b3f48;
+
+@striped-table-odd: darken(@modal-color, 5%);
+@striped-table-hover: darken(@modal-color, 2%);
 @striped-table-even: transparent;
-@font: 'Century Gothic', CenturyGothic, AppleGothic, sans-serif;
 
 .showInitToolbar:hover, .hideInitToolbar:hover {
     color: @main-color;
 }
 
-.selectedFidget{
+.selectedFidget {
     border: 2px solid @main-color;
     -webkit-box-shadow: 0px 0px 12px 2px @main-color;
     -moz-box-shadow: 0px 0px 12px 2px @main-color;
@@ -32,35 +65,35 @@
 }
 
 .ps-container .ps-scrollbar-y {
-    background-color:   @main-color;   
+    background-color: @main-color;
 }
 
-.resizeLayer .resizeDot{
-    background-color: @main-color;    
+.resizeLayer .resizeDot {
+    background-color: @main-color;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: @main-color;
-  opacity: 0.7;
-  border: 0px none transparent;
-  border-radius: 50px;
+    background: @main-color;
+    opacity: 0.7;
+    border: 0px none transparent;
+    border-radius: 50px;
 }
 
 ::-webkit-scrollbar-thumb:active {
-  background: @main-color;
+    background: @main-color;
 }
 
 /*Main CSS*/
-body{
+body {
     color: @font-color;
     font-family: @font;
 }
 
-.grid, .grid div{
+.grid, .grid div {
     border-color: fade(@main-color, 50%);
 }
 
-h1, h2, h3, h4, h5{
+h1, h2, h3, h4, h5 {
     color: @main-color;
 }
 
@@ -70,46 +103,46 @@ h1, h2, h3, h4, h5{
 }
 
 .belt, .editSwitch {
-    background-color: @screen-color-light;
-    color: @screen-color-dark;
+    background-color: @beltBackground;
+    color: @beltText;
 }
 
-.fade{
-    background-color:@screen-color-dark-trasparent;
+.fade {
+    background-color: @screen-color-dark-trasparent;
 }
 
-.modal-content{
+.modal-content {
     background-color: @modal-color;
     color: @modal-font-color;
 }
 
-.nav-tabs>li.active>a, .nav-tabs>li.active>a:focus, .nav-tabs>li.active>a:hover{
-    background-color: darken(@modal-color, 10%);
-    color: @modal-font-color;
-    border: 1px solid transparent;
+.modal-footer {
+    background-color: @modal-footer-color;
 }
 
-.fidgetTemplate, .editActions, .fidgetHelp {
-    border-bottom: 2px solid @main-color;    
+a {
+    color: @main-color;
+    font-style: italic;
 }
 
-.nav-tabs{
-    border-bottom: none;
-    width: 100%;
-}
-.selectedScreenBeltItem{
-    border-color: @main-color;
+a:hover {
+    color: @main-color;
 }
 
-.imageRepeaterScrollBar .image{
+.selectedScreenBeltItem, .editBelt .stick {
+    border-left-color: @main-color;
+    color: @main-color;
+}
+
+.imageRepeaterScrollBar .image {
     border: 2px solid transparent;
 }
 
-.imageRepeaterScrollBar .selectedImage{
+.imageRepeaterScrollBar .selectedImage {
     border-color: @main-color;
 }
 
-.projectCompareTable td:hover{
+.projectCompareTable td:hover {
     color: @main-color;
 }
 
@@ -125,86 +158,338 @@ h1, h2, h3, h4, h5{
     border-color: @alert-success-border-color;
 }
 
-.table-striped>tbody>tr:nth-of-type(odd){
+.table-striped > tbody > tr:nth-of-type(odd) {
     background-color: @striped-table-odd;
 }
 
-.table-striped>tbody>tr:nth-of-type(even){
+.table-striped tr td:first-child{
+    padding-left: 5px;
+}
+
+.table-striped > tbody > tr:nth-of-type(even) {
     background-color: @striped-table-even;
+}
+
+.table-striped > tbody > tr:hover {
+    background-color: @striped-table-hover;
+}
+
+.text-info{
+    color: @font-color !important;
+}
+
+.text-warning{
+    color: @main-color !important;
+}
+
+.text-danger{
+    color: #ed1c24 !important;
 }
 
 /*Fidget examples*/
 
+.messages h1, .messages h2, .messages h3, .messages h4, .messages h5 {
+    color: white;
+}
+
 /*button*/
-.btn-default{
-    color:  @screen-color-light !important;
-    background-color: @screen-color-dark !important;
+.btn-default {
+    color: @btn-text !important;
+    background-color: @btn-bg !important;
+    border-color: @btn-border !important;
+}
+
+.btn-default:hover {
+    color: @btn-text !important;
+    background-color: lighten(@btn-bg, 10%) !important;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px fade(@main-color, 60%);
+    box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px fade(@main-color, 60%);
+    outline: 0;
+}
+
+.btn-default:active {
+    color: @btn-text !important;
+    background-color: lighten(@btn-bg, 20%) !important;
     border-color: @main-color !important;
 }
 
-.btn-default:hover{
-    color:  @screen-color-light !important;
-    background-color: lighten(@screen-color-dark, 10%) !important;
-    border-color: @main-color !important;
+.btn.disabled, .btn[disabled], fieldset[disabled] .btn {
+    color: @btn-text-disabled !important;
 }
 
-.btn-default:active{
-    color:  @screen-color-light !important;
-    background-color: lighten(@screen-color-dark, 20%) !important;
-    border-color: @main-color !important;
+.btn:focus {
+    border-color: @main-color;
+    outline: 0;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px fade(@main-color, 60%);
+    box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px fade(@main-color, 60%);
 }
-
 
 /*inputs*/
 .form-control {
-    color:  @screen-color-dark;
-    background-color: @screen-color-light;
-    border-color: @main-color;
+    color: @input-font-color;
+    background-color: @input-bg;
+    border-color: @input-font-color;
 }
 
-.form-control[disabled]{
+.form-control:focus {
+    border-color: @main-color;
+    outline: 0;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px fade(@main-color, 60%);
+    box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px fade(@main-color, 60%);
+}
+
+.form-control[disabled] {
     background-color: lighten(@screen-color-dark, 20%);
 }
 
 /*indicator lamp*/
-.lamp{
+.lamp {
     background-color: @screen-color-dark;
     border: 2px solid @main-color;
 }
 
 /*progress bar*/
-.progress{
+.progress {
     border: 1px solid darken(@screen-color-dark, 30%);
     background-color: @screen-color-light;
-    color: @main-color
+    color: @main-color;
 }
 
-.progress-bar{
-    color: @main-color
+.progress-bar {
+    color: @main-color;
 }
 
 /*slider*/
-.ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default{
+.ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default {
     border-color: @main-color;
     background-color: @screen-color-dark;
 }
 
-.ui-widget-content{
+.ui-widget-content {
     border: 1px solid darken(@screen-color-dark, 30%);
     background-color: @screen-color-light;
-
 }
 
-.slider-handle{
-        background-color: @screen-color-dark !important;
-        border: 1px solid @main-color;
+.slider-handle {
+    background-color: @screen-color-dark !important;
+    border: 1px solid @main-color;
 }
 
 /*scrollable text*/
-.scrollableText{
+.scrollableText {
     background-color: @screen-color-light;
     color: @screen-color-dark;
     border-radius: 4px;
     text-align: left;
 }
 
+.editSwitch .inEditMode {
+    border-top-color: @main-color;
+}
+
+.nav-tabs {
+    background-color: @nav-content-bg;
+}
+
+.modal.horizontal .modal-content {
+    background-color: @nav-content-bg;
+}
+
+.modal.horizontal .tab-content {
+    background-color: @modal-color;
+}
+
+.modal.horizontal .modal-header {
+    background-color: @modal-color;
+}
+
+.nav-tabs a, .nav-tabs a:hover, .nav-tabs a:focus {
+    font-style: normal !important;
+    color: @modal-font-color;
+    border: 4px solid transparent !important;
+}
+
+.nav-tabs a:hover {
+    background-color: @nav-item-bg !important;
+    border: 4px solid transparent !important;
+    border-radius: 0;
+}
+
+.nav-tabs > li.active > a, .nav-tabs > li.active > a:focus, .nav-tabs > li.active > a:hover {
+    background-color: @nav-item-bg;
+    border: 4px solid transparent;
+    border-left-color: @main-color !important;
+    color: @main-color;
+    border-radius: 0;
+}
+
+
+.nav-tabs > li.active > a, .nav-tabs > li.active > a:focus, .nav-tabs > li.active > a:hover {
+    background-color: darken(@modal-color, 10%);
+    color: @modal-font-color;
+    border: 1px solid transparent;
+}
+
+.nav-tabs {
+    border-bottom: none;
+    width: 100%;
+}
+
+.nav .open > a, .nav .open > a:hover, .nav .open > a:focus {
+    background-color: @nav-item-bg !important;
+    border-color: transparent !important;
+    border-radius: 0px;
+}
+
+.nav-tabs .dropdown-menu {
+    border-radius: 0px;
+}
+
+.dropdown-menu > li > a {
+    color: @modal-font-color;
+}
+
+.dropdown-menu > li > a:hover {
+    color: @modal-font-color;
+    background-color: darken(@nav-item-bg, 10%) !important;
+}
+
+.dropdown-menu {
+    background-color: @nav-item-bg;
+}
+
+/*ACE EDITOR*/
+.ace-flexgui .ace_gutter {
+    background: @modal-footer-color !important;
+    color: @input-font-color !important;
+}
+
+.ace-flexgui .ace_print-margin {
+    width: 1px !important;
+    background: @input-bg !important;
+}
+
+.ace-flexgui {
+    background-color: @input-bg !important;
+    color: @input-font-color !important;
+}
+
+.ace-flexgui:focus {
+    border-color: @main-color;
+    outline: 0;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px fade(@main-color, 60%);
+    box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px fade(@main-color, 60%);
+}
+
+.ace-flexgui .ace_cursor {
+    color: #A7A7A7 !important;
+}
+
+.ace-flexgui .ace_marker-layer .ace_selection {
+    background: rgba(221, 240, 255, 0.20) !important;
+}
+
+.ace-flexgui.ace_multiselect .ace_selection.ace_start {
+    box-shadow: 0 0 3px 0px #141414 !important;
+}
+
+.ace-flexgui .ace_marker-layer .ace_step {
+    background: rgb(102, 82, 0) !important;
+}
+
+.ace-flexgui .ace_marker-layer .ace_bracket {
+    margin: -1px 0 0 -1px !important;
+    border: 1px solid rgba(255, 255, 255, 0.25) !important;
+}
+
+.ace-flexgui .ace_marker-layer .ace_active-line {
+    background: rgba(255, 255, 255, 0.031) !important;
+}
+
+.ace-flexgui .ace_gutter-active-line {
+    background-color: rgba(255, 255, 255, 0.031) !important;
+}
+
+.ace-flexgui .ace_marker-layer .ace_selected-word {
+    border: 1px solid rgba(221, 240, 255, 0.20) !important;
+}
+
+.ace-flexgui .ace_invisible {
+    color: rgba(255, 255, 255, 0.25) !important;
+}
+
+.ace-flexgui .ace_keyword,
+.ace-flexgui .ace_meta {
+    color: #CDA869 !important;
+}
+
+.ace-flexgui .ace_constant,
+.ace-flexgui .ace_constant.ace_character,
+.ace-flexgui .ace_constant.ace_character.ace_escape,
+.ace-flexgui .ace_constant.ace_other,
+.ace-flexgui .ace_heading,
+.ace-flexgui .ace_markup.ace_heading,
+.ace-flexgui .ace_support.ace_constant {
+    color: #CF6A4C !important;
+}
+
+.ace-flexgui .ace_invalid.ace_illegal {
+    color: #F8F8F8 !important;
+    background-color: rgba(86, 45, 86, 0.75) !important;
+}
+
+.ace-flexgui .ace_invalid.ace_deprecated {
+    text-decoration: underline !important;
+    font-style: italic !important;
+    color: #D2A8A1 !important;
+}
+
+.ace-flexgui .ace_support {
+    color: #9B859D !important;
+}
+
+.ace-flexgui .ace_fold {
+    background-color: #AC885B !important;
+    border-color: #F8F8F8 !important;
+}
+
+.ace-flexgui .ace_support.ace_function {
+    color: @main-color !important;
+}
+
+.ace-flexgui .ace_list,
+.ace-flexgui .ace_markup.ace_list,
+.ace-flexgui .ace_storage {
+    color: #F9EE98 !important;
+}
+
+.ace-flexgui .ace_entity.ace_name.ace_function,
+.ace-flexgui .ace_meta.ace_tag,
+.ace-flexgui .ace_variable {
+    color: #AC885B !important;
+}
+
+.ace-flexgui .ace_string {
+    color: #8F9D6A !important;
+}
+
+.ace-flexgui .ace_string.ace_regexp {
+    color: #E9C062 !important;
+}
+
+.ace-flexgui .ace_comment {
+    font-style: italic !important;
+    color: #5cb85c !important;
+}
+
+.ace-flexgui .ace_variable {
+    color: #7587A6 !important;
+}
+
+.ace-flexgui .ace_xml-pe {
+    color: #494949 !important;
+}
+
+.ace-flexgui .ace_indent-guide {
+    background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAACCAYAAACZgbYnAAAAEklEQVQImWMQERFpYLC1tf0PAAgOAnPnhxyiAAAAAElFTkSuQmCC) right repeat-y !important;
+}

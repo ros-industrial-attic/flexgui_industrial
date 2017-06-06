@@ -17,6 +17,7 @@
  * limitations under the License. 
 */
 
+
 //angular wrapper for jquery knob
 angular.module('jg.knob', []).directive('jgKnob', function () {
     return {

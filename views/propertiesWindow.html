@@ -17,7 +17,10 @@
  * limitations under the License. 
  -->
 
-<div class="modal" ng-controller="propertiesWindowCtrl" id="propertiesDialog" data-backdrop="static"
+<div class="modal" 
+     ng-controller="propertiesWindowCtrl" 
+     id="propertiesDialog" 
+     data-backdrop="static"
      data-keyboard="false">
 
     <script type="text/javascript">
@@ -34,93 +37,144 @@
 
                 <ng-include ng-if="project.currentScreen != editHandler.editedFidget && helpMessages[editHandler.editedFidget.source] && helpMessages.show"
                             src="'views/helpIcon.html'"
-                            class="floatRight"
-                            style="margin-top: -32px; margin-right: 30px;"
+                            class="floatRight propertiesHelp"
                             ng-init="help = [helpMessages[editHandler.editedFidget.source], helpMessages.propertiesWindow]"></ng-include>
 
                 <ng-include ng-if="project.currentScreen != editHandler.editedFidget && !helpMessages[editHandler.editedFidget.source] && helpMessages.show"
                             src="'views/helpIcon.html'"
-                            class="floatRight"
-                            style="margin-top: -32px; margin-right: 30px;"
+                            class="floatRight propertiesHelp"
                             ng-init="help = helpMessages.propertiesWindow"></ng-include>
             </div>
             <form name="propertiesForm" class="modal-body form-horizontal propertiesForm" ng-init="colorPickerInitForFactory()">
                 <perfect-scrollbar class="scroller propertyRepeaterScrollBar perfectScrollBar" show-perfect-scroll-bar>
-                    <table class="table-striped propertiesTable">
+                    <table class="propertiesTable">
+                        <tr ng-if="project.currentScreen != editHandler.editedFidget && !editHandler.multiEdit" class="form-group has-feedback">
+                            <td><label>Id</label></td>
+                            <td style="white-space: nowrap">
+                                <input type="text" name="fidgetId" id="fidgetId" class="form-control" value="{{editHandler.editedFidget.id}}" disabled="disabled">
+                            </td>
+                        </tr>
                         <tr ng-repeat="p in getFidgetProperties() track by $index" class="form-group has-feedback"
                             show-perfect-scroll-bar>
                             <td><label>{{localization.currentLocal.fidgets.properties[p]}}</label></td>
-                            <td style="white-space: nowrap">
-                                <input type="text" name="{{p}}" hm-press="propertyPressed(p)" ng-if="!(p == 'hasScreenBelt' && editHandler.editedFidget == project.currentScreen) && ['layout', 'onClick', 'scale', '_screenLink', 'backgroundType', '_icon', '_font', '_textAlign', '_fps', 'logoPosition'].indexOf(p) == -1" class="form-control" ng-class="{'form-control-66': p.toLowerCase().indexOf('color') != -1 || (editHandler.editedFidget.source == 'image' && p == '_value') || (project.currentScreen == editHandler.editedFidget && p == 'logo')}" ng-model="editHandler.editedFidget.properties[p]" ng-required="isPropertyRequired(p)" ng-change="validate(propertiesForm.{{p}}.$error, editHandler.editedFidget, p)">
+                            <td style="white-space: nowrap"
+                                hm-double-tap="enableField(p)"
+                                ng-dblclick="enableField(p)"
+                                ng-class="{'disabledMultiProperty': editHandler.mepuv == editHandler.editedFidget.template.properties[p]}">
+                                <div class="enableAlert" ng-if="editHandler.mepuv == editHandler.editedFidget.template.properties[p]">{{localization.currentLocal.fidgets.properties.multipleDiffValueDisabledMsg}}</div>
+
+                                <input type="text" ng-disabled="editHandler.mepuv == editHandler.editedFidget.template.properties[p]" name="{{p}}" hm-press="propertyPressed(p)" ng-if="!(p == 'hasScreenBelt' && editHandler.editedFidget == project.currentScreen) && ['layout', 'onClick', 'scale', '_screenLink', 'backgroundType', '_icon', '_font', '_textAlign', '_fps', 'logoPosition', '_shape'].indexOf(p) == -1" class="form-control" ng-class="{'form-control-66': p.toLowerCase().indexOf('color') != -1 || (editHandler.editedFidget.source == 'image' && p == '_value') || (project.currentScreen == editHandler.editedFidget && p == 'logo')}" ng-model="editHandler.editedFidget.properties[p]" ng-required="isPropertyRequired(p)" ng-change="validate(propertiesForm.{{p}}.$error, editHandler.editedFidget, p)">
 
                                 <div ng-if="p.toLowerCase().indexOf('color') != -1 && editHandler.editedFidget.properties[p].indexOf('#') == 0"
                                      style="background-color: {{editHandler.editedFidget.properties[p]}};" class="colorMark"></div>
 
-                                <button ng-if="p.toLowerCase().indexOf('color') != -1" 
-                                        class="btn btn-default button-33" 
+                                <button ng-if="p.toLowerCase().indexOf('color') != -1"
+                                        class="btn btn-default button-33"
+                                        ng-disabled="editHandler.mepuv == editHandler.editedFidget.template.properties[p]"
                                         ng-click="openColorPicker(p, editHandler.editedFidget.properties[p])">
                                     {{localization.currentLocal.buttons.pick}}
                                 </button>
 
-                                <ng-include ng-if="p == 'onClick'" src="onClickEditor"></ng-include>
+                                <div style="{{ editHandler.mepuv == editHandler.editedFidget.template.properties[p] ? 'pointer-events: none; opacity: 0.3;' : '' }}">
+                                    <ng-include ng-if="p == 'onClick'" src="onClickEditor"></ng-include>
+                                </div>
 
-                                <button class="btn btn-default button-33" 
-                                        ng-click="images.openImageExplorer('editHandler.editedFidget.properties.' + p)" 
+                                <button class="btn btn-default button-33"
+                                        ng-disabled="editHandler.mepuv == editHandler.editedFidget.template.properties[p]"
+                                        ng-click="images.openImageExplorer('editHandler.editedFidget.properties.' + p)"
                                         ng-if="(editHandler.editedFidget.source == 'image' && p == '_value') || p == 'logo'">
                                     {{localization.currentLocal.buttons.select}}
                                 </button>
 
-                                <select ng-if="p == 'scale'" ng-model="editHandler.editedFidget.properties[p]" class="form-control">
+                                <select ng-if="p == 'scale'" ng-model="editHandler.editedFidget.properties[p]"
+                                        ng-disabled="editHandler.mepuv == editHandler.editedFidget.template.properties[p]"
+                                        class="form-control">
                                     <option value="aspectFit">{{localization.currentLocal.properties.aspectFit}}</option>
                                     <option value="aspectCrop">{{localization.currentLocal.properties.aspectCrop}}</option>
                                     <option value="stretch">{{localization.currentLocal.properties.stretch}}</option>
                                 </select>
 
-                                <select ng-if="p == 'hasScreenBelt' && editHandler.editedFidget == project.currentScreen" ng-model="editHandler.editedFidget.properties[p]" class="form-control">
+                                <select ng-if="p == 'hasScreenBelt' && editHandler.editedFidget == project.currentScreen"
+                                        ng-disabled="editHandler.mepuv == editHandler.editedFidget.template.properties[p]"
+                                        ng-model="editHandler.editedFidget.properties[p]" class="form-control">
                                     <option value="true">{{localization.currentLocal.fidgets.properties.hasScreenBeltValues.show}}</option>
                                     <option value="false">{{localization.currentLocal.fidgets.properties.hasScreenBeltValues.hide}}</option>
                                 </select>
 
-                                <span class="glyphicon glyphicon-remove form-control-feedback" ng-show="propertiesForm.{{p}}.$error.required || propertiesForm.{{p}}.$error.scriptError"></span>
+                                <span class="glyphicon glyphicon-remove form-control-feedback"
+                                      ng-disabled="editHandler.mepuv == editHandler.editedFidget.template.properties[p]"
+                                      ng-show="propertiesForm.{{p}}.$error.required || propertiesForm.{{p}}.$error.scriptError"></span>
 
-                                <select ng-model="editHandler.editedFidget.properties[p]" ng-if="p == '_screenLink'" class="form-control">
+                                <select ng-model="editHandler.editedFidget.properties[p]"
+                                        ng-disabled="editHandler.mepuv == editHandler.editedFidget.template.properties[p]"
+                                        ng-if="p == '_screenLink'" class="form-control">
                                     <option value="null"></option>
                                     <option ng-repeat="screen in project.screens" value="{{screen.id}}">{{screen.properties.name}}</option>
                                 </select>
 
-                                <select ng-model="editHandler.editedFidget.properties[p]" ng-if="p == '_icon'" class="form-control">
-                                    <option value="addons/factoryDesigner/images/fidgets/robot.png">{{localization.currentLocal.properties.robot}}</option>
-                                    <option value="addons/factoryDesigner/images/fidgets/plc.png">{{localization.currentLocal.properties.plc}}</option>
-                                </select>
-
-                                <select ng-model="editHandler.editedFidget.properties[p]" ng-if="p == '_font'" class="form-control">
+                                <select ng-model="editHandler.editedFidget.properties[p]"
+                                        ng-disabled="editHandler.mepuv == editHandler.editedFidget.template.properties[p]"
+                                        ng-if="p == '_font'" class="form-control">
                                     <option ng-repeat="font in fidgets.fonts | stringSort" value="{{font}}">{{font}}</option>
                                 </select>
 
-                                <select ng-model="editHandler.editedFidget.properties[p]" ng-if="p == '_textAlign'" class="form-control">
+                                <select ng-model="editHandler.editedFidget.properties[p]"
+                                        ng-disabled="editHandler.mepuv == editHandler.editedFidget.template.properties[p]"
+                                        ng-if="p == '_textAlign'" class="form-control">
                                     <option value="left">{{localization.currentLocal.fidgets.properties.alignments.left}}</option>
                                     <option value="center">{{localization.currentLocal.fidgets.properties.alignments.center}}</option>
                                     <option value="right">{{localization.currentLocal.fidgets.properties.alignments.right}}</option>
                                     <option value="justify">{{localization.currentLocal.fidgets.properties.alignments.justify}}</option>
                                 </select>
 
-                                <select ng-model="editHandler.editedFidget.properties[p]" ng-if="p == 'logoPosition'" class="form-control">
+                                <select ng-model="editHandler.editedFidget.properties[p]"
+                                        ng-disabled="editHandler.mepuv == editHandler.editedFidget.template.properties[p]"
+                                        ng-if="p == 'logoPosition'" class="form-control">
                                     <option value="bottomRight">{{localization.currentLocal.fidgets.properties.logoPositions.bottomRight}}</option>
                                     <option value="bottomLeft">{{localization.currentLocal.fidgets.properties.logoPositions.bottomLeft}}</option>
                                     <option value="topLeft">{{localization.currentLocal.fidgets.properties.logoPositions.topLeft}}</option>
                                     <option value="topRight">{{localization.currentLocal.fidgets.properties.logoPositions.topRight}}</option>
                                 </select>
 
-                                <select ng-model="editHandler.editedFidget.properties[p]" ng-if="p == '_fps'" class="form-control">
+                                <select ng-model="editHandler.editedFidget.properties[p]"
+                                        ng-disabled="editHandler.mepuv == editHandler.editedFidget.template.properties[p]"
+                                        ng-if="p == '_fps'" class="form-control">
                                     <option value="0.5">{{localization.currentLocal.fidgets.properties._fpsValues[0]}}</option>
                                     <option value="1">{{localization.currentLocal.fidgets.properties._fpsValues[1]}}</option>
                                     <option value="5">{{localization.currentLocal.fidgets.properties._fpsValues[2]}}</option>
                                 </select>
-                                <select ng-model="editHandler.editedFidget.properties[p]" ng-if="p == 'layout'" class="form-control">
+
+                                <select ng-model="editHandler.editedFidget.properties[p]"
+                                        ng-disabled="editHandler.mepuv == editHandler.editedFidget.template.properties[p]"
+                                        ng-if="p == 'layout'" class="form-control">
                                     <option value="vertical">{{localization.currentLocal.fidgets.properties.layoutValues.vertical}}</option>
                                     <option value="horizontal">{{localization.currentLocal.fidgets.properties.layoutValues.horizontal}}</option>
                                     <option value="">-</option>
                                 </select>
+
+                                <select ng-model="editHandler.editedFidget.properties[p]"
+                                        ng-if="p == '_shape'" class="form-control">
+                                    <option value="circle">{{localization.currentLocal.fidgets.shapes.circle}}</option>
+									<option value="ellipse">{{localization.currentLocal.fidgets.shapes.ellipse}}</option>
+                                    <option value="rectangle">{{localization.currentLocal.fidgets.shapes.rectangle}}</option>
+									<option value="triangle_isosceles">{{localization.currentLocal.fidgets.shapes.triangle_isosceles}}</option>
+									<option value="triangle_rectangular">{{localization.currentLocal.fidgets.shapes.triangle_rectangular}}</option>
+									<option value="star">{{localization.currentLocal.fidgets.shapes.star}}</option>
+									<option value="pentagon">{{localization.currentLocal.fidgets.shapes.pentagon}}</option>
+									<option value="hexagon">{{localization.currentLocal.fidgets.shapes.hexagon}}</option>
+									<option value="octagon">{{localization.currentLocal.fidgets.shapes.octagon}}</option>
+									<option value="trapezoid">{{localization.currentLocal.fidgets.shapes.trapezoid}}</option>
+									<option value="arrow">{{localization.currentLocal.fidgets.shapes.arrow}}</option>
+									<option value="arrow_long">{{localization.currentLocal.fidgets.shapes.arrow_long}}</option>
+									<option value="arrow_head">{{localization.currentLocal.fidgets.shapes.arrow_head}}</option>
+									<option value="arrow_cursor">{{localization.currentLocal.fidgets.shapes.arrow_cursor}}</option>
+									<option value="plus">{{localization.currentLocal.fidgets.shapes.plus}}</option>
+									<option value="heart">{{localization.currentLocal.fidgets.shapes.heart}}</option>
+									<option value="wrench">{{localization.currentLocal.fidgets.shapes.wrench}}</option>
+									<option value="rabbit">{{localization.currentLocal.fidgets.shapes.rabbit}}</option>
+									<option value="fish">{{localization.currentLocal.fidgets.shapes.fish}}</option>
+                                </select>
+
                             </td>
                         </tr>
 
@@ -143,23 +197,23 @@
             </form>
 
             <div class="modal-footer">
-                <div style="margin-bottom: 10px;" ng-if="project.currentScreen != editHandler.editedFidget">
-                    <button type="button" class="btn btn-info" style="width:23%; white-space: nowrap;" ng-click="moveFidget(moveTo.toBack())" ng-disabled="editHandler.editedFidget.parent.fidgets.indexOf(editHandler.editedFidget) == 0">{{localization.currentLocal.buttons.toBack}}</button>
-                    <button type="button" class="btn btn-info" style="width:23%; white-space: nowrap;" ng-click="moveFidget(moveTo.backOne())" ng-disabled="editHandler.editedFidget.parent.fidgets.indexOf(editHandler.editedFidget) == 0">{{localization.currentLocal.buttons.backward}}</button>
-                    <button type="button" class="btn btn-info" style="width:23%; white-space: nowrap;" ng-click="moveFidget(moveTo.toFront())" ng-disabled="editHandler.editedFidget.parent.fidgets.indexOf(editHandler.editedFidget) == editHandler.editedFidget.parent.fidgets.length - 1">{{localization.currentLocal.buttons.toFront}}</button>
-                    <button type="button" class="btn btn-info" style="width:23%; white-space: nowrap;" ng-click="moveFidget(moveTo.forwardOne())" ng-disabled="editHandler.editedFidget.parent.fidgets.indexOf(editHandler.editedFidget) == editHandler.editedFidget.parent.fidgets.length - 1">{{localization.currentLocal.buttons.forward}}</button>
+                <div style="margin-bottom: 10px;" ng-if="project.currentScreen != editHandler.editedFidget" class="moveButtons">
+                    <button type="button" class="btn btn-default" ng-click="moveFidget(moveTo.toBack())" ng-disabled="editHandler.editedFidget.parent.fidgets.indexOf(editHandler.editedFidget) == 0">{{localization.currentLocal.buttons.toBack}}</button>
+                    <button type="button" class="btn btn-default" ng-click="moveFidget(moveTo.backOne())" ng-disabled="editHandler.editedFidget.parent.fidgets.indexOf(editHandler.editedFidget) == 0">{{localization.currentLocal.buttons.backward}}</button>
+                    <button type="button" class="btn btn-default" ng-click="moveFidget(moveTo.toFront())" ng-disabled="editHandler.editedFidget.parent.fidgets.indexOf(editHandler.editedFidget) == editHandler.editedFidget.parent.fidgets.length - 1">{{localization.currentLocal.buttons.toFront}}</button>
+                    <button type="button" class="btn btn-default" ng-click="moveFidget(moveTo.forwardOne())" ng-disabled="editHandler.editedFidget.parent.fidgets.indexOf(editHandler.editedFidget) == editHandler.editedFidget.parent.fidgets.length - 1">{{localization.currentLocal.buttons.forward}}</button>
                 </div>
 
-                <div style="margin-bottom: 10px;" ng-if="project.currentScreen == editHandler.editedFidget">
-                    <button type="button" style="width:23%;" class="btn btn-primary" ng-click="duplicateScreen()">{{localization.currentLocal.buttons.duplicate}}</button>
-                    <button type="button" style="width:23%;" class="btn btn-danger" ng-click="removeScreen()">{{localization.currentLocal.buttons.remove}}</button>
-                    <button type="button" style="width:23%;" class="btn btn-info" ng-click="moveScreen(-1)" ng-disabled="project.currentScreenIndex == 0">{{localization.currentLocal.buttons.moveUp}}</button>
-                    <button type="button" style="width:23%;" class="btn btn-info" ng-click="moveScreen(1)" ng-disabled="project.currentScreenIndex >= project.screens.length - 1">{{localization.currentLocal.buttons.moveDown}}</button>
+                <div style="margin-bottom: 10px;" ng-if="project.currentScreen == editHandler.editedFidget" class="screenEditorButtons">
+                    <button type="button" class="btn btn-default" ng-click="duplicateScreen()">{{localization.currentLocal.buttons.duplicate}}</button>
+                    <button type="button" class="btn btn-danger" ng-click="removeScreen()">{{localization.currentLocal.buttons.remove}}</button>
+                    <button type="button" class="btn btn-default" ng-click="moveScreen(-1)" ng-disabled="project.currentScreenIndex == 0">{{localization.currentLocal.buttons.moveUp}}</button>
+                    <button type="button" class="btn btn-default" ng-click="moveScreen(1)" ng-disabled="project.currentScreenIndex >= project.screens.length - 1">{{localization.currentLocal.buttons.moveDown}}</button>
                 </div>
 
                 <div>
-                    <button autofocus type="button" class="btn btn-default" ng-click="editHandler.setPropertiesWindowVisible(false)" ng-disabled="propertiesForm.$invalid || hasInvalidScript()">{{localization.currentLocal.buttons.save}}</button>
-                    <button type="button" class="btn btn-default" ng-click="editHandler.setPropertiesWindowVisible(false, true)">{{localization.currentLocal.buttons.cancel}}</button>
+                    <button autofocus type="button" class="btn btn-default btn-100" ng-click="editHandler.setPropertiesWindowVisible(false)" ng-disabled="propertiesForm.$invalid || hasInvalidScript()">{{localization.currentLocal.buttons.save}}</button>
+                    <button type="button" class="btn btn-default btn-100" ng-click="editHandler.setPropertiesWindowVisible(false, true)">{{localization.currentLocal.buttons.cancel}}</button>
                 </div>
             </div>
         </div>

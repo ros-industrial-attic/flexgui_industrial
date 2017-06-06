@@ -16,11 +16,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License. 
  -->
-<div hm-tapend="onClick(fidget, fidget.properties.onClick)"
-     ng-mouseup="onClick(fidget, fidget.properties.onClick)"
+<div 
+     ng-click="onClick(fidget, fidget.properties.onClick)"
      ng-init="initImage(fidget)"
      style="height: {{fidget.properties.height}}px; width:{{fidget.properties.width}}px; position:relative; overflow: hidden;">
-    
+
     <div class="{{fidget.properties.scale}}"
          style="background-image: url({{imageUrl}}); background-position: center; background-repeat: no-repeat; width: 100%; height: 100%;">
         <img src="{{fidget.properties.value}}"

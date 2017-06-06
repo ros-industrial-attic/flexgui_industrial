@@ -158,12 +158,6 @@ function propertiesWindowCtrl($scope, $rootScope, $window, $location, $routePara
         });
     }
 
-    //if (!$rootScope.changeBacktroundType) {
-    //    $rootScope.changeBacktroundType = function () {
-    //        editorService.editedFidget.backgroundImage = colorPickerService.generateBase64Color(editorService.editedFidget.backgroundColor);
-    //    }
-    //}
-
     //init color picker to pick color for a factory screen background
     //for this we have to convert the color the a base64 image and back (to show which is selected)
     $scope.colorPickerInitForFactory = function () {
@@ -221,6 +215,12 @@ function propertiesWindowCtrl($scope, $rootScope, $window, $location, $routePara
         if (result.indexOf("_top") > -1 && result.indexOf("_left") > -1) result.move(result.indexOf("_top"), result.indexOf("_left"));
         if (result.indexOf("onClick") > -1) result.move(result.indexOf("onClick"), result.length - 1);
         return result;
+    }
+
+    $scope.enableField = function (p) {
+        if (editorService.editedFidget.template.properties[p] == editorService.mepuv) {
+            editorService.editedFidget.template.properties[p] = "";
+        }
     }
 
     //removes a screen from the project

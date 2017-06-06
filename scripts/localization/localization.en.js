@@ -1,23 +1,4 @@
-﻿/*
- * Software License Agreement (Apache License)
- *
- * Copyright (c) 2016, PPM AS
- * Contact: laszlo.nagy@ppmas.no
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License. 
-*/
-
-//add english translation to available languages
+﻿//add english translation to available languages
 localization.languages.push('en');
 
 //translation
@@ -228,6 +209,8 @@ localization.items.en = {
         remoteView: 'Remote view',
         endOfWay: 'End of way',
         properties: {
+            multipleDiffValueDisabledMsg: "[ Multiedit with different value, double tap to reset. ]",
+            _name: "Name",
             layout: "Layout",
             _margin: "Margin",
             layoutValues: {
@@ -355,7 +338,13 @@ localization.items.en = {
                 savedToMobile: 'The project file is saved to your root folder: ',
                 savedFailed: 'Save failed',
                 noteUseMobileMemory: '<i><u><b>Please note:</b></u> browse your built in storage to upload projects!</i>',
-                uploadImagesConfirm: 'The project contains images, do you want to overwrite the existing ones?'
+                uploadImagesConfirm: 'The project contains images, do you want to overwrite the existing ones?',
+                storageMode: {
+                    title: 'Project storage',
+                    autoUpdate: 'Enable auto project update',
+                    autoUpdateSwitch: 'Check to enable automatic project update with ROS',
+                    autoUpdateNote: '<b>Please note:</b> Enabled automatic project update can cause instable concurent using for multiple users.'
+                }
             },
             language: {
                 title: 'Language',
@@ -408,7 +397,9 @@ localization.items.en = {
                 offlineMode: 'Offline mode',
                 offlineModeSwitch: 'Check to disable ROS connection',
                 secure: 'Secure mode',
-                secureSwitch: 'Check to enable secure mode (WebSocket Security)'
+                secureSwitch: 'Check to enable secure mode (WebSocket Security)',
+                addons: 'Addons',
+                localAddons: 'Skip addon loading from server'
             },
             messenger: {
                 title: 'Messenger'

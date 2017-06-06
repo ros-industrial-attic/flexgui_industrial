@@ -17,9 +17,9 @@
  * limitations under the License. 
 */
 
-settingsWindowService.$inject = ['projectService', 'deviceService', 'popupService', '$rootScope', '$cookies', 'variableService', '$timeout'];
+settingsWindowService.$inject = ['projectService', 'deviceService', 'popupService', '$rootScope', '$cookies', 'variableService', '$timeout', 'helpService'];
 
-function settingsWindowService(projectService, deviceService, popupService, $rootScope, $cookies, variableService, $timeout) {
+function settingsWindowService(projectService, deviceService, popupService, $rootScope, $cookies, variableService, $timeout, helpService) {
 
     //Controller for the settings window
     var settingsWindowHandler = {
@@ -329,7 +329,7 @@ function settingsWindowService(projectService, deviceService, popupService, $roo
 
 
         themes: [],
-        getTheme: function (name, colors, title) {
+        getTheme: function (name, colors, title, logo) {
             return {
                 name: name,
                 colors: colors,
@@ -348,7 +348,9 @@ function settingsWindowService(projectService, deviceService, popupService, $roo
     }
 
     $(window).resize(function () {
-        settingsWindowHandler.isVertical = $(window).height() > $(window).width();
+        $timeout(function(){
+            settingsWindowHandler.isVertical = $(window).height() > $(window).width();
+        });
     });
 
     $(window).resize();
@@ -358,18 +360,17 @@ function settingsWindowService(projectService, deviceService, popupService, $roo
     if (!$rootScope.nodeExtras) $rootScope.nodeExtras = [];
 
     //subtabs
-    $rootScope.settingsTabs.operation = { position: 1, source: "views/settings/project.html", title: "Operations", classes: "projectSettingsTab" };
-    $rootScope.settingsTabs.init = { position: 2, source: "views/settings/init.html", title: localization.currentLocal.settings.tabs.initScript.title, classes: "settingsScriptTab" };
+    $rootScope.settingsTabs.operation = { help: helpService.settings.project, position: 1, source: "views/settings/project.html", title: "Operations", classes: "projectSettingsTab" };
+    $rootScope.settingsTabs.init = { help: helpService.settings.initScript, position: 2, source: "views/settings/init.html", title: localization.currentLocal.settings.tabs.initScript.title, classes: "settingsScriptTab" };
 
     //main tabs
-    $rootScope.settingsTabs.general = { children: [], position: 1, source: "views/settings/general.html", title: localization.currentLocal.settings.tabs.general.title };
-    $rootScope.settingsTabs.nodes = { children: [], position: 3, source: "views/settings/nodes.html", title: localization.currentLocal.settings.tabs.nodes.title, classes: "settingsNodesTab" };
-    $rootScope.settingsTabs.connection = { children: [], position: 4, source: "views/settings/connection.html", title: localization.currentLocal.settings.tabs.conn.title, classes: "diSettingsTab" };
-    $rootScope.settingsTabs.language = { children: [], position: 6, source: "views/settings/language.html", title: localization.currentLocal.settings.tabs.language.title, classes: "languageSettingsTab" };
+    $rootScope.settingsTabs.general = { help: helpService.settings.general, children: [], position: 1, source: "views/settings/general.html", title: localization.currentLocal.settings.tabs.general.title };
+    $rootScope.settingsTabs.nodes = { help: helpService.settings.nodes, children: [], position: 3, source: "views/settings/nodes.html", title: localization.currentLocal.settings.tabs.nodes.title, classes: "settingsNodesTab" };
+    $rootScope.settingsTabs.connection = { help: helpService.settings.connectionSettings, children: [], position: 4, source: "views/settings/connection.html", title: localization.currentLocal.settings.tabs.conn.title, classes: "diSettingsTab" };
+    $rootScope.settingsTabs.language = { help: helpService.settings.language, children: [], position: 6, source: "views/settings/language.html", title: localization.currentLocal.settings.tabs.language.title, classes: "languageSettingsTab" };
     $rootScope.settingsTabs.about = { children: [], position: 9999, source: "views/settings/about.html", title: "About", classes: "aboutSettingsTab" };
-    $rootScope.settingsTabs.project = { children: [$rootScope.settingsTabs.init, $rootScope.settingsTabs.operation], position: 5, source: "views/settings/project.html", title: localization.currentLocal.settings.tabs.project.title };
-    $rootScope.settingsTabs.addons = { children: [], position: 9998, source: '', title: 'Addons', children: [], hideEmpty: true }
-
+    $rootScope.settingsTabs.project = { help: helpService.settings.project, children: [$rootScope.settingsTabs.init, $rootScope.settingsTabs.operation], position: 5, source: "views/settings/project.html", title: localization.currentLocal.settings.tabs.project.title };
+    
     //function container to extend the online state
     settingsWindowHandler.offlineCheckers = [];
     settingsWindowHandler.checkOffline = function () {

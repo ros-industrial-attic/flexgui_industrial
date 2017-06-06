@@ -17,9 +17,9 @@
  * limitations under the License. 
 */
 
-deviceService.$inject = ['$rootScope', 'historyService', 'projectService', 'variableService', 'popupService', 'scriptManagerService', 'fidgetService', '$interval'];
+deviceService.$inject = ['$rootScope', 'historyService', 'projectService', 'variableService', 'popupService', 'scriptManagerService', 'fidgetService', '$interval', '$timeout'];
 
-function deviceService($rootScope, historyService, projectService, variableService, popupService, scriptManagerService, fidgetService, $interval) {
+function deviceService($rootScope, historyService, projectService, variableService, popupService, scriptManagerService, fidgetService, $interval, $timeout) {
 
     // Communication with the ROS
     var device = {
@@ -27,12 +27,12 @@ function deviceService($rootScope, historyService, projectService, variableServi
         connected: false,
 
         nodes: {},
-
+        rosUpdated: null,
         //server address
         ip: localStorage.getItem("diIp") || "localhost",
         port: localStorage.getItem("diPort") || 9090,
         secure: ["true", true, null].indexOf(localStorage.getItem("diSecure")) > -1 || window.location.protocol == 'https:',
-
+        localAddons: ["true", true, null].indexOf(localStorage.getItem("localAddons")) > -1,
         // The list of topics in ROS
         topics: [],
 
@@ -46,17 +46,20 @@ function deviceService($rootScope, historyService, projectService, variableServi
 
         // Updates the list of topics, then calls itself after a delay
         updateRos: function () {
-
             if (!variableService.ros) return;
 
             if (device.nextRosUpdate) {
-                window.clearTimeout(device.nextRosUpdate);
+                $timeout.cancel(device.nextRosUpdate);
                 delete device.nextRosUpdate;
             }
 
+			var updated = 0;
+			var updateCount = -1;
             variableService.ros.getTopics(function (pathList) {
                 device.findRemovedInterfaces(pathList, device.topics);
-
+				
+				updateCount = pathList.length;
+				
                 angular.forEach(pathList, function (path) {
                     // Returns a type string
                     variableService.ros.getTopicType(path, function (type) {
@@ -77,14 +80,16 @@ function deviceService($rootScope, historyService, projectService, variableServi
                                     }
                                 });
                             }
+							
+							updated++;
                         });
                     });
                 });
             });
 
-            //TODO for Laci: Solve this somehow, but not like this, with this in every 10sec you mess up the history. Why do we need this?
             //historyService.saveState();
             variableService.ros.getServices(function (pathList) {
+				
                 //TODO: rosapi/service_type is not working right now (even in the console). Check out later to get type data.
                 device.findRemovedInterfaces(pathList, device.services);
 
@@ -94,7 +99,15 @@ function deviceService($rootScope, historyService, projectService, variableServi
                 });
             });
 
-            device.nextRosUpdate = setTimeout(device.updateRos, 10000);
+			//update finished watcher
+			var updateFinishedWatcher = $rootScope.$watch(function(){ return updated; }, function(){
+				if (updated == updateCount){
+					device.rosUpdated = new Date();
+					updateFinishedWatcher();
+				}
+			});
+			
+			device.nextRosUpdate = $timeout(device.updateRos, 10000);
         },
 
         //init topic's value from project
@@ -507,12 +520,12 @@ function deviceService($rootScope, historyService, projectService, variableServi
 
                 //remove publisher check interval on subscribe to prevent multiple checks
                 if (topic.publisherCheckInterval) {
-                    clearInterval(topic.publisherCheckInterval);
+                    $interval.cancel(topic.publisherCheckInterval);
                     delete topic.publisherCheckInterval;
                 }
 
                 //check publishers and try to reconnect if there is none
-                topic.publisherCheckInterval = setInterval(function () {
+                topic.publisherCheckInterval = $interval(function () {
                     //call rosapi's publishers service which will return the publisher count of a given topic
                     device.callService("/rosapi/publishers", { topic: topic.path }, function (resp) {
                         //change topic to offline if all of the publishers are gone
@@ -524,10 +537,10 @@ function deviceService($rootScope, historyService, projectService, variableServi
                             delete topic.listener;
 
                             //resubscribe, build up the connection between publisher and subscriber again
-                            setTimeout(topic.subscribe, 1000);
+                            $timeout(topic.subscribe, 1000);
                         }
                     });
-                }, 30000); //check in every 10 sec
+                }, 30000); //check in every 30 sec
 
                 // The Topic object to handle listening
                 this.listener = new ROSLIB.Topic({
@@ -535,7 +548,7 @@ function deviceService($rootScope, historyService, projectService, variableServi
                     name: this.path,
                     messageType: this.type,
                     // Max 2 messages/s
-                    throttle_rate: 500
+                    throttle_rate: 100
                 });
 
                 // This will mean another object in the subscribe
@@ -565,7 +578,6 @@ function deviceService($rootScope, historyService, projectService, variableServi
 
                     // Saves the change in the projectService.
                     if (projectService.interfaceMetaData.setSubscribed(path, type, newValue)) {
-                        //                        device.saveProject(false);
                         projectService.needSave = { history: false, ts: Date.now() };
                     }
 
@@ -579,7 +591,7 @@ function deviceService($rootScope, historyService, projectService, variableServi
                         }
 
                         if (this.publisherCheckInterval) {
-                            clearInterval(this.publisherCheckInterval);
+                            $interval.cancel(this.publisherCheckInterval);
                             delete this.publisherCheckInterval;
                         }
                     }
@@ -598,10 +610,9 @@ function deviceService($rootScope, historyService, projectService, variableServi
         refreshUi: function () {
             if (device.changeOnUi && !device.lockUiChange) {
                 device.changeOnUi = false;
-                $rootScope.$apply();
             }
 
-            setTimeout(device.refreshUi, 200);
+            $timeout(device.refreshUi, 200);
         },
 
         // Close connection modal window

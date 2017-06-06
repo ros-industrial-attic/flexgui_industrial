@@ -18,12 +18,8 @@
  -->
 
 <div class="editSwitch" ng-click="editHandler.switchEditMode()">
-    <div style="{{editHandler.isEditMode ? 'background-color: rgba(30,30,30, 0.2);' : ''}} width: 100%; height: 100%;">
-        <div style="width: 100px; height: 80px; margin: auto; display: table">
-            <div style="display: table-cell; vertical-align: middle;">
-                <img src="images/edit.png" style="max-width: 40%; max-height: 40%;" />
-            </div>
-        </div>
+    <div style="{{editHandler.isEditMode ? 'background-color: rgba(30,30,30, 0.2);' : ''}} background-image: url({{icons.get('images/edit.png')}}), url({{icons.get('images/edit.png', true)}});"
+         ng-class="{'inEditMode': editHandler.isEditMode}">
         <span>{{localization.currentLocal.editMode.switchLabel}}</span>
     </div>
 </div>

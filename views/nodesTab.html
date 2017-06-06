@@ -27,14 +27,14 @@
 <div ng-if="settings.searchString.length == 0">
 
     <!--Dropdown list of nodes-->
-    <select class="form-control" style="width: 300px;"
+    <select class="form-control form-control-300"
             ng-model="settings.nodesTabSelectedItem"
             ng-options="nodeName for (nodeName, node) in nodes | orderBy:'nodeName'"></select>
 
     <h4 ng-if="!settings.nodesTabSelectedItem">{{localization.currentLocal.settings.tabs.nodes.nodeUnselected}}</h4>
 
     <!--List of interfaces on the node-->
-    <div class="tab-content" ng-if="settings.nodesTabSelectedItem" style="padding-left:0px;">
+    <div ng-if="settings.nodesTabSelectedItem" class="selectedNode">
         <h4>{{localization.format(localization.currentLocal.settings.tabs.nodes.detailsOf, [settings.nodesTabSelectedItem.__name])}}</h4>
 
         <div ng-repeat="extra in nodeExtras" compile="extra">
@@ -45,19 +45,17 @@
 </div>
 
 <!--Search results-->
-<div ng-if="settings.searchString.length > 1 && settings.searchInterfaces().length != 0">
-    <div class="tab-content" style="padding-left:0px;">
-        <h4>{{localization.currentLocal.settings.tabs.nodes.searchResult}}</h4>
-        <ng-include src="'views/interfaceRepeater.html'"></ng-include>
-    </div>
+<div ng-if="settings.searchString.length > 1 && settings.searchInterfaces().length != 0" class="searchResult">
+    <h4>{{localization.currentLocal.settings.tabs.nodes.searchResult}}</h4>
+    <ng-include src="'views/interfaceRepeater.html'"></ng-include>
 </div>
 
 <!--Too short search expression-->
-<div class="tab-content" ng-if="settings.searchString.length == 1" style="padding-left:0px;">
+<div ng-if="settings.searchString.length == 1" class="searchResult">
     <h4>{{localization.currentLocal.settings.tabs.nodes.tooShortError}}</h4>
 </div>
 
 <!--No search result-->
-<div class="tab-content" ng-if="settings.searchString.length > 1 && settings.searchInterfaces().length == 0" style="padding-left:0px;">
+<div ng-if="settings.searchString.length > 1 && settings.searchInterfaces().length == 0" class="searchResult">
     <h4>{{localization.format(localization.currentLocal.settings.tabs.nodes.detailsOf, [settings.searchString])}}</h4>
 </div>

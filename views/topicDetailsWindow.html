@@ -28,13 +28,13 @@
 
             <div style="margin: 10px;">
                 <perfect-scrollbar class="scroller topicDetailsRepeaterScrollBar perfectScrollBar" show-perfect-scroll-bar>
-                    <div style="width: 100%;" ng-include="settings.topicDetails.repeater" ng-init="currentObject = settings.topicDetails.currentTopic.value; currentPath = '[\'' + settings.topicDetails.currentTopic.shortPath + '\'].value'; level = 0;"></div>
+                    <div ng-include="settings.topicDetails.repeater" ng-init="currentObject = settings.topicDetails.currentTopic.value; currentPath = '[\'' + settings.topicDetails.currentTopic.shortPath + '\'].value'; level = 0;"></div>
                 </perfect-scrollbar>
             </div>
 
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" ng-click="settings.topicDetails.setVisible(false)">{{localization.currentLocal.buttons.close}}</button>
-                <button type="button" class="btn btn-success" ng-disabled="device.hasDupes()" ng-click="settings.topicDetails.saveFriendlyNames()">{{localization.currentLocal.buttons.save}}</button>
+                <button type="button" class="btn btn-success btn-100" ng-disabled="device.hasDupes()" ng-click="settings.topicDetails.saveFriendlyNames()">{{localization.currentLocal.buttons.save}}</button>
+                <button type="button" class="btn btn-default btn-100" ng-click="settings.topicDetails.setVisible(false)">{{localization.currentLocal.buttons.close}}</button>
             </div>
         </div>
     </div>

@@ -17,11 +17,6 @@
  * limitations under the License. 
  -->
 
-<div class="boolean" 
-     style="height:{{fidget.properties.height}}px; width:{{fidget.properties.width}}px;" 
-     hm-tapend="onClick(fidget, fidget.properties.onClick)" 
-     ng-mouseup="onClick(fidget, fidget.properties.onClick)">
-
     <div class="alert alert-danger" ng-class="{'alert-danger': fidget.properties.value != true, 'alert-success': fidget.properties.value == true}" role="alert" style="font-family: {{fidget.properties.font || 'inherit'}}; font-size: {{fidget.properties.fontSize}}px; color: {{fidget.properties.color}}">
         <span class="glyphicon" ng-class="{'glyphicon-remove': fidget.properties.value != true, 'glyphicon-ok': fidget.properties.value == true}" aria-hidden="true"></span>
         {{fidget.properties.text}}

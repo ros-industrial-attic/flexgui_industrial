@@ -17,11 +17,11 @@
  * limitations under the License. 
 */
 
-fidgetService.$inject = ['enumService', 'variableService', 'colorPickerService', 'scriptManagerService', '$sce', '$http', '$timeout', '$rootScope'];
+fidgetService.$inject = ['enumService', 'variableService', 'colorPickerService', 'scriptManagerService', '$sce', '$http', '$timeout', '$rootScope', 'iconService'];
 
-function fidgetService(enumService, variableService, colorPickerService, scriptManagerService, $sce, $http, $timeout, $rootScope) {
+function fidgetService(enumService, variableService, colorPickerService, scriptManagerService, $sce, $http, $timeout, $rootScope, iconService) {
     var fidgets = {
-        getFidget: function (root, source, left, top, properties, icon, name, template) {
+        getFidget: function (root, source, left, top, properties, icon, name, template, parent) {
             var result = {
                 root: root,
                 source: source,
@@ -30,16 +30,20 @@ function fidgetService(enumService, variableService, colorPickerService, scriptM
                 name: name,
                 template: template
             };
-            result.properties._left = left;
-            result.properties._top = top;
+
+            if (!result.properties._left) { result.properties._left = left; }
+            if (!result.properties._top) { result.properties._top = top; }
+
+            if (parent) {
+                result.parent = parent;
+                parent.fidgets.push(result);
+            }
 
             if (result.source == "fidgetGroup") {
                 result.fidgets = [];
             }
 
             fidgets.defineProperties(result);
-
-            //adding onClick to all fidgets, if not defined explicitely
 
             return result;
         },
@@ -90,7 +94,7 @@ function fidgetService(enumService, variableService, colorPickerService, scriptM
                 //calculate from property
                 var cprop = sizeAndPos[sizeAndPos.indexOf(propertyName) % 2];
                 //parent property value
-                var pprop = fidget.containerLevel == 1 ? parseInt($("#currentScreen").css(cprop.substring(1))) : fidget.parent.properties[cprop.substring(1)];
+                var pprop = fidget.parent.containerLevel == 0 ? parseInt($("#currentScreen").css(cprop.substring(1))) : fidget.parent.properties[cprop.substring(1)];
 
                 if (["fidgetGroup"].indexOf(fidget.parent.source) > -1) {
                     pprop = pprop - 2 * fidget.parent.properties["borderWidth"];
@@ -106,7 +110,7 @@ function fidgetService(enumService, variableService, colorPickerService, scriptM
             try{
                 return Number(eval(scriptManagerService.compile(currentValue)));
             } catch (e) {
-
+                console.log(e);
             }
         },
 
@@ -236,10 +240,11 @@ function fidgetService(enumService, variableService, colorPickerService, scriptM
             }
         },
 
-        getTemplate: function (root, source, properties, forScreenType, icon, propertyLabels) {
+        getTemplate: function (root, source, properties, forScreenType, iconBase, icon, propertyLabels) {
             var template = {
                 root: root,
                 icon: icon,
+                iconBase: iconBase,
                 forScreenType: forScreenType,
                 source: source,
                 hidden: forScreenType == enumService.screenTypesEnum.Factory,
@@ -262,24 +267,30 @@ function fidgetService(enumService, variableService, colorPickerService, scriptM
     fidgets.fonts = ['inherit', '"Courier New", Courier, monospace', '"Lucida Console", Monaco, monospace', 'Verdana, Geneva, sans-serif', 'Arial, Helvetica, sans-serif', '"Arial Black", Gadget, sans-serif', 'Impact, Charcoal, sans-serif', 'Georgia, serif', '"Times New Roman", Times, serif', '"Palatino Linotype", "Book Antiqua", Palatino, serif'];
 
     fidgets.templates = {
-        "fidgetGroup": fidgets.getTemplate("views/fidgets/", "fidgetGroup", { layout: "", _margin: 10, _width: 200, _height: 200, _color: '#D1D1D1', _opacity: 0.7, _borderColor: "#000000", _borderWidth: "0" }, enumService.screenTypesEnum.All, "images/fidgets/box.png"),
-        "progressBar": fidgets.getTemplate("views/fidgets/", "progressBar", { _width: 100, _height: 30, _value: "variableService.demo.int", _color: '#ff0000', _fontColor: '' }, enumService.screenTypesEnum.Normal),
-        "button": fidgets.getTemplate("views/fidgets/", "button", { _width: 100, _height: 30, _text: "Click me", _font: "inherit", _fontSize: 12, _color: "", onClick: "#message('Default button action.')" }, enumService.screenTypesEnum.Normal),
-        "checkBox": fidgets.getTemplate("views/fidgets/", "checkBox", { _width: 100, _height: 30, _text: "Check me", _value: "variableService.demo.bool", _fontColor: "#000000", _font: "inherit", _fontSize: 16 }, enumService.screenTypesEnum.Normal),
-        "textInput": fidgets.getTemplate("views/fidgets/", "textInput", { _width: 100, _height: 30, _text: "variableService.demo.string" }, enumService.screenTypesEnum.Normal, "images/fidgets/textinput.png"),
-        "text": fidgets.getTemplate("views/fidgets/", "text", { _textAlign: "left", _font: "inherit", _width: 100, _height: 25, _fontSize: 16, _color: "#000000", _text: "variableService.demo.string" }, enumService.screenTypesEnum.All, "images/fidgets/text.png"),
-        "scrollableText": fidgets.getTemplate("views/fidgets/", "scrollableText", { _textAlign: "left", _font: "inherit", _width: 100, _height: 100, _fontSize: 12, _color: "#000000", _text: "variableService.demo.string" }, enumService.screenTypesEnum.All, "images/fidgets/multilinetext.png"),
-        "slider": fidgets.getTemplate("views/fidgets/", "slider", { _width: 100, _height: 30, _value: "variableService.demo.int", _min: 0, _max: 100, _step: 0.1 }, enumService.screenTypesEnum.Normal),
-        "radioButton": fidgets.getTemplate("views/fidgets/", "radioButton", { _width: 100, _height: 100, _value: "'Option1'", _options: 'Option1,Option2', _font: "inherit", _fontSize: 16, _fontColor: "#000000" }, enumService.screenTypesEnum.Normal),
-        "fullgauge": fidgets.getTemplate("views/fidgets/", "fullgauge", { _width: 80, _height: 80, _value: "variableService.demo.int", _color: '#ff0000', _angleOffset: 0, _angleArc: 360, _step: 0.1, _min: 0.0, _max: 100.0, _lock: false }, enumService.screenTypesEnum.Normal),
-        "boolean": fidgets.getTemplate("views/fidgets/", "boolean", { _width: 100, _height: 30, _font: "inherit", _fontSize: 16, _color: "#000000", _text: "Bool value", _value: "variableService.demo.bool" }, enumService.screenTypesEnum.Normal),
-        "image": fidgets.getTemplate("views/fidgets/", "image", { _width: 100, _height: 100, _value: "variableService.demo.image", scale: 'aspectFit' }, enumService.screenTypesEnum.Normal, "images/image-not-found.png"),
-        "indicatorLamp": fidgets.getTemplate("views/fidgets/", "indicatorLamp", { _width: 100, _height: 30, _text: "Indicate", _value: "variableService.demo.bool", _onColor: '#00ff00', _offColor: '#ff0000', _fontColor: "#000000", _blinking: false, _blinkFrequency: 1 }, enumService.screenTypesEnum.Normal)
+        "fidgetGroup": fidgets.getTemplate("views/fidgets/", "fidgetGroup", { _name: "", layout: "", _margin: 10, _width: 200, _height: 200, _color: '#D1D1D1', _opacity: 0.7, _borderColor: "#000000", _borderWidth: "0" }, enumService.screenTypesEnum.All, null, "images/fidgets/fidgetGroup.png"),
+        "progressBar": fidgets.getTemplate("views/fidgets/", "progressBar", { _name: "", _width: 100, _height: 30, _value: "variableService.demo.int", _color: '#ff0000', _fontColor: '' }, enumService.screenTypesEnum.Normal, null, "images/fidgets/progressBar.png"),
+        "button": fidgets.getTemplate("views/fidgets/", "button", { _name: "", _width: 100, _height: 30, _text: "Click me", _font: "inherit", _fontSize: 12, _color: "", onClick: "#message('Default button action.')" }, enumService.screenTypesEnum.Normal, null, "images/fidgets/button.png"),
+        "checkBox": fidgets.getTemplate("views/fidgets/", "checkBox", { _name: "", _width: 100, _height: 30, _text: "Check me", _value: "variableService.demo.bool", _fontColor: "#000000", _font: "inherit", _fontSize: 16 }, enumService.screenTypesEnum.Normal, null, "images/fidgets/checkBox.png"),
+        "textInput": fidgets.getTemplate("views/fidgets/", "textInput", { _name: "", _width: 100, _height: 30, _text: "variableService.demo.string" }, enumService.screenTypesEnum.Normal, null, "images/fidgets/textInput.png"),
+        "text": fidgets.getTemplate("views/fidgets/", "text", { _name: "", _textAlign: "left", _font: "inherit", _width: 100, _height: 25, _fontSize: 16, _color: "#000000", _text: "variableService.demo.string" }, enumService.screenTypesEnum.All, null, "images/fidgets/text.png"),
+        "scrollableText": fidgets.getTemplate("views/fidgets/", "scrollableText", { _name: "", _textAlign: "left", _font: "inherit", _width: 100, _height: 100, _fontSize: 12, _color: "#000000", _text: "variableService.demo.string" }, enumService.screenTypesEnum.All, null, "images/fidgets/scrollableText.png"),
+        "slider": fidgets.getTemplate("views/fidgets/", "slider", { _name: "", _width: 100, _height: 30, _value: "variableService.demo.int", _min: 0, _max: 100, _step: 0.1 }, enumService.screenTypesEnum.Normal, null, "images/fidgets/slider.png"),
+        "radioButton": fidgets.getTemplate("views/fidgets/", "radioButton", { _name: "", _width: 100, _height: 100, _value: "'Option1'", _options: 'Option1,Option2', _font: "inherit", _fontSize: 16, _fontColor: "#000000" }, enumService.screenTypesEnum.Normal, null, "images/fidgets/radioButton.png"),
+        "fullgauge": fidgets.getTemplate("views/fidgets/", "fullgauge", { _name: "", _width: 80, _height: 80, _value: "variableService.demo.int", _color: '#ff0000', _angleOffset: 0, _angleArc: 360, _step: 0.1, _min: 0.0, _max: 100.0, _lock: false }, enumService.screenTypesEnum.Normal, null, "images/fidgets/gauge.png"),
+        "boolean": fidgets.getTemplate("views/fidgets/", "boolean", { _name: "", _width: 100, _height: 30, _font: "inherit", _fontSize: 16, _color: "#000000", _text: "Bool value", _value: "variableService.demo.bool" }, enumService.screenTypesEnum.Normal, null, "images/fidgets/boolean.png"),
+        "image": fidgets.getTemplate("views/fidgets/", "image", { _name: "", _width: 100, _height: 100, _value: "variableService.demo.image", scale: 'aspectFit' }, enumService.screenTypesEnum.Normal, null, "images/fidgets/image.png"),
+        "indicatorLamp": fidgets.getTemplate("views/fidgets/", "indicatorLamp", { _name: "", _width: 100, _height: 30, _text: "Indicate", _value: "variableService.demo.bool", _onColor: '#00ff00', _offColor: '#ff0000', _fontColor: "#000000", _blinking: false, _blinkFrequency: 1 }, enumService.screenTypesEnum.Normal, null, "images/fidgets/indicatorLamp.png")
     };
 
     $rootScope.$watch(function () { return fidgets.templatelessFidgets.length; }, function () {
         fidgets.templateCheckCount = 10;
         fidgets.reCheckTemplate();
+    });
+
+    $rootScope.$watchCollection(function () { return fidgets.templates; }, function () {
+        angular.forEach(fidgets.templates, function (fidget) {
+            iconService.add(fidget.icon, fidget.iconBase);
+        });
     });
 
     return fidgets;

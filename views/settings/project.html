@@ -17,8 +17,6 @@
  * limitations under the License. 
  -->
 
-<ng-include src="'views/helpIcon.html'" class="floatRight" ng-init="help = helpMessages.settings.project" ng-if="helpMessages.show"></ng-include>
-
 <!--Project Settings-->
 <div>
     <h5 ng-if="isMobile" ng-bind-html="localization.currentLocal.settings.tabs.project.noteUseMobileMemory"></h5>
@@ -35,7 +33,7 @@
     <button class="btn btn-default btn-block btn-lg" ng-click="projects.clean(); settings.setVisible(false);">{{localization.currentLocal.settings.tabs.project.createNew}}</button>
 
     <div ng-if="!settings.offlineMode">
-        <h4>Project storage</h4>
+        <h4>{{localization.currentLocal.settings.tabs.project.storageMode.title}}</h4>
         <!--Dropdown list of nodes-->
         <select class="form-control"
                 ng-model="drive.mode"
@@ -43,12 +41,12 @@
                 ng-options="mode for mode in ['rosparam', 'localStorage']"></select>
 
         <div ng-show="drive.mode == 'rosparam'">
-            <h5>Enable auto project update</h5>
+            <h5>{{localization.currentLocal.settings.tabs.project.storageMode.autoUpdate}}</h5>
             <div class="checkbox">
                 <input type="checkbox" ng-model="drive.isAutoProjectUpdateEnabled" ng-change="drive.changeAutoUpdate()" id="showHideStats">
-                <label for="showHideStats">Check to enable automatic project update with ROS</label>
+                <label for="showHideStats">{{localization.currentLocal.settings.tabs.project.storageMode.autoUpdateSwitch}}</label>
             </div>
-            <i><b>Please note:</b> Enabled automatic project update can cause instable concurent using for multiple users.</i>
+            <i ng-bind-html="localization.currentLocal.settings.tabs.project.storageMode.autoUpdateNote"></i>
         </div>
     </div>
 </div>

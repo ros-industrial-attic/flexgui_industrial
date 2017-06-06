@@ -357,6 +357,28 @@ function projectConversionService($rootScope, popupService) {
         }
     }
 
+    serv.list[17] = {
+        from: "1.9.7",
+        to: "1.9.8",
+        action: function (project) {
+            console.log("converting...", this.from, this.to);
+            project.appVersion = this.to;
+
+            function updateFidgets(c) {
+                angular.forEach(c.fidgets, function (f) {
+                    if (f.fidgets) updateFidgets(f);
+                    f.properties._name = "";
+                });
+            }
+
+            angular.forEach(project.screens, function (screen) {
+                updateFidgets(screen);
+            });
+
+            return project;
+        }
+    }
+
     var loops = 0;
 
     serv.convert = function (project, toVersion) {

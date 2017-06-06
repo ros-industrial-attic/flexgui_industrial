@@ -44,7 +44,7 @@
                         ng-click="diagnostics.finishedTests = project.testSequence.length;diagnostics.setResultVisible(false)" 
                         ng-disabled="diagnostics.finishedTests == project.testSequence.length">{{localization.currentLocal.diagnostics.cancel}}</button>
 
-                <button type="button" class="btn btn-default" ng-click="diagnostics.setResultVisible(false)" ng-disabled="diagnostics.finishedTests != project.testSequence.length">{{localization.currentLocal.diagnostics.close}}</button>
+                <button type="button" class="btn btn-default btn-100" ng-click="diagnostics.setResultVisible(false)" ng-disabled="diagnostics.finishedTests != project.testSequence.length">{{localization.currentLocal.diagnostics.close}}</button>
             </div>
         </div>
     </div>

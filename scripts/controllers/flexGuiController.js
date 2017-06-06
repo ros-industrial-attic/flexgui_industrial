@@ -257,6 +257,8 @@ function flexGuiCtrl($scope, $window, $location, $routeParams, $sce, $timeout, $
     $scope.copyHtmlById = function (id) {
         return $("#" + id).text();
     }
+
     deviceService.init($location);
     imageService.init($scope);
-    editorService.init($scope.beltWidth);};
+    editorService.init($scope.beltWidth);
+};

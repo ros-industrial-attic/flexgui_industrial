@@ -19,8 +19,8 @@
 <div style="width: {{fidget.properties.width}}px; height: {{fidget.properties.height}}px;" 
      ng-init="initIndicatorLamp(fidget)"
      class="indicatorLamp" 
-     hm-tapend="onClick(fidget, fidget.properties.onClick)" 
-     ng-mouseup="onClick(fidget, fidget.properties.onClick)">
+     
+     ng-click="onClick(fidget, fidget.properties.onClick)">
     <style>
         #{{fidget.id}} .lamp{
                            border-width: {{size * 0.075}}px;
@@ -59,4 +59,3 @@
     <div style="height: {{size}}px; line-height: {{size}}px; padding-left: {{size + 5}}px; color: {{fidget.properties.fontColor}}; white-space: nowrap;" ng-bind-html="fidget.properties.text">
     </div>
 </div>
-

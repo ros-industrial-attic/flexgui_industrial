@@ -24,7 +24,7 @@
             <div class="modal-header">
                 <button type="button" class="close" ng-click="images.setVisible(false)">&times;</button>
                 <h4 class="modal-title">{{localization.currentLocal.images.title}}</h4>
-                <ng-include src="'views/helpIcon.html'" class="floatRight" style="margin-top: -32px; margin-right: 30px;" ng-init="help = helpMessages.imageExplorer" ng-if="helpMessages.show"></ng-include>
+                <ng-include src="'views/helpIcon.html'" class="floatRight imageHelp" ng-init="help = helpMessages.imageExplorer" ng-if="helpMessages.show"></ng-include>
             </div>
 
             <ul class="nav nav-tabs" role="tablist">
@@ -70,8 +70,8 @@
                     </perfect-scrollbar>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-success" ng-click="images.selectImage()" ng-disabled="images.selectedImage == null">{{localization.currentLocal.buttons.select}}</button>
-                    <button type="button" class="btn btn-default" ng-click="images.setVisible(false)">{{localization.currentLocal.buttons.close}}</button>
+                    <button type="button" class="btn btn-success btn-100" ng-click="images.selectImage()" ng-disabled="images.selectedImage == null">{{localization.currentLocal.buttons.select}}</button>
+                    <button type="button" class="btn btn-default btn-100" ng-click="images.setVisible(false)">{{localization.currentLocal.buttons.close}}</button>
                 </div>
             </div>
         </div>

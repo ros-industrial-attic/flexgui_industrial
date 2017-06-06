@@ -18,5 +18,5 @@
  -->
 
 <div class="helpIcon" ng-click="helpMessages.setOpen(help)">
-    <div class="glyphicon glyphicon-question-sign"></div>
+    <div style="width: {{60 * (resize || 1)}}px; height: {{40 * (resize || 1)}}px; background-image: url({{icons.get('images/help.png')}}),url({{icons.get('images/help.png', true)}});"></div>
 </div>

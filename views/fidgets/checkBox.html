@@ -18,7 +18,7 @@
  -->
 
 <table class="checkbox" style="width: {{fidget.properties.width}}px; height: {{fidget.properties.height}}px; display: table-cell; vertical-align: middle; text-align: center;">
-    <tr hm-tapend="onClick(fidget, fidget.properties.onClick)" ng-mouseup="onClick(fidget, fidget.properties.onClick)">
+    <tr  ng-click="onClick(fidget, fidget.properties.onClick)">
         <td>
             <div class="checkbox">
                 <input type="checkbox" id="chk_{{fidget.id}}" ng-model="fidget.properties.value">

@@ -1,23 +1,4 @@
-﻿/*
- * Software License Agreement (Apache License)
- *
- * Copyright (c) 2016, PPM AS
- * Contact: laszlo.nagy@ppmas.no
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License. 
-*/
-
-//add hungarian translation to available languages
+﻿//add hungarian translation to available languages
 localization.languages.push('hu');
 
 //translation
@@ -228,6 +209,10 @@ localization.items.hu = {
         remoteView: 'Remote view',
         endOfWay: 'Út vége',
         properties: {
+            multipleDiffValueDisabledMsg: "[ Különböző értékek, dupla klikk a szerkesztéshez ]",
+            _name: "Név",
+            layout: "Elrendezés",
+            _margin: "Margó",
             hasScreenBeltValues: {
                 show: 'Megjelenítés',
                 hide: "Elrejtés"
@@ -349,7 +334,13 @@ localization.items.hu = {
                 savedToMobile: 'A project fájl elmentve a gyökér könyvtárba: ',
                 savedFailed: 'Hiba a mentés folyamán',
                 noteUseMobileMemory: '<i><u><b>Fontos:</b></u> A belső memóriát használja a projektek átvitele folyamán!</i>',
-                uploadImagesConfirm: 'Felülírja az aktuális képeket a projektben levőkkel?'
+                uploadImagesConfirm: 'Felülírja az aktuális képeket a projektben levőkkel?',
+                storageMode: {
+                    title: 'Project storage',
+                    autoUpdate: 'Enable auto project update',
+                    autoUpdateSwitch: 'Check to enable automatic project update with ROS',
+                    autoUpdateNote: '<b>Please note:</b> Enabled automatic project update can cause instable concurent using for multiple users.'
+                }
             },
             language: {
                 title: 'Nyelv',
@@ -402,7 +393,9 @@ localization.items.hu = {
                 offlineMode: 'Demó mód',
                 offlineModeSwitch: 'Jelölje be a demó mód aktiválásához',
                 secure: 'Biztonságos kapcsolat',
-                secureSwitch: 'Jelölje be a biztonságos (WebSocket Security) kapcsolat aktiválásához'
+                secureSwitch: 'Jelölje be a biztonságos (WebSocket Security) kapcsolat aktiválásához',
+                addons: 'Kiegészítők',
+                localAddons: 'Ne töltse le a kiegészítőket'
             },
             messenger: {
             	title: 'Üzenetek'
@@ -497,6 +490,14 @@ localization.items.hu = {
         enterprise: {
         	header: 'Enterprise Trial súgó',
             content: '<h3>Trial mód</h3><p>A Trial móddal a FlexGui 4.0 összes funkcióját ingyen használhatja. A Trial módhoz szükséges internetes kapcsolat.</p><h3>Használat</h3><p>A <b>Trial mode</b> engedélyezéséhez kövesse az instrukciókat: <ol><li>Regisztráljon a <a href="https://flexgui4.ppm.no">weboldalunkon</a></li><li>Menjen a saját Profil oldalára</li><li>Igényeljen FlexGui 4.0 Trial licenszt</li></ol></p>'
+        },
+        diagnostics: {
+            content: "<p>In diagnostics you can create sequences to test your environment.</p><h4>Create/Edit</h4><p>To create a new item, press the <b>Add new button</b> and follow the insturctions. If you want to edit and already existing item, press the small pen icon in the end of the line. You can also reorder your test sequence by pressing the up and down icons.</p><h4>Run</h4><p>Press <b>Run test</b> button to start the selected tests. You can add/remove items from the sequence by click on the checkbox in front of the test</p>",
+            header: "Diagnostics"
+        },
+        diagnosticsEditor: {
+            content: "<p>In test editor you can choose a built in script and set up its parameters or write a custom script.</p><h4>Custom script</h4><i><b><u>Please note:</u></b> use the following variables for optimal result</i><ul><li><b>test.result:</b> thiw will be shown on the UI under the name of your script</li><li><b>srv.testFinished();</b> Call this function when your script finished to be able to jump to the next test.</li><li><b>$rootScope.$apply();</b> call this function, when the script ends if you have any async calls (timeout, interval or e.g. waiting for a ROS event to end)</li></ul>",
+            header: "Diagnostics editor"
         },
         screenBelt: {
         	header: 'Képernyő sáv súgó',

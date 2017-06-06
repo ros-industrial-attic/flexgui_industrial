@@ -17,7 +17,7 @@
  * limitations under the License. 
  -->
 
- <td>
+<td>
     <label ng-if="!interface.value">{{interface.shortPath.indexOf("Variables/") == 0 ? interface.shortPath.substring(10) : interface.shortPath}}</label>
     <a ng-click="settings.topicDetails.setVisible(true, interface)" ng-if="interface.value">{{interface.shortPath.indexOf("Variables/") == 0 ? interface.shortPath.substring(10) : interface.shortPath}}</a>
 </td>

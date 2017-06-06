@@ -19,11 +19,11 @@
 
 <div class="modal" id="editTestItemWindow" data-backdrop="static"
      data-keyboard="false">
-    <div class="modal-dialog" style="max-width: 80%; width: 800px">
+    <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
                 <h4>{{diagnostics.originalTest ? localization.currentLocal.diagnostics.editTest : localization.currentLocal.diagnostics.newtest}}</h4>
-                <ng-include src="'views/helpIcon.html'" class="floatRight" style="margin-top:-40px;" ng-init="help = helpMessages.settings.diagnosticsEditor" ng-if="helpMessages.show"></ng-include>
+                <ng-include src="'views/helpIcon.html'" class="floatRight testItemEditorHelp" ng-init="help = helpMessages.settings.diagnosticsEditor" ng-if="helpMessages.show"></ng-include>
             </div>
 
             <div class="modal-body">
@@ -41,8 +41,8 @@
                 </div>
 
                 <div ng-if="!diagnostics.editedTest.isUserDefined">
-                    <select class="form-control"
-                            style="width: 100%; height: calc(100% - 60px)"
+                    
+                    <select class="form-control predefinedTestSelector"
                             ng-model="diagnostics.editedTest.name"
                             ng-options="key as localization.currentLocal.diagnostics.tests[key].name for (key, item) in diagnostics.tests"></select>
 
@@ -59,8 +59,8 @@
             </div>
 
             <div class="modal-footer">
-                <button type="button" class="btn btn-danger" ng-click="diagnostics.setTestItemEditorVisible(false, false)">{{localization.currentLocal.diagnostics.close}}</button>
-                <button type="button" class="btn btn-default" ng-click="diagnostics.setTestItemEditorVisible(false, true)" ng-disabled="diagnostics.isTestItemInvalid()">{{localization.currentLocal.diagnostics.save}}</button>
+                <button type="button" class="btn btn-default btn-100" ng-click="diagnostics.setTestItemEditorVisible(false, true)" ng-disabled="diagnostics.isTestItemInvalid()">{{localization.currentLocal.diagnostics.save}}</button>
+                <button type="button" class="btn btn-default btn-100" ng-click="diagnostics.setTestItemEditorVisible(false, false)">{{localization.currentLocal.diagnostics.close}}</button>
             </div>
         </div>
     </div>

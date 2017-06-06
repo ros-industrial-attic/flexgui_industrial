@@ -1,0 +1,13 @@
+﻿<div class="jointPositions"
+     style="width: {{fidget.properties.width}}px; height: {{fidget.properties.height}}px; display: table-cell; vertical-align: middle; overflow: hidden;"
+     >
+
+    <table style="background-color: {{fidget.properties.backgroundColor}}">
+        <!--DUMMY : ng-if to limit to 6 axis for the demo-->
+        <tr class="joint" ng-repeat="jointValue in fidget.properties.value track by $index" ng-if="$index < 6">
+            <td><span style="color: {{fidget.properties.nameColor}}">J{{$index + 1}}</span></td>
+            <td><intput type="text" disabled="disabled" class="form-control">{{jointValue.toFixed(fidget.properties.precision)}}</intput></td>
+        </tr>
+    </table>
+
+</div>

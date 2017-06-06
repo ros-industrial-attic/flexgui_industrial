@@ -543,7 +543,7 @@ function diagnosticsService(deviceService, $rootScope, settingsWindowService, pr
     };
 
     //add to views
-    $rootScope.settingsTabs.diagnostics = { children: [], position: 14, source: "views/settings/diagnostics.html", title: "Diagnostics", classes: "diagnoseSettingsTab" };
+    $rootScope.settingsTabs.diagnostics = { help: helpService.settings.diagnostics, children: [], position: 14, source: "views/settings/diagnostics.html", title: "Diagnostics", classes: "diagnoseSettingsTab" };
     $rootScope.diagnostics = srv;
 
     return srv;

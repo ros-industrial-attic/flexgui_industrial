@@ -94,7 +94,26 @@ function colorPickerService() {
             "#FF2424",
             "#A50000",
             "#5D0000"
-        ]
+        ], 
+
+        namedColors: {
+            add: function(name, color){
+                this.list[name] = color;
+            },
+            get: function (name) {
+                //return black by default
+                if (!this.list[name]) return "#FFFFFF";
+
+                return this.list[name];
+            },
+            list: {
+                "text": "#b8c1cf",
+                "dialog": "#4b515f",
+                "main": "#ff5f00",
+                "belt": "#515763",
+                "background": "#36373C"
+            }
+        },
     }
 
     return colorPickerHandler;

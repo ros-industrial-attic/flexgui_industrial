@@ -143,7 +143,13 @@ function fidgetCtrl($http, $sce, $scope, $window, $location, $routeParams, $attr
                         // draw source image into the off-screen canvas:
                         ctx.drawImage(img, 0, 0, width, height);
                         // encode image to data-uri with base64 version of compressed image
-                        $scope.imageUrl = canvas.toDataURL();
+                        try{
+                            $scope.imageUrl = canvas.toDataURL();
+                        }
+                        catch (e) {
+                            //fallback if cant resize
+                            $scope.imageUrl = $scope.currentFidget.properties.value;
+                        }
                     } else {
                         //the image is smaller then the desired size, so we can keep the actual base64
                         $scope.imageUrl = $scope.currentFidget.properties.value;
